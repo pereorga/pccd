@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<psalm
+    autoloader="src/psalm.bootstrap.php"
+    errorLevel="2"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="docroot"/>
+        <directory name="scripts"/>
+        <directory name="src"/>
+        <directory name="tests"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+            <directory name="src/third_party"/>
+            <file name="src/db_settings.php"/>
+            <file name="src/*xhprof*.php"/>
+            <file name="*/*/apc.conf.php"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <MissingPropertyType errorLevel="suppress"/>
+        <InvalidGlobal>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+                <directory name="docroot/admin"/>
+                <directory name="scripts"/>
+            </errorLevel>
+        </InvalidGlobal>
+    </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>

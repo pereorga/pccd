@@ -1,0 +1,4 @@
+quiet: true
+show-warnings: true
+drop-empty-elements: false
+warn-proprietary-attributes: false

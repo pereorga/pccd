@@ -1,0 +1,19 @@
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+parameters:
+    level: max
+    paths:
+        - src
+        - docroot
+        - scripts
+    scanFiles:
+        - src/third_party/urlLinker.php
+    excludePaths:
+        - */third_party/*
+        - */vendor/*
+        - */node_modules/*
+        - src/db_settings.php
+        - src/*xhprof*.php
+        - */apc.conf.php

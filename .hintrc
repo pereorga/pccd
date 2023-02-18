@@ -1,0 +1,43 @@
+{
+    "extends": [
+        "web-recommended"
+    ],
+    "connector": {
+        "name": "puppeteer",
+        "options": {
+            "headless": true
+        }
+    },
+    "ignoredUrls": [
+        {
+            "domain": ".*\\.googletagmanager\\.com/.*",
+            "hints": ["*"]
+        },
+        {
+            "domain": ".*\\.google-analytics\\.com/.*",
+            "hints": ["*"]
+        }
+    ],
+    "hints": {
+        "compat-api/html": [
+            "default",
+            {
+                "ignore": [
+                    "meta[name=theme-color]",
+                    "input[autocapitalize]",
+                    "img[loading]"
+                ]
+            }
+        ],
+        "compat-api/css": [
+            "default",
+            {
+                "ignore": [
+                    "accent-color",
+                    "-webkit-tap-highlight-color",
+                    "-webkit-text-size-adjust"
+                ]
+            }
+        ]
+    }
+}

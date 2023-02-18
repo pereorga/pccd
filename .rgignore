@@ -1,0 +1,36 @@
+# Data
+*.sql
+/tmp/
+/docroot/sitemap*.txt
+/scripts/*/*.txt
+/scripts/*/*.json
+*.csv
+
+# Vendor directories
+vendor/
+node_modules/
+third_party/
+
+# Generated files
+composer.lock
+package-lock.json
+yarn.lock
+*Brewfile.lock.json
+pccd.sublime-workspace
+/LICENSE
+
+# Compiled assets and binaries
+/docroot/css/
+/docroot/js/
+/docroot/mp3/
+/docroot/img/
+/src/images/
+
+# Include hidden files but default, but ignore some.
+!.*
+.git
+.php-cs-fixer.cache
+.phpunit.result.cache
+.idea
+.DS_Store
+.picasa.ini

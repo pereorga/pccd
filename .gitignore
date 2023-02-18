@@ -1,0 +1,28 @@
+# Developer files
+.DS_Store
+sftp-config.json
+*.sublime-workspace
+.picasa.ini
+.fleet
+
+# The original database file (MS Access) and provided zipped files
+/*.accdb
+/*.zip
+
+# Local settings files
+.env
+docker-compose.override.yml
+db_settings.local.php
+
+# Local dependencies
+*Brewfile.lock.json
+node_modules
+vendor
+/scripts/common-voice-export/third_party
+
+# Temporary files
+.php-cs-fixer.cache
+.phpunit.result.cache
+/tmp/*.html
+/tmp/*.json
+/tmp/pccd

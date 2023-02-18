@@ -1,0 +1,25 @@
+/*
+ * This file is part of PCCD.
+ *
+ * (c) Pere Orga Esteve <pere@orga.cat>
+ *
+ * This source file is subject to the AGPL license that is bundled with this
+ * source code in the file LICENSE.
+ */
+
+.llibres {
+    display: grid;
+    text-align: center;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.llibres a {
+    display: block;
+    margin: 10px;
+}
+
+.llibres img {
+    height: 200px;
+    width: auto;
+    border: 1px solid #dee2e6;
+}

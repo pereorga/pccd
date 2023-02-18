@@ -1,0 +1,22 @@
+# Developer files
+.git
+
+# The original database file (MS Access) and provided images
+*.accdb
+*.zip
+src/images
+
+# Local dependencies and scripts
+scripts/image-convertor
+scripts/redirect-checker
+scripts/sinonims-export
+node_modules
+vendor
+
+# Temporary files
+.php-cs-fixer.cache
+.phpunit.result.cache
+/tmp/*.html
+/tmp/*.json
+/tmp/*.tar
+/tmp/pccd

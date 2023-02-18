@@ -1,0 +1,41 @@
+version: "3"
+services:
+    pccd:
+        build:
+            context: .
+            dockerfile: .docker/Dockerfile
+        image: pccd-docker
+        container_name: pccd-web
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE:-pccd}
+            MYSQL_USER: ${MYSQL_USER:-pccd}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_HOSTNAME: mysql
+            WEB_ADMIN_PASSWORD: ${WEB_ADMIN_PASSWORD}
+        ports:
+            - ${APACHE_HTTP_PORT:-8080}:80
+    mysql:
+        image: mariadb:10.5.19-focal
+        container_name: pccd-mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE:-pccd}
+            MYSQL_USER: ${MYSQL_USER:-pccd}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        volumes:
+            - "./.docker/mysql:/etc/mysql/conf.d"
+            - "./install/db:/docker-entrypoint-initdb.d"
+    varnish:
+        image: varnish:6.0.11
+        container_name: pccd-varnish
+        volumes:
+            - "./.docker/varnish/default.vcl:/etc/varnish/default.vcl"
+        ports:
+            - ${HTTP_PORT:-80}:80
+        tmpfs:
+            - /var/lib/varnish:exec
+        environment:
+            - VARNISH_SIZE=2G
+        command: "-p default_keep=300 -p http_gzip_support=false"
+        depends_on:
+            - "pccd"

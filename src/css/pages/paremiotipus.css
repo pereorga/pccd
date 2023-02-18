@@ -1,0 +1,98 @@
+/*
+ * This file is part of PCCD.
+ *
+ * (c) Pere Orga Esteve <pere@orga.cat>
+ *
+ * This source file is subject to the AGPL license that is bundled with this
+ * source code in the file LICENSE.
+ */
+
+h2 {
+    font-size: 1.125rem;
+}
+
+.tools {
+    margin-top: 0.5rem;
+}
+
+#toggle-all,
+a.media-link {
+    font-size: 13px;
+    text-decoration: none;
+    background-color: #eee;
+    color: #333;
+    padding: 3px 6px;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+    border-left: 1px solid #ccc;
+    border-radius: 4px;
+    line-height: 1;
+    text-align: left;
+}
+
+#toggle-all {
+    margin-right: 1rem;
+}
+
+.media-link-bottom-wrapper a.media-link {
+    font-size: 1rem;
+}
+
+#toggle-all:hover,
+#toggle-all:focus,
+a.media-link:hover,
+a.media-link:focus {
+    text-decoration: none;
+    color: inherit;
+    outline: 1px solid #333;
+}
+
+details {
+    margin-bottom: 2rem;
+}
+
+details summary {
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.entrada {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
+.entrada p,
+.entrada footer {
+    padding: 0.25rem;
+    margin: 0;
+}
+
+figcaption {
+    margin-top: 5px;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+.resum {
+    margin-bottom: 1.5rem;
+}
+
+.bloc-imatge {
+    padding: 7px;
+}
+
+a.audio {
+    display: inline-block;
+    opacity: 0.6;
+    padding: 0.5rem;
+    outline: 0;
+}
+
+a.audio:hover,
+a.audio:focus {
+    opacity: 1;
+    filter: brightness(75%);
+}

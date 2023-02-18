@@ -1,0 +1,20 @@
+# Ignore vendor directories
+node_modules
+vendor
+third_party
+
+# Ignore generated files
+.idea
+*.sublime-project
+*.sublime-workspace
+*Brewfile.lock.json
+composer.lock
+package-lock.json
+yarn.lock
+/docroot/css
+/docroot/js
+/scripts/common-voice-import/commonvoice_voices.json
+/tmp
+
+# 404 page is formatted wrong on purpose
+/docroot/404.html
