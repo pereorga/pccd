@@ -14,11 +14,8 @@ declare(strict_types=1);
 
 // Credits page.
 
-global $page_title;
-global $meta_desc;
-
-$page_title = 'Crèdits';
-$meta_desc = '© Víctor Pàmies i Riudor, 2020-2023. Desenvolupat per Pere Orga.';
+set_page_title('Crèdits');
+set_meta_description('© Víctor Pàmies i Riudor, 2020-2023. Desenvolupat per Pere Orga.');
 ?>
 <p>© Víctor Pàmies i Riudor, 2020-2023.</p>
 
@@ -28,4 +25,4 @@ $meta_desc = '© Víctor Pàmies i Riudor, 2020-2023. Desenvolupat per Pere Orga
 
 <p>Les imatges contingudes en la PCCD són propietat dels seus autors. Sempre que ha estat possible s'ha enllaçat la font original de la imatge o, també sempre que ha estat possible, s'ofereix una citació completa i rigorosa de la font i de l'autor.</p>
 
-<p>Aquesta versió en línia de la PCCD ha estat desenvolupada per <a href="https://orga.cat">Pere Orga</a>.</p>
+<p>Aquesta versió en línia de la PCCD ha estat desenvolupada per <a href="https://orga.cat">Pere Orga</a>, i el seu <a href="https://github.com/Softcatala/pccd">codi font</a> està disponible amb la llicència <a href="https://www.gnu.org/licenses/agpl-3.0.html">Affero GPL 3.0</a>.</p>

@@ -51,7 +51,7 @@ function background_test_small_image(string $source_directory, int $minimum_widt
                         $output .= "{$filename} ({$width} px)\n";
                     }
                 } catch (Exception) {
-                    $output .= "Error intentant obrir {$filename}\n";
+                    $output .= "Error while trying to open {$filename}\n";
                 }
             }
         }
@@ -156,7 +156,7 @@ function pccd_image_resize_bulk(string $source_directory, string $target_directo
                         //       https://github.com/GoogleChromeLabs/squoosh/tree/dev/libsquoosh.
                         //       But note that 8-bit images may compress better in PNG than in AVIF at this point (see
                         //       https://vincent.bernat.ch/en/blog/2021-webp-avif-nginx) and that AVIF sequences have
-                        //       serious compatibility issues in Firefox (see
+                        //       compatibility issues in Firefox and Safari (see
                         //       https://bugzilla.mozilla.org/show_bug.cgi?id=1686338#c28).
                         $optimized_file = str_ireplace('.jpg', '.avif', $target_file);
 

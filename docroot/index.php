@@ -4,11 +4,10 @@
  * This file is part of PCCD.
  *
  * (c) Pere Orga Esteve <pere@orga.cat>
+ * (c) Víctor Pàmies i Riudor <vpamies@gmail.com>
  *
  * This source file is subject to the AGPL license that is bundled with this
  * source code in the file LICENSE.
- *
- * @phan-file-suppress PhanSuspiciousValueComparisonInGlobalScope, PhanEmptyForeach
  */
 
 declare(strict_types=1);
@@ -19,44 +18,14 @@ require __DIR__ . '/../src/third_party/urlLinker.php';
 
 require __DIR__ . '/../src/common.php';
 
-require __DIR__ . '/../src/db_settings.php';
-
-/** @var string $request_uri */
-/** @psalm-suppress PossiblyUndefinedArrayOffset */
-$request_uri = $_SERVER['REQUEST_URI'];
-
 // Redirect to the homepage any request where the URL contains 'index.php'.
-if (str_contains($request_uri, 'index.php')) {
+if (str_contains(get_request_uri(), 'index.php')) {
     header('Location: https://pccd.dites.cat', true, 302);
 
     exit;
 }
 
 header('Cache-Control: public, s-maxage=31536000, max-age=300');
-
-$site_name = 'Paremiologia catalana comparada digital';
-
-// These global variables may be filled later depending on the page.
-
-/** @var string $side_blocks */
-$side_blocks = '';
-
-/** @var string $page_title */
-$page_title = '';
-
-/** @var string $meta_desc */
-$meta_desc = '';
-
-/** @var string $meta_img */
-$meta_img = '';
-
-/** @var string $canonical_url */
-$canonical_url = '';
-
-/** @var array<string, string> $prefetch_urls */
-$prefetch_urls = [];
-
-$page_name = get_page_name();
 
 // TODO: remove `unsafe-inline` (drops support for old browsers).
 $nonce = base64_encode(random_bytes(NONCE_LENGTH));
@@ -72,26 +41,27 @@ header(
 );
 
 // Build page content in advance, and populate some variables above.
+$page_name = get_page_name();
 $main_content = build_main_content($page_name);
 
-if ($page_title === '') {
-    $page_title = $site_name;
+if (get_page_title() === '') {
+    set_page_title('Paremiologia catalana comparada digital');
 }
 
 ?><!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="utf-8">
-    <title><?php echo format_html_title($page_title, 'PCCD'); ?></title>
+    <title><?php echo format_html_title(get_page_title(), 'PCCD'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#2b5797">
-    <meta property="og:title" content="<?php echo format_html_title($page_title); ?>">
-    <meta property="og:site_name" content="<?php echo $site_name; ?>">
+    <meta property="og:title" content="<?php echo format_html_title(get_page_title()); ?>">
+    <meta property="og:site_name" content="Paremiologia catalana comparada digital">
 <?php
 if ($page_name === 'search') {
     if (!isset($_GET['cerca']) || $_GET['cerca'] === '') {
         // Set canonical URL in the homepage.
-        $canonical_url = 'https://pccd.dites.cat';
+        set_canonical_url('https://pccd.dites.cat');
     } else {
         // Do not index the rest of result pages.
         echo '<meta name="robots" content="noindex">';
@@ -108,24 +78,29 @@ if ($page_name === 'search') {
 }
 
 // Canonical may be set above or in paremiotipus and obra pages.
-if ($canonical_url !== '') {
-    echo '<link rel="canonical" href="' . $canonical_url . '">';
+if (get_canonical_url() !== '') {
+    echo '<link rel="canonical" href="' . get_canonical_url() . '">';
 }
 
 // Meta description may be set when building main content.
-if ($meta_desc !== '') {
-    echo '<meta name="description" property="og:description" content="' . $meta_desc . '">';
+if (get_meta_description() !== '') {
+    echo '<meta name="description" property="og:description" content="' . get_meta_description() . '">';
 }
 
 // Meta image may be set in paremiotipus and obra pages.
-if ($meta_img !== '') {
+if (get_meta_image() !== '') {
     echo '<meta name="twitter:card" content="summary">';
     // See https://stackoverflow.com/q/71087872/1391963.
-    echo '<meta name="twitter:image" property="og:image" content="' . $meta_img . '">';
+    echo '<meta name="twitter:image" property="og:image" content="' . get_meta_image() . '">';
+}
+
+// og:audio URL may be set in paremiotipus pages.
+if (get_og_audio_url() !== '') {
+    echo '<meta property="og:audio" content="' . get_og_audio_url() . '">';
 }
 
 // URLs to prefetch may be set in search pages.
-foreach ($prefetch_urls as $url => $type) {
+foreach (get_prefetch_urls() as $url => $type) {
     echo '<link rel="prefetch" href="' . $url . '" as="' . $type . '">';
 }
 ?>
@@ -133,10 +108,10 @@ foreach ($prefetch_urls as $url => $type) {
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="PCCD">
     <style nonce="<?php echo $nonce; ?>">
 <?php
-require __DIR__ . '/css/base.css';
+require __DIR__ . '/css/base.min.css';
 
 /** @psalm-suppress UnresolvableInclude */
-include __DIR__ . "/css/pages/{$page_name}.css";
+include __DIR__ . "/css/{$page_name}.min.css";
 ?>
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
@@ -144,7 +119,7 @@ include __DIR__ . "/css/pages/{$page_name}.css";
 <body>
     <nav class="navbar navbar-expand-md">
         <div class="container-md">
-            <a href="/" class="navbar-brand" aria-label="PCCD"><span><?php echo $site_name; ?></span></a>
+            <a href="/" class="navbar-brand" aria-label="PCCD"><span>Paremiologia catalana comparada digital</span></a>
             <button id="navbar-toggle" type="button">
                 <span class="navbar-toggle-icon">
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -172,7 +147,7 @@ if ($page_name === 'obra' || $page_name === 'search') {
     echo $main_content;
 } else {
     echo '<article>';
-    echo '<h1>' . $page_title . '</h1>';
+    echo '<h1>' . get_page_title() . '</h1>';
     echo $main_content;
     echo '</article>';
 }
@@ -182,7 +157,7 @@ if ($page_name === 'obra' || $page_name === 'search') {
 <?php
 
 // Side blocks are populated in paremiotipus pages.
-echo $side_blocks;
+echo get_side_blocks();
 
 if ($page_name === 'search') {
     $random_paremiotipus = get_random_top100_paremiotipus();
@@ -245,6 +220,6 @@ if ($page_name === 'search') {
             </div>
         </div>
     </div>
-    <script async src="/js/script.js?v=44"></script>
+    <script async src="/js/script.min.js"></script>
 </body>
 </html>

@@ -101,8 +101,8 @@ final class RedirectsTest extends TestCase
 
         require_once __DIR__ . '/../../src/reports/tests.php';
 
-        /** @var string $host */
         $host = getenv('HOST_URL');
+        \assert(\is_string($host));
 
         $redirects = get_redirects();
         foreach ($redirects as $target_url) {
@@ -120,11 +120,11 @@ final class RedirectsTest extends TestCase
 
         require_once __DIR__ . '/../../src/reports/tests.php';
 
-        /** @var string $host */
         $host = getenv('HOST_URL');
+        \assert(\is_string($host));
 
         $redirects = get_redirects();
-        foreach ($redirects as $source_url => $target_url) {
+        foreach (array_keys($redirects) as $source_url) {
             static::assertSame(
                 301,
                 curl_get_response_code($host . $source_url),

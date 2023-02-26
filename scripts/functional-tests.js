@@ -16,13 +16,13 @@
 
 const syncFetch = require("sync-fetch");
 const cheerio = require("cheerio");
-const assert = require("assert");
+const assert = require("node:assert");
 
 const PROD_URL = "https://pccd.dites.cat";
 let ENVIRONMENT_URL = "http://localhost:8092";
-const args = process.argv.slice(2);
-if (typeof args[0] !== "undefined") {
-    ENVIRONMENT_URL = args[0];
+const processArguments = process.argv.slice(2);
+if (processArguments[0] !== undefined) {
+    ENVIRONMENT_URL = processArguments[0];
 }
 
 {
@@ -68,7 +68,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(ENVIRONMENT_URL).text());
     const footerText = $("#contingut > footer p").text();
     const nParemiotipus = footerText
-        .match(/([0-9.])+ paremiotipus/)[0]
+        .match(/([\d.])+ paremiotipus/)[0]
         .replace(" paremiotipus", "")
         .replace(".", "")
         .trim();
@@ -82,7 +82,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(ENVIRONMENT_URL).text());
     const footerText = $("#contingut > footer p").text();
     const nFitxes = footerText
-        .match(/[0-9.]+/)[0]
+        .match(/[\d.]+/)[0]
         .replace(".", "")
         .trim();
     assert.ok(nFitxes > minFitxes);
@@ -95,7 +95,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(ENVIRONMENT_URL).text());
     const footerText = $("#contingut > footer p").text();
     const nFonts = footerText
-        .match(/([0-9.])+ fonts/)[0]
+        .match(/([\d.])+ fonts/)[0]
         .replace(" fonts", "")
         .replace(".", "")
         .trim();
@@ -108,14 +108,14 @@ if (typeof args[0] !== "undefined") {
     let $ = cheerio.load(syncFetch(ENVIRONMENT_URL).text());
     const footerText = $("#contingut > footer p").text();
     const nParemiotipus = footerText
-        .match(/([0-9.])+ paremiotipus/)[0]
+        .match(/([\d.])+ paremiotipus/)[0]
         .replace(" paremiotipus", "")
         .replace(".", "")
         .trim();
     $ = cheerio.load(syncFetch(`${ENVIRONMENT_URL}/?mode=&cerca=*&variant=&mostra=10`).text());
     const resultats = $("#search-form > p").first().text();
     const nResultats = resultats
-        .match(/trobat ([0-9.])+ paremiotipus per a/)[0]
+        .match(/trobat ([\d.])+ paremiotipus per a/)[0]
         .replace("trobat ", "")
         .replace(" paremiotipus per a", "")
         .replace(".", "")
@@ -130,7 +130,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(`${ENVIRONMENT_URL}/?mode=&cerca=fera&mostra=10`).text());
     const resultats = $("#search-form > p").first().text();
     const nResultats = resultats
-        .match(/trobat ([0-9.])+ paremiotipus per a/)[0]
+        .match(/trobat ([\d.])+ paremiotipus per a/)[0]
         .replace("trobat ", "")
         .replace(" paremiotipus per a", "")
         .replace(".", "")
@@ -145,7 +145,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(`${ENVIRONMENT_URL}/?mode=&cerca=fera&variant&mostra=10`).text());
     const resultats = $("#search-form > p").first().text();
     const nResultats = resultats
-        .match(/trobat ([0-9.])+ paremiotipus per a/)[0]
+        .match(/trobat ([\d.])+ paremiotipus per a/)[0]
         .replace("trobat ", "")
         .replace(" paremiotipus per a", "")
         .replace(".", "")
@@ -160,7 +160,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(`${ENVIRONMENT_URL}/?mode=&cerca=fera&variant&mostra=10`).text());
     const resultats = $("#search-form > p").first().text();
     const nResultats = resultats
-        .match(/trobat ([0-9.])+ paremiotipus per a/)[0]
+        .match(/trobat ([\d.])+ paremiotipus per a/)[0]
         .replace("trobat ", "")
         .replace(" paremiotipus per a", "")
         .replace(".", "")
@@ -178,7 +178,7 @@ if (typeof args[0] !== "undefined") {
     );
     const resultats = $("#search-form > p").first().text();
     const nResultats = resultats
-        .match(/trobat ([0-9.])+ paremiotipus per a/)[0]
+        .match(/trobat ([\d.])+ paremiotipus per a/)[0]
         .replace("trobat ", "")
         .replace(" paremiotipus per a", "")
         .replace(".", "")
@@ -202,7 +202,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(`${ENVIRONMENT_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era`).text());
     const resultats = $("#contingut .resum").first().text();
     const nRecurrencies = resultats
-        .match(/([0-9.])+ recurrències/)[0]
+        .match(/([\d.])+ recurrències/)[0]
         .replace(" recurrències", "")
         .trim();
     assert.ok(nRecurrencies >= minRecurrencies);
@@ -215,7 +215,7 @@ if (typeof args[0] !== "undefined") {
     const $ = cheerio.load(syncFetch(`${ENVIRONMENT_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era`).text());
     const resultats = $("#contingut .resum").first().text();
     const nVariants = resultats
-        .match(/en ([0-9.])+ variants/)[0]
+        .match(/en ([\d.])+ variants/)[0]
         .replace("en ", "")
         .replace(" variants", "")
         .trim();
@@ -262,13 +262,13 @@ if (typeof args[0] !== "undefined") {
     );
     const obra = $("#contingut article.obra").text();
     const nFitxes = obra
-        .match(/Aquesta obra té ([0-9.])+ fitxes a la base de dades/)[0]
+        .match(/Aquesta obra té ([\d.])+ fitxes a la base de dades/)[0]
         .replace("Aquesta obra té ", "")
         .replace(" fitxes a la base de dades", "")
         .replace(".", "")
         .trim();
     const nRecollides = obra
-        .match(/de les quals ([0-9.])+ estan recollides/)[0]
+        .match(/de les quals ([\d.])+ estan recollides/)[0]
         .replace("de les quals ", "")
         .replace(" estan recollides", "")
         .replace(".", "")
@@ -283,23 +283,23 @@ if (typeof args[0] !== "undefined") {
     let $ = cheerio.load(syncFetch(ENVIRONMENT_URL).text());
     let footerText = $("#contingut > footer p").text();
     const nParemiotipus = footerText
-        .match(/([0-9.])+ paremiotipus/)[0]
+        .match(/([\d.])+ paremiotipus/)[0]
         .replace(" paremiotipus", "")
         .replace(".", "")
         .trim();
     $ = cheerio.load(syncFetch(PROD_URL).text());
     footerText = $("#contingut > footer p").text();
-    const nParemiotipusProd = footerText
-        .match(/([0-9.])+ paremiotipus/)[0]
+    const nParemiotipusProduction = footerText
+        .match(/([\d.])+ paremiotipus/)[0]
         .replace(" paremiotipus", "")
         .replace(".", "")
         .trim();
-    if (nParemiotipus === nParemiotipusProd) {
+    if (nParemiotipus === nParemiotipusProduction) {
         console.log("[INFO] El nombre coincideix amb producció.");
-    } else if (nParemiotipus > nParemiotipusProd) {
+    } else if (nParemiotipus > nParemiotipusProduction) {
         console.log("[INFO] El nombre és més gran que a producció.");
     }
-    assert.ok(nParemiotipus >= nParemiotipusProd);
+    assert.ok(nParemiotipus >= nParemiotipusProduction);
     console.log("[OK]\n");
 }
 
@@ -308,19 +308,19 @@ if (typeof args[0] !== "undefined") {
     let $ = cheerio.load(syncFetch(ENVIRONMENT_URL).text());
     let footerText = $("#contingut > footer p").text();
     const nFitxes = footerText
-        .match(/[0-9.]+/)[0]
+        .match(/[\d.]+/)[0]
         .replace(".", "")
         .trim();
     $ = cheerio.load(syncFetch(PROD_URL).text());
     footerText = $("#contingut > footer p").text();
-    const nFitxesProd = footerText
-        .match(/[0-9.]+/)[0]
+    const nFitxesProduction = footerText
+        .match(/[\d.]+/)[0]
         .replace(".", "")
         .trim();
-    assert.ok(nFitxes >= nFitxesProd);
-    if (nFitxes === nFitxesProd) {
+    assert.ok(nFitxes >= nFitxesProduction);
+    if (nFitxes === nFitxesProduction) {
         console.log("[INFO] El nombre coincideix amb producció.");
-    } else if (nFitxes > nFitxesProd) {
+    } else if (nFitxes > nFitxesProduction) {
         console.log("[INFO] El nombre és més gran que a producció.");
     }
     console.log("[OK]\n");
@@ -331,21 +331,21 @@ if (typeof args[0] !== "undefined") {
     let $ = cheerio.load(syncFetch(ENVIRONMENT_URL).text());
     let footerText = $("#contingut > footer p").text();
     const nFonts = footerText
-        .match(/([0-9.])+ fonts/)[0]
+        .match(/([\d.])+ fonts/)[0]
         .replace(" fonts", "")
         .replace(".", "")
         .trim();
     $ = cheerio.load(syncFetch(PROD_URL).text());
     footerText = $("#contingut > footer p").text();
-    const nFontsProd = footerText
-        .match(/([0-9.])+ fonts/)[0]
+    const nFontsProduction = footerText
+        .match(/([\d.])+ fonts/)[0]
         .replace(" fonts", "")
         .replace(".", "")
         .trim();
-    assert.ok(nFonts >= nFontsProd);
-    if (nFonts === nFontsProd) {
+    assert.ok(nFonts >= nFontsProduction);
+    if (nFonts === nFontsProduction) {
         console.log("[INFO] El nombre coincideix amb producció.");
-    } else if (nFonts > nFontsProd) {
+    } else if (nFonts > nFontsProduction) {
         console.log("[INFO] El nombre és més gran que a producció.");
     }
     console.log("[OK]\n");

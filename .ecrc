@@ -1,0 +1,22 @@
+{
+    "IgnoreDefaults": false,
+    "Exclude": [
+        "LICENSE",
+        "\\.csv",
+        "\\.idea",
+        "\\.sql",
+        "\\.txt",
+        "docroot/img",
+        "docroot/mp3",
+        "node_modules",
+        "scripts/common-voice-import/commonvoice_voices.json",
+        "src/images",
+        "third_party",
+        "tmp",
+        "tools",
+        "vendor"
+    ],
+    "Disable": {
+        "MaxLineLength": true
+    }
+}

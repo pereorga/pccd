@@ -1,7 +1,6 @@
 # Paremiologia catalana comparada digital (PCCD)
 
-This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/). Please visit
-<https://pccd.dites.cat> website and its [credits](https://pccd.dites.cat/credits) page for more information.
+This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/).
 
 Note: The PCCD database and the media files are covered by different terms and are not distributed with this repository.
 
@@ -23,8 +22,6 @@ Note: If you don't have a database, you can copy `tmp/schema.sql` and `tmp/schem
 
 ## Updating the repository with a new release
 
-Note: tools in `tools/` can be downloaded by running `phive install`. See <https://phar.io/> for more details.
-
 ### Installation on Linux (Debian-based, tested on Ubuntu 22.04)
 
 ```bash
@@ -42,10 +39,13 @@ this time (on Ubuntu 22.04) the packages and versions above can also be installe
 brew bundle install --file=ubuntu.Brewfile
 ```
 
-And then the yarn/composer dependencies:
+And then the rest of the developer dependencies:
 
 ```bash
-tools/composer install && npm install --global yarn && yarn install
+tools/phive install --force-accept-unsigned &&
+tools/composer install &&
+npm install --global yarn &&
+yarn install
 ```
 
 ### Installation on macOS (and Linux, if using Homebrew)
@@ -54,7 +54,11 @@ After installing [Homebrew](https://brew.sh/), run the following in this directo
 dependencies:
 
 ```bash
-brew bundle install && tools/composer install && npm install --global yarn && yarn install
+brew bundle install &&
+tools/phive install --force-accept-unsigned &&
+tools/composer install &&
+npm install --global yarn &&
+yarn install
 ```
 
 ### Procedure
@@ -161,6 +165,7 @@ Profiler reports can be accessed in the `/admin/` path alongside the other repor
 - Or better, consider removing Google Tag Manager or switching to a lighter Google Analytics alternative. See <https://news.ycombinator.com/item?id=32068539>
 - Consider migrating to PostgreSQL
 - Consider switching to PHP-FPM and Nginx
+- Consider switching to pnpm, latest yarn or go back to npm
 - UX: Consider adding search functionality on every page
 - UX: Consider adding zoom icons for increasing font size
 
@@ -173,7 +178,11 @@ Copyright (c) Víctor Pàmies i Riudor <vpamies@gmail.com>, 2020.
 Use of this source code is governed by the GNU Affero General Public License v3.0 found in the LICENSE file or at
 <https://www.gnu.org/licenses/agpl-3.0.html>.
 
-File `scripts/common-voice-export/pccd.txt` is Copyright (c) Víctor Pàmies i Riudor and is made available under the
+File [scripts/common-voice-export/pccd.txt](scripts/common-voice-export/pccd.txt)
+is Copyright (c) Víctor Pàmies i Riudor and is made available under the
 [Creative Commons Zero 1.0 Universal license](https://creativecommons.org/publicdomain/zero/1.0/) (CC0 1.0).
 
 For more details about PCCD, visit <https://pccd.dites.cat/>.
+
+This repository includes phive, a tool for managing PHARs. See <https://phar.io/> and its [LICENSE](tools/LICENSE.txt)
+file for more information.

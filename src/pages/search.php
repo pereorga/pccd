@@ -18,10 +18,7 @@ declare(strict_types=1);
  * Note that the homepage is a "search" page too.
  */
 
-global $page_title;
-global $meta_desc;
-
-$meta_desc = "Dona accés a la consulta d'un gran ventall de fonts fraseològiques sobre parèmies en general (locucions, frases fetes, refranys, proverbis, citacions, etc.)";
+set_meta_description("Dona accés a la consulta d'un gran ventall de fonts fraseològiques sobre parèmies en general (locucions, frases fetes, refranys, proverbis, citacions, etc.)");
 
 $results_per_page = get_page_limit();
 $current_page = get_page_number();
@@ -97,7 +94,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
 $where_clause = '';
 $arguments = [];
 if ($search !== '') {
-    $page_title = 'Cerca «' . $raw_search_clean . '»';
+    set_page_title('Cerca «' . $raw_search_clean . '»');
     $arguments = build_search_query($search, $search_mode, $where_clause);
     $total = get_n_results($where_clause, $arguments);
 } else {
@@ -110,7 +107,7 @@ if ($total > 0) {
     $number_of_pages = (int) ceil($total / $results_per_page);
     if ($search !== '') {
         if ($number_of_pages > 1) {
-            $page_title .= ", pàgina {$current_page}";
+            set_page_title(get_page_title() . ", pàgina {$current_page}");
         }
         $output .= '<p class="text-break">';
         $output .= build_search_summary($offset, $results_per_page, $total, $raw_search_clean);
@@ -126,8 +123,7 @@ if ($total > 0) {
 
         if ($total === 1) {
             // Tell the browser to prefetch the paremiotipus page if there is only one result.
-            global $prefetch_urls;
-            $prefetch_urls[get_paremiotipus_url($p)] = 'document';
+            set_prefetch_url(get_paremiotipus_url($p), 'document');
         }
     }
     $output .= '</tbody></table>';

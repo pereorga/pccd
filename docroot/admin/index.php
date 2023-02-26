@@ -4,6 +4,7 @@
  * This file is part of PCCD.
  *
  * (c) Pere Orga Esteve <pere@orga.cat>
+ * (c) Víctor Pàmies i Riudor <vpamies@gmail.com>
  *
  * This source file is subject to the AGPL license that is bundled with this
  * source code in the file LICENSE.
@@ -17,13 +18,11 @@ require __DIR__ . '/../../src/third_party/urlLinker.php';
 
 require __DIR__ . '/../../src/common.php';
 
-require __DIR__ . '/../../src/db_settings.php';
-
 ini_set('memory_limit', '512M');
 set_time_limit(0);
 session_start();
 
-global $pdo;
+$pdo = get_db();
 
 header('X-Robots-Tag: noindex', true);
 

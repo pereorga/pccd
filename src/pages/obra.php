@@ -14,20 +14,7 @@ declare(strict_types=1);
 
 // Works (source) pages, usually about a book or a website.
 
-// We'll populate the page title.
-global $page_title;
-
-// We'll try to set meta values based on the available fields.
-global $meta_img;
-global $meta_desc;
-
-// We'll set a canonical URL.
-global $canonical_url;
-
-/** @var string $request_uri */
-/** @psalm-suppress PossiblyUndefinedArrayOffset */
-$request_uri = $_SERVER['REQUEST_URI'];
-
+$request_uri = get_request_uri();
 $obra_title = is_string($_GET['obra']) ? path_to_name($_GET['obra']) : '';
 $obra = get_obra($obra_title);
 if ($obra === false) {
@@ -40,6 +27,7 @@ if ($obra === false) {
 }
 
 $canonical_url = get_obra_url($obra['Identificador'], true);
+set_canonical_url($canonical_url);
 
 // Redirect old URLs to the new ones.
 if (!str_starts_with($request_uri, '/obra/')) {
@@ -48,7 +36,8 @@ if (!str_starts_with($request_uri, '/obra/')) {
     exit;
 }
 
-$page_title = htmlspecialchars($obra['Identificador']);
+set_page_title(htmlspecialchars($obra['Identificador']));
+$meta_desc = '';
 
 $output = '<article class="obra text-break">';
 $output .= '<div class="row">';
@@ -57,7 +46,7 @@ $image_exists = is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])
 if ($image_exists) {
     $output .= '<div class="col-sm-5 order-2 order-sm-1">';
     $output .= get_image_tags($obra['Imatge'], '/img/obres/', $obra['Títol'] ?? '', $obra['WIDTH'], $obra['HEIGHT'], false);
-    $meta_img = 'https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']);
+    set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']));
     $output .= '</div>';
 
     $output .= '<div class="col-sm-7 order-1 order-sm-2 mb-3">';
@@ -141,5 +130,7 @@ if ($obra['Registres'] > 0) {
 }
 
 $output .= '</div></div></article>';
+
+set_meta_description($meta_desc);
 
 echo $output;

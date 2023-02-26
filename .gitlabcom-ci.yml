@@ -1,39 +1,39 @@
 default:
-    image: php:8.2-fpm-bullseye
+  image: php:8.2-fpm-bullseye
 
 php_static_analysis:
-    before_script:
-        - apt-get update && apt-get install --no-install-recommends -y git curl build-essential zip unzip libmagickwand-dev libfreetype6-dev libwebp-dev libjpeg62-turbo-dev libpng-dev zlib1g-dev libzip-dev && docker-php-ext-install mysqli pdo pdo_mysql zip && pecl install imagick && docker-php-ext-enable imagick
-        - tools/composer install --no-interaction --ignore-platform-reqs
-    script:
-        - tools/composer run parallel-lint --no-interaction
-        - PHP_CS_FIXER_IGNORE_ENV=1 tools/composer run php-cs-fixer --no-interaction
-        - tools/composer run phpcs --no-interaction
-        - tools/composer run phpstan --no-interaction
-        - tools/composer run phan --no-interaction
-        - tools/composer run psalm --no-interaction
-    when: manual
+  before_script:
+    - apt-get update && apt-get install --no-install-recommends -y git curl build-essential zip unzip libmagickwand-dev libfreetype6-dev libwebp-dev libjpeg62-turbo-dev libpng-dev zlib1g-dev libzip-dev && docker-php-ext-install mysqli pdo pdo_mysql zip && pecl install imagick && docker-php-ext-enable imagick
+    - tools/composer install --no-interaction --ignore-platform-reqs
+  script:
+    - tools/composer run parallel-lint --no-interaction
+    - PHP_CS_FIXER_IGNORE_ENV=1 tools/composer run php-cs-fixer --no-interaction
+    - tools/composer run phpcs --no-interaction
+    - tools/composer run phpstan --no-interaction
+    - tools/composer run phan --no-interaction
+    - tools/composer run psalm --no-interaction
+  when: manual
 
 eslint_stylelint_prettier:
-    before_script:
-        - apt-get update && apt-get install --no-install-recommends -y git curl nodejs npm && npm install -g yarn
-        - yarn install --ignore-engines --frozen-lockfile
-    script:
-        - npx eslint src/js/*.js scripts/*.js
-        - npx stylelint src/css/
-        - npx prettier --check .
-    when: manual
+  before_script:
+    - apt-get update && apt-get install --no-install-recommends -y git curl nodejs npm && npm install -g yarn
+    - yarn install --ignore-engines --frozen-lockfile
+  script:
+    - npx eslint src/js/*.js scripts/*.js
+    - npx stylelint src/css/
+    - npx prettier --check .
+  when: manual
 
 shellcheck:
-    before_script:
-        - apt-get update && apt-get install --no-install-recommends -y shellcheck
-    script:
-        - find scripts -type f -name '*.sh' -exec shellcheck {} \;
-    when: manual
+  before_script:
+    - apt-get update && apt-get install --no-install-recommends -y shellcheck
+  script:
+    - find scripts -type f -name '*.sh' -exec shellcheck {} \;
+  when: manual
 
 yamllint:
-    before_script:
-        - apt-get update && apt-get install --no-install-recommends -y yamllint
-    script:
-        - yamllint .
-    when: manual
+  before_script:
+    - apt-get update && apt-get install --no-install-recommends -y yamllint
+  script:
+    - yamllint .
+  when: manual

@@ -19,9 +19,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/../src/common.php';
 
-require __DIR__ . '/../src/db_settings.php';
-
-global $pdo;
+$pdo = get_db();
 
 $site = 'https://pccd.dites.cat';
 

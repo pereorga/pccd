@@ -11,8 +11,7 @@ third_party
 composer.lock
 package-lock.json
 yarn.lock
-/docroot/css
-/docroot/js
+*.min.*
 /scripts/common-voice-import/commonvoice_voices.json
 /tmp
 

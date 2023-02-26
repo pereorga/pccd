@@ -60,7 +60,6 @@ return [
     //       should be added to the `directory_list` as
     //       to `exclude_analysis_directory_list`.
     'exclude_analysis_directory_list' => [
-        'src/db_settings.php',
         'src/tideways_xhprof_append.php',
         'src/tideways_xhprof_prepend.php',
         'src/third_party/',
@@ -96,7 +95,7 @@ return [
         'InvokePHPNativeSyntaxCheckPlugin',
         'LoopVariableReusePlugin',
         // 'MoreSpecificElementTypePlugin',
-        'NoAssertPlugin',
+        // 'NoAssertPlugin',
         'NonBoolBranchPlugin',
         'NotFullyQualifiedUsagePlugin',
         // 'NumericalComparisonPlugin',

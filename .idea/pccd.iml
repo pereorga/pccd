@@ -19,6 +19,7 @@
       <excludeFolder url="file://$MODULE_DIR$/docroot/img/imatges" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/img/obres" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludePattern pattern="page*.html" />
     </content>
     <orderEntry type="inheritedJdk" />

@@ -13,8 +13,10 @@ COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 RUN rm -f /etc/apache2/mods-enabled/deflate.conf && \
     sed -i 's/ServerTokens OS/ServerTokens Prod/g' /etc/apache2/conf-available/security.conf
 
-# PHP settings
-RUN sed 's/expose_php = On/expose_php = Off/g' /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini
+# PHP settings, including enabling assertions (DEV only).
+RUN sed 's/expose_php = On/expose_php = Off/g' /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini && \
+    sed -i 's/zend.assertions = -1/zend.assertions = 1/g' /usr/local/etc/php/php.ini && \
+    sed -i 's/;assert.exception = On/assert.exception = On/g' /usr/local/etc/php/php.ini
 
 # We may want to install this to normalize UTF-8 strings in PHP. Not currently required in our current MariaDB setup.
 #RUN apt-get update -y && \

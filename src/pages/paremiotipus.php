@@ -20,23 +20,7 @@ declare(strict_types=1);
 
 const YEAR_MAX = 9999;
 
-// We'll populate the page title.
-global $page_title;
-
-// We'll try to set meta values based on the available fields.
-global $meta_desc;
-global $meta_img;
-
-// We'll set a canonical URL, basically to avoid SEO issues with URLs that have different case or accents.
-global $canonical_url;
-
-// We'll populate the right column.
-global $side_blocks;
-
-/** @var string $request_uri */
-/** @psalm-suppress PossiblyUndefinedArrayOffset */
-$request_uri = $_SERVER['REQUEST_URI'];
-
+$request_uri = get_request_uri();
 $variants = [];
 $paremiotipus = is_string($_GET['paremiotipus']) ? path_to_name($_GET['paremiotipus']) : '';
 $modismes = get_modismes($paremiotipus);
@@ -61,6 +45,9 @@ if ($total_variants === 0) {
 $editorials = get_editorials();
 $fonts = get_fonts();
 
+// We'll populate the right column.
+$blocks = '';
+$meta_desc = '';
 $meta_desc_fallback = '';
 $paremiotipus_db = '';
 $is_first_variant = true;
@@ -71,6 +58,7 @@ foreach ($variants as $modisme => $variant) {
         // Set the canonical URL.
         $paremiotipus_db = $variant[0]['PAREMIOTIPUS'];
         $canonical_url = get_paremiotipus_url($paremiotipus_db, true);
+        set_canonical_url($canonical_url);
 
         // Redirect old URLs to the new ones.
         if (!str_starts_with($request_uri, '/p/')) {
@@ -80,7 +68,7 @@ foreach ($variants as $modisme => $variant) {
         }
 
         // Get the page title.
-        $page_title = get_paremiotipus_display($paremiotipus_db);
+        set_page_title(get_paremiotipus_display($paremiotipus_db));
         $is_first_variant = false;
     }
 
@@ -259,7 +247,7 @@ foreach ($variants as $modisme => $variant) {
     }
 
     $modisme = htmlspecialchars($modisme);
-    if ($total_variants > 1 || $modisme !== $page_title) {
+    if ($total_variants > 1 || $modisme !== get_page_title()) {
         $rendered_variant = "<h2>{$modisme}</h2>";
         $rendered_variant .= '<details open>';
         $rendered_variant .= '<summary>';
@@ -284,6 +272,7 @@ foreach ($variants as $modisme => $variant) {
 if ($meta_desc === '') {
     $meta_desc = $meta_desc_fallback;
 }
+set_meta_description($meta_desc);
 
 // Build the right column.
 // Common Voice.
@@ -291,6 +280,11 @@ $mp3_files = get_cv_files($paremiotipus_db);
 $cv_output = '';
 foreach ($mp3_files as $file) {
     if (is_file(__DIR__ . "/../../docroot/mp3/{$file}")) {
+        $is_first_audio = $cv_output === '';
+        if ($is_first_audio) {
+            set_og_audio_url("https://pccd.dites.cat/mp3/{$file}");
+        }
+
         $cv_output .= '<a class="audio" href="/mp3/' . $file . '">';
         $cv_output .= '<audio preload="none" src="/mp3/' . $file . '"></audio>';
         $cv_output .= '<img width="32" height="27" alt="Altaveu" src="/img/speaker.svg">';
@@ -300,14 +294,14 @@ foreach ($mp3_files as $file) {
     }
 }
 if ($cv_output !== '') {
-    $side_blocks .= '<div id="commonvoice" class="bloc text-break" title="Escolteu-ho">';
-    $side_blocks .= $cv_output;
-    $side_blocks .= '<p>';
-    $side_blocks .= '<a title="Projecte Common Voice" href="https://commonvoice.mozilla.org/ca">';
-    $side_blocks .= '<img alt="Logotip de Common Voice" width="100" height="25" src="/img/commonvoice.svg">';
-    $side_blocks .= '</a>';
-    $side_blocks .= '</p>';
-    $side_blocks .= '</div>';
+    $blocks .= '<div id="commonvoice" class="bloc text-break" title="Escolteu-ho">';
+    $blocks .= $cv_output;
+    $blocks .= '<p>';
+    $blocks .= '<a title="Projecte Common Voice" href="https://commonvoice.mozilla.org/ca">';
+    $blocks .= '<img alt="Logotip de Common Voice" width="100" height="25" src="/img/commonvoice.svg">';
+    $blocks .= '</a>';
+    $blocks .= '</p>';
+    $blocks .= '</div>';
 }
 // Images.
 $images = get_images($paremiotipus_db);
@@ -318,15 +312,15 @@ foreach ($images as $r) {
         $is_first_image = $i === 1;
         if ($is_first_image) {
             // Use it for meta image.
-            $meta_img = 'https://pccd.dites.cat/img/imatges/' . rawurlencode($r['Identificador']);
+            set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($r['Identificador']));
 
             // Add an id for anchor links (once).
-            $side_blocks .= '<div id="imatges" class="bloc bloc-imatge text-break">';
+            $blocks .= '<div id="imatges" class="bloc bloc-imatge text-break">';
         } else {
-            $side_blocks .= '<div class="bloc bloc-imatge text-break">';
+            $blocks .= '<div class="bloc bloc-imatge text-break">';
         }
 
-        $side_blocks .= '<figure>';
+        $blocks .= '<figure>';
         $link = '';
         if (
             $r['URL'] !== null
@@ -338,11 +332,11 @@ foreach ($images as $r) {
             // TODO: properly encode full URLs.
             $link = str_replace(['&', '[', ']'], ['&amp;', '%5B', '%5D'], $link);
 
-            $side_blocks .= '<a href="' . $link . '">';
+            $blocks .= '<a href="' . $link . '">';
         }
 
         // Generate image tag(s). Do not lazy load the first image.
-        $side_blocks .= get_image_tags(
+        $blocks .= get_image_tags(
             $r['Identificador'],
             '/img/imatges/',
             $paremiotipus,
@@ -352,7 +346,7 @@ foreach ($images as $r) {
         );
 
         if ($link !== '') {
-            $side_blocks .= '</a>';
+            $blocks .= '</a>';
         }
 
         $work = '';
@@ -396,11 +390,11 @@ foreach ($images as $r) {
         }
 
         if ($work !== '') {
-            $side_blocks .= '<figcaption class="small">' . $work . '</figcaption>';
+            $blocks .= '<figcaption class="small">' . $work . '</figcaption>';
         }
 
-        $side_blocks .= '</figure>';
-        $side_blocks .= '</div>';
+        $blocks .= '</figure>';
+        $blocks .= '</div>';
     }
 }
 
@@ -418,18 +412,20 @@ if ($total_variants > 1) {
     $anchor_link = '';
     if ($cv_output !== '') {
         $anchor_link = '#commonvoice';
-    } elseif ($meta_img !== '') {
+    } elseif (get_meta_image() !== '') {
         $anchor_link = '#imatges';
     }
     if ($anchor_link !== '') {
         $output .= '<a class="media-link d-inlineblock d-md-none" href="' . $anchor_link . '">ves als fitxers</a>';
         // Add a link to main content too.
-        $side_blocks .= '<p class="media-link-bottom-wrapper bloc bloc-2 d-block d-md-none">';
-        $side_blocks .= '<a class="media-link" href="#contingut">torna a dalt</a>';
-        $side_blocks .= '</p>';
+        $blocks .= '<p class="media-link-bottom-wrapper bloc bloc-2 d-block d-md-none">';
+        $blocks .= '<a class="media-link" href="#contingut">torna a dalt</a>';
+        $blocks .= '</p>';
     }
     $output .= '</div></div>';
 }
+
+set_side_blocks($blocks);
 
 // Print the variants, sorted by the number of sources.
 usort($rendered_array, 'variants_comp');

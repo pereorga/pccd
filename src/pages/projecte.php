@@ -14,11 +14,8 @@ declare(strict_types=1);
 
 // Project information page.
 
-global $page_title;
-global $meta_desc;
-
-$page_title = 'Projecte';
-$meta_desc = 'Versió en línia del buidatge de fonts fraseològiques, escrites, orals o digitals del paremiòleg català Víctor Pàmies i Riudor (Barcelona, 1963).';
+set_page_title('Projecte');
+set_meta_description('Versió en línia del buidatge de fonts fraseològiques, escrites, orals o digitals del paremiòleg català Víctor Pàmies i Riudor (Barcelona, 1963).');
 ?>
 <p>La <em>paremiologia catalana comparada digital</em> (PCCD) és la versió en línia del buidatge asistemàtic, iniciat a partir del 1997, de totes les fonts fraseològiques, escrites, orals o digitals, que conformen la base de dades de treball i investigació del paremiòleg català Víctor Pàmies i Riudor (Barcelona, 1963).</p>
 

@@ -1,51 +1,50 @@
 {
-    "name": "dites.cat/pccd",
-    "description": "Paremiologia catalana comparada digital",
-    "license": "AGPL-3.0-only",
-    "type": "project",
-    "readme": "README.md",
-    "authors": [
-        {
-            "name": "Pere Orga Esteve",
-            "email": "pere@orga.cat",
-            "homepage": "https://orga.cat",
-            "role": "Developer"
-        }
-    ],
-    "homepage": "https://pccd.dites.cat",
-    "require": {
-        "php": ">=8.1",
-        "ext-mbstring": "*"
-    },
-    "require-dev": {
-        "ext-curl": "*",
-        "ext-gd": "*",
-        "ext-imagick": "*",
-        "phpstan/phpstan": "^1.9",
-        "phpstan/phpstan-deprecation-rules": "^1.1",
-        "phpstan/phpstan-phpunit": "^1.3",
-        "phpstan/phpstan-strict-rules": "^1.4",
-        "phpunit/phpunit": "^10.0",
-        "psalm/plugin-phpunit": "^0.18.4",
-        "vimeo/psalm": "^5.6"
-    },
-    "suggest": {
-        "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
-        "ext-pdo": "Required in the web server",
-        "ext-pdo-mysql": "Required in the web server",
-        "ext-xhprof": "Xhprof may be used as a simple proofiler in development instances",
-        "ext-zend-opcache": "Increases website performance (strongly encouraged in the web server)"
-    },
-    "scripts": {
-        "composer-normalize": "tools/composer-normalize",
-        "parallel-lint": "tools/parallel-lint --exclude vendor .",
-        "phan": "tools/phan --allow-polyfill-parser",
-        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 tools/php-cs-fixer fix --diff --verbose",
-        "phpcbf": "tools/phpcbf -p --standard=phpcs.xml .",
-        "phpcpd": "tools/phpcpd --exclude src/vendor --fuzzy docroot src tests",
-        "phpcs": "tools/phpcs -p --standard=phpcs.xml .",
-        "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M",
-        "phpunit": "vendor/bin/phpunit",
-        "psalm": "vendor/bin/psalm"
+  "name": "dites.cat/pccd",
+  "description": "Paremiologia catalana comparada digital",
+  "license": "AGPL-3.0-only",
+  "type": "project",
+  "readme": "README.md",
+  "authors": [
+    {
+      "name": "Pere Orga Esteve",
+      "email": "pere@orga.cat",
+      "homepage": "https://orga.cat",
+      "role": "Developer"
     }
+  ],
+  "homepage": "https://pccd.dites.cat",
+  "require": {
+    "php": ">=8.1",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "ext-curl": "*",
+    "ext-gd": "*",
+    "ext-imagick": "*",
+    "phpstan/phpstan": "^1.10",
+    "phpstan/phpstan-deprecation-rules": "^1.1",
+    "phpstan/phpstan-strict-rules": "^1.5",
+    "phpunit/phpunit": "^10.0",
+    "psalm/plugin-phpunit": "^0.18.4",
+    "vimeo/psalm": "^5.7"
+  },
+  "suggest": {
+    "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
+    "ext-pdo": "Required in the web server",
+    "ext-pdo-mysql": "Required in the web server",
+    "ext-xhprof": "Xhprof may be used as a simple proofiler in development instances",
+    "ext-zend-opcache": "Increases website performance (strongly encouraged in the web server)"
+  },
+  "scripts": {
+    "composer-normalize": "tools/composer-normalize",
+    "parallel-lint": "tools/parallel-lint --exclude vendor .",
+    "phan": "tools/phan --allow-polyfill-parser",
+    "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 tools/php-cs-fixer fix --diff --verbose",
+    "phpcbf": "tools/phpcbf -p --standard=phpcs.xml .",
+    "phpcpd": "tools/phpcpd --exclude src/vendor --fuzzy docroot src tests",
+    "phpcs": "tools/phpcs -p --standard=phpcs.xml .",
+    "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M",
+    "phpunit": "vendor/bin/phpunit",
+    "psalm": "vendor/bin/psalm"
+  }
 }

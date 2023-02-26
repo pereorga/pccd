@@ -19,8 +19,6 @@ declare(strict_types=1);
 
 require __DIR__ . '/../src/reports/tests.php';
 
-require __DIR__ . '/../src/db_settings.php';
-
 ini_set('memory_limit', '512M');
 
 if (!isset($argv[1])) {

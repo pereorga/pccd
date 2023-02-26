@@ -14,12 +14,8 @@ declare(strict_types=1);
 
 // Top 100.
 
-global $pdo;
-global $page_title;
-global $meta_desc;
-
-$page_title = 'Les 100 parèmies més citades';
-$meta_desc = 'Llista de les frases més citades.';
+set_page_title('Les 100 parèmies més citades');
+set_meta_description('Llista de les frases més citades.');
 
 $records = get_top100_paremiotipus();
 echo '<ol>';

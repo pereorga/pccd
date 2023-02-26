@@ -27,7 +27,9 @@ usage() {
     echo "    os-packages"
     echo "      Updates brew/apt packages"
     echo "    yarn"
-    echo "      Updates all yarn packages to latest release (slow)"
+    echo "      Updates all yarn dev direct packages to latest release"
+    echo "    yarn-deps"
+    echo "      Updates all yarn dependencies (slower)"
     echo "    composer"
     echo "      Updates all composer dependencies to latest release, including non-direct dependencies"
     echo "    phive"
@@ -188,6 +190,32 @@ update_os_packages() {
 }
 
 ##############################################################################
+# Installs newest major versions of composer packages. See https://stackoverflow.com/a/74760024/1391963
+# Arguments:
+#   None
+##############################################################################
+update_composer_major() {
+    # Update non-dev dependencies.
+    tools/composer show --no-dev --direct --name-only |
+        xargs tools/composer require
+
+    # Update dev dependencies.
+    grep -F -v -f \
+        <(tools/composer show --direct --no-dev --name-only | sort) \
+        <(tools/composer show --direct --name-only | sort) |
+        xargs tools/composer require --dev
+}
+
+##############################################################################
+# Installs newest major versions of yarn dev packages. See https://stackoverflow.com/a/75525951/1391963
+# Arguments:
+#   None
+##############################################################################
+update_yarn_major() {
+    jq '.devDependencies | keys | .[]' package.json | xargs yarn add --dev --silent
+}
+
+##############################################################################
 # Checks for newer versions of dependencies in a pom.xml file (Maven).
 # Arguments:
 #   A pom.xml file, a path (e.g. "pom.xml")
@@ -234,13 +262,14 @@ if [[ $1 == "pecl" ]]; then
 fi
 
 if [[ $1 == "composer" ]]; then
+    update_composer_major
     tools/composer update --with-all-dependencies
     exit 0
 fi
 
 if [[ $1 == "phive" ]]; then
     tools/phive selfupdate --trust-gpg-keys
-    yes | tools/phive update --prefer-offline --force-accept-unsigned
+    yes | tools/phive update --force-accept-unsigned
     exit 0
 fi
 
@@ -255,7 +284,12 @@ if [[ $1 == "opcache-gui" ]]; then
 fi
 
 if [[ $1 == "yarn" ]]; then
-    yarn upgrade --latest --silent
+    update_yarn_major
+    exit 0
+fi
+
+if [[ $1 == "yarn-deps" ]]; then
+    yarn upgrade --silent
     exit 0
 fi
 

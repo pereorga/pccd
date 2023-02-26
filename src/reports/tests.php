@@ -65,7 +65,7 @@ function test_searches(): void
 
 function test_imatges_paremiotipus(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus de la taula 00_IMATGES que no concorda amb cap registre de la taula 00_PAREMIOTIPUS</h3>';
     echo '<pre>';
@@ -104,7 +104,7 @@ function test_imatges_format(): void
 
 function test_imatges_no_reconegudes(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Imatges amb extensió no estàndard (no jpg/png/gif) o en majúscules</h3>';
     echo '<pre>';
@@ -145,7 +145,7 @@ function test_imatges_no_reconegudes(): void
 
 function test_imatges_buides(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Fonts sense imatge</h3>';
     echo '<pre>';
@@ -180,7 +180,7 @@ function test_imatges_buides(): void
 
 function test_imatges_no_existents(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo "<h3>Fitxers d'imatge no existents</h3>";
     echo '<pre>';
@@ -203,7 +203,7 @@ function test_imatges_no_existents(): void
 
 function test_imatges_repetides(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Identificador repetit a la taula 00_IMATGES</h3>';
     echo '<pre>';
@@ -246,7 +246,7 @@ function test_imatges_repetides(): void
 
 function test_imatges_no_referenciades(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     $images = $pdo->query('SELECT Identificador, 1 FROM 00_IMATGES')->fetchAll(PDO::FETCH_KEY_PAIR);
     echo "<h3>Fitxers d'imatge no referenciats a la taula 00_IMATGES (o amb una codificació diferent)</h3>";
@@ -281,7 +281,7 @@ function test_imatges_no_referenciades(): void
 
 function test_obres_sense_paremia(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     $fonts = get_fonts();
     $fonts_modismes = $pdo->query('SELECT DISTINCT ID_FONT, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -298,7 +298,7 @@ function test_obres_sense_paremia(): void
 
 function test_paremies_sense_obra_existent(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     $fonts = get_fonts();
     $paremies = $pdo->query('SELECT MODISME, ID_FONT FROM `00_PAREMIOTIPUS` ORDER BY ID_FONT')->fetchAll(PDO::FETCH_ASSOC);
@@ -343,7 +343,7 @@ function test_urls(): void
 
 function test_fonts(): void
 {
-    global $pdo;
+    $pdo = get_db();
     echo '<h3>Registres a la taula 00_FONTS amb el camp Títol buit.</h3>';
     $records = $pdo->query("SELECT Identificador FROM 00_FONTS WHERE `Títol` IS NULL OR `Títol` = ''")->fetchAll(PDO::FETCH_COLUMN);
     echo '<pre>';
@@ -368,7 +368,7 @@ function test_fonts(): void
 
 function test_espais(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus que comencen o acaben amb espai en blanc</h3>';
     echo '<pre>';
@@ -461,7 +461,7 @@ function test_espais(): void
 
 function test_puntuacio(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus amb parèntesis o claudàtors no tancats</h3>';
     echo '<pre>';
@@ -586,7 +586,7 @@ function test_puntuacio(): void
 
 function test_majuscules(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus que comencen amb lletra minúscula</h3>';
     echo '<pre>';
@@ -639,7 +639,7 @@ function test_majuscules(): void
 
 function test_equivalents(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo "<h3>Modismes amb equivalents amb un codi d'idioma no detectat</h3>";
     echo '<pre>';
@@ -664,7 +664,7 @@ function test_equivalents(): void
 
 function test_explicacio(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Modismes amb el camp EXPLICACIO molt llarg però amb el camp EXPLICACIO2 buit i el camp EXEMPLES no buit</h3>';
     echo '<pre>';
@@ -681,7 +681,7 @@ function test_explicacio(): void
 
 function test_paremiotipus_accents(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus amb diferències de majúscules o accents</h3>';
     $paremiotipus = $pdo->query('SELECT
@@ -704,7 +704,7 @@ function test_paremiotipus_accents(): void
 
 function test_paremiotipus_modismes_diferents(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus diferents que agrupen un mateix modisme</h3>';
     echo '<pre>';
@@ -727,7 +727,7 @@ function test_paremiotipus_modismes_diferents(): void
  */
 function test_paremiotipus_repetits(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus molt semblants</h3>';
     echo '<pre>';
@@ -759,7 +759,7 @@ function test_paremiotipus_repetits(): void
 
 function test_repeticio_caracters(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus amb una repetició de caràcters inusual</h3>';
     echo '<pre>';
@@ -852,7 +852,7 @@ function test_repeticio_caracters(): void
 
 function test_paremiotipus_modismes_curts(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus de menys de 5 caràcters</h3>';
     echo '<pre>';
@@ -877,7 +877,7 @@ function test_paremiotipus_modismes_curts(): void
 
 function test_paremiotipus_llargs(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Paremiotipus de més de 250 caràcters</h3>';
     echo '<pre>';
@@ -890,7 +890,7 @@ function test_paremiotipus_llargs(): void
 
 function test_paremies_separar(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Parèmies que probablement es poden separar en dues</h3>';
 
@@ -934,7 +934,7 @@ function is_valid_location(string $location): bool
 
 function test_llocs(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Modismes amb el camp LLOC potser incorrecte</h3>';
     echo '<pre>';
@@ -951,7 +951,7 @@ function test_llocs(): void
 
 function test_obres_sense_editorial(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     $editorials = get_editorials();
     $editorials_modismes = $pdo->query('SELECT DISTINCT EDITORIAL AS EDITORIAL, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -968,7 +968,7 @@ function test_obres_sense_editorial(): void
 
 function test_editorial_sense_obres(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     $editorials = get_editorials();
     $editorials_paremiotipus = $pdo->query('SELECT MODISME, EDITORIAL FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
@@ -987,7 +987,7 @@ function test_editorial_sense_obres(): void
 
 function test_buits(): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     echo '<h3>Modismes amb el camp PAREMIOTIPUS buit</h3>';
     echo '<pre>';
@@ -1028,37 +1028,29 @@ function test_commonvoice_languagetool(): void
  */
 function curl_get_response_code(string $url, bool $nobody = true): int
 {
-    /** @var non-empty-string $url */
-    $response_code = 0;
+    assert($url !== '');
     static $ch = null;
     if ($ch === null) {
         $ch = curl_init();
-
-        /** @var CurlHandle|false $ch */
-        if ($ch !== false) {
-            curl_setopt($ch, \CURLOPT_HEADER, true);
-            curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, \CURLOPT_CONNECTTIMEOUT, 5);
-            curl_setopt($ch, \CURLOPT_TIMEOUT, 5);
-            curl_setopt($ch, \CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36');
-        }
-    }
-    if ($ch !== false) {
-        curl_setopt($ch, \CURLOPT_URL, $url);
-        curl_setopt($ch, \CURLOPT_NOBODY, $nobody);
-        if (curl_exec($ch) === false) {
-            return 0;
-        }
-
-        $response_code = curl_getinfo($ch, \CURLINFO_HTTP_CODE);
+        curl_setopt($ch, \CURLOPT_HEADER, true);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, \CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, \CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, \CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36');
     }
 
-    return $response_code;
+    curl_setopt($ch, \CURLOPT_URL, $url);
+    curl_setopt($ch, \CURLOPT_NOBODY, $nobody);
+    if (curl_exec($ch) === false) {
+        return 0;
+    }
+
+    return curl_getinfo($ch, \CURLINFO_HTTP_CODE);
 }
 
 function background_test_llibres_urls(): string
 {
-    global $pdo;
+    $pdo = get_db();
     $output = '';
     $urls = [];
 
@@ -1083,7 +1075,7 @@ function background_test_llibres_urls(): string
 
 function background_test_fonts_urls(): string
 {
-    global $pdo;
+    $pdo = get_db();
     $output = '';
     $urls = [];
 
@@ -1108,7 +1100,7 @@ function background_test_fonts_urls(): string
 
 function background_test_imatges_urls(): string
 {
-    global $pdo;
+    $pdo = get_db();
     $output = '';
     $urls = [];
 
@@ -1133,7 +1125,7 @@ function background_test_imatges_urls(): string
 
 function background_test_imatges_links(): string
 {
-    global $pdo;
+    $pdo = get_db();
     $output = '';
     $urls = [];
 
@@ -1161,13 +1153,12 @@ function background_test_imatges_links(): string
 
 function background_test_paremiotipus_repetits(int $start = 0, int $end = 0): string
 {
-    global $pdo;
+    $pdo = get_db();
     $output = '';
 
     $stmt = $pdo->query('SELECT DISTINCT PAREMIOTIPUS AS PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS');
     $modismes = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    /** @var int $total */
     $total = count($modismes);
     if ($end === 0) {
         $end = $total;

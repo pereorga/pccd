@@ -14,6 +14,8 @@ parameters:
         - */third_party/*
         - */vendor/*
         - */node_modules/*
-        - src/db_settings.php
         - src/*xhprof*.php
         - */apc.conf.php
+    ignoreErrors:
+        - '#Cannot call method fetchAll\(\) on PDOStatement\|false.#'
+        - '#Cannot call method fetchColumn\(\) on PDOStatement\|false.#'

@@ -23,9 +23,7 @@ require __DIR__ . '/../src/common.php';
 
 require __DIR__ . '/../src/install_common.php';
 
-require __DIR__ . '/../src/db_settings.php';
-
-global $pdo;
+$pdo = get_db();
 
 // Check that latest table has already been created to know if we are ready to proceed with the installation process.
 if (!tableExists('paremiotipus_display')) {

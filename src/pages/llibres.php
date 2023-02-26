@@ -14,12 +14,10 @@ declare(strict_types=1);
 
 // Author's books page.
 
-global $pdo;
-global $page_title;
-global $meta_desc;
+$pdo = get_db();
 
-$page_title = 'Llibres de Víctor Pàmies';
-$meta_desc = "Llibres de l'autor de la Paremiologia catalana comparada digital (PCCD).";
+set_page_title('Llibres de Víctor Pàmies');
+set_meta_description("Llibres de l'autor de la Paremiologia catalana comparada digital (PCCD).");
 
 $stmt = $pdo->query('SELECT Imatge, `Títol`, URL, WIDTH, HEIGHT FROM `00_OBRESVPR`');
 $records = $stmt->fetchAll(PDO::FETCH_ASSOC);

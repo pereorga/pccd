@@ -19,7 +19,7 @@ declare(strict_types=1);
  */
 function tableExists(string $table): bool
 {
-    global $pdo;
+    $pdo = get_db();
 
     // Try a select statement against the table.
     // Run it in try/catch in case PDO is in ERRMODE_EXCEPTION.
@@ -39,7 +39,7 @@ function tableExists(string $table): bool
  */
 function store_image_dimensions(string $table, string $field, string $directory): void
 {
-    global $pdo;
+    $pdo = get_db();
 
     $stmt = $pdo->query("SELECT {$field} FROM {$table}");
     $update_stmt = $pdo->prepare("UPDATE {$table} SET WIDTH = ?, HEIGHT = ? WHERE {$field} = ?");
