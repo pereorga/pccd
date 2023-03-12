@@ -9,17 +9,18 @@
 
 .llibres {
     display: grid;
-    text-align: center;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    text-align: center;
 }
 
 .llibres a {
     display: block;
-    margin: 10px;
+    padding: 10px;
+    margin: auto;
 }
 
 .llibres img {
-    height: 200px;
     width: auto;
+    max-height: 200px;
     border: 1px solid #dee2e6;
 }

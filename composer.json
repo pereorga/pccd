@@ -21,12 +21,15 @@
     "ext-curl": "*",
     "ext-gd": "*",
     "ext-imagick": "*",
+    "longxinh/xhprof": "master",
+    "noisebynorthwest/php-spx": "master",
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
     "phpunit/phpunit": "^10.0",
     "psalm/plugin-phpunit": "^0.18.4",
-    "vimeo/psalm": "^5.7"
+    "tideways/php-xhprof-extension": "master",
+    "vimeo/psalm": "^5.8"
   },
   "suggest": {
     "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
@@ -35,9 +38,49 @@
     "ext-xhprof": "Xhprof may be used as a simple proofiler in development instances",
     "ext-zend-opcache": "Increases website performance (strongly encouraged in the web server)"
   },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "noisebynorthwest/php-spx",
+        "version": "master",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/NoiseByNorthwest/php-spx.git",
+          "reference": "master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "longxinh/xhprof",
+        "version": "master",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/longxinH/xhprof.git",
+          "reference": "master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "tideways/php-xhprof-extension",
+        "version": "master",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/tideways/php-xhprof-extension.git",
+          "reference": "master"
+        }
+      }
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "scripts": {
     "composer-normalize": "tools/composer-normalize",
-    "parallel-lint": "tools/parallel-lint --exclude vendor .",
+    "parallel-lint": "tools/parallel-lint --exclude vendor --exclude node_modules .",
     "phan": "tools/phan --allow-polyfill-parser",
     "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 tools/php-cs-fixer fix --diff --verbose",
     "phpcbf": "tools/phpcbf -p --standard=phpcs.xml .",
@@ -45,6 +88,7 @@
     "phpcs": "tools/phpcs -p --standard=phpcs.xml .",
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M",
     "phpunit": "vendor/bin/phpunit",
-    "psalm": "vendor/bin/psalm"
+    "psalm": "vendor/bin/psalm",
+    "taint-analysis": "vendor/bin/psalm --taint-analysis"
   }
 }

@@ -9,18 +9,18 @@
 
 /* stylelint-disable property-no-vendor-prefix */
 select {
-    word-wrap: normal;
     display: inline-block;
     width: 100%;
     height: 38px;
-    padding-left: 12px;
     padding-right: 32px;
+    padding-left: 12px;
     font-size: 1rem;
     line-height: 1.5;
     color: #495057;
+    text-transform: none;
+    word-wrap: normal;
     background: #fff url("/img/chevron-down.svg") no-repeat right 12px center / 12px;
     border: 1px solid #ced4da;
-    text-transform: none;
     border-radius: 4px;
     -webkit-appearance: none;
     appearance: none;
@@ -33,21 +33,21 @@ select:focus {
 
 /* stylelint-disable property-no-vendor-prefix */
 #cerca {
+    position: relative;
     display: block;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
     height: 38px;
-    padding-left: 12px;
     padding-right: 12px;
+    padding-left: 12px;
+    margin-bottom: 0;
     font-size: 1rem;
     line-height: 1.5;
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-right: none;
-    position: relative;
-    flex: 1 1 auto;
-    width: 1%;
-    min-width: 0;
-    margin-bottom: 0;
     border-radius: 4px 0 0 4px;
     -webkit-appearance: textfield;
     appearance: none;
@@ -55,12 +55,12 @@ select:focus {
 /* stylelint-enable property-no-vendor-prefix */
 
 #cerca:focus {
-    outline: #cbd5e7 solid 3px;
-    background-color: #fff;
     z-index: 3;
-    clip-path: inset(-3px 0 -3px -3px);
-    border: 0;
     padding-left: 13px;
+    clip-path: inset(-3px 0 -3px -3px);
+    background-color: #fff;
+    border: 0;
+    outline: #cbd5e7 solid 3px;
 }
 
 label {
@@ -80,10 +80,10 @@ label {
         padding: 0 0.25rem;
         font-size: 0.75rem;
         color: #6c757d;
-        content: "Ctrl + /";
-        border-radius: 0.25rem;
-        background: #dee2e6;
         pointer-events: none;
+        content: "Ctrl + /";
+        background: #dee2e6;
+        border-radius: 0.25rem;
     }
 }
 
@@ -143,12 +143,12 @@ label {
 .btn {
     display: inline-block;
     padding: 0 12px;
-    text-align: center;
-    color: #fff;
-    background-color: #2b5797;
-    border: 1px solid #2b5797;
     font-size: 1rem;
     line-height: 1.5;
+    color: #fff;
+    text-align: center;
+    background-color: #2b5797;
+    border: 1px solid #2b5797;
 }
 
 .btn svg {
@@ -175,8 +175,8 @@ label {
 }
 
 #cerca:focus + .input-group-append button {
-    box-shadow: 0 0 0 3px #cbd5e7;
     clip-path: inset(-3px -3px -3px 0);
+    box-shadow: 0 0 0 3px #cbd5e7;
 }
 
 .pagination {
@@ -236,9 +236,9 @@ label {
 }
 
 .table {
-    border-collapse: collapse;
     width: 100%;
     margin-bottom: 1rem;
+    border-collapse: collapse;
 }
 
 .table td {

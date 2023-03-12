@@ -1,6 +1,10 @@
 {
-  "extends": ["stylelint-config-standard"],
+  "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
   "rules": {
-    "declaration-property-value-no-unknown": true
+    "color-named": "never",
+    "declaration-no-important": true,
+    "declaration-property-value-no-unknown": true,
+    "no-unknown-animations": true,
+    "shorthand-property-no-redundant-values": true
   }
 }

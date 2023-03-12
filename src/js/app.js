@@ -21,33 +21,40 @@ gtag("config", "G-CP42Y3NK1R");
 
     const toggleAllSources = function () {
         const toggleAllElement = document.querySelector("#toggle-all");
+        const details = document.querySelectorAll("details");
 
         // If it is not expanded, expand it.
         if (toggleAllElement.innerHTML.includes("desplega")) {
-            for (const element of document.body.querySelectorAll("details")) {
+            for (const element of details) {
                 element.setAttribute("open", "true");
             }
             toggleAllElement.innerHTML = toggleAllElement.innerHTML.replace("desplega", "contrau");
         } else {
             // Otherwise collapse it.
-            for (const element of document.body.querySelectorAll("details")) {
+            for (const element of details) {
                 element.removeAttribute("open");
             }
             toggleAllElement.innerHTML = toggleAllElement.innerHTML.replace("contrau", "desplega");
         }
     };
 
+    const searchBox = document.querySelector("#cerca");
+
     // Search/homepage.
-    if (document.querySelector("#cerca")) {
+    if (searchBox) {
+        const variantCheckbox = document.querySelector("#variant");
+        const sinonimCheckbox = document.querySelector("#sinonim");
+        const equivalentCheckbox = document.querySelector("#equivalent");
+
         // Remember the search options.
         if (localStorage.getItem("variant") === "2") {
-            document.querySelector("#variant").checked = false;
+            variantCheckbox.checked = false;
         }
         if (localStorage.getItem("sinonim") === "1") {
-            document.querySelector("#sinonim").checked = true;
+            sinonimCheckbox.checked = true;
         }
         if (localStorage.getItem("equivalent") === "1") {
-            document.querySelector("#equivalent").checked = true;
+            equivalentCheckbox.checked = true;
         }
 
         const nextButton = document.querySelector(".page-link[rel=next]");
@@ -61,10 +68,11 @@ gtag("config", "G-CP42Y3NK1R");
         }
 
         // Search keyboard shortcuts.
-        document.addEventListener("keydown", function (event) {
+        document.addEventListener("keydown", (event) => {
             if (event.ctrlKey) {
                 if (event.key === "/" || event.key === "7") {
-                    document.querySelector("#cerca").focus();
+                    searchBox.focus();
+                    searchBox.select();
                 } else if (event.key === "ArrowRight" && nextButton) {
                     document.location.assign(nextButton.getAttribute("href"));
                 } else if (event.key === "ArrowLeft" && previousButton) {
@@ -76,47 +84,46 @@ gtag("config", "G-CP42Y3NK1R");
         // Pager is only available when there are more than 10 results.
         const mostra = document.querySelector("#mostra");
         if (mostra) {
-            mostra.addEventListener("change", function () {
+            mostra.addEventListener("change", () => {
                 document.querySelector("#search-form").submit();
             });
         }
 
         // Store checkboxes values in local storage.
-        document.querySelector("#variant").addEventListener("change", function () {
-            localStorage.setItem("variant", this.checked ? "1" : "2");
+        variantCheckbox.addEventListener("change", () => {
+            localStorage.setItem("variant", variantCheckbox.checked ? "1" : "2");
         });
-        document.querySelector("#sinonim").addEventListener("change", function () {
-            localStorage.setItem("sinonim", this.checked ? "1" : "");
+        sinonimCheckbox.addEventListener("change", () => {
+            localStorage.setItem("sinonim", sinonimCheckbox.checked ? "1" : "");
         });
-        document.querySelector("#equivalent").addEventListener("change", function () {
-            localStorage.setItem("equivalent", this.checked ? "1" : "");
+        equivalentCheckbox.addEventListener("change", () => {
+            localStorage.setItem("equivalent", equivalentCheckbox.checked ? "1" : "");
         });
     } else {
         // Keyboard shortcut to go the homepage.
-        document.addEventListener("keydown", function (event) {
+        document.addEventListener("keydown", (event) => {
             if (event.ctrlKey && (event.key === "/" || event.key === "7")) {
                 document.location.assign("/");
             }
         });
 
         // Play Common Voice on-click in paremiotipus pages.
-        Array.prototype.filter.call(document.querySelectorAll(".audio"), function (audio) {
-            audio.addEventListener("click", function (event) {
+        for (const audio of document.querySelectorAll(".audio")) {
+            audio.addEventListener("click", (event) => {
                 event.preventDefault();
-                this.firstElementChild.play();
+                audio.firstElementChild.play();
 
                 // Preload the other audio files.
-                const audioElements = document.querySelectorAll("audio");
-                for (const audioElement of audioElements) {
-                    audioElement.setAttribute("preload", "auto");
+                for (const element of document.querySelectorAll("audio")) {
+                    element.setAttribute("preload", "auto");
                 }
             });
-        });
+        }
 
         // Toggle all sources in paremiotipus pages.
         const toggleAllElement = document.querySelector("#toggle-all");
         if (toggleAllElement) {
-            toggleAllElement.addEventListener("click", function (event) {
+            toggleAllElement.addEventListener("click", (event) => {
                 const isExpanded = event.target.innerHTML.includes("contrau");
                 toggleAllSources();
                 if (isExpanded) {
@@ -135,10 +142,8 @@ gtag("config", "G-CP42Y3NK1R");
     }
 
     // Ensure the following is executed with browser back/forward navigation.
-    window.addEventListener("pageshow", function () {
-        // Search page.
-        const searchBox = document.querySelector("#cerca");
-        // Select the text inside the search box, but not in touch devices.
+    window.addEventListener("pageshow", () => {
+        // In the search page, select the text inside the search box, but not in touch devices.
         if (searchBox && searchBox.value && !("ontouchstart" in window || navigator.maxTouchPoints > 0)) {
             searchBox.select();
         }
@@ -146,15 +151,16 @@ gtag("config", "G-CP42Y3NK1R");
 
     // Show the cookie alert.
     if (localStorage.getItem("accept_cookies") !== "1") {
-        document.querySelector("#snackbar").classList.remove("d-none");
-        document.querySelector("#snackbar-action").addEventListener("click", function () {
-            document.querySelector("#snackbar").remove();
+        const snackBar = document.querySelector("#snackbar");
+        snackBar.classList.remove("d-none");
+        document.querySelector("#snackbar-action").addEventListener("click", () => {
+            snackBar.remove();
             localStorage.setItem("accept_cookies", "1");
         });
     }
 
     // Toggle hamburger menu.
-    document.querySelector("#navbar-toggle").addEventListener("click", function () {
+    document.querySelector("#navbar-toggle").addEventListener("click", () => {
         document.querySelector("#menu").classList.toggle("collapse");
     });
 

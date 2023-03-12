@@ -12,6 +12,10 @@ scripts/redirect-checker
 scripts/sinonims-export
 node_modules
 vendor
+# We use composer to add some git repositories as dev dependencies
+!vendor/noisebynorthwest/php-spx
+!vendor/tideways/php-xhprof-extension
+!vendor/longxinh/xhprof
 
 # Temporary files
 .php-cs-fixer.cache

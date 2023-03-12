@@ -175,8 +175,8 @@ Copyright (c) Pere Orga Esteve <pere@orga.cat>, 2020.
 
 Copyright (c) Víctor Pàmies i Riudor <vpamies@gmail.com>, 2020.
 
-Use of this source code is governed by the GNU Affero General Public License v3.0 found in the LICENSE file or at
-<https://www.gnu.org/licenses/agpl-3.0.html>.
+Use of this source code is governed by the GNU Affero General Public License v3.0 found in the [LICENSE](LICENSE) file
+or at <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 File [scripts/common-voice-export/pccd.txt](scripts/common-voice-export/pccd.txt)
 is Copyright (c) Víctor Pàmies i Riudor and is made available under the
@@ -184,5 +184,4 @@ is Copyright (c) Víctor Pàmies i Riudor and is made available under the
 
 For more details about PCCD, visit <https://pccd.dites.cat/>.
 
-This repository includes phive, a tool for managing PHARs. See <https://phar.io/> and its [LICENSE](tools/LICENSE.txt)
-file for more information.
+This repository includes [phive](https://phar.io/), a [BSD-licensed](tools/LICENSE.txt) tool for managing phar files.

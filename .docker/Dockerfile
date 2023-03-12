@@ -31,13 +31,14 @@ COPY .docker/php/apcu.ini /usr/local/etc/php/conf.d/apcu.ini
 #RUN apt-get update -y && apt-get install --no-install-recommends -y libpng-dev && apt-get clean && rm -rf /var/lib/apt/lists/* && docker-php-ext-install gd
 
 # SPX profiler
-# hadolint ignore=DL3003,DL3009
+# hadolint ignore=DL3003
 RUN if [ "$profiler" = "spx" ]; then \
         apt-get update -y && \
-        apt-get install --no-install-recommends -y git zlib1g-dev && \
-        git clone --depth=1 https://github.com/NoiseByNorthwest/php-spx.git && \
+        apt-get install --no-install-recommends -y zlib1g-dev && \
+        apt-get clean && \
+        rm -rf /var/lib/apt/lists/* && \
+        cp -a vendor/noisebynorthwest/php-spx . && \
         cd php-spx && \
-        git checkout release/latest && \
         phpize && \
         ./configure && \
         make && \
@@ -47,11 +48,9 @@ RUN if [ "$profiler" = "spx" ]; then \
     fi
 
 # Tideways XHProf fork, plus the GUI coming from https://github.com/longxinH/xhprof
-# hadolint ignore=DL3003,DL3009
+# hadolint ignore=DL3003
 RUN if [ "$profiler" = "xhprof" ]; then \
-        apt-get update -y && \
-        apt-get install --no-install-recommends -y git && \
-        git clone --depth=1 https://github.com/tideways/php-xhprof-extension.git && \
+        cp -a vendor/tideways/php-xhprof-extension . && \
         cd php-xhprof-extension && \
         phpize && \
         ./configure && \
@@ -61,18 +60,22 @@ RUN if [ "$profiler" = "xhprof" ]; then \
         echo 'auto_append_file=/srv/app/src/tideways_xhprof_append.php' >> /usr/local/etc/php/php.ini && \
         echo 'extension=tideways_xhprof.so' >> /usr/local/etc/php/php.ini && \
         cd .. && \
+        apt-get update -y && \
         apt-get install --no-install-recommends -y graphviz && \
-        git clone --depth=1 https://github.com/longxinH/xhprof.git /usr/local/lib/php/xhprof && \
+        apt-get clean && \
+        rm -rf /var/lib/apt/lists/* && \
+        cp -a vendor/longxinh/xhprof /usr/local/lib/php/xhprof && \
         grep -h -F -v '</VirtualHost>' .docker/apache/vhost.conf > /etc/apache2/sites-available/000-default.conf && \
         cat .docker/apache/tideways_xhprof.conf >> /etc/apache2/sites-available/000-default.conf && \
         echo '</VirtualHost>' >> /etc/apache2/sites-available/000-default.conf; \
     fi
 
 # XHProf fork (not working on ARM64)
-# hadolint ignore=DL3009
 RUN if [ "$profiler" = "xhprof-fork" ]; then \
         apt-get update -y && \
         apt-get install --no-install-recommends -y git graphviz && \
+        apt-get clean && \
+        rm -rf /var/lib/apt/lists/* && \
         pecl install xhprof-2.3.9 && \
         docker-php-ext-enable xhprof && \
         echo 'auto_prepend_file=/srv/app/src/xhprof.php' >> /usr/local/etc/php/php.ini && \

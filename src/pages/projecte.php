@@ -21,7 +21,7 @@ set_meta_description('Versió en línia del buidatge de fonts fraseològiques, e
 
 <p>És, doncs, la passió de tota una vida dedicada a cercar i recopilar parèmies, per a digitalitzar-les i facilitar-ne la consulta.</p>
 
-<p>La base inicial eren fitxers de dades en dBase IV, migrats posteriorment a Microsoft Access. Estem parlant d'una base actual de 650.000 registres, dels quals ja n'hem pogut abocar <?php echo format_nombre(get_n_modismes()); ?> en aquesta interfície de consulta.</p>
+<p>La base inicial eren fitxers de dades en dBase IV, migrats posteriorment a Microsoft Access. Estem parlant d'una base actual de 980.000 registres, dels quals ja n'hem pogut abocar <?php echo format_nombre(get_n_modismes()); ?> en aquesta interfície de consulta.</p>
 
 <p>A partir de la determinació d'un paremiotipus de base per a cada unitat fraseològica, extreta de fonts molt diverses (amb molt diversos estils i informacions), com en un trencaclosques gegantí, hem hagut de fer encaixar totes les peces. Per tant, en cada moment, cal determinar quines expressions són equiparables en català i, sovint també, determinar quins equivalents trobem en altres llengües.</p>
 

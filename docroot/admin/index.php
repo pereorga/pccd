@@ -95,8 +95,8 @@ if ($timestamp !== false) {
         <label for="password">Contrasenya:</label>
         <input type="password" id="password" name="password" autofocus>
         <input type="submit" value="Inicia sessió">
-    </form>
-    <?php
+    </form><?php
+
     exit;
 }
 
@@ -108,10 +108,10 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
+session_write_close();
+
 if (isset($_GET['test'])) {
     require __DIR__ . '/../../src/reports/tests.php';
-
-    session_write_close();
 
     if ($_GET['test'] === 'imatges') {
         test_imatges_paremiotipus();
@@ -122,9 +122,6 @@ if (isset($_GET['test'])) {
         test_imatges_no_existents();
         test_imatges_repetides();
         test_imatges_format();
-    } elseif ($_GET['test'] === 'obres') {
-        test_obres_sense_paremia();
-        test_paremies_sense_obra_existent();
     } elseif ($_GET['test'] === 'urls') {
         test_urls();
     } elseif ($_GET['test'] === 'espais') {
@@ -150,10 +147,16 @@ if (isset($_GET['test'])) {
         test_paremiotipus_modismes_curts();
         test_paremiotipus_llargs();
     } elseif ($_GET['test'] === 'editorials') {
-        test_obres_sense_editorial();
-        test_editorial_sense_obres();
+        test_editorials_no_referenciades();
+        test_editorials_no_existents();
     } elseif ($_GET['test'] === 'fonts') {
-        test_fonts();
+        test_fonts_sense_paremia();
+        test_paremies_sense_font_existent();
+        test_fonts_buides();
+    } elseif ($_GET['test'] === 'dates') {
+        test_paremies_any_erroni();
+        test_fonts_any_erroni();
+        test_imatges_any_erroni();
     } elseif ($_GET['test'] === 'compostos') {
         test_paremies_separar();
     } elseif ($_GET['test'] === 'commonvoice_languagetool') {
@@ -174,6 +177,7 @@ Informes:
     <li><a href="?test=cerques">Cerques</a></li>
     <li><a href="?test=commonvoice_languagetool">Common Voice / LanguageTool</a></li>
     <li><a href="?test=compostos">Compostos</a></li>
+    <li><a href="?test=dates">Dates</a></li>
     <li><a href="?test=editorials">Editorials</a></li>
     <li><a href="?test=equivalents">Equivalents</a></li>
     <li><a href="?test=espais">Espais</a></li>
@@ -182,7 +186,6 @@ Informes:
     <li><a href="?test=imatges">Imatges</a></li>
     <li><a href="?test=longitud">Longitud</a></li>
     <li><a href="?test=majúscules">Majúscules</a></li>
-    <li><a href="?test=obres">Obres</a></li>
     <li><a href="?test=puntuació">Puntuació</a></li>
     <li><a href="?test=repeticions_caracters">Repeticions de caràcters</a></li>
     <li><a href="?test=repeticions">Repeticions de paremiotipus</a></li>

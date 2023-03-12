@@ -17,18 +17,18 @@ h2 {
 
 #toggle-all,
 a.media-link {
+    padding: 3px 6px;
     font-size: 13px;
+    line-height: 1;
+    color: #333;
+    text-align: left;
     text-decoration: none;
     background-color: #eee;
-    color: #333;
-    padding: 3px 6px;
     border-top: 1px solid #ccc;
     border-right: 1px solid #333;
     border-bottom: 1px solid #333;
     border-left: 1px solid #ccc;
     border-radius: 4px;
-    line-height: 1;
-    text-align: left;
 }
 
 #toggle-all {
@@ -43,8 +43,8 @@ a.media-link {
 #toggle-all:focus,
 a.media-link:hover,
 a.media-link:focus {
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
     outline: 1px solid #333;
 }
 
@@ -53,8 +53,8 @@ details {
 }
 
 details summary {
-    cursor: pointer;
     font-size: 0.875rem;
+    cursor: pointer;
 }
 
 .entrada {
@@ -72,8 +72,8 @@ details summary {
 
 figcaption {
     margin-top: 5px;
-    text-align: left;
     font-size: 0.875rem;
+    text-align: left;
 }
 
 .resum {
@@ -86,13 +86,13 @@ figcaption {
 
 a.audio {
     display: inline-block;
-    opacity: 0.6;
     padding: 0.5rem;
     outline: 0;
+    opacity: 0.6;
 }
 
 a.audio:hover,
 a.audio:focus {
-    opacity: 1;
     filter: brightness(75%);
+    opacity: 1;
 }

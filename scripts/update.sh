@@ -28,8 +28,6 @@ usage() {
     echo "      Updates brew/apt packages"
     echo "    yarn"
     echo "      Updates all yarn dev direct packages to latest release"
-    echo "    yarn-deps"
-    echo "      Updates all yarn dependencies (slower)"
     echo "    composer"
     echo "      Updates all composer dependencies to latest release, including non-direct dependencies"
     echo "    phive"
@@ -285,11 +283,6 @@ fi
 
 if [[ $1 == "yarn" ]]; then
     update_yarn_major
-    exit 0
-fi
-
-if [[ $1 == "yarn-deps" ]]; then
-    yarn upgrade --silent
     exit 0
 fi
 

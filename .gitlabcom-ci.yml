@@ -12,14 +12,16 @@ php_static_analysis:
     - tools/composer run phpstan --no-interaction
     - tools/composer run phan --no-interaction
     - tools/composer run psalm --no-interaction
+    - tools/composer run taint-analysis --no-interaction
+    - tools/composer run phpcpd --no-interaction
   when: manual
 
 eslint_stylelint_prettier:
+  image: node:latest
   before_script:
-    - apt-get update && apt-get install --no-install-recommends -y git curl nodejs npm && npm install -g yarn
     - yarn install --ignore-engines --frozen-lockfile
   script:
-    - npx eslint src/js/*.js scripts/*.js
+    - npx eslint 'src/js/*.js' 'scripts/*.js'
     - npx stylelint src/css/
     - npx prettier --check .
   when: manual

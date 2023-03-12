@@ -20,6 +20,8 @@
       <excludeFolder url="file://$MODULE_DIR$/docroot/img/obres" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/cypress/downloads" />
+      <excludeFolder url="file://$MODULE_DIR$/cypress/videos" />
       <excludePattern pattern="page*.html" />
     </content>
     <orderEntry type="inheritedJdk" />

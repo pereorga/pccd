@@ -56,6 +56,24 @@ final class RedirectsTest extends TestCase
                 $target_url,
                 'Target url contains characters not normalized: ' . $target_url
             );
+
+            static::assertStringNotContainsString(
+                '+',
+                $target_url,
+                'Target url contains spaces rather than underscores: ' . $target_url
+            );
+
+            static::assertStringNotContainsString(
+                "'",
+                $source_url,
+                'Source url contains single quotes: ' . $source_url
+            );
+
+            static::assertStringNotContainsString(
+                "'",
+                $target_url,
+                'Target url contains single quotes: ' . $target_url
+            );
         }
     }
 
@@ -80,18 +98,6 @@ final class RedirectsTest extends TestCase
                     'Target obra URL does not start with /p/: ' . $target_url
                 );
             }
-
-            static::assertStringNotContainsString(
-                '%2B',
-                $source_url,
-                'Source URL contains characters not normalized: ' . $source_url
-            );
-
-            static::assertStringNotContainsString(
-                '%2B',
-                $target_url,
-                'Target URL contains characters not normalized: ' . $target_url
-            );
         }
     }
 

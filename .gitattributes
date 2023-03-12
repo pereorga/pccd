@@ -1,3 +1,5 @@
+* text=auto eol=lf
+
 /tools/* binary
 /src/images/* binary
 /docroot/mp3/* binary

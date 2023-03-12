@@ -26,3 +26,5 @@ vendor
 /tmp/*.html
 /tmp/*.json
 /tmp/pccd
+/cypress/videos
+/cypress/downloads

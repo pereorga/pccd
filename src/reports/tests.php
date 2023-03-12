@@ -65,6 +65,7 @@ function test_searches(): void
 
 function test_imatges_paremiotipus(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus de la taula 00_IMATGES que no concorda amb cap registre de la taula 00_PAREMIOTIPUS</h3>';
@@ -104,6 +105,7 @@ function test_imatges_format(): void
 
 function test_imatges_no_reconegudes(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Imatges amb extensió no estàndard (no jpg/png/gif) o en majúscules</h3>';
@@ -145,17 +147,18 @@ function test_imatges_no_reconegudes(): void
 
 function test_imatges_buides(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Fonts sense imatge</h3>';
     echo '<pre>';
     $stmt = $pdo->query('SELECT Imatge, Identificador FROM 00_FONTS');
-    $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $n = 0;
     $output = '';
-    foreach ($imatges as $i) {
-        if (!is_string($i['Imatge']) || strlen($i['Imatge']) < 5) {
-            $output .= $i['Identificador'] . \PHP_EOL;
+    foreach ($results as $r) {
+        if (!is_string($r['Imatge']) || strlen($r['Imatge']) < 5) {
+            $output .= $r['Identificador'] . \PHP_EOL;
             $n++;
         }
     }
@@ -165,10 +168,10 @@ function test_imatges_buides(): void
     }
 
     $stmt = $pdo->query('SELECT Identificador FROM 00_IMATGES');
-    $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $results = $stmt->fetchAll(PDO::FETCH_COLUMN);
     $n = 0;
-    foreach ($imatges as $i) {
-        if ($i === null) {
+    foreach ($results as $r) {
+        if ($r === null) {
             $n++;
         }
     }
@@ -180,6 +183,7 @@ function test_imatges_buides(): void
 
 function test_imatges_no_existents(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo "<h3>Fitxers d'imatge no existents</h3>";
@@ -201,8 +205,26 @@ function test_imatges_no_existents(): void
     echo '</pre>';
 }
 
+function test_imatges_any_erroni(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    echo "<h3>Imatges amb l'any erroni</h3>";
+    echo '<pre>';
+    $stmt = $pdo->query('SELECT Identificador, `Any` FROM 00_IMATGES');
+    $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($imatges as $i) {
+        if (((int) $i['Any']) < 0 || ((int) $i['Any']) > ((int) date('Y'))) {
+            echo 'paremies/' . $i['Identificador'] . ' (' . $i['Any'] . ")\n";
+        }
+    }
+    echo '</pre>';
+}
+
 function test_imatges_repetides(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Identificador repetit a la taula 00_IMATGES</h3>';
@@ -246,6 +268,7 @@ function test_imatges_repetides(): void
 
 function test_imatges_no_referenciades(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     $images = $pdo->query('SELECT Identificador, 1 FROM 00_IMATGES')->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -279,45 +302,6 @@ function test_imatges_no_referenciades(): void
     echo '</pre>';
 }
 
-function test_obres_sense_paremia(): void
-{
-    $pdo = get_db();
-
-    $fonts = get_fonts();
-    $fonts_modismes = $pdo->query('SELECT DISTINCT ID_FONT, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
-
-    echo '<h3>Obres de la taula 00_FONTS que no estan referenciades per cap parèmia</h3>';
-    echo '<div style="font-size: 13px;">';
-    foreach ($fonts as $identificador => $title) {
-        if (!isset($fonts_modismes[$identificador])) {
-            echo '<a href="' . get_obra_url($identificador) . '">' . $title . '</a><br>';
-        }
-    }
-    echo '</div>';
-}
-
-function test_paremies_sense_obra_existent(): void
-{
-    $pdo = get_db();
-
-    $fonts = get_fonts();
-    $paremies = $pdo->query('SELECT MODISME, ID_FONT FROM `00_PAREMIOTIPUS` ORDER BY ID_FONT')->fetchAll(PDO::FETCH_ASSOC);
-
-    echo '<h3>Parèmies que tenen obra, però que aquesta no es troba a la taula 00_FONTS</h3>';
-    echo '<pre>';
-    $prev = '';
-    foreach ($paremies as $paremia) {
-        if ($paremia['ID_FONT'] !== null && !isset($fonts[$paremia['ID_FONT']])) {
-            if ($prev !== $paremia['ID_FONT']) {
-                echo "\n\n" . $paremia['ID_FONT'] . ':';
-            }
-            echo "\n    " . $paremia['MODISME'];
-            $prev = $paremia['ID_FONT'];
-        }
-    }
-    echo '</pre>';
-}
-
 function test_urls(): void
 {
     echo '<h3>Valors URL que retornen diferent de HTTP 200/301/302/307 a la taula 00_OBRESVPR</h3>';
@@ -341,8 +325,9 @@ function test_urls(): void
     echo '</pre>';
 }
 
-function test_fonts(): void
+function test_fonts_buides(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
     echo '<h3>Registres a la taula 00_FONTS amb el camp Títol buit.</h3>';
     $records = $pdo->query("SELECT Identificador FROM 00_FONTS WHERE `Títol` IS NULL OR `Títol` = ''")->fetchAll(PDO::FETCH_COLUMN);
@@ -365,9 +350,95 @@ function test_fonts(): void
         }
     }
 }
+function test_fonts_sense_paremia(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    $fonts = get_fonts();
+    $fonts_modismes = $pdo->query('SELECT DISTINCT ID_FONT, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    echo '<h3>Obres de la taula 00_FONTS que no estan referenciades per cap parèmia</h3>';
+    echo '<div style="font-size: 13px;">';
+    foreach ($fonts as $identificador => $title) {
+        if (!isset($fonts_modismes[$identificador])) {
+            echo '<a href="' . get_obra_url($identificador) . '">' . $title . '</a><br>';
+        }
+    }
+    echo '</div>';
+}
+
+function test_fonts_any_erroni(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    echo "<h3>Obres amb l'any erroni</h3>";
+    echo '<pre>';
+    $stmt = $pdo->query('SELECT Identificador, `Any` FROM 00_FONTS');
+    $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($imatges as $i) {
+        if (((int) $i['Any']) < 0 || ((int) $i['Any']) > ((int) date('Y'))) {
+            echo $i['Identificador'] . ' (' . $i['Any'] . ")\n";
+        }
+    }
+    echo '</pre>';
+
+    echo "<h3>Obres amb l'any d'edició erroni</h3>";
+    echo '<pre>';
+    $stmt = $pdo->query('SELECT Identificador, `Any_edició` FROM 00_FONTS');
+    $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($imatges as $i) {
+        if (((int) $i['Any_edició']) < 0 || ((int) $i['Any_edició']) > ((int) date('Y'))) {
+            echo $i['Identificador'] . ' (' . $i['Any_edició'] . ")\n";
+        }
+    }
+    echo '</pre>';
+}
+
+function test_paremies_sense_font_existent(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    $fonts = get_fonts();
+    $paremies = $pdo->query('SELECT MODISME, ID_FONT FROM `00_PAREMIOTIPUS` ORDER BY ID_FONT')->fetchAll(PDO::FETCH_ASSOC);
+
+    echo '<h3>Parèmies que tenen obra, però que aquesta no es troba a la taula 00_FONTS</h3>';
+    echo '<pre>';
+    $prev = '';
+    foreach ($paremies as $paremia) {
+        if ($paremia['ID_FONT'] !== null && !isset($fonts[$paremia['ID_FONT']])) {
+            if ($prev !== $paremia['ID_FONT']) {
+                echo "\n\n" . $paremia['ID_FONT'] . ':';
+            }
+            echo "\n    " . $paremia['MODISME'];
+            $prev = $paremia['ID_FONT'];
+        }
+    }
+    echo '</pre>';
+}
+
+function test_paremies_any_erroni(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    echo "<h3>Modismes amb l'any erroni</h3>";
+    echo '<pre>';
+    $stmt = $pdo->query('SELECT MODISME, `Any` FROM 00_PAREMIOTIPUS');
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $r) {
+        if (((int) $r['Any']) < 0 || ((int) $r['Any']) > ((int) date('Y'))) {
+            echo $r['MODISME'] . ' (' . $r['Any'] . ")\n";
+        }
+    }
+    echo '</pre>';
+}
 
 function test_espais(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus que comencen o acaben amb espai en blanc</h3>';
@@ -461,6 +532,7 @@ function test_espais(): void
 
 function test_puntuacio(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus amb parèntesis o claudàtors no tancats</h3>';
@@ -586,11 +658,12 @@ function test_puntuacio(): void
 
 function test_majuscules(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus que comencen amb lletra minúscula</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE BINARY UPPER(SUBSTRING(PAREMIOTIPUS, 1, 1)) != SUBSTRING(PAREMIOTIPUS, 1, 1)')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE BINARY UPPER(SUBSTRING(PAREMIOTIPUS, 1, 1)) != SUBSTRING(PAREMIOTIPUS, 1, 1)')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -598,7 +671,15 @@ function test_majuscules(): void
 
     echo "<h3>Paremiotipus que tenen una lletra minúscula seguida d'una lletra majúscula</h3>";
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($modismes as $m) {
+        echo $m . "\n";
+    }
+    echo '</pre>';
+
+    echo '<h3>Paremiotipus que tenen dues lletres majúscules seguides</h3>';
+    echo '<pre>';
+    $modismes = $pdo->query("SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS REGEXP BINARY '[A-Z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -614,7 +695,7 @@ function test_majuscules(): void
 
     echo '<h3>Modismes que comencen amb lletra minúscula</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT MODISME FROM 00_PAREMIOTIPUS WHERE BINARY UPPER(SUBSTRING(MODISME, 1, 1)) != SUBSTRING(MODISME, 1, 1)')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS WHERE BINARY UPPER(SUBSTRING(MODISME, 1, 1)) != SUBSTRING(MODISME, 1, 1)')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -622,7 +703,7 @@ function test_majuscules(): void
 
     echo "<h3>Modismes que tenen una lletra minúscula seguida d'una lletra majúscula</h3>";
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -630,7 +711,7 @@ function test_majuscules(): void
 
     echo '<h3>Modismes que acaben amb lletra majúscula</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT MODISME FROM 00_PAREMIOTIPUS WHERE BINARY LOWER(SUBSTRING(MODISME, -1)) != SUBSTRING(MODISME, -1)')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS WHERE BINARY LOWER(SUBSTRING(MODISME, -1)) != SUBSTRING(MODISME, -1)')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -639,6 +720,7 @@ function test_majuscules(): void
 
 function test_equivalents(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo "<h3>Modismes amb equivalents amb un codi d'idioma no detectat</h3>";
@@ -664,6 +746,7 @@ function test_equivalents(): void
 
 function test_explicacio(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Modismes amb el camp EXPLICACIO molt llarg però amb el camp EXPLICACIO2 buit i el camp EXEMPLES no buit</h3>';
@@ -681,6 +764,7 @@ function test_explicacio(): void
 
 function test_paremiotipus_accents(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus amb diferències de majúscules o accents</h3>';
@@ -704,6 +788,7 @@ function test_paremiotipus_accents(): void
 
 function test_paremiotipus_modismes_diferents(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus diferents que agrupen un mateix modisme</h3>';
@@ -727,6 +812,7 @@ function test_paremiotipus_modismes_diferents(): void
  */
 function test_paremiotipus_repetits(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus molt semblants</h3>';
@@ -759,6 +845,7 @@ function test_paremiotipus_repetits(): void
 
 function test_repeticio_caracters(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus amb una repetició de caràcters inusual</h3>';
@@ -852,6 +939,7 @@ function test_repeticio_caracters(): void
 
 function test_paremiotipus_modismes_curts(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus de menys de 5 caràcters</h3>';
@@ -877,6 +965,7 @@ function test_paremiotipus_modismes_curts(): void
 
 function test_paremiotipus_llargs(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Paremiotipus de més de 250 caràcters</h3>';
@@ -890,6 +979,7 @@ function test_paremiotipus_llargs(): void
 
 function test_paremies_separar(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Parèmies que probablement es poden separar en dues</h3>';
@@ -934,6 +1024,7 @@ function is_valid_location(string $location): bool
 
 function test_llocs(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Modismes amb el camp LLOC potser incorrecte</h3>';
@@ -949,14 +1040,15 @@ function test_llocs(): void
     echo '</pre>';
 }
 
-function test_obres_sense_editorial(): void
+function test_editorials_no_referenciades(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     $editorials = get_editorials();
     $editorials_modismes = $pdo->query('SELECT DISTINCT EDITORIAL AS EDITORIAL, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
 
-    echo '<h3>Editorials de la taula 00_EDITORIA que no estan referenciades per cap obra</h3>';
+    echo '<h3>Editorials de la taula 00_EDITORIA que no estan referenciades per cap paremiotipus</h3>';
     echo '<pre>';
     foreach ($editorials as $ed_codi => $ed_title) {
         if (!isset($editorials_modismes[$ed_codi])) {
@@ -966,14 +1058,15 @@ function test_obres_sense_editorial(): void
     echo '</pre>';
 }
 
-function test_editorial_sense_obres(): void
+function test_editorials_no_existents(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     $editorials = get_editorials();
     $editorials_paremiotipus = $pdo->query('SELECT MODISME, EDITORIAL FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
 
-    echo '<h3>Editorials referenciades per parèmies que no es troben a la taula 00_EDITORIA</h3>';
+    echo '<h3>Editorials que estan referenciades per parèmies però que no existeixen a la taula 00_EDITORIA</h3>';
     echo '<pre>';
     $missing = [];
     foreach ($editorials_paremiotipus as $ed_p) {
@@ -987,6 +1080,7 @@ function test_editorial_sense_obres(): void
 
 function test_buits(): void
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
     echo '<h3>Modismes amb el camp PAREMIOTIPUS buit</h3>';
@@ -1050,6 +1144,7 @@ function curl_get_response_code(string $url, bool $nobody = true): int
 
 function background_test_llibres_urls(): string
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
     $output = '';
     $urls = [];
@@ -1075,6 +1170,7 @@ function background_test_llibres_urls(): string
 
 function background_test_fonts_urls(): string
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
     $output = '';
     $urls = [];
@@ -1100,6 +1196,7 @@ function background_test_fonts_urls(): string
 
 function background_test_imatges_urls(): string
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
     $output = '';
     $urls = [];
@@ -1125,6 +1222,7 @@ function background_test_imatges_urls(): string
 
 function background_test_imatges_links(): string
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
     $output = '';
     $urls = [];
@@ -1153,6 +1251,7 @@ function background_test_imatges_links(): string
 
 function background_test_paremiotipus_repetits(int $start = 0, int $end = 0): string
 {
+    require_once __DIR__ . '/../common.php';
     $pdo = get_db();
     $output = '';
 
