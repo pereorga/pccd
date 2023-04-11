@@ -85,6 +85,8 @@
       <path value="$PROJECT_DIR$/vendor/noisebynorthwest/php-spx" />
       <path value="$PROJECT_DIR$/vendor/tideways/php-xhprof-extension" />
       <path value="$PROJECT_DIR$/vendor/longxinh/xhprof" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpdoc-parser" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 /*
  * Execute time-consuming tests.
+ *
  * This file is called by generate_reports.sh script.
  */
 

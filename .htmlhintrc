@@ -15,7 +15,6 @@
     "head-script-disabled": false,
     "href-abs-or-rel": false,
     "html-lang-require": true,
-    "id-class-ad-disabled": true,
     "id-class-value": "dash",
     "id-unique": true,
     "inline-script-disabled": true,

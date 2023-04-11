@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Works (source) pages, usually about a book or a website.
-
 $request_uri = get_request_uri();
 $obra_title = is_string($_GET['obra']) ? path_to_name($_GET['obra']) : '';
 $obra = get_obra($obra_title);
@@ -81,7 +79,7 @@ if ($obra['Edició'] !== null) {
     $output .= '<p>Edició: ' . htmlspecialchars($obra['Edició']) . '</p>';
 }
 if ($obra['Any_edició'] > 0) {
-    $output .= "<p>Any de l'edició: " . htmlspecialchars((string) $obra['Any_edició']) . '</p>';
+    $output .= "<p>Any de l'edició: " . $obra['Any_edició'] . '</p>';
 }
 if ($obra['Collecció'] !== null) {
     $output .= '<p>Col·lecció: ' . htmlspecialchars($obra['Collecció']) . '</p>';

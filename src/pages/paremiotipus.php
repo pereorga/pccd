@@ -180,10 +180,12 @@ foreach ($variants as $modisme => $variant) {
                 $body .= '</p>';
             }
             if ($v['SINONIM'] !== null) {
+                $sinonim = trim(trim(trim($v['SINONIM']), '.'));
+                $sinonim = htmlspecialchars($sinonim, ENT_NOQUOTES);
                 if ($meta_desc === '') {
-                    $meta_desc = 'Sinònim: ' . ct($v['SINONIM']);
+                    $meta_desc = 'Sinònim: ' . $sinonim;
                 }
-                $body .= '<p>Sinònim: ' . ct($v['SINONIM']);
+                $body .= '<p>Sinònim: ' . $sinonim;
                 if (!str_ends_with($v['SINONIM'], '?') && !str_ends_with($v['SINONIM'], '!')) {
                     $body .= '.';
                 }
@@ -212,7 +214,7 @@ foreach ($variants as $modisme => $variant) {
             if ($v['LLOC'] !== null) {
                 $body .= '<p>Lloc: ' . ct($v['LLOC']) . '.</p>';
                 if ($meta_desc_fallback === '') {
-                    $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC'] . '.');
+                    $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC']);
                 }
             }
             if ($v['FONT'] !== null) {
@@ -240,18 +242,18 @@ foreach ($variants as $modisme => $variant) {
             $paremia .= '<p>Lloc: ' . ct($v['LLOC']) . '.</p>';
             $paremia .= '</div>';
             if ($meta_desc_fallback === '') {
-                $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC'] . '.');
+                $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC']);
             }
             $variant_sources++;
         }
     }
 
-    $modisme = htmlspecialchars($modisme);
-    if ($total_variants > 1 || $modisme !== get_page_title()) {
-        $rendered_variant = "<h2>{$modisme}</h2>";
+    $modisme_safe = htmlspecialchars($modisme);
+    if ($total_variants > 1 || $modisme_safe !== get_page_title()) {
+        $rendered_variant = "<h2>{$modisme_safe}</h2>";
         $rendered_variant .= '<details open>';
         $rendered_variant .= '<summary>';
-        $rendered_variant .= ($variant_sources === 1) ? '1 font' : "{$variant_sources} fonts";
+        $rendered_variant .= $variant_sources === 1 ? '1 font' : "{$variant_sources} fonts";
         if ($min_year < YEAR_MAX) {
             $rendered_variant .= ", {$min_year}";
         }
@@ -303,16 +305,17 @@ if ($cv_output !== '') {
     $blocks .= '</p>';
     $blocks .= '</div>';
 }
+
 // Images.
 $images = get_images($paremiotipus_db);
 $i = 0;
-foreach ($images as $r) {
-    if (is_file(__DIR__ . '/../../docroot/img/imatges/' . $r['Identificador'])) {
+foreach ($images as $image) {
+    if (is_file(__DIR__ . '/../../docroot/img/imatges/' . $image['Identificador'])) {
         $i++;
         $is_first_image = $i === 1;
         if ($is_first_image) {
             // Use it for meta image.
-            set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($r['Identificador']));
+            set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($image['Identificador']));
 
             // Add an id for anchor links (once).
             $blocks .= '<div id="imatges" class="bloc bloc-imatge text-break">';
@@ -321,69 +324,59 @@ foreach ($images as $r) {
         }
 
         $blocks .= '<figure>';
-        $link = '';
-        if (
-            $r['URL'] !== null
-            && (str_starts_with($r['URL'], 'http://') || str_starts_with($r['URL'], 'https://'))
-            && filter_var($r['URL'], \FILTER_SANITIZE_URL) === $r['URL']
-        ) {
-            $link = $r['URL'];
 
-            // TODO: properly encode full URLs.
-            $link = str_replace(['&', '[', ']'], ['&amp;', '%5B', '%5D'], $link);
-
-            $blocks .= '<a href="' . $link . '">';
-        }
-
-        // Generate image tag(s). Do not lazy load the first image.
-        $blocks .= get_image_tags(
-            $r['Identificador'],
+        $image_tag = get_image_tags(
+            $image['Identificador'],
             '/img/imatges/',
             $paremiotipus,
-            $r['WIDTH'],
-            $r['HEIGHT'],
+            $image['WIDTH'],
+            $image['HEIGHT'],
             !$is_first_image
         );
 
-        if ($link !== '') {
-            $blocks .= '</a>';
+        $image_url = get_clean_url($image['URL']);
+        if ($image_url !== '') {
+            $blocks .= '<a href="' . $image_url . '">' . $image_tag . '</a>';
+        } else {
+            $blocks .= $image_tag;
         }
 
         $work = '';
-        if ($r['AUTOR'] !== null) {
-            $work .= htmlspecialchars($r['AUTOR']);
+        if ($image['AUTOR'] !== null) {
+            $work .= htmlspecialchars($image['AUTOR']);
         }
-        if ($r['ANY'] > 0) {
+        if ($image['ANY'] > 0) {
             if ($work !== '') {
                 $work .= ' ';
             }
-            $work .= '(' . $r['ANY'] . ')';
+            $work .= '(' . $image['ANY'] . ')';
         }
-        if ($r['DIARI'] !== null && $r['DIARI'] !== $r['AUTOR']) {
+        if ($image['DIARI'] !== null && $image['DIARI'] !== $image['AUTOR']) {
             if ($work !== '') {
                 $work .= ': ';
             }
 
             // If there is no ARTICLE, link DIARI to the content.
-            $diari = htmlspecialchars($r['DIARI']);
-            if ($link !== '' && $r['ARTICLE'] === null) {
-                $diari = '<a href="' . $link . '">' . $diari . '</a>';
+            $diari = htmlspecialchars($image['DIARI']);
+            if ($image_url !== '' && $image['ARTICLE'] === null) {
+                $diari = '<a href="' . $image_url . '">' . $diari . '</a>';
             }
             $work .= "<em>{$diari}</em>";
         }
-        if ($r['ARTICLE'] !== null) {
+        if ($image['ARTICLE'] !== null) {
             if ($work !== '') {
                 $work .= ' ';
             }
 
             // Link to the content, unless the text has a link already.
-            if (str_contains($r['ARTICLE'], 'http')) {
+            if (str_contains($image['ARTICLE'], 'http')) {
                 // In that case, link to the included URL.
-                $article = htmlEscapeAndLinkUrls($r['ARTICLE']);
+                $article = htmlEscapeAndLinkUrls($image['ARTICLE']);
             } else {
-                $article = htmlspecialchars($r['ARTICLE']);
-                if ($link !== '') {
-                    $article = '<a href="' . $link . '">' . $article . '</a>';
+                $article = htmlspecialchars($image['ARTICLE']);
+                // Reuse the link of the image, if there is one.
+                if ($image_url !== '') {
+                    $article = '<a href="' . $image_url . '">' . $article . '</a>';
                 }
             }
             $work .= "«{$article}»";
@@ -401,24 +394,21 @@ foreach ($images as $r) {
 // Main page output.
 $output = '';
 if ($total_variants > 1) {
-    $output = '<div class="resum">' . count($modismes) . ' recurrències en ' . $total_variants . ' variants.';
+    $output = '<div class="resum">' . count($modismes) . "&nbsp;recurrències en {$total_variants}&nbsp;variants.";
     if ($total_min_year < YEAR_MAX) {
-        $output .= " Primera citació: {$total_min_year}.";
+        $output .= " Primera&nbsp;citació:&nbsp;{$total_min_year}.";
     }
-    $output .= '<div class="tools">';
-    $output .= '<button type="button" id="toggle-all" class="d-none">contrau-ho tot</button>';
+    $output .= '<div class="shortcuts">';
+    $output .= '<button type="button" id="toggle-all" title="Amaga els detalls de cada font">contrau-ho tot</button>';
 
     // Add an anchor link to the multimedia content, only visible on mobile.
-    $anchor_link = '';
-    if ($cv_output !== '') {
-        $anchor_link = '#commonvoice';
-    } elseif (get_meta_image() !== '') {
-        $anchor_link = '#imatges';
-    }
-    if ($anchor_link !== '') {
-        $output .= '<a class="media-link d-inlineblock d-md-none" href="' . $anchor_link . '">ves als fitxers</a>';
-        // Add a link to main content too.
-        $blocks .= '<p class="media-link-bottom-wrapper bloc bloc-2 d-block d-md-none">';
+    if (get_meta_image() !== '') {
+        $output .= '<a class="media-link d-inlineblock d-md-none" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '">';
+        $output .= 'ves als fitxers';
+        $output .= '</a>';
+
+        // Add a link to main content in the bottom too.
+        $blocks .= '<p class="media-link-bottom-wrapper bloc bloc-white d-block d-md-none">';
         $blocks .= '<a class="media-link" href="#contingut">torna a dalt</a>';
         $blocks .= '</p>';
     }

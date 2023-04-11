@@ -1,11 +1,12 @@
 {
-    "IgnoreDefaults": false,
     "Exclude": [
         "LICENSE",
         "\\.csv",
         "\\.idea",
         "\\.sql",
+        "\\.tsv",
         "\\.txt",
+        "\\.generated\\.php",
         "docroot/img",
         "docroot/mp3",
         "node_modules",

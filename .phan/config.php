@@ -67,6 +67,8 @@ return [
         'vendor/',
     ],
 
+    'exclude_file_regex' => '@\\.(generated\\.php)$@',
+
     // A list of plugin files to execute.
     // Plugins which are bundled with Phan can be added here by providing their name
     // (e.g. 'AlwaysReturnPlugin')

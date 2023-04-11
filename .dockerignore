@@ -8,8 +8,8 @@ src/images
 
 # Local dependencies and scripts
 scripts/image-convertor
-scripts/redirect-checker
 scripts/sinonims-export
+scripts/SentenceSimilarityGroup
 node_modules
 vendor
 # We use composer to add some git repositories as dev dependencies

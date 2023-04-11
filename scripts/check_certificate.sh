@@ -16,7 +16,7 @@ set -e
 
 shopt -s expand_aliases
 
-cd "$(dirname "$0")/../"
+cd "$(dirname "$0")/.."
 
 if [[ -z $1 ]]; then
     REMOTE_ENVIRONMENT_URL="https://pccd.dites.cat"

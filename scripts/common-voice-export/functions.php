@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Functions for common-voice-export script.
-
 /**
  * Standardize spaces in a string.
  */

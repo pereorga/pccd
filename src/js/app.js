@@ -24,17 +24,19 @@ gtag("config", "G-CP42Y3NK1R");
         const details = document.querySelectorAll("details");
 
         // If it is not expanded, expand it.
-        if (toggleAllElement.innerHTML.includes("desplega")) {
+        if (toggleAllElement.textContent.includes("desplega")) {
             for (const element of details) {
                 element.setAttribute("open", "true");
             }
-            toggleAllElement.innerHTML = toggleAllElement.innerHTML.replace("desplega", "contrau");
+            toggleAllElement.textContent = "contrau-ho tot";
+            toggleAllElement.setAttribute("title", "Amaga els detalls de cada font");
         } else {
             // Otherwise collapse it.
             for (const element of details) {
                 element.removeAttribute("open");
             }
-            toggleAllElement.innerHTML = toggleAllElement.innerHTML.replace("contrau", "desplega");
+            toggleAllElement.textContent = "desplega-ho tot";
+            toggleAllElement.setAttribute("title", "Mostra els detalls de cada font");
         }
     };
 
@@ -46,15 +48,17 @@ gtag("config", "G-CP42Y3NK1R");
         const sinonimCheckbox = document.querySelector("#sinonim");
         const equivalentCheckbox = document.querySelector("#equivalent");
 
-        // Remember the search options.
-        if (localStorage.getItem("variant") === "2") {
-            variantCheckbox.checked = false;
-        }
-        if (localStorage.getItem("sinonim") === "1") {
-            sinonimCheckbox.checked = true;
-        }
-        if (localStorage.getItem("equivalent") === "1") {
-            equivalentCheckbox.checked = true;
+        // Remember the search options, but only if the search is empty (e.g. we are in the homepage).
+        if (searchBox.value === "") {
+            if (localStorage.getItem("variant") === "2") {
+                variantCheckbox.checked = false;
+            }
+            if (localStorage.getItem("sinonim") === "1") {
+                sinonimCheckbox.checked = true;
+            }
+            if (localStorage.getItem("equivalent") === "1") {
+                equivalentCheckbox.checked = true;
+            }
         }
 
         const nextButton = document.querySelector(".page-link[rel=next]");
@@ -124,7 +128,7 @@ gtag("config", "G-CP42Y3NK1R");
         const toggleAllElement = document.querySelector("#toggle-all");
         if (toggleAllElement) {
             toggleAllElement.addEventListener("click", (event) => {
-                const isExpanded = event.target.innerHTML.includes("contrau");
+                const isExpanded = event.target.textContent.includes("contrau");
                 toggleAllSources();
                 if (isExpanded) {
                     localStorage.setItem("always_expand", "2");
@@ -136,8 +140,6 @@ gtag("config", "G-CP42Y3NK1R");
             if (localStorage.getItem("always_expand") === "2") {
                 toggleAllSources();
             }
-            // Show the toggle-all button only if JS is enabled.
-            toggleAllElement.classList.remove("d-none");
         }
     }
 

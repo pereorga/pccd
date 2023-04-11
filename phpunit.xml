@@ -10,6 +10,6 @@
     </testsuite>
   </testsuites>
   <php>
-    <env name="HOST_URL" value="http://localhost:8092" />
+    <env name="BASE_URL" value="http://localhost:8092" />
   </php>
 </phpunit>

@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// db_settings.local.php example file.
-
 putenv('MYSQL_DATABASE=pccd');
 putenv('MYSQL_USER=pccd');
 putenv('MYSQL_PASSWORD=yoursecretpassword');

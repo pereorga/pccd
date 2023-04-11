@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Common code.
-
 const TITLE_MAX_LENGTH = 70;
 const ISBN10_LENGTH = 10;
 const ISBN13_LENGTH = 13;
@@ -21,9 +19,114 @@ const PAGER_DEFAULT = 10;
 const SEARCH_MAX_LENGTH = 255;
 const EASTER_EGG_PAGER_LIMIT = 999999;
 const MAX_RANDOM_PAREMIOTIPUS = 10000;
+const MIN_SINONIM_WORD_LENGTH = 3;
 
 /**
- * Sort array by a `count` key, desc.
+ * Gets a valid HTML id attribute.
+ */
+function get_valid_id_attribute(string $string): string
+{
+    // Make it alphanumeric.
+    $string = preg_replace('/[^A-Za-z0-9\s-]/', '', $string);
+    assert(is_string($string));
+
+    // Convert whitespaces and underscore to dash
+    $string = preg_replace('/\s/', '-', $string);
+    assert(is_string($string));
+
+    return $string;
+}
+
+/**
+ * Links sinonims inside to the paremiotipus.
+ *
+ * @param array<string, string> $anchor_links
+ */
+function link_sinonims_to_paremiotipus(string $sinonim_field, array $anchor_links = []): string
+{
+    $sinonims_array = get_sinonims($sinonim_field);
+    foreach ($sinonims_array as $modisme) {
+        $sinonim_field = link_modismes($modisme, $sinonim_field, $anchor_links);
+    }
+
+    return $sinonim_field;
+}
+
+/**
+ * Links paremiotipus or modismes within a text.
+ *
+ * @param array<string, string> $anchor_links
+ */
+function link_modismes(string $modisme, string $text, array $anchor_links = []): string
+{
+    if (isset($anchor_links[$modisme])) {
+        return str_replace($modisme, '<a href="#' . $anchor_links[$modisme] . '">' . $modisme . '</a>', $text);
+    }
+
+    $paremiotipus_display = get_paremiotipus_display($modisme, true);
+    if ($paremiotipus_display !== '') {
+        return str_replace($modisme, '<a href="' . get_paremiotipus_url($modisme) . '">' . $modisme . '</a>', $text);
+    }
+
+    // Try to get the paremiotipus from the modisme.
+    $paremiotipus_match = get_paremiotipus_by_modisme($modisme);
+    if ($paremiotipus_match !== '') {
+        if (isset($anchor_links[$paremiotipus_match])) {
+            return str_replace($modisme, '<a href="#' . $anchor_links[$paremiotipus_match] . '">' . $modisme . '</a>', $text);
+        }
+
+        return str_replace($modisme, '<a href="' . get_paremiotipus_url($paremiotipus_match) . '">' . $modisme . '</a>', $text);
+    }
+
+    return $text;
+}
+
+/**
+ * Gets a clean sinonim, removing unnecessary characters or notes.
+ */
+function get_sinonim_clean(string $sinonim): string
+{
+    // Try to remove annotations.
+    $pos = mb_strpos($sinonim, '[');
+    if ($pos !== false) {
+        $sinonim = mb_substr($sinonim, 0, $pos);
+    }
+
+    // Remove unnecessary characters or words.
+    $sinonim = trim(trim($sinonim), '.');
+    $sinonim = str_replace(['/', 'V.', 'Veg.', 'Similar:', 'Similars:', 'Contrari:'], ' ', $sinonim);
+    $sinonim = preg_replace('/\s\s+/', ' ', $sinonim);
+    assert(is_string($sinonim));
+
+    return trim($sinonim);
+}
+
+/**
+ * Gets multiple sinonims from a sinonim field.
+ *
+ * @return list<string>
+ */
+function get_sinonims(string $sinonim_field): array
+{
+    $sinonims = explode('|', $sinonim_field);
+    $sinonims_array = [];
+    foreach ($sinonims as $s) {
+        // Try to remove unnecessary characters or words.
+        $s = get_sinonim_clean($s);
+
+        // Discard empty or short records.
+        if (mb_strlen($s) < MIN_SINONIM_WORD_LENGTH) {
+            continue;
+        }
+
+        $sinonims_array[] = $s;
+    }
+
+    return $sinonims_array;
+}
+
+/**
+ * Sorts list by `count` array associative key, desc.
  *
  * @param array{html: string, count: int} $a
  * @param array{html: string, count: int} $b
@@ -31,6 +134,27 @@ const MAX_RANDOM_PAREMIOTIPUS = 10000;
 function variants_comp(array $a, array $b): int
 {
     return $b['count'] <=> $a['count'];
+}
+
+/**
+ * Sorts list by `v`(votes) array associative key, desc.
+ *
+ * @param array{f: string, v: int} $a
+ * @param array{f: string, v: int} $b
+ */
+function pronunciations_comp(array $a, array $b): int
+{
+    return $b['v'] <=> $a['v'];
+}
+
+/**
+ * Returns true for pronunciations with more than 1 positive votes, false otherwise.
+ *
+ * @param array{f: string, v: int} $a
+ */
+function pronunciations_filter(array $a): bool
+{
+    return $a['v'] >= 1;
 }
 
 /**
@@ -69,7 +193,7 @@ function format_html_title(string $title, string $suffix = ''): string
         $s = mb_substr($title, 0, TITLE_MAX_LENGTH - 2);
         $space_pos = mb_strrpos($s, ' ');
         if ($space_pos !== false) {
-            $title = mb_substr($s, 0, $space_pos) . '...';
+            $title = mb_substr($s, 0, $space_pos) . '…';
         }
     }
 
@@ -305,17 +429,18 @@ function set_prefetch_url(string $url, string $type): void
 /**
  * Returns the paremiotipus name for display.
  */
-function get_paremiotipus_display(string $paremiotipus): string
+function get_paremiotipus_display(string $paremiotipus, bool $return_empty_if_does_not_exist = false, bool $htmlspecialchars = true): string
 {
     $value = function_exists('apcu_fetch') ? apcu_fetch($paremiotipus) : false;
     if ($value === false) {
-        $pdo = get_db();
-        $stmt = $pdo->prepare('SELECT Display FROM paremiotipus_display WHERE Paremiotipus = :paremiotipus');
+        $stmt = get_db()->prepare('SELECT Display FROM paremiotipus_display WHERE Paremiotipus = :paremiotipus');
         $stmt->bindParam(':paremiotipus', $paremiotipus);
         $stmt->execute();
-
         $value = $stmt->fetchColumn();
         if ($value === false) {
+            if ($return_empty_if_does_not_exist) {
+                return '';
+            }
             error_log("Error: {$paremiotipus} is empty in paremiotipus_display table");
             $value = $paremiotipus;
         }
@@ -326,7 +451,11 @@ function get_paremiotipus_display(string $paremiotipus): string
 
     assert(is_string($value));
 
-    return htmlspecialchars($value);
+    if ($htmlspecialchars) {
+        return htmlspecialchars($value);
+    }
+
+    return $value;
 }
 
 /**
@@ -350,9 +479,7 @@ function path_to_name(string $path): string
  */
 function get_paremiotipus_by_modisme(string $modisme): string
 {
-    $pdo = get_db();
-
-    $stmt = $pdo->prepare('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE MODISME = :modisme LIMIT 1');
+    $stmt = get_db()->prepare('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE MODISME = :modisme LIMIT 1');
     $stmt->bindParam(':modisme', $modisme);
     $stmt->execute();
     $paremiotipus = $stmt->fetchColumn();
@@ -408,6 +535,8 @@ function get_redirects(): array
         '/?paremiotipus=El+perol+diu+a+la+paella:+si+m%27embrutes,+t%27emmascaroSer+el+rei+del+mambo' => '/p/El_perol_diu_a_la_paella%3A_si_m%27embrutes%2C_t%27emmascaro',
         '/?paremiotipus=En+X%C3%A0bia%2C+desculats%3B+en+Ondara%2C+fanfarrons%3B+en+Benissa%2C+senyorets%2C+i+en+Teulada%2C+boquimollls' => '/p/En_X%C3%A0bia%2C_desculats%3B_en_Ondara%2C_fanfarrons%3B_en_Benissa%2C_senyorets%2C_i_en_Teulada%2C_boquimolls',
         '/?paremiotipus=En+Xàbia,+desculats;+en+Ondara,+fanfarrons;+en+Benissa,+senyorets,+i+en+Teulada,+boquimollls' => '/p/En_X%C3%A0bia%2C_desculats%3B_en_Ondara%2C_fanfarrons%3B_en_Benissa%2C_senyorets%2C_i_en_Teulada%2C_boquimolls',
+        '/?paremiotipus=Estira-i-arronsav' => '/p/Estira-i-arronsa',
+        '/?paremiotipus=Fer+enbuts' => '/p/Fer_embuts',
         '/?paremiotipus=Fer+me%CC%81s+badalls+que+rots' => '/p/Fer_m%C3%A9s_badalls_que_rots',
         '/?paremiotipus=Fer+uin+merder' => '/p/Fer_merder',
         '/?paremiotipus=Fer-li+una+mala+jugada' => '/p/Mala_jugada',
@@ -431,8 +560,10 @@ function get_redirects(): array
         '/?paremiotipus=Romprer-li+el+cap' => '/p/Trencar-li_el_cap',
         '/?paremiotipus=Ser+un+figa+blana' => '/p/Figa_blana',
         '/?paremiotipus=Ser+un+figa+tova' => '/p/Figa_tova',
+        '/?paremiotipus=Ser+un+trapsser' => '/p/Ser_un_trapasser',
         '/?paremiotipus=Si+tens+una+filla+que+no+l%27estimis+gaire%2C+casa-la+a+Albons%2C+o+a+Bellcaire%2C+o+sin%C3%83%C2%B3+a+Vilademat%2C+que+ser%C3%83%C2%A0+morta+m%C3%83%C2%A9s+aviat' => '/p/Si_tens_una_filla_que_no_l%27estimis_gaire%2C_casa-la_a_Albons%2C_o_a_Bellcaire%2C_o_sin%C3%B3_a_Vilademat%2C_que_ser%C3%A0_morta_m%C3%A9s_aviat',
         '/?paremiotipus=Terra+on+vas%2C+costum+hi+trobes' => '/p/A_terra_que_vas%2C_usan%C3%A7a_o_costums_que_trobes',
+        '/?paremiotipus=Tothom+vol+just%C3%ADcia%2C+per%C3%B2+no+per+casa+sevaTothom+vol+justicia%2C+per%C3%B2+no+per+casa+seva' => '/p/Tothom_vol_justícia%2C_però_no_per_casa_seva',
         '/?paremiotipus=Tots+els+mosquits+volen+prendre+tabaco' => '/p/Totes_les_mosques_tenen_tos_i_els_mosquits_prenen_tabac',
         '/?paremiotipus=Treure-hi+la+pols' => '/p/Treure_la_pols',
         '/?paremiotipus=Treureli+la+son' => '/p/Treure-li_la_son',
@@ -452,6 +583,7 @@ function get_redirects(): array
         '/obra/Casta%C3%B1eda%2C_Vicente_%281919-20%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico' => '/obra/Castañeda%2C_Vicente_%281770%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico%2C_ed._1919-20',
         '/obra/Casta%C3%B1eda%2C_Vicente_(1919-20)%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico' => '/obra/Castañeda%2C_Vicente_%281770%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico%2C_ed._1919-20',
         '/obra/Casta%c3%b1eda%2C_Vicente_(1919-20):_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico' => '/obra/Castañeda%2C_Vicente_%281770%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico%2C_ed._1919-20',
+        '/obra/Costafreda_i_Castillo%2C_Alfred_%282021%29%3A_Folklore_d%27Artesa_de_Lleida._Del_poble_i_del_terme' => '/obra/Costafreda_i_Castillo%2C_Adolf_%282021%29%3A_Folklore_d%27Artesa_de_Lleida._Del_poble_i_del_terme',
         '/obra/Gonz%C3%A1lez%2C_Juan_Antonio_%282018%29%3A_Els_refranys_a_l%E2%80%99obra_Los_col%C2%B7loquis_de_la_insigne_ciutat_de_Tortosa%2C_de_Crist%C3%B2fol_Despuig' => '/obra/González%2C_Juan_Antonio_%282018%29%3A_Els_refranys_a_l%27obra_Los_col·loquis_de_la_insigne_ciutat_de_Tortosa%2C_de_Cristòfol_Despuig',
         '/obra/Marrugat_Cuy%C3%A0s%2C_Ramon_%282018%29%3A_Alguna_cosa_m%C3%A9s_que_l%27anar_a_tocar_ferro' => '/obra/Marrugat_Cuyàs%2C_Ramon_%282018%29%3A_«Alguna_cosa_més_que_l%27anar_a_tocar_ferro»._La_fraseologia_tarragonina',
         '/obra/Marrugat_Cuy%c3%a0s%2C_Ramon_(2018):_Alguna_cosa_m%c3%a9s_que_l%27anar_a_tocar_ferro' => '/obra/Marrugat_Cuyàs%2C_Ramon_%282018%29%3A_«Alguna_cosa_més_que_l%27anar_a_tocar_ferro»._La_fraseologia_tarragonina',
@@ -460,6 +592,7 @@ function get_redirects(): array
         '/obra/Mettmann%2C_Walter_(1989):_%c2%abProverbia_arabum%c2%bb_eine_altkatalanische_sprichw%c3%b6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
         '/obra/Mettmann,_Walter_(1989):_%C2%ABProverbia_arabum%C2%BB_eine_altkatalanische_sprichw%C3%B6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
         '/p/A_judici_i_pagar%C2%ABlo%C2%BB_judicat' => '/p/A_judici_i_pagar_«lo»_judicat',
+        '/p/Arribar_a_l' => '/p/Arribar_a_l%27ermita_i_no_veure_el_sant',
         '/p/Borratxos_s%C3%B3n_a_les_Coves%2C_%5C_borratxos_son_a_Alcal%C3%A0%2C_%5C_boratxos_a_orreblanca%2C_%5C_no_sabem_qui_guanyar%C3%A0' => '/p/Borratxos_són_a_les_Coves%2C_borratxos_són_a_Alcalà%2C_borratxos_a_Torreblanca_i_a_Orpesa_també_n%27hi_ha',
         '/p/Cadasc%C3%BA%2C_en_sa_casa%2C_sal_el_que_hi_passa' => '/p/Cadascú%2C_en_sa_casa%2C_sap_el_que_hi_passa',
         '/p/Com_un_eix_a_l%27aigua' => '/p/Com_un_peix_a_l%27aigua',
@@ -471,6 +604,8 @@ function get_redirects(): array
         '/p/Posra_barba' => '/p/Posar_barba',
         '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_TolosaQui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_Tolosa' => '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_serà_a_Tolosa',
         '/p/Rompre-li_la_crisma' => '/p/Trencar_o_rompre_la_crisma',
+        '/p/Ser_un_trapsser' => '/p/Ser_un_trapasser',
+        '/p/na_dreta_%C3%A9s_m%C3%A9s_un_homenot_que_una_doneta' => '/p/La_dona_que_fuma%2C_jura_i_orina_dreta_és_més_un_homenot_que_una_doneta',
     ];
 }
 
@@ -551,11 +686,12 @@ function try_to_redirect_to_valid_paremiotipus_and_exit(string $paremiotipus): v
         exit;
     }
 
-    // Try to find the best paremiotipus.
+    // Try to find a possible paremiotipus for this URL.
+    // TODO: probably disable in the long term.
     $paremiotipus_match = get_paremiotipus_best_match($paremiotipus);
     if ($paremiotipus_match !== '') {
         // Redirect to an existing page.
-        header('Location: ' . get_paremiotipus_url($paremiotipus_match), true, 301);
+        header('Location: ' . get_paremiotipus_url($paremiotipus_match), true, 302);
 
         exit;
     }
@@ -566,8 +702,6 @@ function try_to_redirect_to_valid_paremiotipus_and_exit(string $paremiotipus): v
  */
 function get_paremiotipus_best_match(string $modisme): string
 {
-    $pdo = get_db();
-
     // We do not want to avoid words here.
     $modisme = trim($modisme, '-');
     $modisme = str_replace(' -', ' ', $modisme);
@@ -576,7 +710,7 @@ function get_paremiotipus_best_match(string $modisme): string
     $paremiotipus = false;
     $modisme = normalize_search($modisme, 'conté');
     if ($modisme !== '') {
-        $stmt = $pdo->prepare('SELECT
+        $stmt = get_db()->prepare('SELECT
             PAREMIOTIPUS
         FROM
             00_PAREMIOTIPUS
@@ -633,9 +767,7 @@ function get_paremiotipus_best_match(string $modisme): string
  */
 function get_modismes(string $paremiotipus): array
 {
-    $pdo = get_db();
-
-    $stmt = $pdo->prepare('SELECT
+    $stmt = get_db()->prepare('SELECT
         DISTINCT MODISME,
         PAREMIOTIPUS,
         AUTOR,
@@ -721,9 +853,7 @@ function get_modismes(string $paremiotipus): array
  */
 function get_images(string $paremiotipus): array
 {
-    $pdo = get_db();
-
-    $stmt = $pdo->prepare('SELECT
+    $stmt = get_db()->prepare('SELECT
         Identificador,
         `URL_ENLLAÇ` as URL,
         AUTOR,
@@ -764,9 +894,7 @@ function get_images(string $paremiotipus): array
  */
 function get_cv_files(string $paremiotipus): array
 {
-    $pdo = get_db();
-
-    $stmt = $pdo->prepare('SELECT `file` FROM `commonvoice` WHERE `paremiotipus` = :paremiotipus');
+    $stmt = get_db()->prepare('SELECT `file` FROM `commonvoice` WHERE `paremiotipus` = :paremiotipus');
     $stmt->bindParam(':paremiotipus', $paremiotipus);
     $stmt->execute();
 
@@ -806,9 +934,7 @@ function get_cv_files(string $paremiotipus): array
  */
 function get_obra(string $obra_title): bool|array
 {
-    $pdo = get_db();
-
-    $stmt = $pdo->prepare('SELECT
+    $stmt = get_db()->prepare('SELECT
         Identificador,
         `Títol`,
         Autor,
@@ -872,9 +998,7 @@ function get_obra(string $obra_title): bool|array
  */
 function get_paremiotipus_count_by_font(string $font_id): int
 {
-    $pdo = get_db();
-
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM 00_PAREMIOTIPUS WHERE ID_FONT = :id');
+    $stmt = get_db()->prepare('SELECT COUNT(*) FROM 00_PAREMIOTIPUS WHERE ID_FONT = :id');
     $stmt->bindParam(':id', $font_id);
     $stmt->execute();
 
@@ -932,6 +1056,22 @@ function build_main_content(string $page_name): string
 }
 
 /**
+ * Returns a valid URL.
+ */
+function get_clean_url(?string $url): string
+{
+    $clean_url = '';
+    if ($url !== null) {
+        $url = trim($url);
+        if ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) && filter_var($url, \FILTER_SANITIZE_URL) === $url) {
+            $clean_url = str_replace(['&', '[', ']'], ['&amp;', '%5B', '%5D'], $url);
+        }
+    }
+
+    return $clean_url;
+}
+
+/**
  * Returns a search pager URL.
  */
 function get_pager_url(int $page_number): string
@@ -979,7 +1119,7 @@ function get_pager_url(int $page_number): string
 /**
  * Renders a search pager element.
  */
-function render_pager_element(int $page_number, string $name, string $title = '', bool $is_active = false): string
+function render_pager_element(int $page_number, int|string $name, int|string $title = '', bool $is_active = false): string
 {
     $rel = '';
     if ($title === 'Primera pàgina') {
@@ -1031,14 +1171,11 @@ function render_pager(int $page_num, int $num_pages): string
     }
 
     // Current page item.
-    $page_links = render_pager_element($page_num, (string) $page_num, 'Sou a la pàgina ' . $page_num, true);
+    $page_links = render_pager_element($page_num, $page_num, 'Sou a la pàgina ' . $page_num, true);
 
     // `…` previous link.
     if ($page_num > 2) {
-        $prev_prev_page = $page_num - 5;
-        if ($prev_prev_page < 2) {
-            $prev_prev_page = 2;
-        }
+        $prev_prev_page = max(2, $page_num - 5);
         $page_links = render_pager_element(
             $prev_prev_page,
             $prev_prev_page === 2 && $page_num === 3 ? '2' : '…',
@@ -1048,13 +1185,10 @@ function render_pager(int $page_num, int $num_pages): string
 
     // `…` next link.
     if ($page_num < $num_pages - 1) {
-        $next_next_page = $page_num + 5;
-        if ($next_next_page >= $num_pages) {
-            $next_next_page = $num_pages - 1;
-        }
+        $next_next_page = min($page_num + 5, $num_pages - 1);
         $page_links .= render_pager_element(
             $next_next_page,
-            $next_next_page === $num_pages - 1 && $page_num === $num_pages - 2 ? (string) ($num_pages - 1) : '…',
+            $next_next_page === $num_pages - 1 && $page_num === $num_pages - 2 ? $next_next_page : '…',
             'Pàgina ' . $next_next_page
         );
     }
@@ -1063,7 +1197,7 @@ function render_pager(int $page_num, int $num_pages): string
     $next_links = '';
     if ($page_num < $num_pages) {
         // Show the last page link.
-        $next_links = render_pager_element($num_pages, (string) $num_pages, 'Última pàgina');
+        $next_links = render_pager_element($num_pages, $num_pages, 'Última pàgina');
 
         // Show the next link.
         $next_links .= render_pager_element(
@@ -1091,22 +1225,18 @@ function build_search_summary(int $offset, int $results_per_page, int $total, st
 
     if ($total > $results_per_page) {
         $first_record_page = $offset + 1;
-        $last_record_page = $offset + $results_per_page;
-        if ($last_record_page > $total) {
-            $last_record_page = $total;
+        if ($first_record_page === 1 || $first_record_page === 11) {
+            $output .= " Registres de l'{$first_record_page}";
+        } else {
+            $output .= " Registres del {$first_record_page}";
         }
 
-        if ($first_record_page === 1 || $first_record_page === 11) {
-            $first_record_page = "de l'{$first_record_page}";
-        } else {
-            $first_record_page = "del {$first_record_page}";
-        }
+        $last_record_page = min($offset + $results_per_page, $total);
         if ($last_record_page === 1 || $last_record_page === 11) {
-            $last_record_page = "a l'{$last_record_page}";
+            $output .= " a l'{$last_record_page}.";
         } else {
-            $last_record_page = "al {$last_record_page}";
+            $output .= " al {$last_record_page}.";
         }
-        $output .= " Registres {$first_record_page} {$last_record_page}.";
     }
 
     return $output;
@@ -1129,11 +1259,9 @@ function format_nombre(int|string $num): string
  */
 function get_idiomes(): array
 {
-    $pdo = get_db();
-
     $idiomes = function_exists('apcu_fetch') ? apcu_fetch('idiomes') : false;
     if ($idiomes === false) {
-        $stmt = $pdo->query('SELECT CODI, IDIOMA FROM 00_EQUIVALENTS');
+        $stmt = get_db()->query('SELECT CODI, IDIOMA FROM 00_EQUIVALENTS');
         $idiomes = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         if (function_exists('apcu_store')) {
             apcu_store('idiomes', $idiomes);
@@ -1212,8 +1340,6 @@ function get_page_number(): int
  */
 function build_search_query(string $search, string $search_mode, string &$where_clause): array
 {
-    $pdo = get_db();
-
     $checkboxes = [
         'variant' => 'MODISME_LC_WA',
         'sinonim' => 'SINONIM_LC_WA',
@@ -1225,7 +1351,7 @@ function build_search_query(string $search, string $search_mode, string &$where_
 
     $arguments = [$search];
     if ($search_mode === 'whole_sentence' || $search_mode === 'wildcard') {
-        $db_version = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
+        $db_version = get_db()->getAttribute(PDO::ATTR_SERVER_VERSION);
         assert(is_string($db_version));
         $is_mysql = !str_contains($db_version, 'MariaDB');
         $has_icu = $is_mysql && version_compare($db_version, '8.0.4') >= 0;
@@ -1278,14 +1404,12 @@ function build_search_query(string $search, string $search_mode, string &$where_
  */
 function get_n_results(string $where_clause, array $arguments): int
 {
-    $pdo = get_db();
-
     // Cache the count query if APCu is available.
     $cache_key = $where_clause . ' ' . implode('|', $arguments);
     $total = function_exists('apcu_fetch') ? apcu_fetch($cache_key) : false;
     if ($total === false) {
         try {
-            $stmt = $pdo->prepare("SELECT COUNT(DISTINCT PAREMIOTIPUS) FROM 00_PAREMIOTIPUS {$where_clause}");
+            $stmt = get_db()->prepare("SELECT COUNT(DISTINCT PAREMIOTIPUS) FROM 00_PAREMIOTIPUS {$where_clause}");
             $stmt->execute($arguments);
             $total = $stmt->fetchColumn();
         } catch (Exception) {
@@ -1311,9 +1435,7 @@ function get_n_results(string $where_clause, array $arguments): int
  */
 function get_paremiotipus_search_results(string $where_clause, array $arguments, int $offset, int $limit): array
 {
-    $pdo = get_db();
-
-    $stmt = $pdo->prepare("SELECT
+    $stmt = get_db()->prepare("SELECT
             DISTINCT PAREMIOTIPUS
         FROM
             00_PAREMIOTIPUS
@@ -1340,13 +1462,12 @@ function normalize_search(?string $string, string $search_mode = ''): string
         $string = str_replace(['"', '+', '.', '%', '--', '_', '(', ')', '[', ']', '{', '}', '^', '>', '<', '~', '@', '$', '|', '/', '\\'], '', $string);
 
         // Normalize to lowercase, standardize simple quotes and remove accents.
-        $string = mb_strtolower($string);
-        $string = str_replace('’', "'", $string);
-        $string = str_replace(['à', 'á'], 'a', $string);
-        $string = str_replace(['è', 'é'], 'e', $string);
-        $string = str_replace(['í', 'ï'], 'i', $string);
-        $string = str_replace(['ò', 'ó'], 'o', $string);
-        $string = str_replace(['ú', 'ü'], 'u', $string);
+        // TODO: consider standardizing '–', '—', '―' and '─' characters (not '-'), potentially filtering them on search.
+        $string = str_replace(
+            ['’', 'à', 'á', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü'],
+            ["'", 'a', 'a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u'],
+            mb_strtolower($string)
+        );
 
         // Remove double spaces.
         $string = preg_replace('/\s+/', ' ', $string);
@@ -1405,11 +1526,9 @@ function normalize_search(?string $string, string $search_mode = ''): string
  */
 function get_editorials(): array
 {
-    $pdo = get_db();
-
     $editorials = function_exists('apcu_fetch') ? apcu_fetch('nom_editorials') : false;
     if ($editorials === false) {
-        $stmt = $pdo->query('SELECT CODI, NOM FROM 00_EDITORIA');
+        $stmt = get_db()->query('SELECT CODI, NOM FROM 00_EDITORIA');
         $editorials = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         if (function_exists('apcu_store')) {
             apcu_store('nom_editorials', $editorials);
@@ -1427,13 +1546,11 @@ function get_editorials(): array
  */
 function get_fonts(): array
 {
-    $pdo = get_db();
-
     $fonts = function_exists('apcu_fetch') ? apcu_fetch('identificador_fonts') : false;
     if ($fonts === false) {
         // We are only using the first column for now (not the title). We could extend this to include the full table
         // and reuse it in the "obra" page, but that may not be worth it.
-        $stmt = $pdo->query('SELECT Identificador, Títol FROM 00_FONTS');
+        $stmt = get_db()->query('SELECT Identificador, Títol FROM 00_FONTS');
         $fonts = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         if (function_exists('apcu_store')) {
             apcu_store('identificador_fonts', $fonts);
@@ -1451,32 +1568,18 @@ function get_fonts(): array
  */
 function get_image_tags(string $file_name, string $path, string $alt_text = '', int $width = 0, int $height = 0, bool $lazy_loading = true): string
 {
-    $output = '';
-
-    $loading = '';
-    if ($lazy_loading) {
-        $loading = 'loading="lazy"';
-    }
-
-    $width_height = '';
-    if ($width > 0 && $height > 0) {
-        $width_height = 'width="' . $width . '" height="' . $height . '"';
-    }
-
     // Image files may have been provided in webp/avif format already.
     $optimized_type = '';
     $optimized_file_path = '';
     if (!str_ends_with($file_name, '.webp') && !str_ends_with($file_name, '.avif')) {
         // TODO: Consider providing AVIFs for PNGs and GIFs too.
         $avif_file = str_ireplace('.jpg', '.avif', $file_name);
-        $webp_file = str_ireplace('.png', '.webp', $file_name);
-        $webp_file = str_ireplace('.gif', '.webp', $webp_file);
-
         $avif_exists = str_ends_with($avif_file, '.avif') && is_file(__DIR__ . "/../docroot{$path}{$avif_file}");
         if ($avif_exists) {
             $optimized_type = 'avif';
             $optimized_file_path = $path . rawurlencode($avif_file);
         } else {
+            $webp_file = str_ireplace(['.png', '.gif'], '.webp', $file_name);
             $webp_exists = str_ends_with($webp_file, '.webp') && is_file(__DIR__ . "/../docroot{$path}{$webp_file}");
             if ($webp_exists) {
                 $optimized_type = 'webp';
@@ -1485,12 +1588,22 @@ function get_image_tags(string $file_name, string $path, string $alt_text = '', 
         }
     }
 
+    $output = '';
     if ($optimized_type !== '') {
         $output .= '<picture>';
         $output .= '<source srcset="' . $optimized_file_path . '" type="image/' . $optimized_type . '">';
     }
 
-    $output .= '<img ' . $loading . ' ' . $width_height . ' decoding="async" alt="' . htmlspecialchars($alt_text) . '" src="' . $path . rawurlencode($file_name) . '">';
+    $output .= '<img';
+    if ($lazy_loading) {
+        $output .= ' loading="lazy"';
+    }
+
+    if ($width > 0 && $height > 0) {
+        $output .= ' width="' . $width . '" height="' . $height . '"';
+    }
+
+    $output .= ' decoding="async" alt="' . htmlspecialchars($alt_text) . '" src="' . $path . rawurlencode($file_name) . '">';
 
     if ($optimized_type !== '') {
         $output .= '</picture>';
@@ -1504,11 +1617,9 @@ function get_image_tags(string $file_name, string $path, string $alt_text = '', 
  */
 function get_n_modismes(): int
 {
-    $pdo = get_db();
-
     $n_modismes = function_exists('apcu_fetch') ? apcu_fetch('n_modismes') : false;
     if ($n_modismes === false) {
-        $stmt = $pdo->query('SELECT COUNT(*) FROM 00_PAREMIOTIPUS');
+        $stmt = get_db()->query('SELECT COUNT(*) FROM 00_PAREMIOTIPUS');
         $n_modismes = $stmt->fetchColumn();
         if (function_exists('apcu_store')) {
             apcu_store('n_modismes', $n_modismes);
@@ -1525,11 +1636,9 @@ function get_n_modismes(): int
  */
 function get_n_paremiotipus(): int
 {
-    $pdo = get_db();
-
     $n_paremiotipus = function_exists('apcu_fetch') ? apcu_fetch('n_paremiotipus') : false;
     if ($n_paremiotipus === false) {
-        $stmt = $pdo->query('SELECT COUNT(DISTINCT PAREMIOTIPUS) FROM 00_PAREMIOTIPUS');
+        $stmt = get_db()->query('SELECT COUNT(DISTINCT PAREMIOTIPUS) FROM 00_PAREMIOTIPUS');
         $n_paremiotipus = $stmt->fetchColumn();
         if (function_exists('apcu_store')) {
             apcu_store('n_paremiotipus', $n_paremiotipus);
@@ -1546,11 +1655,9 @@ function get_n_paremiotipus(): int
  */
 function get_n_fonts(): int
 {
-    $pdo = get_db();
-
     $n_fonts = function_exists('apcu_fetch') ? apcu_fetch('n_fonts') : false;
     if ($n_fonts === false) {
-        $stmt = $pdo->query('SELECT COUNT(DISTINCT AUTOR, ANY, EDITORIAL) FROM 00_PAREMIOTIPUS');
+        $stmt = get_db()->query('SELECT COUNT(DISTINCT AUTOR, ANY, EDITORIAL) FROM 00_PAREMIOTIPUS');
         $n_fonts = $stmt->fetchColumn();
         if (function_exists('apcu_store')) {
             apcu_store('n_fonts', $n_fonts);
@@ -1569,11 +1676,9 @@ function get_n_fonts(): int
  */
 function get_top100_paremiotipus(): array
 {
-    $pdo = get_db();
-
     $top_paremiotipus = function_exists('apcu_fetch') ? apcu_fetch('top_paremiotipus') : false;
     if ($top_paremiotipus === false) {
-        $stmt = $pdo->query('SELECT
+        $stmt = get_db()->query('SELECT
                 PAREMIOTIPUS, COUNT(*) AS POPULAR
             FROM
                 00_PAREMIOTIPUS
@@ -1609,10 +1714,8 @@ function get_random_top100_paremiotipus(): string
  */
 function get_random_top10000_paremiotipus(): string
 {
-    $pdo = get_db();
-
     $random_offset = mt_rand(0, MAX_RANDOM_PAREMIOTIPUS - 1);
-    $stmt = $pdo->query("SELECT Paremiotipus FROM common_paremiotipus LIMIT {$random_offset}, 1");
+    $stmt = get_db()->query("SELECT Paremiotipus FROM common_paremiotipus LIMIT {$random_offset}, 1");
 
     $random_paremiotipus = $stmt->fetchColumn();
 
@@ -1626,13 +1729,11 @@ function get_random_top10000_paremiotipus(): string
  */
 function get_random_book(): array
 {
-    $pdo = get_db();
-
     // As this query has a limited number of results but runs many times, cache it in memory.
     /** @phpstan-var false|list<array{Imatge: string, Títol: string, URL: string, WIDTH: int, HEIGHT: int}> $books */
     $books = function_exists('apcu_fetch') ? apcu_fetch('books') : false;
     if ($books === false) {
-        $stmt = $pdo->query('SELECT Imatge, `Títol`, URL, WIDTH, HEIGHT FROM `00_OBRESVPR`');
+        $stmt = get_db()->query('SELECT Imatge, `Títol`, URL, WIDTH, HEIGHT FROM `00_OBRESVPR`');
 
         /** @phpstan-var list<array{Imatge: string, Títol: string, URL: string, WIDTH: int, HEIGHT: int}> $books */
         $books = $stmt->fetchAll(PDO::FETCH_ASSOC);

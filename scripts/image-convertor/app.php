@@ -22,5 +22,5 @@ const IMAGE_WIDTH = 500;
 
 require __DIR__ . '/functions.php';
 
-pccd_image_resize_bulk(__DIR__ . '/../../src/images/paremies', __DIR__ . '/../../docroot/img/imatges', IMAGE_WIDTH);
-pccd_image_resize_bulk(__DIR__ . '/../../src/images/cobertes', __DIR__ . '/../../docroot/img/obres', IMAGE_WIDTH);
+resize_and_optimize_images_bulk(__DIR__ . '/../../src/images/paremies', __DIR__ . '/../../docroot/img/imatges', IMAGE_WIDTH);
+resize_and_optimize_images_bulk(__DIR__ . '/../../src/images/cobertes', __DIR__ . '/../../docroot/img/obres', IMAGE_WIDTH);

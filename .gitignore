@@ -26,5 +26,8 @@ vendor
 /tmp/*.html
 /tmp/*.json
 /tmp/pccd
-/cypress/videos
-/cypress/downloads
+/tmp/cv
+/scripts/common-voice-export/move-clips.sh
+
+# It is useful to keep these intermediate files locally to inspect test performance with `stat tmp/test_repetits_*`
+/tmp/test_repetits_*.txt

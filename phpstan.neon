@@ -16,6 +16,7 @@ parameters:
         - */node_modules/*
         - src/*xhprof*.php
         - */apc.conf.php
+        - *.generated.php
     ignoreErrors:
         - '#Cannot call method fetchAll\(\) on PDOStatement\|false.#'
         - '#Cannot call method fetchColumn\(\) on PDOStatement\|false.#'

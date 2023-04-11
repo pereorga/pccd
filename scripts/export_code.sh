@@ -19,18 +19,9 @@ cd "$(dirname "$0")/.."
 usage() {
     echo "Usage: $(basename "$0") [OPTION]"
     echo "Export the project source code for public release."
-    echo ""
-    echo "    help"
-    echo "      Shows this help and exits"
 }
 
-if [[ $1 == "help" ]]; then
-    usage
-    exit 0
-fi
-
-if [[ $# -gt 1 ]]; then
-    echo "Too many arguments."
+if [[ -n $1 ]]; then
     usage
     exit 1
 fi

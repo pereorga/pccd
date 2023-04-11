@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Top 100.
-
 set_page_title('Les 100 parèmies més citades');
 set_meta_description('Llista de les frases més citades.');
 

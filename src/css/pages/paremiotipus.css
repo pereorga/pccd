@@ -11,7 +11,7 @@ h2 {
     font-size: 1.125rem;
 }
 
-.tools {
+.shortcuts {
     margin-top: 0.5rem;
 }
 
@@ -95,4 +95,11 @@ a.audio:hover,
 a.audio:focus {
     filter: brightness(75%);
     opacity: 1;
+}
+
+@media print {
+    .shortcuts,
+    .media-link-bottom-wrapper {
+        display: none;
+    }
 }

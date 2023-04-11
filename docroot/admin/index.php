@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Admin section.
-
 require __DIR__ . '/../../src/third_party/urlLinker.php';
 
 require __DIR__ . '/../../src/common.php';
@@ -21,8 +19,6 @@ require __DIR__ . '/../../src/common.php';
 ini_set('memory_limit', '512M');
 set_time_limit(0);
 session_start();
-
-$pdo = get_db();
 
 header('X-Robots-Tag: noindex', true);
 
@@ -122,11 +118,14 @@ if (isset($_GET['test'])) {
         test_imatges_no_existents();
         test_imatges_repetides();
         test_imatges_format();
+        test_imatges_sense_paremiotipus();
     } elseif ($_GET['test'] === 'urls') {
         test_urls();
     } elseif ($_GET['test'] === 'espais') {
         test_espais();
     } elseif ($_GET['test'] === 'puntuació') {
+        test_paremiotipus_caracters_inusuals();
+        test_paremiotipus_final();
         test_puntuacio();
     } elseif ($_GET['test'] === 'majúscules') {
         test_majuscules();
@@ -134,8 +133,6 @@ if (isset($_GET['test'])) {
         test_equivalents();
     } elseif ($_GET['test'] === 'explicacions') {
         test_explicacio();
-    } elseif ($_GET['test'] === 'lloc') {
-        test_llocs();
     } elseif ($_GET['test'] === 'repeticions') {
         test_paremiotipus_accents();
         test_paremiotipus_modismes_diferents();
@@ -202,8 +199,8 @@ Monitorització:
 </ul>
 <p>[<a href='?logout'>Tanca la sessió</a>]</p>
 <small>
-    Última base de dades: <?php require __DIR__ . '/../../tmp/date.txt'; ?>. Últim desplegament: <?php echo $deployment_date; ?>
-    <br><?php echo 'PHP ' . PHP_VERSION . ' on ' . apache_get_version() . ' (' . PHP_OS . '). BD ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
+    Última base de dades: <?php require __DIR__ . '/../../tmp/date.txt'; ?>- Últim desplegament: <?php echo $deployment_date; ?>
+    <br><?php echo 'PHP ' . PHP_VERSION . ' on ' . apache_get_version() . ' (' . PHP_OS . '). BD ' . get_db()->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
 </small>
 </body>
 </html>

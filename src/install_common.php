@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Installation functions.
-
 /**
  * Checks if a table exists in the database.
  */

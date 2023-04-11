@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Project information page.
-
 set_page_title('Projecte');
 set_meta_description('Versió en línia del buidatge de fonts fraseològiques, escrites, orals o digitals del paremiòleg català Víctor Pàmies i Riudor (Barcelona, 1963).');
 ?>

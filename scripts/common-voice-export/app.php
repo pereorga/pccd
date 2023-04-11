@@ -30,26 +30,30 @@ $pdo = get_db();
 $cv_res = $pdo->query('SELECT DISTINCT `paremiotipus` FROM `commonvoice`')->fetchAll(PDO::FETCH_COLUMN);
 $cv = [];
 foreach ($cv_res as $p) {
-    $p = standardize_spaces($p);
     $cv[mb_strtolower($p)] = true;
 }
 
-$paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
+$paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
 foreach ($paremiotipus as $p) {
-    $p = standardize_spaces($p);
-
     // Omit sentences that already exist in Common Voice.
     $p_lowercase = mb_strtolower($p);
     if (isset($cv[$p_lowercase])) {
         continue;
     }
 
-    // Omit sentences that are too short or too long.
+    // Omit sentences that are either too short or too long.
     $number_of_words = mb_substr_count($p, ' ') + 1;
     if ($number_of_words < CV_MIN_WORDS || $number_of_words > CV_MAX_WORDS) {
         continue;
     }
 
+    $p_display = get_paremiotipus_display($p, false, false);
+    // End the sentence with a dot, to align with Common Voice corpus.
+    if (preg_match('/[.!?,;:]$/', $p_display) === 0) {
+        $p_display .= '.';
+    }
+
+    // TODO: consider we are writing files inside the Docker container.
     // Omit some sentences that contain inappropriate language.
     if (
         preg_match('/\\bcago\\b/', $p_lowercase) === 1
@@ -72,12 +76,11 @@ foreach ($paremiotipus as $p) {
         || preg_match('/\\bsogra\\b/', $p_lowercase) === 1
         || preg_match('/\\bsogres\\b/', $p_lowercase) === 1
     ) {
+        // Store them in a file, just in case we want to review them manually.
+        file_put_contents(__DIR__ . '/controversial.txt', $p_display . PHP_EOL, FILE_APPEND | LOCK_EX);
+
         continue;
     }
 
-    echo $p;
-    if (preg_match('/[.!?,;:]$/', $p) === 0) {
-        echo '.';
-    }
-    echo \PHP_EOL;
+    file_put_contents(__DIR__ . '/filtered.txt', $p_display . PHP_EOL, FILE_APPEND | LOCK_EX);
 }

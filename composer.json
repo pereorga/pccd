@@ -29,7 +29,7 @@
     "phpunit/phpunit": "^10.0",
     "psalm/plugin-phpunit": "^0.18.4",
     "tideways/php-xhprof-extension": "master",
-    "vimeo/psalm": "^5.8"
+    "vimeo/psalm": "^5.9"
   },
   "suggest": {
     "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
@@ -78,17 +78,21 @@
   ],
   "minimum-stability": "dev",
   "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  },
   "scripts": {
     "composer-normalize": "tools/composer-normalize",
     "parallel-lint": "tools/parallel-lint --exclude vendor --exclude node_modules .",
     "phan": "tools/phan --allow-polyfill-parser",
-    "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 tools/php-cs-fixer fix --diff --verbose",
+    "php-cs-fixer": "tools/php-cs-fixer fix --diff --verbose",
+    "php-cs-fixer-lint": "tools/php-cs-fixer fix --verbose --dry-run --stop-on-violation",
     "phpcbf": "tools/phpcbf -p --standard=phpcs.xml .",
     "phpcpd": "tools/phpcpd --exclude src/vendor --fuzzy docroot src tests",
     "phpcs": "tools/phpcs -p --standard=phpcs.xml .",
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M",
     "phpunit": "vendor/bin/phpunit",
     "psalm": "vendor/bin/psalm",
-    "taint-analysis": "vendor/bin/psalm --taint-analysis"
+    "psalm-taint-analysis": "vendor/bin/psalm --taint-analysis"
   }
 }

@@ -57,7 +57,7 @@ echo "Parallel processes (${PID_LIST}) have started"
 wait ${PID_LIST}
 
 cat ../tmp/test_repetits_*.txt > ../tmp/test_repetits.txt
-rm ../tmp/test_repetits_*.txt
+git diff ../tmp/test_repetits.txt | grep -E '^\+' | grep -vF '++' | cut -c 2- > ../tmp/new_test_repetits.txt
 
 echo
 echo "All processes have completed"

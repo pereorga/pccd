@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 /*
  * Prints the sitemap contents to stdout.
+ *
  * This file is called by install.sh script.
  */
 

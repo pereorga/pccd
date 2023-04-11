@@ -215,24 +215,7 @@ label {
 
 .search-options {
     margin-top: -5px;
-}
-
-@media (max-width: 991px) {
-    .search-options {
-        font-size: 0.875rem;
-    }
-}
-
-@media (max-width: 400px) {
-    .search-options-label {
-        display: none;
-    }
-}
-
-@media (min-width: 768px) {
-    .search-options {
-        margin-bottom: 2rem;
-    }
+    font-size: 0.875rem;
 }
 
 .table {
@@ -257,7 +240,23 @@ label {
     padding: 0 15px 7px;
 }
 
-@media (min-width: 992px) {
+@media (width <= 400px) {
+    .search-options-label {
+        display: none;
+    }
+}
+
+@media (width >= 768px) {
+    .search-options {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (width >= 992px) {
+    .search-options {
+        font-size: 1rem;
+    }
+
     .bloc-llibres img {
         padding: 0 30px 7px;
     }

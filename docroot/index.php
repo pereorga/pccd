@@ -26,8 +26,6 @@ if (str_contains(get_request_uri(), 'index.php')) {
 }
 
 header('Cache-Control: public, s-maxage=31536000, max-age=300');
-
-// TODO: remove `unsafe-inline` (drops support for old browsers).
 $nonce = base64_encode(random_bytes(NONCE_LENGTH));
 header(
     "Content-Security-Policy: default-src 'self'; "
@@ -37,7 +35,7 @@ header(
     . "img-src 'self' https://*.google-analytics.com https://*.googletagmanager.com; "
     . "object-src 'none'; "
     . "script-src 'self' https://*.googletagmanager.com; "
-    . "style-src 'self' 'nonce-{$nonce}' 'unsafe-inline'"
+    . "style-src 'nonce-{$nonce}'"
 );
 
 // Build page content in advance, and populate some variables above.
@@ -196,12 +194,12 @@ if ($page_name === 'search') {
     echo '</div>';
 }
 ?>
-                <div class="bloc bloc-credits bloc-2">
+                <div class="bloc bloc-credits bloc-white">
                     <p>Un projecte de:</p>
                     <p><a class="credits" href="http://www.dites.cat" title="www.dites.cat">dites.cat</a></p>
                     <p><a href="https://www.softcatala.org" title="Softcatalà"><img loading="lazy" alt="Logo de Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>
                 </div>
-                <div class="bloc bloc-2">
+                <div class="bloc bloc-contacte bloc-white">
                     <p>Ajudeu-nos a millorar</p>
                     <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="Email de contacte" title="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
                 </div>
@@ -220,6 +218,6 @@ if ($page_name === 'search') {
             </div>
         </div>
     </div>
-    <script async src="/js/script.min.js"></script>
+    <script async src="/js/script.min.js?v=0"></script>
 </body>
 </html>

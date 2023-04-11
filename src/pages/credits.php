@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Credits page.
-
 set_page_title('Crèdits');
 set_meta_description('© Víctor Pàmies i Riudor, 2020-2023. Desenvolupat per Pere Orga.');
 ?>

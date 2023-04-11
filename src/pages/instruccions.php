@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// Instructions page.
-
 set_page_title("Instruccions d'ús");
 set_meta_description("Instruccions d'ús de la PCCD.");
 ?>

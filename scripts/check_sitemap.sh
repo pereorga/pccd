@@ -2,10 +2,6 @@
 #
 # Runs multiple tests in all URLs in sitemap(s).txt.
 #
-# URL of the environment can be passed as argument:
-#   ./check_sitemap.sh http://localhost:8091
-#
-# Otherwise, http://localhost:8092 (default Apache port) is used as default.
 # This script can take a few hours to complete.
 #
 # (c) Pere Orga Esteve <pere@orga.cat>
@@ -15,15 +11,7 @@
 
 set -e
 
-cd "$(dirname "$0")/../"
-
-if [[ -z $1 ]]; then
-    REMOTE_ENVIRONMENT_URL="http://localhost:8092"
-else
-    REMOTE_ENVIRONMENT_URL="$1"
-fi
-readonly REMOTE_ENVIRONMENT_URL
-export REMOTE_ENVIRONMENT_URL
+cd "$(dirname "$0")/.."
 
 ##############################################################################
 # Shows the help of this command.
@@ -31,18 +19,26 @@ export REMOTE_ENVIRONMENT_URL
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [--help] [ENVIRONMENT_URL]"
+    echo "Usage: $(basename "$0")"
     echo "Run multiple tests in all URLs in the sitemap files."
-    echo ""
-    echo "  --help"
-    echo "    Show this help and exit"
-    echo "  ENVIRONMENT_URL       The website URL, without trailing slash (default: http://localhost:8092)"
 }
 
-if [[ -n $2 ]]; then
+# If an argument is passed
+if [[ -n $1 ]]; then
     usage
     exit 1
 fi
+
+# If the BASE_URL variable is not passed, load it from env file.
+if [[ -z ${BASE_URL} ]]; then
+    export "$(grep 'BASE_URL=' .env | xargs)"
+    if [[ -z ${BASE_URL} ]]; then
+        echo "ERROR: BASE_URL variable is not set." >&2
+        exit 255
+    fi
+fi
+
+readonly BASE_URL
 
 cat /dev/null > tmp/test_html_errors.txt
 echo -n "Informe actualitzat el dia:" > tmp/test_zero_fonts.txt
@@ -55,14 +51,14 @@ LC_TIME='ca_ES' date | cut -d"," -f2 | sed "s/de o/d'o/" | sed "s/de a/d'a/" >> 
 # webhint, linkinator or lighthouse). See that file for more details.
 #
 # Globals:
-#   REMOTE_ENVIRONMENT_URL
+#   BASE_URL
 # Arguments:
 #   The URL to validate
 ##############################################################################
 validate_html_url() {
     local -r page_id=$(uuidgen)
     local -r filename="tmp/page_${page_id}.html"
-    local -r url=$(echo "$1" | sed -e "s|https://pccd.dites.cat|${REMOTE_ENVIRONMENT_URL}|")
+    local -r url=$(echo "$1" | sed -e "s|https://pccd.dites.cat|${BASE_URL}|")
     local error
     local status_code
 

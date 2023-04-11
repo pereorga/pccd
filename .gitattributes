@@ -5,7 +5,11 @@
 /docroot/mp3/* binary
 /docroot/img/imatges/* binary
 /docroot/img/obres/* binary
+
 *.php diff=php
+*.css diff=css
+*.min.* -diff
+*.generated.php -diff
 
 /src/images export-ignore
 /docroot/img/imatges export-ignore
@@ -21,5 +25,7 @@
 /src/third_party/* export-ignore
 /src/third_party/urlLinker.php -export-ignore
 /scripts/common-voice-import export-ignore
-/scripts/redirect-checker export-ignore
+/scripts/SentenceSimilarityGroup export-ignore
 /scripts/sinonims-export export-ignore
+/scripts/common-voice-export/*.txt export-ignore
+/scripts/common-voice-export/pccd.txt -export-ignore

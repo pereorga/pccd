@@ -2,8 +2,14 @@ module.exports = {
     env: {
         browser: true,
     },
-    extends: ["eslint:recommended", "plugin:compat/recommended", "plugin:unicorn/recommended", "prettier"],
-    ignorePatterns: [".eslintrc.js", "cypress/**/*.js"],
+    extends: [
+        "eslint:recommended",
+        "plugin:compat/recommended",
+        "plugin:unicorn/recommended",
+        "plugin:no-unsanitized/DOM",
+        "prettier",
+    ],
+    ignorePatterns: [".eslintrc.js"],
     parserOptions: {
         ecmaVersion: "latest",
     },
@@ -50,7 +56,6 @@ module.exports = {
         "no-new-wrappers": "error",
         "no-octal-escape": "error",
         "no-param-reassign": "error",
-        "no-process-env": "error",
         "no-proto": "error",
         "no-return-assign": "error",
         "no-script-url": "error",

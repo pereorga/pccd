@@ -12,7 +12,13 @@
 
 declare(strict_types=1);
 
-// Report generation.
+const LEVENSHTEIN_SIMILARITY_THRESHOLD = 0.8;
+const LEVENSHTEIN_MAX_DISTANCE = 12;
+
+const SIMILAR_TEXT_THRESHOLD_1 = 85;
+const SIMILAR_TEXT_THRESHOLD_2 = 75;
+const SIMILAR_TEXT_MIN_LENGTH = 15;
+const SIMILAR_TEXT_MAX_LENGTH = 32;
 
 // TODO:
 // Search for weird characters e.g. â
@@ -140,6 +146,23 @@ function test_imatges_no_reconegudes(): void
     foreach ($imatges as $i) {
         if ($i['Identificador'] !== null && ($i['WIDTH'] === 0 || $i['HEIGHT'] === 0)) {
             echo 'paremies/' . $i['Identificador'] . "\n";
+        }
+    }
+    echo '</pre>';
+}
+
+function test_imatges_sense_paremiotipus(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    echo '<h3>Camp PAREMIOTIPUS buit a la taula 00_IMATGES</h3>';
+    echo '<pre>';
+    $stmt = $pdo->query('SELECT Identificador, PAREMIOTIPUS FROM 00_IMATGES');
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $r) {
+        if (!is_string($r['PAREMIOTIPUS']) || strlen($r['PAREMIOTIPUS']) < 2) {
+            echo $r['Identificador'] . PHP_EOL;
         }
     }
     echo '</pre>';
@@ -342,8 +365,16 @@ function test_fonts_buides(): void
     if (is_array($lines)) {
         foreach ($lines as $line) {
             if (str_contains($line, 'http')) {
-                $url = str_replace('http://localhost:8092/', 'https://pccd.dites.cat/', $line);
-                echo "<a href='{$url}'>{$url}</a><br>\n";
+                // Format URLs as production URLs.
+                $components = parse_url($line);
+                if (isset($components['host'])) {
+                    if (isset($components['port'])) {
+                        $line = str_replace($components['host'] . ':' . $components['port'], 'pccd.dites.cat', $line);
+                    } else {
+                        $line = str_replace($components['host'], 'pccd.dites.cat', $line);
+                    }
+                    echo "<a href='{$line}'>{$line}</a><br>\n";
+                }
             } else {
                 echo $line . "<br>\n";
             }
@@ -815,29 +846,28 @@ function test_paremiotipus_repetits(): void
     require_once __DIR__ . '/../common.php';
     $pdo = get_db();
 
-    echo '<h3>Paremiotipus molt semblants</h3>';
+    echo '<h3>Paremiotipus molt semblants (consecutius)</h3>';
     echo '<pre>';
-
-    // Threshold.
-    $similarity = 85;
-    $similarity_long = 75;
     $prev = '';
     $modismes = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if ($prev !== '') {
-            $string1 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($m, 32)));
-            $string2 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($prev, 32)));
+        $string1 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($m, SIMILAR_TEXT_MAX_LENGTH)));
+        $string2 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($prev, SIMILAR_TEXT_MAX_LENGTH)));
 
-            similar_text($string1, $string2, $percent);
-            if ($percent > $similarity || (strlen($string1) > 15 && $percent > $similarity_long)) {
-                echo $prev . "\n" . $m . "\n\n";
-            }
+        similar_text($string1, $string2, $percent);
+        if ($percent > SIMILAR_TEXT_THRESHOLD_1 || ($percent > SIMILAR_TEXT_THRESHOLD_2 && strlen($string1) > SIMILAR_TEXT_MIN_LENGTH)) {
+            echo $prev . "\n" . $m . "\n\n";
         }
         $prev = $m;
     }
     echo '</pre>';
 
-    echo '<h3>Paremiotipus molt semblants (implementació alternativa)</h3>';
+    echo "<h3>Nous paremiotipus molt semblants des de l'última pujada (Levenshtein)</h3>";
+    echo '<pre>';
+    echo file_get_contents(__DIR__ . '/../../tmp/new_test_repetits.txt');
+    echo '</pre>';
+
+    echo '<h3>Paremiotipus molt semblants (Levenshtein)</h3>';
     echo '<pre>';
     echo file_get_contents(__DIR__ . '/../../tmp/test_repetits.txt');
     echo '</pre>';
@@ -937,6 +967,91 @@ function test_repeticio_caracters(): void
     echo '</pre>';
 }
 
+function test_paremiotipus_caracters_inusuals(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    echo '<h3>Paremiotipus amb caràcters inusuals en català</h3>';
+    echo '<pre>';
+    $paremiotipus = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        $t = str_replace(
+            ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç', '«', '»', '·', '–', '‑', '—', '―', '─'],
+            '',
+            mb_strtolower($p)
+        );
+        if (
+            // If it contains any non-ASCII character
+            preg_match('/[^\x00-\x7F]/', $t) > 0
+        ) {
+            echo $p . "\n";
+        }
+    }
+    echo '</pre>';
+
+    echo '<h3>Paremiotipus amb caràcters de guió o guionet no estàndards (ni — ni -)</h3>';
+    echo '<pre>';
+    $paremiotipus = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $guions = [
+        // '-' => [],
+        // '—' => [],
+        '‑' => [],
+        '–' => [],
+        '―' => [],
+        '─' => [],
+    ];
+    $guions_keys = array_keys($guions);
+    foreach ($paremiotipus as $p) {
+        foreach ($guions_keys as $guio) {
+            if (str_contains($p, $guio)) {
+                $guions[$guio][] = $p;
+            }
+        }
+    }
+    foreach ($guions as $guio => $guio_array) {
+        $count = count($guio_array);
+        if ($count === 0) {
+            continue;
+        }
+        echo "Caràcter {$guio}\n";
+        foreach ($guio_array as $p) {
+            echo $p . "\n";
+        }
+        echo "\n\n";
+    }
+    echo '</pre>';
+}
+
+function test_paremiotipus_final(): void
+{
+    require_once __DIR__ . '/../common.php';
+    $pdo = get_db();
+
+    echo '<h3>Paremiotipus que acaben amb caràcters no alfabètics o amb signe de puntuació inusual</h3>';
+    echo '<pre>';
+    $paremiotipus = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        $t = str_replace(
+            ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü'],
+            ['a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u'],
+            mb_strtolower($p)
+        );
+        if (
+            preg_match('/[a-z]$/', $t) === 0
+            && !str_ends_with($t, '!')
+            && !str_ends_with($t, '?')
+            && !str_ends_with($t, 'ç')
+            && !str_ends_with($t, '»')
+            && !str_ends_with($t, '"')
+            && !str_ends_with($t, '...')
+        ) {
+            echo $p . "\n";
+        }
+    }
+    echo '</pre>';
+}
+
 function test_paremiotipus_modismes_curts(): void
 {
     require_once __DIR__ . '/../common.php';
@@ -944,7 +1059,7 @@ function test_paremiotipus_modismes_curts(): void
 
     echo '<h3>Paremiotipus de menys de 5 caràcters</h3>';
     echo '<pre>';
-    $paremiotipus = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS  WHERE CHAR_LENGTH(PAREMIOTIPUS) < 5 ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(PAREMIOTIPUS) < 5 ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     $existing = [];
     foreach ($paremiotipus as $m) {
         $existing[$m] = true;
@@ -954,7 +1069,7 @@ function test_paremiotipus_modismes_curts(): void
 
     echo '<h3>Modismes de menys de 5 caràcters (no repetits a la llista anterior)</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT DISTINCT MODISME as MODISME FROM 00_PAREMIOTIPUS  WHERE CHAR_LENGTH(MODISME) < 5 ORDER BY MODISME')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT MODISME as MODISME FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(MODISME) < 5 ORDER BY MODISME')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (!isset($existing[$m])) {
             echo $m . "\n";
@@ -970,7 +1085,7 @@ function test_paremiotipus_llargs(): void
 
     echo '<h3>Paremiotipus de més de 250 caràcters</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS  WHERE CHAR_LENGTH(PAREMIOTIPUS) > 250 ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(PAREMIOTIPUS) > 250 ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -994,49 +1109,6 @@ function test_paremies_separar(): void
     echo "<p>Total: {$n}</p>";
     echo '<pre>';
     echo $text;
-    echo '</pre>';
-}
-
-function is_valid_location(string $location): bool
-{
-    $location = trim($location);
-    $location = rtrim($location, '.');
-    $location = rtrim($location, ',');
-    $location = rtrim($location, ';');
-    if (mb_strlen($location) < 4) {
-        return $location === 'Alp' || $location === 'Bot' || $location === 'Das'
-            || $location === 'Ger' || $location === 'Pau' || $location === 'Vic'
-            || $location === 'Cat' || $location === 'Bal' || $location === 'Men'
-            || $location === 'Val';
-    }
-    if (preg_match('/\d/', $location) === 1) {
-        return false;
-    }
-    if (preg_match('/ [a-z]{2}, [a-z]{2},/i', $location) === 1) {
-        return false;
-    }
-    if (preg_match('/ [a-z]{3}, [a-z]{3},/i', $location) === 1) {
-        return false;
-    }
-
-    return true;
-}
-
-function test_llocs(): void
-{
-    require_once __DIR__ . '/../common.php';
-    $pdo = get_db();
-
-    echo '<h3>Modismes amb el camp LLOC potser incorrecte</h3>';
-    echo '<pre>';
-    $modismes = $pdo->query('SELECT MODISME, LLOC FROM 00_PAREMIOTIPUS WHERE LLOC IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($modismes as $m) {
-        if (!is_valid_location($m['LLOC'])) {
-            echo 'MODISME:' . $m['MODISME'] . "\n";
-            echo 'LLOC:' . $m['LLOC'] . "\n";
-            echo "\n";
-        }
-    }
     echo '</pre>';
 }
 
@@ -1108,6 +1180,13 @@ function test_buits(): void
 
 function test_commonvoice_languagetool(): void
 {
+    echo "<h3>Paremiotipus exclosos de Common Voice amb LanguageTool des de l'última pujada</h3>";
+    $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded_new.txt');
+    if ($text !== false) {
+        echo '<p>Total: ' . substr_count($text, "\n") . '</p>';
+        echo "<pre>{$text}</pre>";
+    }
+
     echo '<h3>Paremiotipus exclosos de Common Voice amb LanguageTool</h3>';
     $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded.txt');
     if ($text !== false) {
@@ -1151,16 +1230,24 @@ function background_test_llibres_urls(): string
 
     $llibres = $pdo->query('SELECT * FROM `00_OBRESVPR`')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($llibres as $llibre) {
-        $url = trim($llibre['URL']);
-        if ($url !== '') {
-            if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
-                $output .= 'URL no vàlida (Identificador ' . $llibre['Títol'] . '): ' . $url . "\n";
-            } elseif (!isset($urls[$url])) {
-                $response_code = curl_get_response_code($url, false);
-                $urls[$url] = $response_code;
-                if ($response_code !== 200 && $response_code !== 301 && $response_code !== 302 && $response_code !== 307) {
-                    $output .= 'HTTP ' . $response_code . ' (' . $llibre['Títol'] . '): ' . $url . "\n";
-                }
+        if ($llibre['URL'] === null) {
+            $output .= 'URL buida (Identificador ' . $llibre['Títol'] . ")\n";
+
+            continue;
+        }
+
+        $url = $llibre['URL'];
+        if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
+            $output .= 'URL no vàlida (Identificador ' . $llibre['Títol'] . '): ' . $url . "\n";
+
+            continue;
+        }
+
+        if (!isset($urls[$url])) {
+            $response_code = curl_get_response_code($url, false);
+            $urls[$url] = $response_code;
+            if ($response_code !== 200 && $response_code !== 301 && $response_code !== 302 && $response_code !== 307) {
+                $output .= 'HTTP ' . $response_code . ' (' . $llibre['Títol'] . '): ' . $url . "\n";
             }
         }
     }
@@ -1271,18 +1358,12 @@ function background_test_paremiotipus_repetits(int $start = 0, int $end = 0): st
             $value2 = $modismes[$u];
             $length2 = strlen($value2);
 
-            if (abs($length1 - $length2) < 8) {
+            if (abs($length1 - $length2) < LEVENSHTEIN_MAX_DISTANCE) {
                 $max_length = max($length1, $length2);
                 $lev = levenshtein($value1, $value2);
-                if (
-                    $lev < 2
-                    || ($lev === 2 && $max_length > 8)
-                    || ($lev === 3 && $max_length > 12)
-                    || ($lev === 4 && $max_length > 15)
-                    || ($lev === 5 && $max_length > 25)
-                    || ($lev === 6 && $max_length > 40)
-                    || ($lev === 7 && $max_length > 60)
-                ) {
+                $similarity = 1 - ($lev / $max_length);
+
+                if ($similarity >= LEVENSHTEIN_SIMILARITY_THRESHOLD) {
                     $output .= $value1 . "\n" . $value2 . "\n\n";
                 }
             }

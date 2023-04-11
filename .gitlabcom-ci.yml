@@ -7,12 +7,12 @@ php_static_analysis:
     - tools/composer install --no-interaction --ignore-platform-reqs
   script:
     - tools/composer run parallel-lint --no-interaction
-    - PHP_CS_FIXER_IGNORE_ENV=1 tools/composer run php-cs-fixer --no-interaction
+    - tools/composer run php-cs-fixer-lint --no-interaction
     - tools/composer run phpcs --no-interaction
     - tools/composer run phpstan --no-interaction
     - tools/composer run phan --no-interaction
     - tools/composer run psalm --no-interaction
-    - tools/composer run taint-analysis --no-interaction
+    - tools/composer run psalm-taint-analysis --no-interaction
     - tools/composer run phpcpd --no-interaction
   when: manual
 
@@ -21,9 +21,9 @@ eslint_stylelint_prettier:
   before_script:
     - yarn install --ignore-engines --frozen-lockfile
   script:
-    - npx eslint 'src/js/*.js' 'scripts/*.js'
-    - npx stylelint src/css/
-    - npx prettier --check .
+    - yarn lint:eslint
+    - yarn lint:stylelint
+    - yarn lint:prettier
   when: manual
 
 shellcheck:

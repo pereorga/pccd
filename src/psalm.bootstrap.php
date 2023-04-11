@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// File for bootstrapping Psalm.
-
 require_once 'third_party/urlLinker.php';
 
 require_once 'common.php';

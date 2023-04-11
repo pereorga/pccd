@@ -2,10 +2,6 @@
 #
 # Runs some tests and checks against a running website.
 #
-# URL of the environment can be passed as argument:
-#   ./validate_website.sh http://localhost:8091
-# Otherwise, http://localhost:8092 (default Apache port) is used as default.
-#
 # (c) Pere Orga Esteve <pere@orga.cat>
 #
 # This source file is subject to the AGPL license that is bundled with this
@@ -21,33 +17,33 @@ cd "$(dirname "$0")"
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [ENVIRONMENT_URL] [--fast]"
+    echo "Usage: $(basename "$0") [--fast]"
     echo "Run multiple tests and checks in the website."
     echo ""
-    echo "  ENVIRONMENT_URL     The website URL, without trailing slash (default: http://localhost:8092)"
-    echo "  --fast              Use it to skip slower validations (webhint, html-validate, linkinator)"
+    echo "  --fast"
+    echo "    Use it to skip slower validations (webhint, html-validate, linkinator)"
 }
 
-if [[ -n $3 ]]; then
+if [[ -n $2 ]]; then
     usage
     exit 1
 fi
 
-remote_environment_url="http://localhost:8092"
-options=""
-if [[ $2 == "--fast" ]]; then
-    options="--fast"
-    remote_environment_url="$1"
-elif [[ $1 == "--fast" ]]; then
-    options="--fast"
-    if [[ -n $2 ]]; then
-        remote_environment_url="$2"
+# If the BASE_URL variable is not passed, load it from env file.
+if [[ -z ${BASE_URL} ]]; then
+    export "$(grep 'BASE_URL=' ../.env | xargs)"
+    if [[ -z ${BASE_URL} ]]; then
+        echo "ERROR: BASE_URL variable is not set." >&2
+        exit 255
     fi
-elif [[ -n $1 ]]; then
-    remote_environment_url="$1"
 fi
 
-readonly remote_environment_url
+options=""
+if [[ $1 == "--fast" ]]; then
+    options="--fast"
+fi
+
+readonly BASE_URL
 readonly options
 
 ##############################################################################
@@ -129,7 +125,7 @@ validate_url() {
         echo "=============="
         echo "linkinator"
         echo "=============="
-        npx linkinator "${URL}" --verbosity error --skip "^(?!${remote_environment_url})"
+        npx linkinator "${URL}" --verbosity error --skip "^(?!${BASE_URL})"
 
         # html-validate is an offline HTML5 validator with strict parsing. Apart from parsing and content model
         # validation it also includes style, cosmetics, good practice and accessibility rules. See .htmlvalidate.json.
@@ -181,24 +177,24 @@ validate_url_404() {
 }
 
 # Check 404 pages.
-validate_url_404 "${remote_environment_url}/p/A_Abrerasefserewrwe"
-validate_url_404 "${remote_environment_url}/asdfasdfsadfs"
+validate_url_404 "${BASE_URL}/p/A_Abrerasefserewrwe"
+validate_url_404 "${BASE_URL}/asdfasdfsadfs"
 
 # Validate HTML.
-validate_url "${remote_environment_url}/" "${options}"
-validate_url "${remote_environment_url}/projecte" "${options}"
-validate_url "${remote_environment_url}/top100" "${options}"
-validate_url "${remote_environment_url}/llibres" "${options}"
-validate_url "${remote_environment_url}/instruccions" "${options}"
-validate_url "${remote_environment_url}/credits" "${options}"
-validate_url "${remote_environment_url}/p/A_Abrera%2C_donen_garses_per_perdius" "${options}"
-validate_url "${remote_environment_url}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era" "${options}"
-validate_url "${remote_environment_url}/obra/Pons_Lluch%2C_Josep_%281993%29%3A_Refranyer_menorqu%C3%AD" "${options}"
-validate_url "${remote_environment_url}/?pagina=5147" "${options}"
-validate_url "${remote_environment_url}/?mode=&cerca=ca%C3%A7a&variant=&mostra=10" "${options}"
-validate_url "${remote_environment_url}/p/A_Adra%C3%A9n%2C_tanys" "${options}"
-validate_url "${remote_environment_url}/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3" "${options}"
+validate_url "${BASE_URL}/" "${options}"
+validate_url "${BASE_URL}/projecte" "${options}"
+validate_url "${BASE_URL}/top100" "${options}"
+validate_url "${BASE_URL}/llibres" "${options}"
+validate_url "${BASE_URL}/instruccions" "${options}"
+validate_url "${BASE_URL}/credits" "${options}"
+validate_url "${BASE_URL}/p/A_Abrera%2C_donen_garses_per_perdius" "${options}"
+validate_url "${BASE_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era" "${options}"
+validate_url "${BASE_URL}/obra/Pons_Lluch%2C_Josep_%281993%29%3A_Refranyer_menorqu%C3%AD" "${options}"
+validate_url "${BASE_URL}/?pagina=5147" "${options}"
+validate_url "${BASE_URL}/?mode=&cerca=ca%C3%A7a&variant=&mostra=10" "${options}"
+validate_url "${BASE_URL}/p/A_Adra%C3%A9n%2C_tanys" "${options}"
+validate_url "${BASE_URL}/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3" "${options}"
 # This page is always executed with --fast, otherwise it is extremely slow.
-validate_url "${remote_environment_url}/?mostra=infinit" --fast
+validate_url "${BASE_URL}/?mostra=infinit" --fast
 
 echo "All validation tests finished OK :)"
