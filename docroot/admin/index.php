@@ -199,7 +199,7 @@ Monitorització:
 </ul>
 <p>[<a href='?logout'>Tanca la sessió</a>]</p>
 <small>
-    Última base de dades: <?php require __DIR__ . '/../../tmp/date.txt'; ?>- Últim desplegament: <?php echo $deployment_date; ?>
+    Última base de dades: <?php require __DIR__ . '/../../tmp/db_date.txt'; ?>- Últim desplegament: <?php echo $deployment_date; ?>
     <br><?php echo 'PHP ' . PHP_VERSION . ' on ' . apache_get_version() . ' (' . PHP_OS . '). BD ' . get_db()->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
 </small>
 </body>

@@ -18,8 +18,12 @@
     background: #3191ff;
 }
 
-html.ios {
-    overscroll-behavior-y: none;
+/* Remove annoying scrolling effect on iOS. See https://stackoverflow.com/a/47818418/1391963 and
+    https://stackoverflow.com/a/76012628/1391963 */
+@supports (-webkit-touch-callout: none) {
+    html {
+        overscroll-behavior-y: none;
+    }
 }
 
 /* stylelint-disable property-no-vendor-prefix */
@@ -80,7 +84,7 @@ input {
 button {
     touch-action: manipulation;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 0.25rem;
 }
 
 button::-moz-focus-inner {
@@ -95,22 +99,33 @@ button:focus {
 h1,
 h2,
 h3 {
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.5em;
     font-weight: 500;
     line-height: 1.2;
 }
 
 h1 {
-    margin-bottom: 1rem;
     font-size: 1.75rem;
 }
 
-h2 {
-    font-size: 1.5rem;
+main {
+    margin-top: 15px;
 }
 
-#contingut {
-    margin-top: 15px;
+body > footer {
+    padding: 30px 15px 20px;
+    margin-top: 60px;
+    font-size: 0.875rem;
+    text-align: center;
+    text-wrap: balance;
+    border-top: 1px solid #dee2e6;
+}
+
+header nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .container-md {
@@ -119,11 +134,6 @@ h2 {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
-}
-
-.navbar-expand-md > .container-md {
-    padding-right: 0;
-    padding-left: 0;
 }
 
 .row {
@@ -166,20 +176,9 @@ h2 {
     order: 2;
 }
 
-.collapse:not(.show) {
-    display: none;
-}
-
 .navbar {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0;
     background: #2b5797;
-}
-
-.navbar .container-md {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .navbar-brand {
@@ -190,15 +189,12 @@ h2 {
 .navbar-nav {
     display: flex;
     flex-direction: column;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
 }
 
-.navbar-collapse {
+#menu {
     flex-basis: 100%;
     flex-grow: 1;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 #navbar-toggle {
@@ -206,7 +202,12 @@ h2 {
     font-size: 1.5rem;
     line-height: 1;
     background-color: transparent;
-    border: 1px solid #4368a1;
+    border: 0;
+}
+
+#navbar-toggle:focus,
+#navbar-toggle:hover {
+    opacity: 0.8;
 }
 
 #navbar-toggle svg {
@@ -214,10 +215,9 @@ h2 {
     width: 1em;
     height: 1em;
     vertical-align: -0.125em;
-    opacity: 0.8;
 }
 
-.nav-link {
+.navbar-nav a {
     display: block;
     padding: 0.5rem 0;
     color: #fff;
@@ -225,8 +225,8 @@ h2 {
 
 .navbar-brand:focus,
 .navbar-brand:hover,
-.nav-link:focus,
-.nav-link:hover {
+.navbar-nav a:focus,
+.navbar-nav a:hover {
     color: #dee2e7;
     text-decoration: none;
 }
@@ -239,14 +239,6 @@ h2 {
     display: inline-block;
 }
 
-.flex-wrap {
-    flex-wrap: wrap;
-}
-
-.justify-content-end {
-    justify-content: flex-end;
-}
-
 .float-left {
     float: left;
 }
@@ -255,36 +247,11 @@ h2 {
     float: right;
 }
 
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-.mr-0 {
-    margin-right: 0;
-}
-
-.mb-3 {
-    margin-bottom: 1rem;
-}
-
-.mt-4 {
-    margin-top: 1.5rem;
-}
-
 .text-monospace {
-    padding: 4px 2px;
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 95%;
+    padding: 0.25rem 2px;
+    font-family: monospace;
     background-color: #eff1f2;
-    border-radius: 4px;
+    border-radius: 0.25rem;
 }
 
 .text-nowrap {
@@ -322,9 +289,7 @@ h2 {
     margin-bottom: 10px;
 }
 
-.bloc p.peu {
-    padding: 0;
-    margin: 0;
+.bloc footer {
     font-size: 0.875rem;
     font-style: italic;
     text-align: right;
@@ -341,17 +306,7 @@ h2 {
 }
 
 a.credits {
-    font-size: 24px;
-}
-
-#contingut > footer {
-    padding-top: 20px;
-    margin-top: 60px;
-    margin-bottom: 20px;
-    font-size: 0.875rem;
-    text-align: center;
-    text-wrap: balance;
-    border-top: 1px solid #dee2e6;
+    font-size: 1.5rem;
 }
 
 #snackbar {
@@ -360,34 +315,24 @@ a.credits {
     bottom: 0;
     left: 0;
     z-index: 1004;
-    min-width: 288px;
-}
-
-.snackbar-snack {
-    position: absolute;
-    bottom: 0;
 }
 
 .snackbar-inner {
+    position: absolute;
+    bottom: 0;
     display: flex;
     flex-wrap: wrap;
     color: #fff;
     background: #3c4043;
-    opacity: 0.95;
 }
 
 .snackbar-message {
-    padding-top: 24px;
-    padding-right: 24px;
-    padding-left: 24px;
-    overflow: hidden;
+    padding: 1.5rem 1.5rem 0;
     font-size: 0.875rem;
-    text-overflow: ellipsis;
-    word-break: break-word;
 }
 
-#snackbar-action {
-    padding: 24px;
+#snackbar button {
+    padding: 1.5rem;
     font-size: 1rem;
     color: #eeff41;
     text-transform: uppercase;
@@ -416,21 +361,14 @@ a.credits {
         margin-right: 15px;
     }
 
-    .snackbar-snack {
-        padding-bottom: 15px;
-        padding-left: 15px;
-    }
-
     .snackbar-inner {
         flex-wrap: nowrap;
+        margin-bottom: 15px;
+        margin-left: 15px;
     }
 
     .snackbar-message {
-        padding: 24px;
-    }
-
-    .d-sm-inline {
-        display: inline;
+        padding: 1.5rem;
     }
 
     .d-sm-block {
@@ -463,7 +401,7 @@ a.credits {
 
 /* Tablet and greater */
 @media (width >= 768px) {
-    #contingut,
+    main,
     .bloc-credits,
     .bloc-top-paremies {
         margin-top: 30px;
@@ -481,31 +419,20 @@ a.credits {
         max-width: 720px;
     }
 
-    .navbar-expand-md {
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-    }
-
-    .navbar-expand-md .navbar-nav {
+    .navbar-nav {
         flex-direction: row;
     }
 
-    .navbar-expand-md .navbar-collapse {
+    #menu {
         display: flex;
         flex-basis: auto;
     }
 
-    .navbar-expand-md #navbar-toggle {
+    #navbar-toggle {
         display: none;
     }
 
-    .navbar-expand-md > .container-md {
-        flex-wrap: nowrap;
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
-    .nav-link {
+    .navbar-nav a {
         padding: 1rem 0.5rem;
     }
 
@@ -534,6 +461,10 @@ a.credits {
         max-width: 960px;
     }
 
+    .d-lg-inline {
+        display: inline;
+    }
+
     .navbar-brand {
         font-size: 1.25rem;
     }
@@ -546,7 +477,7 @@ a.credits {
 }
 
 @media print {
-    a:not(.btn) {
+    a {
         text-decoration: underline;
     }
 

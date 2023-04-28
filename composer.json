@@ -3,6 +3,23 @@
   "description": "Paremiologia catalana comparada digital",
   "license": "AGPL-3.0-only",
   "type": "project",
+  "keywords": [
+    "catalan",
+    "català",
+    "common voice",
+    "diccionari",
+    "dites populars",
+    "frases fetes",
+    "idioms",
+    "locucions",
+    "online dictionary",
+    "paremiologia",
+    "paremiotipus",
+    "parèmies",
+    "proverbs",
+    "proverbis",
+    "refranys"
+  ],
   "readme": "README.md",
   "authors": [
     {
@@ -26,7 +43,7 @@
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
-    "phpunit/phpunit": "^10.0",
+    "phpunit/phpunit": "^10.1",
     "psalm/plugin-phpunit": "^0.18.4",
     "tideways/php-xhprof-extension": "master",
     "vimeo/psalm": "^5.9"
@@ -83,7 +100,7 @@
   },
   "scripts": {
     "composer-normalize": "tools/composer-normalize",
-    "parallel-lint": "tools/parallel-lint --exclude vendor --exclude node_modules .",
+    "parallel-lint": "tools/parallel-lint --exclude vendor --exclude node_modules --exclude tmp .",
     "phan": "tools/phan --allow-polyfill-parser",
     "php-cs-fixer": "tools/php-cs-fixer fix --diff --verbose",
     "php-cs-fixer-lint": "tools/php-cs-fixer fix --verbose --dry-run --stop-on-violation",

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Runs PHP installation script and create sitemap.
+# Runs PHP installation script and creates the sitemaps.
 # This script needs to be executed after the database is converted, with the website running.
 #
 # (c) Pere Orga Esteve <pere@orga.cat>
@@ -30,14 +30,18 @@ fi
 echo "Running installation script..."
 docker exec pccd-web php scripts/install.php
 
-echo "Building sitemaps..."
-docker exec pccd-web php scripts/build_sitemap.php > ../docroot/sitemap_all.txt
+echo "Building sitemaps and robots.txt..."
+echo "User-agent: *" > ../docroot/robots.txt
+echo "Disallow:" >> ../docroot/robots.txt
 
+docker exec pccd-web php scripts/build_sitemap.php > ../docroot/sitemap.txt
 # Split the sitemap in multiple files, to overcome a Google limit.
-split -l 49999 ../docroot/sitemap_all.txt
-mv xaa ../docroot/sitemap.txt
-mv xab ../docroot/sitemap2.txt
+split -d -l 49999 ../docroot/sitemap.txt sitemap_
+for i in sitemap_*; do
+    mv "${i}" "../docroot/${i}.txt"
+    echo "Sitemap: https://pccd.dites.cat/${i}.txt" >> ../docroot/robots.txt
+done
 
 # Store last updated date.
 # sed is necessary on macOS to add apostrophes to the date.
-LC_TIME='ca_ES' date | cut -d"," -f2 | sed "s/de o/d'o/" | sed "s/de a/d'a/" > ../tmp/date.txt
+LC_TIME='ca_ES' date | cut -d"," -f2 | sed "s/de o/d'o/" | sed "s/de a/d'a/" > ../tmp/db_date.txt

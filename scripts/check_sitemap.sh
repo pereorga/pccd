@@ -105,10 +105,10 @@ export -f validate_html_url
 
 if strings "$(command -v xargs)" | grep -q -F -m 1 "FreeBSD"; then
     # The following is compatible with the xargs implementation (POSIX) included in macOS.
-    xargs -n 1 -P 10 -S 512 -I {} bash -c 'validate_html_url "$@" || exit 255' _ {} < docroot/sitemap_all.txt
+    xargs -n 1 -P 10 -S 512 -I {} bash -c 'validate_html_url "$@" || exit 255' _ {} < docroot/sitemap.txt
 else
     # Let's assume this is GNU xargs.
-    xargs -n 1 -P 10 -I {} bash -c 'validate_html_url "$@" || exit 255' _ {} < docroot/sitemap_all.txt
+    xargs -n 1 -P 10 -I {} bash -c 'validate_html_url "$@" || exit 255' _ {} < docroot/sitemap.txt
 fi
 echo "All URLs in the sitemap file returned HTTP 200."
 find tmp/ -type f -name '*.html' -delete

@@ -18,7 +18,7 @@ const CV_MAX_WORDS = 14;
 /*
  * Export sentences for Common Voice.
  *
- * This script is called by export.sh script.
+ * This script outputs potentially controversial sentences to stderr, and the other ones to stdout.
  */
 
 require __DIR__ . '/../../src/common.php';
@@ -53,7 +53,6 @@ foreach ($paremiotipus as $p) {
         $p_display .= '.';
     }
 
-    // TODO: consider we are writing files inside the Docker container.
     // Omit some sentences that contain inappropriate language.
     if (
         preg_match('/\\bcago\\b/', $p_lowercase) === 1
@@ -76,11 +75,10 @@ foreach ($paremiotipus as $p) {
         || preg_match('/\\bsogra\\b/', $p_lowercase) === 1
         || preg_match('/\\bsogres\\b/', $p_lowercase) === 1
     ) {
-        // Store them in a file, just in case we want to review them manually.
-        file_put_contents(__DIR__ . '/controversial.txt', $p_display . PHP_EOL, FILE_APPEND | LOCK_EX);
+        fwrite(STDERR, $p_display . PHP_EOL);
 
         continue;
     }
 
-    file_put_contents(__DIR__ . '/filtered.txt', $p_display . PHP_EOL, FILE_APPEND | LOCK_EX);
+    fwrite(STDOUT, $p_display . PHP_EOL);
 }

@@ -2,20 +2,21 @@
     "Exclude": [
         "LICENSE",
         "\\.csv",
+        "\\.generated\\.",
         "\\.idea",
+        "\\.report.html",
         "\\.sql",
         "\\.tsv",
         "\\.txt",
-        "\\.generated\\.php",
-        "docroot/img",
-        "docroot/mp3",
-        "node_modules",
+        "docroot/img/",
+        "docroot/mp3/",
+        "node_modules/",
         "scripts/common-voice-import/commonvoice_voices.json",
-        "src/images",
-        "third_party",
-        "tmp",
-        "tools",
-        "vendor"
+        "src/images/",
+        "third_party/",
+        "tmp/",
+        "tools/",
+        "vendor/"
     ],
     "Disable": {
         "MaxLineLength": true

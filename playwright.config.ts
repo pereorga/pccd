@@ -1,4 +1,4 @@
-import { expect, defineConfig } from "@playwright/test";
+import { defineConfig } from "@playwright/test";
 
 require("dotenv").config();
 

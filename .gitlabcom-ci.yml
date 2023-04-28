@@ -30,7 +30,7 @@ shellcheck:
   before_script:
     - apt-get update && apt-get install --no-install-recommends -y shellcheck
   script:
-    - find scripts -type f -name '*.sh' -exec shellcheck {} \;
+    - find scripts -type f -name '*.sh' -not -name '*.generated.sh' -exec shellcheck {} \;
   when: manual
 
 yamllint:

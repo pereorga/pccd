@@ -1,26 +1,20 @@
 import { test, expect } from "@playwright/test";
+import * as fs from "node:fs";
+import * as path from "node:path";
+
+const data = JSON.parse(fs.readFileSync(path.resolve(__dirname, "data/data.json"), "utf8"));
 
 test.describe("Obra", () => {
-    test(`"Folklore de Catalunya. Cançoner" has at least X records, of which Y collected`, async ({ page }) => {
+    let extractedNumber = "";
+    test(`"Folklore de Catalunya. Cançoner" has ${data.obraFolkloreCatalunyaNumberOfEntries} entries, of which
+            ${data.obraFolkloreCatalunyaNumberOfEntriesCollected} has been collected`, async ({ page }) => {
         await page.goto("/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Cançoner%2C_3a_ed._1982");
+        const obra = await page.locator(".obra article").textContent();
+        [, extractedNumber] = /Aquesta obra té ([\d.]+) fitxes a la base de dades/.exec(obra);
 
-        const minFitxes = 21_000;
-        const obra = await page.locator("#contingut article.obra").textContent();
-        const nFitxes = obra
-            .match(/Aquesta obra té ([\d.])+ fitxes a la base de dades/)[0]
-            .replace("Aquesta obra té ", "")
-            .replace(" fitxes a la base de dades", "")
-            .replace(".", "")
-            .trim();
-        expect(Number.parseInt(nFitxes, 10)).toBeGreaterThan(minFitxes);
+        expect(Number(extractedNumber.replace(".", ""))).toBe(data.obraFolkloreCatalunyaNumberOfEntries);
 
-        const minRecollides = 18_000;
-        const nRecollides = obra
-            .match(/de les quals ([\d.])+ estan recollides/)[0]
-            .replace("de les quals ", "")
-            .replace(" estan recollides", "")
-            .replace(".", "")
-            .trim();
-        expect(Number.parseInt(nRecollides, 10)).toBeGreaterThan(minRecollides);
+        [, extractedNumber] = /de les quals ([\d.]+) estan recollides/.exec(obra);
+        expect(Number(extractedNumber.replace(".", ""))).toBe(data.obraFolkloreCatalunyaNumberOfEntriesCollected);
     });
 });

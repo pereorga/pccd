@@ -1,13 +1,19 @@
 import { test, expect } from "@playwright/test";
+import * as fs from "node:fs";
+import * as path from "node:path";
+
+const data = JSON.parse(fs.readFileSync(path.resolve(__dirname, "data/data.json"), "utf8"));
 
 test.describe("Homepage", () => {
+    let extractedNumber = "";
+    let updatedDate = "";
     test.beforeEach(async ({ page }) => {
         await page.setViewportSize({ width: 1280, height: 720 });
         await page.goto("/");
     });
 
     test("has correct title", async ({ page }) => {
-        await expect(page).toHaveTitle(/Paremiologia catalana comparada digital - PCCD/);
+        await expect(page).toHaveTitle(data.homepageTitle);
     });
 
     test("has correct projecte link", async ({ page }) => {
@@ -20,9 +26,9 @@ test.describe("Homepage", () => {
         expect(rows).toBe(10);
     });
 
-    test('first record is "A Abrera, donen garses per perdius"', async ({ page }) => {
+    test(`first record is "${data.homepageFirstParemiotipus}"`, async ({ page }) => {
         const firstRecord = await page.locator("#search-form tr td").first().textContent();
-        expect(firstRecord).toBe("A Abrera, donen garses per perdius");
+        expect(firstRecord).toBe(data.homepageFirstParemiotipus);
     });
 
     test('block of text containing "Ajudeu-nos a millorar" is visible', async ({ page }) => {
@@ -46,61 +52,45 @@ test.describe("Homepage", () => {
     });
 
     test("has last updated date set", async ({ page }) => {
-        const footerText = await page.locator("#contingut > footer p").first().textContent();
-        const data = footerText
-            .match(/actualització: (.)+/)[0]
-            .replace("actualització:", "")
-            .trim();
-        expect(data.length).toBeGreaterThanOrEqual(10);
+        const footerText = await page.locator("body > footer p").first().textContent();
+
+        [, updatedDate] = /actualització: (.+)/.exec(footerText);
+        expect(updatedDate.trim().length).toBeGreaterThanOrEqual(10);
     });
 
     test("last updated date has month written properly in catalan", async ({ page }) => {
-        const footerText = await page.locator("#contingut > footer p").first().textContent();
-        const data = footerText
-            .match(/actualització: (.)+/)[0]
-            .replace("actualització:", "")
-            .trim();
-        expect(data).toMatch(/(gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre)/);
+        const footerText = await page.locator("body > footer p").first().textContent();
+
+        [, updatedDate] = /actualització: (.+)/.exec(footerText);
+        expect(updatedDate.trim()).toMatch(
+            /(gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre)/
+        );
     });
 
-    test("has more than N paremiotipus", async ({ page }) => {
-        const minParemiotipus = 54_000;
-        const footerText = await page.locator("#contingut > footer p").first().textContent();
-        const nParemiotipus = Number.parseInt(
-            footerText
-                .match(/([\d.])+ paremiotipus/)[0]
-                .replace(" paremiotipus", "")
-                .replace(".", "")
-                .trim(),
-            10
-        );
-        expect(nParemiotipus).toBeGreaterThan(minParemiotipus);
+    test(`has ${data.paremiotipusNumber} paremiotipus`, async ({ page }) => {
+        const footerText = await page.locator("body > footer p").first().textContent();
+
+        [, extractedNumber] = /([\d.]+) paremiotipus/.exec(footerText);
+        const nParemiotipus = Number(extractedNumber.replace(".", ""));
+
+        expect(nParemiotipus).toBe(data.paremiotipusNumber);
     });
 
-    test("has more than N fitxes", async ({ page }) => {
-        const minFitxes = 521_000;
-        const footerText = await page.locator("#contingut > footer p").first().textContent();
-        const nFitxes = Number.parseInt(
-            footerText
-                .match(/[\d.]+/)[0]
-                .replace(".", "")
-                .trim(),
-            10
-        );
-        expect(nFitxes).toBeGreaterThan(minFitxes);
+    test(`has ${data.fitxesNumber} fitxes`, async ({ page }) => {
+        const footerText = await page.locator("body > footer p").first().textContent();
+
+        [, extractedNumber] = /([\d.]+) fitxes/.exec(footerText);
+        const nFitxes = Number(extractedNumber.replace(".", ""));
+
+        expect(nFitxes).toBe(data.fitxesNumber);
     });
 
-    test("has more than N fonts", async ({ page }) => {
-        const minFonts = 5000;
-        const footerText = await page.locator("#contingut > footer p").first().textContent();
-        const nFonts = Number.parseInt(
-            footerText
-                .match(/([\d.])+ fonts/)[0]
-                .replace(" fonts", "")
-                .replace(".", "")
-                .trim(),
-            10
-        );
-        expect(nFonts).toBeGreaterThan(minFonts);
+    test(`has ${data.fontsNumber} fonts`, async ({ page }) => {
+        const footerText = await page.locator("body > footer p").first().textContent();
+
+        [, extractedNumber] = /([\d.]+) fonts/.exec(footerText);
+        const nFonts = Number(extractedNumber.replace(".", ""));
+
+        expect(nFonts).toBe(data.fontsNumber);
     });
 });

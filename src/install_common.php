@@ -70,5 +70,5 @@ function clean_paremiotipus_for_sorting(string $paremiotipus): string
 {
     $paremiotipus = str_replace(['(', ')'], '', $paremiotipus);
 
-    return ltrim($paremiotipus, "º—'\"«»“”‘’….-¡¿* \n\r\t\v\0\x95");
+    return ltrim($paremiotipus, "º-–—―─'\"«»“”‘’….¡¿* \n\r\t\v\0\x95");
 }

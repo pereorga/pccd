@@ -7,15 +7,34 @@
  * source code in the file LICENSE.
  */
 
-.obra p {
+dl,
+dt,
+dd {
+    padding: 0;
+    margin: 0;
+}
+
+dl {
     margin-bottom: 0.5rem;
 }
 
-.obra p.peu {
-    margin: 1rem 0;
+dt,
+dd {
+    display: inline;
 }
 
-/* Center image. */
-.order-2.order-sm-1 {
+dd {
+    margin-left: 0.4rem;
+}
+
+.obra article {
+    margin-bottom: 1rem;
+}
+
+.obra aside {
     text-align: center;
+}
+
+.obra footer {
+    margin: 1rem 0;
 }

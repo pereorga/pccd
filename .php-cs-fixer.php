@@ -27,6 +27,7 @@ $header = <<<'EOF'
 $finder = PhpCsFixer\Finder::create()
     ->notPath('vendor')
     ->notPath('node_modules')
+    ->notPath('tmp')
     ->notPath('src/third_party')
     ->name('*.php')
     ->ignoreDotFiles(false)

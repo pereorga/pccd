@@ -1,9 +1,9 @@
-# Ignore vendor directories
+# Vendor directories
 node_modules
 vendor
 third_party
 
-# Ignore generated files
+# Generated files
 .idea
 *.sublime-project
 *.sublime-workspace
@@ -12,6 +12,7 @@ composer.lock
 package-lock.json
 yarn.lock
 *.min.*
+*.report.html
 /scripts/common-voice-import/commonvoice_voices.json
 /tmp
 

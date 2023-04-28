@@ -9,5 +9,6 @@
   <exclude-pattern>*/vendor/*</exclude-pattern>
   <exclude-pattern>*/node_modules/*</exclude-pattern>
   <exclude-pattern>*/third_party/*</exclude-pattern>
+  <exclude-pattern>*/tmp/*</exclude-pattern>
   <exclude-pattern>*.generated.php</exclude-pattern>
 </ruleset>

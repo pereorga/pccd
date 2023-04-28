@@ -17,7 +17,7 @@ cd "$(dirname "$0")/.."
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [OPTION]"
+    echo "Usage: $(basename "$0")"
     echo "Export the project source code for public release."
 }
 
@@ -32,4 +32,5 @@ fi
 
 git clone --no-checkout git@github.com:Softcatala/pccd.git tmp/pccd
 git archive --prefix=pccd/ --format=tar HEAD | (cd tmp/ && tar xf -)
-(cd tmp/pccd && git add .)
+(cd tmp/pccd && git add . && git commit -m "export source code")
+echo "Source code exported to tmp/pccd and ready to be pushed to GitHub."

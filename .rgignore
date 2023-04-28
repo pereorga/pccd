@@ -16,7 +16,7 @@ composer.lock
 package-lock.json
 yarn.lock
 *Brewfile.lock.json
-pccd.sublime-workspace
+*.sublime-workspace
 /LICENSE
 
 # Compiled assets and binaries

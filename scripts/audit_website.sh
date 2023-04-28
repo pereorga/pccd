@@ -21,6 +21,65 @@ usage() {
     echo "Run multiple tests and checks in the website."
 }
 
+##############################################################################
+# Returns the npx command to run lighthouse.
+# Arguments:
+#   URL         The URL to validate
+#   CATEGORIES  The categories to validate
+#   [DEVICE]    (optional) The browser mode ("mobile" or "desktop")
+# Returns:
+#   Writes the npx command to stdout.
+##############################################################################
+lighthouse_command() {
+    local -r URL=$1
+    local -r CATEGORIES=$2
+    local -r DEVICE=$3
+    local command="npx lighthouse \"${URL}\" --quiet --no-enable-error-reporting --only-categories=\"${CATEGORIES}\" --chrome-flags=\"--headless\" --output=json"
+
+    if [[ ${DEVICE} == "mobile" ]]; then
+        command+=" --screenEmulation.mobile --screenEmulation.width=360 --screenEmulation.height=640 --screenEmulation.deviceScaleFactor=2"
+    fi
+
+    echo "${command}"
+}
+
+##############################################################################
+# Audits URL using Google lighthouse.
+# Arguments:
+#   URL         The URL to validate
+#   [DEVICE]    (optional) The browser mode ("mobile" or "desktop")
+##############################################################################
+audit_url() {
+    local -r URL=$1
+    local -r DEVICE=${2:-desktop}
+    local -r CATEGORIES="accessibility,best-practices,performance,seo"
+    local -r JSON_FILENAME=../tmp/lighthouse_audit.json
+    local npx_command
+    npx_command="$(lighthouse_command "${URL}" "${CATEGORIES}" "${DEVICE}")"
+
+    echo ""
+    eval "${npx_command}" > "${JSON_FILENAME}"
+
+    for category in ${CATEGORIES//,/ }; do
+        if [[ ${category} == *-* ]]; then
+            # Escape hyphens.
+            category="[\"${category}\"]"
+        fi
+        local score
+        score=$(jq --raw-output ".categories | .${category} | .score" < "${JSON_FILENAME}")
+        if [[ ${score} != 1 ]]; then
+            echo "ERROR: ${category} score is ${score} for ${URL} (${DEVICE})." >&2
+            npx_command="${npx_command//--chrome-flags=\"--headless\" --output=json/--view}"
+            echo "Consider running '${npx_command}'" >&2
+            if [[ ${category} != "performance" ]]; then
+                exit 255
+            fi
+        fi
+    done
+
+    echo "All essential audits score 100% for ${URL} on ${DEVICE}."
+}
+
 if [[ -n $1 ]]; then
     usage
     exit 1
@@ -37,65 +96,23 @@ fi
 
 readonly BASE_URL
 
-##############################################################################
-# Audits URL using Google lighthouse.
-# Arguments:
-#   URL         The URL to validate
-#   [DEVICE]    (optional) The browser mode ("mobile" or "desktop")
-##############################################################################
-audit_url() {
-    local -r URL=$1
-    local -r DEVICE=${2:-desktop}
-    local -r CATEGORIES="accessibility,best-practices,performance,seo"
-    local -r JSON_FILENAME=../tmp/lighthouse_audit.json
+readonly URLS=(
+    "/"
+    "/p/A_Agramunt_comerciants_i_a_T%C3%A0rrega_comediants"
+    "/p/A_Adra%C3%A9n%2C_tanys"
+    "/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3"
+    "/p/Cel_rogent%2C_pluja_o_vent"
+    "/p/Tal_far%C3%A0s%2C_tal_trobar%C3%A0s"
+    "/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Can%C3%A7oner%2C_3a_ed._1982"
+    "/obra/Carol%2C_Roser_%281978-2021%29%3A_Frases_fetes_dels_Pa%C3%AFsos_Catalans"
+)
 
-    echo ""
-    if [[ ${DEVICE} == desktop ]]; then
-        echo "Running Ligthouse categories ${CATEGORIES} on ${URL} (desktop)..."
-        npx lighthouse "${URL}" --quiet --no-enable-error-reporting --only-categories="${CATEGORIES}" \
-            --chrome-flags="--headless" --output=json > "${JSON_FILENAME}"
-    else
-        echo "Running Ligthouse categories ${CATEGORIES} on ${URL} (mobile)..."
-        npx lighthouse "${URL}" --quiet --no-enable-error-reporting --screenEmulation.mobile \
-            --screenEmulation.width=360 --screenEmulation.height=640 --screenEmulation.deviceScaleFactor=2 \
-            --only-categories="${CATEGORIES}" --chrome-flags="--headless" --output=json > "${JSON_FILENAME}"
-    fi
+readonly DEVICES=("desktop" "mobile")
 
-    for category in ${CATEGORIES//,/ }; do
-        if [[ ${category} == *-* ]]; then
-            # Escape hyphens.
-            category="[\"${category}\"]"
-        fi
-        local score
-        score=$(jq --raw-output ".categories | .${category} | .score" < "${JSON_FILENAME}")
-        if [[ ${score} != 1 ]]; then
-            if [[ ${DEVICE} == desktop ]]; then
-                echo "ERROR: '${category}' score is less than 1 (${score}). Run 'npx lighthouse \"${URL}\" \
-                    --only-categories=\"${CATEGORIES}\" --no-enable-error-reporting --view'" >&2
-            else
-                echo "ERROR: '${category}' score is less than 1 (${score}) on mobile. Run 'npx lighthouse \"${URL}\" \
-                    --only-categories=\"${CATEGORIES}\" --no-enable-error-reporting --no-enable-error-reporting \
-                    --screenEmulation.mobile --screenEmulation.width=360 --screenEmulation.height=640 \
-                    --screenEmulation.deviceScaleFactor=2 --view'" >&2
-            fi
-            if [[ ${category} != "performance" ]]; then
-                exit 255
-            fi
-        fi
+for url in "${URLS[@]}"; do
+    for device in "${DEVICES[@]}"; do
+        audit_url "${BASE_URL}${url}" "${device}"
     done
-
-    echo "All essential audits score 100%."
-}
-
-audit_url "${BASE_URL}/" desktop
-audit_url "${BASE_URL}/" mobile
-audit_url "${BASE_URL}/p/A_Agramunt_comerciants_i_a_T%C3%A0rrega_comediants" desktop
-audit_url "${BASE_URL}/p/A_Agramunt_comerciants_i_a_T%C3%A0rrega_comediants" mobile
-audit_url "${BASE_URL}/p/A_Adra%C3%A9n%2C_tanys" desktop
-audit_url "${BASE_URL}/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3" desktop
-audit_url "${BASE_URL}/p/Cel_rogent%2C_pluja_o_vent" desktop
-audit_url "${BASE_URL}/p/Tal_far%C3%A0s%2C_tal_trobar%C3%A0s" mobile
-audit_url "${BASE_URL}/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Can%C3%A7oner%2C_3a_ed._1982" desktop
-audit_url "${BASE_URL}/obra/Carol%2C_Roser_%281978-2021%29%3A_Frases_fetes_dels_Països_Catalans" mobile
+done
 
 echo "All audits finished OK :)"

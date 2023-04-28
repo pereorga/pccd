@@ -1,13 +1,16 @@
-# Developer files
+# Unnecessary developer files
 .DS_Store
 sftp-config.json
 *.sublime-workspace
-.picasa.ini
 .fleet
+.vscode
 
 # The original database file (MS Access) and provided zipped files
 /*.accdb
 /*.zip
+
+# Unnecessary provided files
+.picasa.ini
 
 # Local settings files
 .env
@@ -27,7 +30,8 @@ vendor
 /tmp/*.json
 /tmp/pccd
 /tmp/cv
-/scripts/common-voice-export/move-clips.sh
+*.generated.sh
+*.report.html
 
-# It is useful to keep these intermediate files locally to inspect test performance with `stat tmp/test_repetits_*`
+# Intermediate generated files
 /tmp/test_repetits_*.txt

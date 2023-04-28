@@ -21,16 +21,9 @@ declare(strict_types=1);
 const YEAR_MAX = 9999;
 
 $request_uri = get_request_uri();
-$variants = [];
 $paremiotipus = is_string($_GET['paremiotipus']) ? path_to_name($_GET['paremiotipus']) : '';
 $modismes = get_modismes($paremiotipus);
-// Group them by the variants.
-foreach ($modismes as $m) {
-    if (!isset($variants[$m['MODISME']])) {
-        $variants[$m['MODISME']] = [];
-    }
-    $variants[$m['MODISME']][] = $m;
-}
+$variants = group_modismes_by_variant($modismes);
 
 $total_variants = count($variants);
 if ($total_variants === 0) {
@@ -166,18 +159,18 @@ foreach ($variants as $modisme => $variant) {
 
             $body = '';
             if ($explicacio !== '') {
-                $body .= '<p>' . ucfirst($explicacio) . '</p>';
+                $body .= '<div>' . ucfirst($explicacio) . '</div>';
             }
             if ($v['EXEMPLES'] !== null) {
                 $exemples = ct($v['EXEMPLES']);
                 if ($meta_desc === '') {
                     $meta_desc = "Exemple: {$exemples}";
                 }
-                $body .= '<p><i>' . ucfirst($exemples) . '</i>';
+                $body .= '<div><i>' . ucfirst($exemples) . '</i>';
                 if (!str_ends_with($exemples, '?') && !str_ends_with($exemples, '!')) {
                     $body .= '.';
                 }
-                $body .= '</p>';
+                $body .= '</div>';
             }
             if ($v['SINONIM'] !== null) {
                 $sinonim = trim(trim(trim($v['SINONIM']), '.'));
@@ -185,11 +178,11 @@ foreach ($variants as $modisme => $variant) {
                 if ($meta_desc === '') {
                     $meta_desc = 'Sinònim: ' . $sinonim;
                 }
-                $body .= '<p>Sinònim: ' . $sinonim;
+                $body .= '<div>Sinònim: ' . $sinonim;
                 if (!str_ends_with($v['SINONIM'], '?') && !str_ends_with($v['SINONIM'], '!')) {
                     $body .= '.';
                 }
-                $body .= '</p>';
+                $body .= '</div>';
             }
             if ($v['EQUIVALENT'] !== null) {
                 $equivalent_label = 'Equivalent';
@@ -202,29 +195,29 @@ foreach ($variants as $modisme => $variant) {
                 }
                 $iso_code = $v['IDIOMA'] !== null ? get_idioma_iso_code($v['IDIOMA']) : '';
                 if ($iso_code !== '') {
-                    $body .= "<p>{$equivalent_label}: <span lang=\"{$iso_code}\">" . ct($v['EQUIVALENT']) . '</span>';
+                    $body .= "<div>{$equivalent_label}: <span lang=\"{$iso_code}\">" . ct($v['EQUIVALENT']) . '</span>';
                 } else {
-                    $body .= "<p>{$equivalent_label}: " . ct($v['EQUIVALENT']);
+                    $body .= "<div>{$equivalent_label}: " . ct($v['EQUIVALENT']);
                 }
                 if (!str_ends_with($v['EQUIVALENT'], '?') && !str_ends_with($v['EQUIVALENT'], '!')) {
                     $body .= '.';
                 }
-                $body .= '</p>';
+                $body .= '</div>';
             }
             if ($v['LLOC'] !== null) {
-                $body .= '<p>Lloc: ' . ct($v['LLOC']) . '.</p>';
+                $body .= '<div>Lloc: ' . ct($v['LLOC']) . '.</div>';
                 if ($meta_desc_fallback === '') {
                     $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC']);
                 }
             }
             if ($v['FONT'] !== null) {
                 $font = ct($v['FONT']);
-                $body .= '<p>Font: ' . $font;
+                $body .= '<div>Font: ' . $font;
                 // For DSFF.
                 if (!str_ends_with($font, '*')) {
                     $body .= '.';
                 }
-                $body .= '</p>';
+                $body .= '</div>';
             }
 
             $paremia .= '<div class="entrada">';
@@ -239,7 +232,7 @@ foreach ($variants as $modisme => $variant) {
             $prev_work = $work;
         } elseif ($v['LLOC'] !== null) {
             $paremia .= '<div class="entrada">';
-            $paremia .= '<p>Lloc: ' . ct($v['LLOC']) . '.</p>';
+            $paremia .= '<div>Lloc: ' . ct($v['LLOC']) . '.</div>';
             $paremia .= '</div>';
             if ($meta_desc_fallback === '') {
                 $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC']);
@@ -406,11 +399,6 @@ if ($total_variants > 1) {
         $output .= '<a class="media-link d-inlineblock d-md-none" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '">';
         $output .= 'ves als fitxers';
         $output .= '</a>';
-
-        // Add a link to main content in the bottom too.
-        $blocks .= '<p class="media-link-bottom-wrapper bloc bloc-white d-block d-md-none">';
-        $blocks .= '<a class="media-link" href="#contingut">torna a dalt</a>';
-        $blocks .= '</p>';
     }
     $output .= '</div></div>';
 }

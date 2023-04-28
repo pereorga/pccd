@@ -22,66 +22,6 @@ const MAX_RANDOM_PAREMIOTIPUS = 10000;
 const MIN_SINONIM_WORD_LENGTH = 3;
 
 /**
- * Gets a valid HTML id attribute.
- */
-function get_valid_id_attribute(string $string): string
-{
-    // Make it alphanumeric.
-    $string = preg_replace('/[^A-Za-z0-9\s-]/', '', $string);
-    assert(is_string($string));
-
-    // Convert whitespaces and underscore to dash
-    $string = preg_replace('/\s/', '-', $string);
-    assert(is_string($string));
-
-    return $string;
-}
-
-/**
- * Links sinonims inside to the paremiotipus.
- *
- * @param array<string, string> $anchor_links
- */
-function link_sinonims_to_paremiotipus(string $sinonim_field, array $anchor_links = []): string
-{
-    $sinonims_array = get_sinonims($sinonim_field);
-    foreach ($sinonims_array as $modisme) {
-        $sinonim_field = link_modismes($modisme, $sinonim_field, $anchor_links);
-    }
-
-    return $sinonim_field;
-}
-
-/**
- * Links paremiotipus or modismes within a text.
- *
- * @param array<string, string> $anchor_links
- */
-function link_modismes(string $modisme, string $text, array $anchor_links = []): string
-{
-    if (isset($anchor_links[$modisme])) {
-        return str_replace($modisme, '<a href="#' . $anchor_links[$modisme] . '">' . $modisme . '</a>', $text);
-    }
-
-    $paremiotipus_display = get_paremiotipus_display($modisme, true);
-    if ($paremiotipus_display !== '') {
-        return str_replace($modisme, '<a href="' . get_paremiotipus_url($modisme) . '">' . $modisme . '</a>', $text);
-    }
-
-    // Try to get the paremiotipus from the modisme.
-    $paremiotipus_match = get_paremiotipus_by_modisme($modisme);
-    if ($paremiotipus_match !== '') {
-        if (isset($anchor_links[$paremiotipus_match])) {
-            return str_replace($modisme, '<a href="#' . $anchor_links[$paremiotipus_match] . '">' . $modisme . '</a>', $text);
-        }
-
-        return str_replace($modisme, '<a href="' . get_paremiotipus_url($paremiotipus_match) . '">' . $modisme . '</a>', $text);
-    }
-
-    return $text;
-}
-
-/**
  * Gets a clean sinonim, removing unnecessary characters or notes.
  */
 function get_sinonim_clean(string $sinonim): string
@@ -499,6 +439,9 @@ function get_redirects(): array
 {
     // These redirects are mapped manually based on a Google Search console report.
     return [
+        '/?paremiotipus=Posar-li+el+dogall+al+coll' => '/p/Estar_amb_el_dogal_al_coll',
+        '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_%E2%80%9CFotre%E2%80%9D%2C_el_Messi_dels_verbs_catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
+        '/?obra=Badia+i+Pujol%2C+Jordi+%282022%29%3A+Vilaweb+-+%E2%80%9CFotre%E2%80%9D%2C+el+Messi+dels+verbs+catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282021%29%3A+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau%3F%3A+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
         '/?obra=Badia+i+Pujol%2C+Jordi+(2021):+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau?:+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
         '/?obra=Badia+i+Pujol,+Jordi+(2021):+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau?:+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
@@ -835,6 +778,70 @@ function get_modismes(string $paremiotipus): array
 }
 
 /**
+ * Groups modismes by variant.
+ *
+ * @phpstan-param list<array{
+ *     MODISME: string,
+ *     PAREMIOTIPUS: string,
+ *     AUTOR: ?string,
+ *     AUTORIA: ?string,
+ *     DIARI: ?string,
+ *     ARTICLE: ?string,
+ *     EDITORIAL: ?string,
+ *     ANY: ?float,
+ *     PAGINA: ?string,
+ *     LLOC: ?string,
+ *     EXPLICACIO: ?string,
+ *     EXPLICACIO2: ?string,
+ *     EXEMPLES: ?string,
+ *     SINONIM: ?string,
+ *     EQUIVALENT: ?string,
+ *     IDIOMA: ?string,
+ *     FONT: ?string,
+ *     ACCEPCIO: ?string,
+ *     ID_FONT: ?string,
+ * }> $modismes
+ *
+ * @phan-param list<array> $modismes
+ *
+ * @phpstan-return array<string, non-empty-list<array{
+ *     MODISME: string,
+ *     PAREMIOTIPUS: string,
+ *     AUTOR: ?string,
+ *     AUTORIA: ?string,
+ *     DIARI: ?string,
+ *     ARTICLE: ?string,
+ *     EDITORIAL: ?string,
+ *     ANY: ?float,
+ *     PAGINA: ?string,
+ *     LLOC: ?string,
+ *     EXPLICACIO: ?string,
+ *     EXPLICACIO2: ?string,
+ *     EXEMPLES: ?string,
+ *     SINONIM: ?string,
+ *     EQUIVALENT: ?string,
+ *     IDIOMA: ?string,
+ *     FONT: ?string,
+ *     ACCEPCIO: ?string,
+ *     ID_FONT: ?string,
+ * }>>
+ *
+ * @phan-return non-empty-associative-array<array>
+ */
+function group_modismes_by_variant(array $modismes): array
+{
+    $variants = [];
+    foreach ($modismes as $m) {
+        if (!isset($variants[$m['MODISME']])) {
+            $variants[$m['MODISME']] = [];
+        }
+        $variants[$m['MODISME']][] = $m;
+    }
+
+    return $variants;
+}
+
+/**
  * Gets a list of image arrays for a specific paremiotipus.
  *
  * @phpstan-return list<array{
@@ -1063,6 +1070,8 @@ function get_clean_url(?string $url): string
     $clean_url = '';
     if ($url !== null) {
         $url = trim($url);
+
+        /** @noinspection NotOptimalIfConditionsInspection */
         if ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) && filter_var($url, \FILTER_SANITIZE_URL) === $url) {
             $clean_url = str_replace(['&', '[', ']'], ['&amp;', '%5B', '%5D'], $url);
         }
@@ -1209,7 +1218,7 @@ function render_pager(int $page_num, int $num_pages): string
         set_prefetch_url(get_pager_url($page_num + 1), 'document');
     }
 
-    return '<nav class="float-left" aria-label="Paginació dels resultats"><ul class="pagination flex-wrap">' . $prev_links . $page_links . $next_links . '</ul></nav>';
+    return '<nav class="float-left" aria-label="Paginació dels resultats"><ul class="pagination">' . $prev_links . $page_links . $next_links . '</ul></nav>';
 }
 
 /**
@@ -1299,7 +1308,7 @@ function get_idioma_iso_code(string $code): string
 
     if (strlen($code) === 2 || strlen($code) === 3) {
         $wrong_code_map = [
-            // `ar` is the ISO code of Arabic, but in the DB it is used for Aranes and Argentinian (Spanish).
+            // `ar` is the ISO code of Arabic, but in the DB it is used for Aranès and Argentinian (Spanish).
             'ar' => 'oc',
             'as' => 'ast',
             // `bs` is the ISO code of Bosnian, but in the DB it is used for Serbocroata.
@@ -1412,12 +1421,11 @@ function get_n_results(string $where_clause, array $arguments): int
             $stmt = get_db()->prepare("SELECT COUNT(DISTINCT PAREMIOTIPUS) FROM 00_PAREMIOTIPUS {$where_clause}");
             $stmt->execute($arguments);
             $total = $stmt->fetchColumn();
+            if (function_exists('apcu_store')) {
+                apcu_store($cache_key, $total);
+            }
         } catch (Exception) {
             $total = 0;
-        }
-
-        if (function_exists('apcu_store')) {
-            apcu_store($cache_key, $total);
         }
     }
 
@@ -1462,7 +1470,6 @@ function normalize_search(?string $string, string $search_mode = ''): string
         $string = str_replace(['"', '+', '.', '%', '--', '_', '(', ')', '[', ']', '{', '}', '^', '>', '<', '~', '@', '$', '|', '/', '\\'], '', $string);
 
         // Normalize to lowercase, standardize simple quotes and remove accents.
-        // TODO: consider standardizing '–', '—', '―' and '─' characters (not '-'), potentially filtering them on search.
         $string = str_replace(
             ['’', 'à', 'á', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü'],
             ["'", 'a', 'a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u'],
@@ -1483,16 +1490,20 @@ function normalize_search(?string $string, string $search_mode = ''): string
             } elseif ($search_mode === 'conté') {
                 // Remove characters that may affect FULL-TEXT search syntax.
                 $string = str_replace(['*', '?'], '', $string);
+
+                // Remove loose `-` operator.
+                /** @noinspection CascadeStringReplacementInspection */
                 $string = str_replace(' - ', ' ', $string);
 
-                // Nice to have: remove extra useless characters.
-                $string = str_replace(['“', '”', '«', '»', '…', ',', ':', ';', '!', '¡', '¿'], '', $string);
+                // Nice to have: remove extra useless characters (not `-`).
+                /** @noinspection CascadeStringReplacementInspection */
+                $string = str_replace(['“', '”', '«', '»', '…', ',', ':', ';', '!', '¡', '¿', '–', '—', '―', '─'], '', $string);
 
                 // Build the full-text query.
                 $words = preg_split('/\\s+/', $string);
+                $string = '';
 
                 /** @var list<string> $words */
-                $string = '';
                 foreach ($words as $word) {
                     if (str_starts_with($word, '-')) {
                         // Respect `-` operator.
@@ -1725,24 +1736,22 @@ function get_random_top10000_paremiotipus(): string
 /**
  * Returns a random book by Víctor Pàmies.
  *
- * @return array{Imatge: string, Títol: string, URL: string, WIDTH: int, HEIGHT: int}
+ * @return array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}
  */
 function get_random_book(): array
 {
     // As this query has a limited number of results but runs many times, cache it in memory.
-    /** @phpstan-var false|list<array{Imatge: string, Títol: string, URL: string, WIDTH: int, HEIGHT: int}> $books */
+    /** @phpstan-var false|list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
     $books = function_exists('apcu_fetch') ? apcu_fetch('books') : false;
     if ($books === false) {
         $stmt = get_db()->query('SELECT Imatge, `Títol`, URL, WIDTH, HEIGHT FROM `00_OBRESVPR`');
 
-        /** @phpstan-var list<array{Imatge: string, Títol: string, URL: string, WIDTH: int, HEIGHT: int}> $books */
+        /** @phpstan-var list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
         $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (function_exists('apcu_store')) {
             apcu_store('books', $books);
         }
     }
 
-    $random_key = array_rand($books);
-
-    return $books[$random_key];
+    return $books[array_rand($books)];
 }

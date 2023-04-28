@@ -37,81 +37,81 @@ if (!str_starts_with($request_uri, '/obra/')) {
 set_page_title(htmlspecialchars($obra['Identificador']));
 $meta_desc = '';
 
-$output = '<article class="obra text-break">';
+$output = '<section class="obra text-break">';
 $output .= '<div class="row">';
 
 $image_exists = is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge']);
 if ($image_exists) {
-    $output .= '<div class="col-sm-5 order-2 order-sm-1">';
+    $output .= '<aside class="col-sm-5 order-2 order-sm-1">';
     $output .= get_image_tags($obra['Imatge'], '/img/obres/', $obra['Títol'] ?? '', $obra['WIDTH'], $obra['HEIGHT'], false);
     set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']));
-    $output .= '</div>';
+    $output .= '</aside>';
 
-    $output .= '<div class="col-sm-7 order-1 order-sm-2 mb-3">';
+    $output .= '<article class="col-sm-7 order-1 order-sm-2">';
 } else {
-    $output .= '<div class="col-sm mb-3">';
+    $output .= '<article class="col-sm">';
 }
 
 if ($obra['Títol'] !== null) {
     $output .= '<h1>' . htmlspecialchars($obra['Títol']) . '</h1>';
 }
 if ($obra['Autor'] !== null) {
-    $output .= '<p>Autor: ' . htmlspecialchars($obra['Autor']) . '</p>';
+    $output .= '<dl><dt>Autor:</dt><dd>' . htmlspecialchars($obra['Autor']) . '</dd></dl>';
 }
 if ($obra['Any'] !== null) {
-    $output .= '<p>Any de publicació: ' . htmlspecialchars($obra['Any']) . '</p>';
+    $output .= '<dl><dt>Any de publicació:</dt><dd>' . htmlspecialchars($obra['Any']) . '</dd></dl>';
 }
 if ($obra['ISBN'] !== null) {
     $isbn = htmlspecialchars($obra['ISBN']);
     if (isbn_is_valid($isbn)) {
-        $output .= '<p>ISBN: <a title="Cerqueu l\'obra a llibreries i biblioteques" href="https://ca.wikipedia.org/wiki/Especial:Fonts_bibliogr%C3%A0fiques?isbn=' . $isbn . '">' . $isbn . '</a></p>';
+        $output .= '<dl><dt>ISBN:</dt><dd><a title="Cerqueu l\'obra a llibreries i biblioteques" href="https://ca.wikipedia.org/wiki/Especial:Fonts_bibliogr%C3%A0fiques?isbn=' . $isbn . '">' . $isbn . '</a></dd></dl>';
     } else {
-        $output .= "<p>ISBN: {$isbn}</p>";
+        $output .= "<dl><dt>ISBN:</dt><dd>{$isbn}</dd></dl>";
     }
 }
 if ($obra['Editorial'] !== null) {
-    $output .= '<p>Editorial: ' . htmlspecialchars($obra['Editorial']) . '</p>';
+    $output .= '<dl><dt>Editorial:</dt><dd>' . htmlspecialchars($obra['Editorial']) . '</dd></dl>';
 }
 if ($obra['Municipi'] !== null) {
-    $output .= '<p>Municipi: ' . htmlspecialchars($obra['Municipi']) . '</p>';
+    $output .= '<dl><dt>Municipi:</dt><dd>' . htmlspecialchars($obra['Municipi']) . '</dd></dl>';
 }
 if ($obra['Edició'] !== null) {
-    $output .= '<p>Edició: ' . htmlspecialchars($obra['Edició']) . '</p>';
+    $output .= '<dl><dt>Edició:</dt><dd>' . htmlspecialchars($obra['Edició']) . '</dd></dl>';
 }
 if ($obra['Any_edició'] > 0) {
-    $output .= "<p>Any de l'edició: " . $obra['Any_edició'] . '</p>';
+    $output .= "<dl><dt>Any de l'edició:</dt><dd>" . $obra['Any_edició'] . '</dd></dl>';
 }
 if ($obra['Collecció'] !== null) {
-    $output .= '<p>Col·lecció: ' . htmlspecialchars($obra['Collecció']) . '</p>';
+    $output .= '<dl><dt>Col·lecció:</dt><dd>' . htmlspecialchars($obra['Collecció']) . '</dd></dl>';
 }
 if ($obra['Núm_collecció'] !== null) {
-    $output .= '<p>Núm. de la col·lecció: ' . htmlspecialchars($obra['Núm_collecció']) . '</p>';
+    $output .= '<dl><dt>Núm. de la col·lecció:</dt><dd>' . htmlspecialchars($obra['Núm_collecció']) . '</dd></dl>';
 }
 if ($obra['Pàgines'] > 0) {
-    $output .= '<p>Núm. de pàgines: ' . format_nombre($obra['Pàgines']) . '</p>';
+    $output .= '<dl><dt>Núm. de pàgines:</dt><dd>' . format_nombre($obra['Pàgines']) . '</dd></dl>';
 }
 if ($obra['Idioma'] !== null) {
-    $output .= '<p>Idioma: ' . htmlspecialchars($obra['Idioma']) . '</p>';
+    $output .= '<dl><dt>Idioma:</dt><dd>' . htmlspecialchars($obra['Idioma']) . '</dd></dl>';
 }
 if ($obra['Preu'] > 0) {
-    $output .= '<p>Preu de compra: ' . round($obra['Preu']) . ' €</p>';
+    $output .= '<dl><dt>Preu de compra:</dt><dd>' . round($obra['Preu']) . ' €</dd></dl>';
 }
 if ($obra['Data_compra'] !== null) {
     $date = DateTime::createFromFormat('Y-m-d', $obra['Data_compra']);
     if ($date !== false) {
-        $output .= '<p>Data de compra: ' . $date->format('d/m/Y') . '</p>';
+        $output .= '<dl><dt>Data de compra:</dt><dd>' . $date->format('d/m/Y') . '</dd></dl>';
     } else {
-        $output .= '<p>Data de compra: ' . htmlspecialchars($obra['Data_compra']) . '</p>';
+        $output .= '<dl><dt>Data de compra:</dt><dd>' . htmlspecialchars($obra['Data_compra']) . '</dd></dl>';
     }
 }
 if ($obra['Lloc_compra'] !== null) {
-    $output .= '<p>Lloc de compra: ' . htmlEscapeAndLinkUrls($obra['Lloc_compra'], '_blank', 'nofollow noopener noreferrer') . '</p>';
+    $output .= '<dl><dt>Lloc de compra:</dt><dd>' . htmlEscapeAndLinkUrls($obra['Lloc_compra'], '_blank', 'nofollow noopener noreferrer') . '</dd></dl>';
 }
 if ($obra['URL'] !== null) {
-    $output .= '<p>Enllaç: ' . htmlEscapeAndLinkUrls($obra['URL']) . '</p>';
+    $output .= '<dl><dt>Enllaç:</dt><dd>' . htmlEscapeAndLinkUrls($obra['URL']) . '</dd></dl>';
 }
 if ($obra['Observacions'] !== null) {
-    $output .= '<p>Observacions: ' . htmlEscapeAndLinkUrls($obra['Observacions'], '_blank', 'nofollow noopener noreferrer') . '</p>';
+    $output .= '<dl><dt>Observacions:</dt><dd>' . htmlEscapeAndLinkUrls($obra['Observacions'], '_blank', 'nofollow noopener noreferrer') . '</dd></dl>';
     $meta_desc = htmlspecialchars($obra['Observacions']);
 }
 
@@ -124,10 +124,10 @@ if ($obra['Registres'] > 0) {
         $meta_desc = $registres;
     }
 
-    $output .= '<p class="peu">' . $registres . '</p>';
+    $output .= '<footer>' . $registres . '</footer>';
 }
 
-$output .= '</div></div></article>';
+$output .= '</article></div></section>';
 
 set_meta_description($meta_desc);
 

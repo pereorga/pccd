@@ -70,20 +70,20 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
                 </div>
             </div>
         </div>
-        <div class="form-row form-group search-options">
-            <div class="col-2 col-sm-3 text-nowrap search-options-label">Inclou<span class="d-none d-sm-inline"> en la cerca</span>:</div>
+        <div class="form-row form-group">
+            <div class="col-2 col-sm-3 text-nowrap search-options-label">Inclou<span class="d-none d-lg-inline"> en la cerca</span>:</div>
             <div class="col">
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" name="variant" id="variant" class="form-check-input" title="Variants del paremiotipus" value=""<?php echo checkbox_checked('variant') ? ' checked' : ''; ?>>
-                    <label for="variant" class="form-check-label" title="Variants del paremiotipus">variants</label>
+                <div class="form-check">
+                    <input type="checkbox" name="variant" id="variant" title="Variants del paremiotipus" value=""<?php echo checkbox_checked('variant') ? ' checked' : ''; ?>>
+                    <label for="variant" title="Variants del paremiotipus">variants</label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" name="sinonim" id="sinonim" class="form-check-input" title="Expressions sinònimes" value=""<?php echo checkbox_checked('sinonim') ? ' checked' : ''; ?>>
-                    <label for="sinonim" class="form-check-label" title="Expressions sinònimes">sinònims</label>
+                <div class="form-check">
+                    <input type="checkbox" name="sinonim" id="sinonim" title="Expressions sinònimes" value=""<?php echo checkbox_checked('sinonim') ? ' checked' : ''; ?>>
+                    <label for="sinonim" title="Expressions sinònimes">sinònims</label>
                 </div>
-                <div class="form-check form-check-inline mr-0">
-                    <input type="checkbox" name="equivalent" id="equivalent" class="form-check-input" title="Equivalents en altres llengües" value=""<?php echo checkbox_checked('equivalent') ? ' checked' : ''; ?>>
-                    <label for="equivalent" class="form-check-label" title="Equivalents en altres llengües">altres idiomes</label>
+                <div class="form-check">
+                    <input type="checkbox" name="equivalent" id="equivalent" title="Equivalents en altres llengües" value=""<?php echo checkbox_checked('equivalent') ? ' checked' : ''; ?>>
+                    <label for="equivalent" title="Equivalents en altres llengües">altres idiomes</label>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@ if ($total > 0) {
     }
     $output .= '</tbody></table>';
 
-    $output .= '<div class="pager mt-4 mb-3">';
+    $output .= '<div class="pager">';
     // Only show pagination selector and pager if it can be useful.
     if ($total > PAGER_DEFAULT) {
         // Only show pager if there is more than one page.

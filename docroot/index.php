@@ -108,37 +108,35 @@ foreach (get_prefetch_urls() as $url => $type) {
 <?php
 require __DIR__ . '/css/base.min.css';
 
+// If the page has page-specific CSS, include it.
 /** @psalm-suppress UnresolvableInclude */
-include __DIR__ . "/css/{$page_name}.min.css";
+@include __DIR__ . "/css/{$page_name}.min.css";
 ?>
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md">
-        <div class="container-md">
+    <header class="navbar">
+        <nav class="container-md">
             <a href="/" class="navbar-brand" aria-label="PCCD"><span>Paremiologia catalana comparada digital</span></a>
-            <button id="navbar-toggle" type="button">
-                <span class="navbar-toggle-icon">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                        <path fill="white" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/>
-                    </svg>
-                </span>
-                <span class="sr-only">Desplega el menú</span>
+            <button id="navbar-toggle" type="button" aria-label="Desplega el menú">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                    <path fill="white" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/>
+                </svg>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="menu">
+            <div class="d-none" id="menu">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/projecte">Projecte</a>
-                    <a class="nav-item nav-link" href="/"<?php echo $page_name !== 'search' ? ' title="Ves a la pàgina principal (Ctrl /)"' : ''; ?>>Cerca</a>
-                    <a class="nav-item nav-link" href="/instruccions">Instruccions d'ús</a>
-                    <a class="nav-item nav-link" href="/credits">Crèdits</a>
+                    <a href="/projecte">Projecte</a>
+                    <a href="/" title="Ctrl + /">Cerca</a>
+                    <a href="/instruccions">Instruccions d'ús</a>
+                    <a href="/credits">Crèdits</a>
                 </div>
             </div>
-        </div>
-    </nav>
-    <div id="contingut" class="container-md">
+        </nav>
+    </header>
+    <main class="container-md">
         <div class="row">
-            <main class="col-md-9"<?php echo $page_name === 'search' ? ' data-nosnippet' : ''; ?>>
+            <section class="col-md-9"<?php echo $page_name === 'search' ? ' data-nosnippet' : ''; ?>>
 <?php
 // Search and obra pages have a slightly different template.
 if ($page_name === 'obra' || $page_name === 'search') {
@@ -150,7 +148,7 @@ if ($page_name === 'obra' || $page_name === 'search') {
     echo '</article>';
 }
 ?>
-            </main>
+            </section>
             <aside class="col-md">
 <?php
 
@@ -165,10 +163,14 @@ if ($page_name === 'search') {
     echo get_paremiotipus_display($random_paremiotipus);
     echo '</a>»';
     echo '</p>';
-    echo '<p class="peu"><a href="/top100">Les 100 parèmies més citades</a></p>';
+    echo '<footer><a href="/top100">Les 100 parèmies més citades</a></footer>';
     echo '</div>';
 
+    // TODO: FIXME in the DB.
     $random_book = get_random_book();
+    if ($random_book['URL'] === null || $random_book['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
+        $random_book['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
+    }
     echo '<div class="bloc bloc-llibres">';
     echo '<p><a href="/llibres">Llibres de l\'autor</a></p>';
     echo '<a href="' . $random_book['URL'] . '" title="' . htmlspecialchars($random_book['Títol']) . '">';
@@ -190,7 +192,7 @@ if ($page_name === 'search') {
     echo get_paremiotipus_display($random_paremiotipus);
     echo '</a>»';
     echo '</p>';
-    echo '<p class="peu">Les 10.000 parèmies més citades</p>';
+    echo '<footer>Les 10.000 parèmies més citades</footer>';
     echo '</div>';
 }
 ?>
@@ -205,19 +207,17 @@ if ($page_name === 'search') {
                 </div>
             </aside>
         </div>
-        <footer>
-            <p><?php echo format_nombre(get_n_modismes()); ?> fitxes, corresponents a <?php echo format_nombre(get_n_paremiotipus()); ?> paremiotipus, de <?php echo format_nombre(get_n_fonts()); ?> fonts. Última actualització: <?php require __DIR__ . '/../tmp/date.txt'; ?></p>
-            <p>© Víctor Pàmies i Riudor, 2020-2023.</p>
-        </footer>
-    </div>
+    </main>
+    <footer>
+        <p><?php echo format_nombre(get_n_modismes()); ?> fitxes, corresponents a <?php echo format_nombre(get_n_paremiotipus()); ?> paremiotipus, de <?php echo format_nombre(get_n_fonts()); ?> fonts. Última actualització: <?php require __DIR__ . '/../tmp/db_date.txt'; ?></p>
+        <p>© Víctor Pàmies i Riudor, 2020-2023.</p>
+    </footer>
     <div id="snackbar" class="d-none">
-        <div class="snackbar-snack" role="alert">
-            <div class="snackbar-inner">
-                <div class="snackbar-message">Aquest lloc web fa servir galetes de Google per analitzar el trànsit.</div>
-                <button id="snackbar-action" type="button">D'acord</button>
-            </div>
+        <div class="snackbar-inner" role="alert">
+            <div class="snackbar-message">Aquest lloc web fa servir galetes de Google per analitzar el trànsit.</div>
+            <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=0"></script>
+    <script async src="/js/script.min.js?v=1"></script>
 </body>
 </html>

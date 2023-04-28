@@ -1,8 +1,8 @@
 # Paremiologia catalana comparada digital (PCCD)
 
-This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/).
-
-Note: The PCCD database and the media files are covered by different terms and are not distributed with this repository.
+This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/) website. The PCCD database
+and media files are covered by different terms and are not distributed with this repository. If you plan to contribute
+to the project, please contact us first (this GitHub repository is not used for development).
 
 ## Installation
 
@@ -15,7 +15,7 @@ docker-compose up --build
 ```
 
 When the database has finished importing, the website should be available at both <http://localhost:8091> (Varnish) and
-<http://localhost:8092> (Apache), depending on your env file.
+<http://localhost:8092> (Apache), depending on your `.env` file.
 
 Note: If you don't have a database, you can copy `tmp/schema.sql` and `tmp/schema_init_sample.sql` files to
 `install/db/`. That will import an empty database and should allow you to browse the website locally.
@@ -36,7 +36,13 @@ for prettifying shell scripts. Also, some development scripts require at least [
 this time (on Ubuntu 22.04) the packages and versions above can also be installed using [Homebrew](https://brew.sh/):
 
 ```bash
-brew bundle install --file=ubuntu.Brewfile && npm install --global yarn && yarn install
+brew bundle install --file=ubuntu.Brewfile
+```
+
+The rest of dependencies can be installed using [Yarn](https://yarnpkg.com/):
+
+```bash
+npm install --global yarn && yarn install
 ```
 
 ### Installation on macOS (using Homebrew)
@@ -73,6 +79,8 @@ git add . && git commit -m 'new release' && git push
 yarn export:code
 ```
 
+You may need to run `yarn refresh:test-data` if the data has changed, in order to pass the tests.
+
 ## Local development
 
 ### Development requirements
@@ -93,7 +101,7 @@ yarn build:assets
 To compress and convert already converted images, delete them before running `yarn optimize:images`:
 
 ```bash
-rm -f docroot/img/imatges/* docroot/img/obres/*
+yarn delete:images
 ```
 
 ### Code linting, formatting and static code analysis
@@ -126,17 +134,18 @@ yarn check:sitemap
 
 ### Profiling
 
-SPX and XHProf profilers can be used to pass the profiler argument to docker-compose:
+SPX and XHProf profilers are available:
 
 ```bash
-scripts/docker_build.sh --build-arg profiler=spx
+yarn build:docker:spx
 ```
 
 ```bash
-scripts/docker_build.sh --build-arg profiler=xhprof
+yarn build:docker:xhprof
 ```
 
-Profiler reports can be accessed in the `/admin/` path alongside the other reports (password is set in the `.env` file).
+Profiler reports can be accessed in `/admin/`, alongside the other reports (web admin password is set in the `.env`
+file).
 
 ## TODO
 

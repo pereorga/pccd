@@ -18,25 +18,17 @@ h2 {
 #toggle-all,
 a.media-link {
     padding: 3px 6px;
-    font-size: 13px;
+    font-size: 0.875rem;
     line-height: 1;
-    color: #333;
-    text-align: left;
+    color: #000;
     text-decoration: none;
     background-color: #eee;
-    border-top: 1px solid #ccc;
-    border-right: 1px solid #333;
-    border-bottom: 1px solid #333;
-    border-left: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
 }
 
 #toggle-all {
     margin-right: 1rem;
-}
-
-.media-link-bottom-wrapper a.media-link {
-    font-size: 1rem;
 }
 
 #toggle-all:hover,
@@ -64,10 +56,9 @@ details summary {
     word-wrap: break-word;
 }
 
-.entrada p,
+.entrada div,
 .entrada footer {
     padding: 0.25rem;
-    margin: 0;
 }
 
 figcaption {
@@ -98,8 +89,7 @@ a.audio:focus {
 }
 
 @media print {
-    .shortcuts,
-    .media-link-bottom-wrapper {
+    .shortcuts {
         display: none;
     }
 }

@@ -40,6 +40,14 @@ gtag("config", "G-CP42Y3NK1R");
         }
     };
 
+    // Keyboard shortcut to go the homepage.
+    document.addEventListener("keydown", (event) => {
+        if (event.ctrlKey && (event.key === "/" || event.key === "7")) {
+            document.location.assign("/");
+        }
+    });
+
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const searchBox = document.querySelector("#cerca");
 
     // Search/homepage.
@@ -74,10 +82,7 @@ gtag("config", "G-CP42Y3NK1R");
         // Search keyboard shortcuts.
         document.addEventListener("keydown", (event) => {
             if (event.ctrlKey) {
-                if (event.key === "/" || event.key === "7") {
-                    searchBox.focus();
-                    searchBox.select();
-                } else if (event.key === "ArrowRight" && nextButton) {
+                if (event.key === "ArrowRight" && nextButton) {
                     document.location.assign(nextButton.getAttribute("href"));
                 } else if (event.key === "ArrowLeft" && previousButton) {
                     document.location.assign(previousButton.getAttribute("href"));
@@ -104,13 +109,6 @@ gtag("config", "G-CP42Y3NK1R");
             localStorage.setItem("equivalent", equivalentCheckbox.checked ? "1" : "");
         });
     } else {
-        // Keyboard shortcut to go the homepage.
-        document.addEventListener("keydown", (event) => {
-            if (event.ctrlKey && (event.key === "/" || event.key === "7")) {
-                document.location.assign("/");
-            }
-        });
-
         // Play Common Voice on-click in paremiotipus pages.
         for (const audio of document.querySelectorAll(".audio")) {
             audio.addEventListener("click", (event) => {
@@ -144,18 +142,20 @@ gtag("config", "G-CP42Y3NK1R");
     }
 
     // Ensure the following is executed with browser back/forward navigation.
-    window.addEventListener("pageshow", () => {
-        // In the search page, select the text inside the search box, but not in touch devices.
-        if (searchBox && searchBox.value && !("ontouchstart" in window || navigator.maxTouchPoints > 0)) {
-            searchBox.select();
-        }
-    });
+    if (!isTouchDevice) {
+        window.addEventListener("pageshow", () => {
+            // In the search page, select the text inside the search box, but not in touch devices.
+            if (searchBox && searchBox.value) {
+                searchBox.select();
+            }
+        });
+    }
 
     // Show the cookie alert.
     if (localStorage.getItem("accept_cookies") !== "1") {
         const snackBar = document.querySelector("#snackbar");
         snackBar.classList.remove("d-none");
-        document.querySelector("#snackbar-action").addEventListener("click", () => {
+        snackBar.querySelector("button").addEventListener("click", () => {
             snackBar.remove();
             localStorage.setItem("accept_cookies", "1");
         });
@@ -163,11 +163,17 @@ gtag("config", "G-CP42Y3NK1R");
 
     // Toggle hamburger menu.
     document.querySelector("#navbar-toggle").addEventListener("click", () => {
-        document.querySelector("#menu").classList.toggle("collapse");
+        document.querySelector("#menu").classList.toggle("d-none");
     });
 
-    // Add class to remove annoying scrolling effect on iOS.
-    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-        document.documentElement.classList.add("ios");
+    // Slower devices may benefit of preloading pages (Quicklink already checks if the device connection is too slow).
+    if (isTouchDevice) {
+        const script = document.createElement("script");
+        script.src = "/js/quicklink.umd.min.js";
+        script.addEventListener("load", () => {
+            // eslint-disable-next-line no-undef
+            quicklink.listen();
+        });
+        document.body.append(script);
     }
 })();

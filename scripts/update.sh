@@ -60,7 +60,7 @@ update_pecl_package_dockerfile() {
         echo "Warning: Could not find latest version of ${PECL_PACKAGE} using pecl, trying it with curl..."
         # Try to check https://pecl.php.net/rest/r/PECL_PACKAGE/allreleases.xml manually.
         # We use sed to not add a new dependency (xmlstarlet/yq/xq/dasel), and because grep -P does not work in POSIX/macOS.
-        latest_version=$(curl --silent "https://pecl.php.net/rest/r/${PECL_PACKAGE}/allreleases.xml" |
+        latest_version=$(curl --silent --fail "https://pecl.php.net/rest/r/${PECL_PACKAGE}/allreleases.xml" |
             grep -F '<s>stable</s>' |
             sed -n 's:.*<v>\(.*\)</v>.*:\1:p' |
             sort --version-sort |
@@ -82,7 +82,7 @@ version_exists_dockerhub() {
     local -r IMAGE_NAME="$1"
     local -r IMAGE_TAG="$2"
     local count
-    count=$(curl --silent "https://hub.docker.com/v2/repositories/library/${IMAGE_NAME}/tags/?page_size=25&page=1&name=${IMAGE_TAG}" |
+    count=$(curl --silent --fail "https://hub.docker.com/v2/repositories/library/${IMAGE_NAME}/tags/?page_size=25&page=1&name=${IMAGE_TAG}" |
         jq --raw-output '.count')
     if [[ ${count} == 0 ]]; then
         return 1
@@ -272,12 +272,12 @@ if [[ $1 == "phive" ]]; then
 fi
 
 if [[ $1 == "apc-gui" ]]; then
-    curl --silent https://raw.githubusercontent.com/krakjoe/apcu/master/apc.php > src/third_party/apc.php
+    curl --silent --fail https://raw.githubusercontent.com/krakjoe/apcu/master/apc.php > src/third_party/apc.php
     exit 0
 fi
 
 if [[ $1 == "opcache-gui" ]]; then
-    curl --silent https://raw.githubusercontent.com/amnuts/opcache-gui/master/index.php > src/third_party/opcache-gui.php
+    curl --silent --fail https://raw.githubusercontent.com/amnuts/opcache-gui/master/index.php > src/third_party/opcache-gui.php
     exit 0
 fi
 
