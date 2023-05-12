@@ -17,6 +17,7 @@ h2 {
 
 #toggle-all,
 a.media-link {
+    display: inline-block;
     padding: 3px 6px;
     font-size: 0.875rem;
     line-height: 1;
@@ -54,11 +55,16 @@ details summary {
     font-size: 0.875rem;
     word-break: break-word;
     word-wrap: break-word;
+    border: 1px solid #dee2e6;
 }
 
 .entrada div,
 .entrada footer {
     padding: 0.25rem;
+}
+
+.entrada footer {
+    background-color: #f9f9f9;
 }
 
 figcaption {
@@ -75,6 +81,10 @@ figcaption {
     padding: 7px;
 }
 
+.bloc-top-paremies {
+    display: none;
+}
+
 a.audio {
     display: inline-block;
     padding: 0.5rem;
@@ -86,6 +96,17 @@ a.audio:hover,
 a.audio:focus {
     filter: brightness(75%);
     opacity: 1;
+}
+
+/* Tablet and greater */
+@media (width >= 768px) {
+    .bloc-top-paremies {
+        display: block;
+    }
+
+    a.media-link {
+        display: none;
+    }
 }
 
 @media print {

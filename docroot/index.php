@@ -96,11 +96,6 @@ if (get_meta_image() !== '') {
 if (get_og_audio_url() !== '') {
     echo '<meta property="og:audio" content="' . get_og_audio_url() . '">';
 }
-
-// URLs to prefetch may be set in search pages.
-foreach (get_prefetch_urls() as $url => $type) {
-    echo '<link rel="prefetch" href="' . $url . '" as="' . $type . '">';
-}
 ?>
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="PCCD">
@@ -116,7 +111,7 @@ require __DIR__ . '/css/base.min.css';
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </head>
 <body>
-    <header class="navbar">
+    <header>
         <nav class="container-md">
             <a href="/" class="navbar-brand" aria-label="PCCD"><span>Paremiologia catalana comparada digital</span></a>
             <button id="navbar-toggle" type="button" aria-label="Desplega el menú">
@@ -136,7 +131,7 @@ require __DIR__ . '/css/base.min.css';
     </header>
     <main class="container-md">
         <div class="row">
-            <section class="col-md-9"<?php echo $page_name === 'search' ? ' data-nosnippet' : ''; ?>>
+            <section class="col-main"<?php echo $page_name === 'search' ? ' data-nosnippet' : ''; ?>>
 <?php
 // Search and obra pages have a slightly different template.
 if ($page_name === 'obra' || $page_name === 'search') {
@@ -149,7 +144,7 @@ if ($page_name === 'obra' || $page_name === 'search') {
 }
 ?>
             </section>
-            <aside class="col-md">
+            <aside class="col-aside">
 <?php
 
 // Side blocks are populated in paremiotipus pages.
@@ -168,12 +163,14 @@ if ($page_name === 'search') {
 
     // TODO: FIXME in the DB.
     $random_book = get_random_book();
-    if ($random_book['URL'] === null || $random_book['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
+    if ($random_book['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
         $random_book['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
     }
     echo '<div class="bloc bloc-llibres">';
     echo '<p><a href="/llibres">Llibres de l\'autor</a></p>';
-    echo '<a href="' . $random_book['URL'] . '" title="' . htmlspecialchars($random_book['Títol']) . '">';
+    if ($random_book['URL'] !== null) {
+        echo '<a href="' . $random_book['URL'] . '" title="' . htmlspecialchars($random_book['Títol']) . '">';
+    }
     echo get_image_tags(
         $random_book['Imatge'],
         '/img/obres/',
@@ -182,13 +179,15 @@ if ($page_name === 'search') {
         $random_book['HEIGHT'],
         false
     );
-    echo '</a>';
+    if ($random_book['URL'] !== null) {
+        echo '</a>';
+    }
     echo '</div>';
 } else {
     $random_paremiotipus = get_random_top10000_paremiotipus();
-    echo '<div class="bloc d-none d-md-block" data-nosnippet>';
+    echo '<div class="bloc bloc-top-paremies" data-nosnippet>';
     echo '<p>';
-    echo '«<a title="Parèmia aleatòria" href="' . get_paremiotipus_url($random_paremiotipus) . '">';
+    echo '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
     echo get_paremiotipus_display($random_paremiotipus);
     echo '</a>»';
     echo '</p>';
@@ -218,6 +217,6 @@ if ($page_name === 'search') {
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=1"></script>
+    <script async src="/js/script.min.js?v=2"></script>
 </body>
 </html>

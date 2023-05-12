@@ -37,20 +37,18 @@ if (!str_starts_with($request_uri, '/obra/')) {
 set_page_title(htmlspecialchars($obra['Identificador']));
 $meta_desc = '';
 
-$output = '<section class="obra text-break">';
+$output = '<section class="text-break">';
 $output .= '<div class="row">';
 
 $image_exists = is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge']);
 if ($image_exists) {
-    $output .= '<aside class="col-sm-5 order-2 order-sm-1">';
+    $output .= '<aside class="col-image">';
     $output .= get_image_tags($obra['Imatge'], '/img/obres/', $obra['Títol'] ?? '', $obra['WIDTH'], $obra['HEIGHT'], false);
     set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']));
     $output .= '</aside>';
-
-    $output .= '<article class="col-sm-7 order-1 order-sm-2">';
-} else {
-    $output .= '<article class="col-sm">';
 }
+
+$output .= '<article class="col-obra">';
 
 if ($obra['Títol'] !== null) {
     $output .= '<h1>' . htmlspecialchars($obra['Títol']) . '</h1>';

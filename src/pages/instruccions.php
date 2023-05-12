@@ -17,9 +17,9 @@ set_meta_description("Instruccions d'ús de la PCCD.");
 ?>
 <p>El cos principal de cerca fa una cerca simple en el camp de paremiotipus. Un paremiotipus és una unitat fraseològica (o parèmia) que hem pres com a principal de tot un seguit de variants formals, cronològiques o dialectals.</p>
 
-<p>La cerca retorna l'enllaç a la fitxa dels resultats ordenats alfabèticament en pantalles configurables de 10, 15, 25 o 50 resultats. Al peu de la cerca apareixen el nombre total de pantalles que responen a la cerca feta.</p>
+<p>La cerca retorna l'enllaç a la fitxa dels resultats en pantalles configurables de 10, 15, 25 o 50 resultats. Al peu de la cerca apareixen el nombre total de pantalles que responen a la cerca feta.</p>
 
-<p>Si accedim a qualsevol fitxa, sota del paremiotipus seleccionat hi ha les dades estadístiques de nombre total de recurrències i nombre de variants. A continuació, numerades, mostra les diferents variants (ordenades alfabèticament), amb indicació del nombre de fonts i de l'any de datació més antic i, també ordenades alfabèticament, les diverses fonts per a cada variant.</p>
+<p>Si accedim a qualsevol fitxa, sota del paremiotipus seleccionat hi ha les dades estadístiques de nombre total de recurrències i nombre de variants. A continuació, numerades, mostra les diferents variants, amb indicació del nombre de fonts i de l'any de datació més antic, i les diverses fonts per a cada variant.</p>
 
 <p>De cada font mostra aquells camps que són plens (sinònim, equivalent, lloc, explicació, exemples) i tots els camps que permeten identificar la font i on apareix la parèmia en qüestió (autor, any, editorial, títol obra, apartat, pàgina, etc.).</p>
 
@@ -39,7 +39,7 @@ set_meta_description("Instruccions d'ús de la PCCD.");
 
 <p>Aquest és el mode de cerca per defecte. Si hom busca diversos termes (p. ex. <span class="text-monospace text-nowrap">gener febrer</span>), apareixeran resultats que inclouen com a mínim aquests termes. L'ordre i la freqüència dels termes no altera els resultats.</p>
 
-<p>Si voleu recuperar una frase sencera, poseu-la entre cometes <span class="text-monospace">"…"</span>.</p>
+<p>Si voleu recuperar una frase sencera, poseu-la entre cometes <span class="text-monospace text-nowrap">"…"</span>.</p>
 
 <p>L'operador de resta <span class="text-monospace">-</span> indica que el terme no ha de ser present. Per exemple, la cerca <span class="text-monospace text-nowrap">pluja -boira</span> retornarà resultats que inclouen <em>pluja</em> però no <em>boira</em>.</p>
 

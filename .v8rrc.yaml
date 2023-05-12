@@ -1,0 +1,6 @@
+patterns: ["*.json", "*.yaml", "*.yml"]
+customCatalog:
+  schemas:
+    - name: GitLab CI
+      fileMatch: [".gitlabcom-ci.yml"]
+      location: https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json

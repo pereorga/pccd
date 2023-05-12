@@ -17,6 +17,9 @@ const extractNumber = (text, regex) => {
     const page = await browser.newPage();
 
     await page.goto(process.env.BASE_URL);
+
+    data.homepageFirstParemiotipus = await page.locator("table td").first().textContent();
+
     const footerText = await page.locator("body > footer p").first().textContent();
     data.paremiotipusNumber = extractNumber(footerText, /([\d.]+) paremiotipus/);
     data.fitxesNumber = extractNumber(footerText, /([\d.]+) fitxes/);
@@ -38,7 +41,7 @@ const extractNumber = (text, regex) => {
     await page.goto(
         `${process.env.BASE_URL}/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Cançoner%2C_3a_ed._1982`
     );
-    const obra = await page.locator(".obra article").textContent();
+    const obra = await page.locator("article.col-obra").textContent();
     data.obraFolkloreCatalunyaNumberOfEntries = extractNumber(
         obra,
         /Aquesta obra té ([\d.]+) fitxes a la base de dades/

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Runs multiple tests in all URLs in sitemap(s).txt.
+# Runs multiple tests in all URLs in sitemap.txt.
 #
 # This script can take a few hours to complete.
 #
@@ -20,7 +20,6 @@ cd "$(dirname "$0")/.."
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0")"
-    echo "Run multiple tests in all URLs in the sitemap files."
 }
 
 # If an argument is passed

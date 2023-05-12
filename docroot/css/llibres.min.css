@@ -1,1 +1,1 @@
-.llibres{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));text-align:center}.llibres a{display:block;padding:10px;margin:auto}.llibres img{width:auto;max-height:200px;border:1px solid #dee2e6}
+.llibres{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:20px;align-items:center;margin-top:20px;text-align:center}.llibres img{width:auto;max-height:200px;border:1px solid #dee2e6}

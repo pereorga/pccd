@@ -1,10 +1,5 @@
 [
   {
-    "path": "docroot/js/script.min.js",
-    "limit": "1 kB",
-    "brotli": true
-  },
-  {
     "path": "docroot/css/base.min.css",
     "limit": "1.5 kB",
     "brotli": true
@@ -17,6 +12,16 @@
   {
     "path": "docroot/css/paremiotipus.min.css",
     "limit": "0.5 kB",
+    "brotli": true
+  },
+  {
+    "path": "docroot/css/obra.min.css",
+    "limit": "0.2 kB",
+    "brotli": true
+  },
+  {
+    "path": "docroot/js/script.min.js",
+    "limit": "1 kB",
     "brotli": true
   }
 ]

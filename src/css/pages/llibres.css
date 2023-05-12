@@ -10,13 +10,10 @@
 .llibres {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px;
     text-align: center;
-}
-
-.llibres a {
-    display: block;
-    padding: 10px;
-    margin: auto;
 }
 
 .llibres img {

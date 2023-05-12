@@ -9,7 +9,7 @@ test.describe("Obra", () => {
     test(`"Folklore de Catalunya. Cançoner" has ${data.obraFolkloreCatalunyaNumberOfEntries} entries, of which
             ${data.obraFolkloreCatalunyaNumberOfEntriesCollected} has been collected`, async ({ page }) => {
         await page.goto("/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Cançoner%2C_3a_ed._1982");
-        const obra = await page.locator(".obra article").textContent();
+        const obra = await page.locator("article").textContent();
         [, extractedNumber] = /Aquesta obra té ([\d.]+) fitxes a la base de dades/.exec(obra);
 
         expect(Number(extractedNumber.replace(".", ""))).toBe(data.obraFolkloreCatalunyaNumberOfEntries);

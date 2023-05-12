@@ -396,7 +396,7 @@ if ($total_variants > 1) {
 
     // Add an anchor link to the multimedia content, only visible on mobile.
     if (get_meta_image() !== '') {
-        $output .= '<a class="media-link d-inlineblock d-md-none" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '">';
+        $output .= '<a class="media-link" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '">';
         $output .= 'ves als fitxers';
         $output .= '</a>';
     }

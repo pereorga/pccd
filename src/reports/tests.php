@@ -864,7 +864,7 @@ function test_paremiotipus_repetits(): void
 
     echo "<h3>Nous paremiotipus molt semblants des de l'última pujada (Levenshtein)</h3>";
     echo '<pre>';
-    echo file_get_contents(__DIR__ . '/../../tmp/new_test_repetits.txt');
+    echo file_get_contents(__DIR__ . '/../../tmp/test_repetits_new.txt');
     echo '</pre>';
 
     echo '<h3>Paremiotipus molt semblants (Levenshtein)</h3>';

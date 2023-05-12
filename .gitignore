@@ -34,4 +34,4 @@ vendor
 *.report.html
 
 # Intermediate generated files
-/tmp/test_repetits_*.txt
+/tmp/test_tmp_*.txt

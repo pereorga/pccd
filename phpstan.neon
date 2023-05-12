@@ -1,22 +1,22 @@
 includes:
-    - phar://phpstan.phar/conf/bleedingEdge.neon
-    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
+  - phar://phpstan.phar/conf/bleedingEdge.neon
+  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+  - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
-    level: max
-    paths:
-        - src
-        - docroot
-        - scripts
-    scanFiles:
-        - src/third_party/urlLinker.php
-    excludePaths:
-        - */third_party/*
-        - */vendor/*
-        - */node_modules/*
-        - src/*xhprof*.php
-        - */apc.conf.php
-        - *.generated.php
-    ignoreErrors:
-        - '#Cannot call method fetchAll\(\) on PDOStatement\|false.#'
-        - '#Cannot call method fetchColumn\(\) on PDOStatement\|false.#'
+  level: max
+  paths:
+    - src
+    - docroot
+    - scripts
+  scanFiles:
+    - src/third_party/urlLinker.php
+  excludePaths:
+    - */third_party/*
+    - */vendor/*
+    - */node_modules/*
+    - src/*xhprof*.php
+    - */apc.conf.php
+    - *.generated.php
+  ignoreErrors:
+    - '#Cannot call method fetchAll\(\) on PDOStatement\|false.#'
+    - '#Cannot call method fetchColumn\(\) on PDOStatement\|false.#'

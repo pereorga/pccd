@@ -27,14 +27,34 @@ dd {
     margin-left: 0.4rem;
 }
 
-.obra article {
+.col-obra {
     margin-bottom: 1rem;
 }
 
-.obra aside {
+.col-obra footer {
+    margin: 1rem 0;
+}
+
+.col-image {
+    order: 2;
     text-align: center;
 }
 
-.obra footer {
-    margin: 1rem 0;
+.col-image + .col-obra {
+    order: 1;
+}
+
+/* Big mobile and greater */
+@media (width >= 576px) {
+    .col-image {
+        flex: 0 0 41.6667%;
+        order: 1;
+        max-width: 41.6667%;
+    }
+
+    .col-image + .col-obra {
+        flex: 0 0 58.3333%;
+        order: 2;
+        max-width: 58.3333%;
+    }
 }

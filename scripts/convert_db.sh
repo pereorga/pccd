@@ -19,18 +19,11 @@ cd "$(dirname "$0")"
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [--help] [DATABASE]"
-    echo "Converts the PCCD MS Access database to MySQL."
+    echo "Usage: $(basename "$0") [DATABASE_FILENAME]"
     echo ""
-    echo "  --help"
-    echo "    Show this help and exit"
-    echo "  DATABASE          The MS Access database filename (default: database.accdb)"
+    echo "Optional arguments:"
+    echo "  DATABASE_FILENAME     The MS Access database file (default: database.accdb)"
 }
-
-if [[ $* == *"--help"* ]]; then
-    usage
-    exit 0
-fi
 
 if [[ -n $2 ]]; then
     usage

@@ -50,14 +50,14 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
 <form method="get" id="search-form">
     <aside>
         <div class="form-row">
-            <div class="col-sm-3 order-2 order-sm-1 form-group">
+            <div class="col-mode">
                 <select id="mode" name="mode" title="Mode de cerca" aria-label="Seleccioneu el mode de cerca">
                     <option value="">conté</option>
                     <option<?php echo $search_mode === 'comença' ? ' selected' : ''; ?> value="comença">comença per</option>
                     <option<?php echo $search_mode === 'acaba' ? ' selected' : ''; ?> value="acaba">acaba en</option>
                 </select>
             </div>
-            <div class="col order-1 order-sm-2 form-group">
+            <div class="col-input">
                 <div class="input-group">
                     <input type="search" id="cerca" name="cerca" aria-autocomplete="both" autocapitalize="off" autocomplete="off" value="<?php echo $raw_search_clean; ?>" placeholder="Introduïu un o diversos termes" aria-label="Cerqueu parèmies" maxlength="255" pattern="(.|\s)*\S(.|\s)*" autofocus required>
                     <div class="input-group-append">
@@ -70,9 +70,9 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
                 </div>
             </div>
         </div>
-        <div class="form-row form-group">
-            <div class="col-2 col-sm-3 text-nowrap search-options-label">Inclou<span class="d-none d-lg-inline"> en la cerca</span>:</div>
-            <div class="col">
+        <div class="form-row">
+            <div class="col-options-label">Inclou en la cerca:</div>
+            <div class="col-options">
                 <div class="form-check">
                     <input type="checkbox" name="variant" id="variant" title="Variants del paremiotipus" value=""<?php echo checkbox_checked('variant') ? ' checked' : ''; ?>>
                     <label for="variant" title="Variants del paremiotipus">variants</label>
@@ -115,41 +115,34 @@ if ($total > 0) {
     }
 
     $paremiotipus = get_paremiotipus_search_results($where_clause, $arguments, $offset, $results_per_page);
-    $output .= '<table class="table table-bordered table-striped"><tbody>';
+    $output .= '<table><tbody>';
     foreach ($paremiotipus as $p) {
         $output .= '<tr><td>';
         $output .= '<a href="' . get_paremiotipus_url($p) . '">' . get_paremiotipus_display($p) . '</a>';
         $output .= '</td></tr>';
-
-        if ($total === 1) {
-            // Tell the browser to prefetch the paremiotipus page if there is only one result.
-            set_prefetch_url(get_paremiotipus_url($p), 'document');
-        }
     }
     $output .= '</tbody></table>';
 
     $output .= '<div class="pager">';
-    // Only show pagination selector and pager if it can be useful.
+    // Only show pagination links and dropdown if it can be useful.
     if ($total > PAGER_DEFAULT) {
-        // Only show pager if there is more than one page.
+        // Only show pagination links if there is more than one page.
         if ($number_of_pages > 1) {
             $output .= render_pager($current_page, $number_of_pages);
         }
 
-        $output .= '<div class="float-right">
-                        <select id="mostra" name="mostra" aria-label="Limiteu el nombre de resultats per pàgina" title="Nombre de resultats per pàgina">
-                            <option' . ($results_per_page === PAGER_DEFAULT ? ' selected' : '') . ' value="10">10</option>
-                            <option' . ($results_per_page === 15 ? ' selected' : '') . ' value="15">15</option>
-                            <option' . ($results_per_page === 25 ? ' selected' : '') . ' value="25">25</option>
-                            <option' . ($results_per_page === 50 ? ' selected' : '') . ' value="50">50</option>
-                        </select>
-                    </div>';
+        $output .= '<select id="mostra" name="mostra" aria-label="Limiteu el nombre de resultats per pàgina" title="Nombre de resultats per pàgina">
+                        <option' . ($results_per_page === PAGER_DEFAULT ? ' selected' : '') . ' value="10">10</option>
+                        <option' . ($results_per_page === 15 ? ' selected' : '') . ' value="15">15</option>
+                        <option' . ($results_per_page === 25 ? ' selected' : '') . ' value="25">25</option>
+                        <option' . ($results_per_page === 50 ? ' selected' : '') . ' value="50">50</option>
+                    </select>';
     }
     $output .= '</div>';
 } else {
-    $output .= '<p class="text-break">';
+    $output .= '<p>';
     $output .= "No s'ha trobat cap resultat coincident amb ";
-    $output .= '<span class="text-monospace">' . $raw_search_clean . '</span>.';
+    $output .= '<span class="text-monospace text-break">' . $raw_search_clean . '</span>.';
     $output .= '</p>';
 
     if (

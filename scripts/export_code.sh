@@ -18,7 +18,6 @@ cd "$(dirname "$0")/.."
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0")"
-    echo "Export the project source code for public release."
 }
 
 if [[ -n $1 ]]; then

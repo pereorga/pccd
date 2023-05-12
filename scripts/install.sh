@@ -19,7 +19,6 @@ cd "$(dirname "$0")"
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0")"
-    echo "Installs the PCCD website and creates the sitemap files."
 }
 
 if [[ -n $1 ]]; then

@@ -20,7 +20,6 @@ cd "$(dirname "$0")/.."
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0") COMMAND"
-    echo "Update project dev dependencies."
     echo ""
     echo "    help"
     echo "      Shows this help and exits"

@@ -15,7 +15,7 @@
 
 ::selection {
     color: #fff;
-    background: #3191ff;
+    background-color: #3191ff;
 }
 
 /* Remove annoying scrolling effect on iOS. See https://stackoverflow.com/a/47818418/1391963 and
@@ -136,6 +136,10 @@ header nav {
     margin-left: auto;
 }
 
+.col-main {
+    margin-bottom: 30px;
+}
+
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -143,42 +147,15 @@ header nav {
     margin-left: -15px;
 }
 
-.col,
-.col-2,
-.col-md,
-.col-md-9,
-.col-sm,
-.col-sm-3,
-.col-sm-5,
-.col-sm-7 {
-    position: relative;
+[class*="col-"] {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
 }
 
-.col {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
-}
-
-.col-2 {
-    flex: 0 0 16.6667%;
-    max-width: 16.6667%;
-}
-
-.order-1 {
-    order: 1;
-}
-
-.order-2 {
-    order: 2;
-}
-
-.navbar {
+header {
     padding: 0.5rem 0;
-    background: #2b5797;
+    background-color: #2b5797;
 }
 
 .navbar-brand {
@@ -193,8 +170,6 @@ header nav {
 
 #menu {
     flex-basis: 100%;
-    flex-grow: 1;
-    justify-content: flex-end;
 }
 
 #navbar-toggle {
@@ -235,18 +210,6 @@ header nav {
     display: none;
 }
 
-.d-inlineblock {
-    display: inline-block;
-}
-
-.float-left {
-    float: left;
-}
-
-.float-right {
-    float: right;
-}
-
 .text-monospace {
     padding: 0.25rem 2px;
     font-family: monospace;
@@ -263,16 +226,6 @@ header nav {
     word-wrap: break-word;
 }
 
-.entrada footer,
-.bloc {
-    background-color: #f9f9f9;
-}
-
-.bloc,
-.entrada {
-    border: 1px solid #dee2e6;
-}
-
 .bloc {
     max-width: 350px;
     padding: 10px;
@@ -282,6 +235,8 @@ header nav {
     overflow: hidden;
     text-align: center;
     text-wrap: balance;
+    background-color: #f9f9f9;
+    border: 1px solid #dee2e6;
 }
 
 .bloc p {
@@ -296,13 +251,8 @@ header nav {
 }
 
 .bloc-white {
-    background: #fff;
+    background-color: #fff;
     border: 0;
-}
-
-.bloc-credits,
-.bloc-top-paremies {
-    margin-top: 50px;
 }
 
 a.credits {
@@ -323,7 +273,7 @@ a.credits {
     display: flex;
     flex-wrap: wrap;
     color: #fff;
-    background: #3c4043;
+    background-color: #3c4043;
 }
 
 .snackbar-message {
@@ -336,12 +286,12 @@ a.credits {
     font-size: 1rem;
     color: #eeff41;
     text-transform: uppercase;
-    background: 0;
+    background-color: transparent;
     border: 0;
 }
 
-/* Small mobile only */
-@media (width <= 400px) {
+/* Only medium and small mobile */
+@media (width < 400px) {
     .navbar-brand {
         font-size: 1.25rem;
     }
@@ -355,7 +305,7 @@ a.credits {
     }
 }
 
-/* Mobile and greater */
+/* Big mobile and greater */
 @media (width >= 576px) {
     #snackbar {
         margin-right: 15px;
@@ -370,40 +320,26 @@ a.credits {
     .snackbar-message {
         padding: 1.5rem;
     }
-
-    .d-sm-block {
-        display: block;
-    }
-
-    .order-sm-1 {
-        order: 1;
-    }
-
-    .order-sm-2 {
-        order: 2;
-    }
-
-    .col-sm-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-
-    .col-sm-5 {
-        flex: 0 0 41.6667%;
-        max-width: 41.6667%;
-    }
-
-    .col-sm-7 {
-        flex: 0 0 58.3333%;
-        max-width: 58.3333%;
-    }
 }
 
 /* Tablet and greater */
 @media (width >= 768px) {
-    main,
-    .bloc-credits,
-    .bloc-top-paremies {
+    #menu {
+        display: flex;
+        flex-basis: auto;
+        justify-content: flex-end;
+    }
+
+    .container-md {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
+    #navbar-toggle {
+        display: none;
+    }
+
+    main {
         margin-top: 30px;
     }
 
@@ -415,64 +351,43 @@ a.credits {
         margin-top: 0;
     }
 
-    .container-md {
-        max-width: 720px;
-    }
-
     .navbar-nav {
         flex-direction: row;
-    }
-
-    #menu {
-        display: flex;
-        flex-basis: auto;
-    }
-
-    #navbar-toggle {
-        display: none;
     }
 
     .navbar-nav a {
         padding: 1rem 0.5rem;
     }
 
-    .d-md-none {
-        display: none;
+    .col-aside {
+        flex: 0 0 13rem;
     }
 
-    .d-md-block {
-        display: block;
-    }
-
-    .col-md {
-        flex-basis: 0;
-        flex-grow: 1;
-        max-width: 100%;
-    }
-
-    .col-md-9 {
-        flex: 0 0 75%;
-        max-width: 75%;
+    .col-main {
+        flex: 1;
+        margin-bottom: 0;
     }
 }
 
 @media (width >= 992px) {
-    .container-md {
-        max-width: 960px;
-    }
-
-    .d-lg-inline {
-        display: inline;
-    }
-
     .navbar-brand {
         font-size: 1.25rem;
+    }
+
+    .col-aside {
+        flex: 0 0 15rem;
     }
 }
 
 @media (width >= 1200px) {
     .container-md {
         max-width: 1140px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .col-aside {
+        flex: 0 0 18rem;
     }
 }
 
@@ -495,7 +410,7 @@ a.credits {
         min-width: 992px;
     }
 
-    .navbar,
+    header,
     .bloc-contacte {
         display: none;
     }

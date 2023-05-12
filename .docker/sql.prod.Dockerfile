@@ -1,4 +1,4 @@
-FROM mariadb:10.5.19-focal
+FROM mariadb:10.5.20-focal
 
 LABEL maintainer="Pere Orga pere@orga.cat"
 

@@ -15,19 +15,11 @@ set -e
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [--help] [OPTIONS]"
-    echo "Delete all previous Docker containers/volumes and builds them again."
+    echo "Usage: $(basename "$0") [OPTIONS]"
     echo ""
-    echo "  --help"
-    echo "    Show this help"
-    echo "  OPTIONS"
-    echo "    The options to pass to docker-compose build command"
+    echo "Optional arguments:"
+    echo "  OPTIONS               The options to pass to docker-compose build command"
 }
-
-if [[ $* == *"--help"* ]]; then
-    usage
-    exit 0
-fi
 
 (cd "$(dirname "$0")/.." &&
     docker-compose down --volumes &&

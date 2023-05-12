@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Decompresses provided images.
+# Decompresses provided images in Cobertes.zip, Imatges.zip and Obres-VPR.zip files.
 #
 # (c) Pere Orga Esteve <pere@orga.cat>
 #
@@ -18,7 +18,6 @@ cd "$(dirname "$0")/.."
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0")"
-    echo "Decompresses provided images in Cobertes.zip, Imatges.zip and Obres-VPR.zip files."
 }
 
 if [[ -n $1 ]]; then

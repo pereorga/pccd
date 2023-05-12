@@ -23,52 +23,32 @@ use PHPUnit\Framework\TestCase;
  */
 final class ComposerPackageJsonTest extends TestCase
 {
-    public function testKeywordsMatch(): void
-    {
-        $package = $this->getJsonArray(__DIR__ . '/../../package.json');
-        $composer = $this->getJsonArray(__DIR__ . '/../../composer.json');
+    private array $package;
+    private array $composer;
 
-        static::assertSame(
-            $package['keywords'],
-            $composer['keywords'],
-            'The keywords set in package.json and composer.json do not match.'
-        );
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->package = $this->getJsonArray(__DIR__ . '/../../package.json');
+        $this->composer = $this->getJsonArray(__DIR__ . '/../../composer.json');
     }
 
-    public function testDescriptionMatch(): void
+    public function testComposerPackageMatch(): void
     {
-        $package = $this->getJsonArray(__DIR__ . '/../../package.json');
-        $composer = $this->getJsonArray(__DIR__ . '/../../composer.json');
+        $fields = [
+            'keywords',
+            'description',
+            'homepage',
+            'license',
+        ];
 
-        static::assertSame(
-            $package['description'],
-            $composer['description'],
-            'The descriptions set in package.json and composer.json do not match.'
-        );
-    }
-
-    public function testWebsiteMatch(): void
-    {
-        $package = $this->getJsonArray(__DIR__ . '/../../package.json');
-        $composer = $this->getJsonArray(__DIR__ . '/../../composer.json');
-
-        static::assertSame(
-            $package['homepage'],
-            $composer['homepage'],
-            'The websites set in package.json and composer.json do not match.'
-        );
-    }
-
-    public function testLicenseMatch(): void
-    {
-        $package = $this->getJsonArray(__DIR__ . '/../../package.json');
-        $composer = $this->getJsonArray(__DIR__ . '/../../composer.json');
-
-        static::assertSame(
-            $package['license'],
-            $composer['license'],
-            'The licenses set in package.json and composer.json do not match.'
-        );
+        foreach ($fields as $field) {
+            static::assertSame(
+                $this->package[$field],
+                $this->composer[$field],
+                "Field {$field} in package.json and composer.json must match",
+            );
+        }
     }
 
     private function getJsonArray(string $filename): array

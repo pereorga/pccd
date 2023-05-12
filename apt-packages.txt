@@ -8,6 +8,7 @@ jpeginfo
 jpegoptim
 jq
 language-pack-ca
+libxml2-utils
 maven
 mdbtools
 nodejs

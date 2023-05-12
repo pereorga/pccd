@@ -20,7 +20,6 @@ cd "$(dirname "$0")"
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0")"
-    echo "Generate reports and executes some tests."
 }
 
 if [[ -n $1 ]]; then
@@ -39,11 +38,11 @@ docker exec pccd-web php scripts/background_tests.php imatges_urls > ../tmp/test
 PID_LIST+=" $!"
 docker exec pccd-web php scripts/background_tests.php imatges_links > ../tmp/test_imatges_URL_ENLLAC.txt &
 PID_LIST+=" $!"
-docker exec pccd-web php scripts/background_tests.php paremiotipus_repetits 0 10000 > ../tmp/test_repetits_1.txt &
+docker exec pccd-web php scripts/background_tests.php paremiotipus_repetits 0 10000 > ../tmp/test_tmp_repetits_1.txt &
 PID_LIST+=" $!"
-docker exec pccd-web php scripts/background_tests.php paremiotipus_repetits 10000 25000 > ../tmp/test_repetits_2.txt &
+docker exec pccd-web php scripts/background_tests.php paremiotipus_repetits 10000 25000 > ../tmp/test_tmp_repetits_2.txt &
 PID_LIST+=" $!"
-docker exec pccd-web php scripts/background_tests.php paremiotipus_repetits 25000 > ../tmp/test_repetits_3.txt &
+docker exec pccd-web php scripts/background_tests.php paremiotipus_repetits 25000 > ../tmp/test_tmp_repetits_3.txt &
 PID_LIST+=" $!"
 
 php image-convertor/small_images_reporter.php > ../tmp/test_imatges_petites.txt &
@@ -56,8 +55,8 @@ echo "Parallel processes (${PID_LIST}) have started"
 # shellcheck disable=SC2086
 wait ${PID_LIST}
 
-cat ../tmp/test_repetits_*.txt > ../tmp/test_repetits.txt
-git diff ../tmp/test_repetits.txt | grep -E '^\+' | grep -vF '++' | cut -c 2- > ../tmp/new_test_repetits.txt
+cat ../tmp/test_tmp_repetits_*.txt > ../tmp/test_repetits.txt
+git diff ../tmp/test_repetits.txt | grep -E '^\+' | grep -vF '++' | cut -c 2- > ../tmp/test_repetits_new.txt
 
 echo
 echo "All reports have been generated"

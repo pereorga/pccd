@@ -345,28 +345,6 @@ function set_og_audio_url(string $audio_url): void
 }
 
 /**
- * Returns the list of URLs to prefetch.
- *
- * @return array<string, string>
- */
-function get_prefetch_urls(): array
-{
-    global $prefetch_urls;
-
-    return $prefetch_urls ?? [];
-}
-
-/**
- * Sets a URL to be prefetched.
- */
-function set_prefetch_url(string $url, string $type): void
-{
-    global $prefetch_urls;
-
-    $prefetch_urls[$url] = $type;
-}
-
-/**
  * Returns the paremiotipus name for display.
  */
 function get_paremiotipus_display(string $paremiotipus, bool $return_empty_if_does_not_exist = false, bool $htmlspecialchars = true): string
@@ -439,12 +417,11 @@ function get_redirects(): array
 {
     // These redirects are mapped manually based on a Google Search console report.
     return [
-        '/?paremiotipus=Posar-li+el+dogall+al+coll' => '/p/Estar_amb_el_dogal_al_coll',
-        '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_%E2%80%9CFotre%E2%80%9D%2C_el_Messi_dels_verbs_catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
-        '/?obra=Badia+i+Pujol%2C+Jordi+%282022%29%3A+Vilaweb+-+%E2%80%9CFotre%E2%80%9D%2C+el+Messi+dels+verbs+catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282021%29%3A+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau%3F%3A+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
+        '/?obra=Badia+i+Pujol%2C+Jordi+%282022%29%3A+Vilaweb+-+%E2%80%9CFotre%E2%80%9D%2C+el+Messi+dels+verbs+catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
         '/?obra=Badia+i+Pujol%2C+Jordi+(2021):+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau?:+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
         '/?obra=Badia+i+Pujol,+Jordi+(2021):+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau?:+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
+        '/?obra=Bonsenyor%2C+Jahuda+%281889%29%3A+Libre+de+paraules+e+dits+de+savis+e+filosofs' => '/obra/Bonsenyor%2C_Jahuda_%281298%29%3A_Libre_de_paraules_e_dits_de_savis_e_filosofs%2C_ed_1889',
         '/?obra=Marrugat+Cuy%C3%A0s%2C+Ramon+%282018%29%3A+Alguna+cosa+m%C3%A9s+que+l%27anar+a+tocar+ferro' => '/obra/Marrugat_Cuyàs%2C_Ramon_%282018%29%3A_«Alguna_cosa_més_que_l%27anar_a_tocar_ferro»._La_fraseologia_tarragonina',
         '/?obra=Marrugat+Cuy%C3%A0s%2C+Ramon+(2018):+Alguna+cosa+m%C3%A9s+que+l%27anar+a+tocar+ferro' => '/obra/Marrugat_Cuyàs%2C_Ramon_%282018%29%3A_«Alguna_cosa_més_que_l%27anar_a_tocar_ferro»._La_fraseologia_tarragonina',
         '/?obra=Marrugat+Cuy%C3%A0s,+Ramon+(2018):+Alguna+cosa+m%C3%A9s+que+l%27anar+a+tocar+ferro' => '/obra/Marrugat_Cuyàs%2C_Ramon_%282018%29%3A_«Alguna_cosa_més_que_l%27anar_a_tocar_ferro»._La_fraseologia_tarragonina',
@@ -495,6 +472,7 @@ function get_redirects(): array
         '/?paremiotipus=Passarse-li+l%27arr%C3%B2s' => '/p/Passar-se-li_l%27arr%C3%B2s',
         '/?paremiotipus=Passr+el+rosari' => '/p/Passar_el_rosari',
         '/?paremiotipus=Pel+setembre+o+desembre%2C+qui+tingui+blat%2C+que+en+sembri' => '/p/Pel_setembre%2C_qui_tingui_blat%2C_que_en_sembri',
+        '/?paremiotipus=Posar-li+el+dogall+al+coll' => '/p/Estar_amb_el_dogal_al_coll',
         '/?paremiotipus=Posr+en+gu%C3%A0rdia' => '/p/Posar_en_guàrdia',
         '/?paremiotipus=Posra+barba' => '/p/Posar_barba',
         '/?paremiotipus=Prendre+a+manlleu' => '/p/Anar_a_manlleu',
@@ -503,8 +481,11 @@ function get_redirects(): array
         '/?paremiotipus=Romprer-li+el+cap' => '/p/Trencar-li_el_cap',
         '/?paremiotipus=Ser+un+figa+blana' => '/p/Figa_blana',
         '/?paremiotipus=Ser+un+figa+tova' => '/p/Figa_tova',
+        '/?paremiotipus=Ser+un+malandando' => '/p/Malandando',
         '/?paremiotipus=Ser+un+trapsser' => '/p/Ser_un_trapasser',
         '/?paremiotipus=Si+tens+una+filla+que+no+l%27estimis+gaire%2C+casa-la+a+Albons%2C+o+a+Bellcaire%2C+o+sin%C3%83%C2%B3+a+Vilademat%2C+que+ser%C3%83%C2%A0+morta+m%C3%83%C2%A9s+aviat' => '/p/Si_tens_una_filla_que_no_l%27estimis_gaire%2C_casa-la_a_Albons%2C_o_a_Bellcaire%2C_o_sin%C3%B3_a_Vilademat%2C_que_ser%C3%A0_morta_m%C3%A9s_aviat',
+        '/?paremiotipus=Si+tens+una+filla+que+no+l%27estimis+gaire,+casa-la+a+Albons,+o+a+Bellcaire,+o+sin%C3%83%C2%B3+a+Vilademat,+que+ser%C3%83%C2%A0+morta+m%C3%83%C2%A9s+aviat' => '/p/Si_tens_una_filla_que_no_l%27estimis_gaire%2C_casa-la_a_Albons%2C_o_a_Bellcaire%2C_o_sinó_a_Vilademat%2C_que_serà_morta_més_aviat',
+        '/?paremiotipus=Tenir+pinyo%CC%81' => '/p/Tenir_pinyó',
         '/?paremiotipus=Terra+on+vas%2C+costum+hi+trobes' => '/p/A_terra_que_vas%2C_usan%C3%A7a_o_costums_que_trobes',
         '/?paremiotipus=Tothom+vol+just%C3%ADcia%2C+per%C3%B2+no+per+casa+sevaTothom+vol+justicia%2C+per%C3%B2+no+per+casa+seva' => '/p/Tothom_vol_justícia%2C_però_no_per_casa_seva',
         '/?paremiotipus=Tots+els+mosquits+volen+prendre+tabaco' => '/p/Totes_les_mosques_tenen_tos_i_els_mosquits_prenen_tabac',
@@ -523,6 +504,7 @@ function get_redirects(): array
         '/?paremiotipus=n+canyissos%2C+a+la+Torre+fan+sab%C3%B3+i+a+Garcia+fan+cabestres+per+a+tots+els+rucots+d%27Asc%C3%B3' => '/p/A_Vinebre_fan_canyissos%2C_a_la_Torre_fan_sab%C3%B3_i_a_Garcia_fan_cabestres_per_tots_els_rucots_d%27Asc%C3%B3',
         '/?paremiotipus=oA+pas+de+bou' => '/p/A_pas_de_bou',
         '/?paremiotipus=ure-se-li+el+llaut%C3%B3' => '/p/Veure-se-li_el_llautó',
+        '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_%E2%80%9CFotre%E2%80%9D%2C_el_Messi_dels_verbs_catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
         '/obra/Casta%C3%B1eda%2C_Vicente_%281919-20%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico' => '/obra/Castañeda%2C_Vicente_%281770%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico%2C_ed._1919-20',
         '/obra/Casta%C3%B1eda%2C_Vicente_(1919-20)%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico' => '/obra/Castañeda%2C_Vicente_%281770%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico%2C_ed._1919-20',
         '/obra/Casta%c3%b1eda%2C_Vicente_(1919-20):_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico' => '/obra/Castañeda%2C_Vicente_%281770%29%3A_Refranes_valencianos_recopilados_por_el_P._Luis_Galiana%2C_Dominico%2C_ed._1919-20',
@@ -547,6 +529,7 @@ function get_redirects(): array
         '/p/Posra_barba' => '/p/Posar_barba',
         '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_TolosaQui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_Tolosa' => '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_serà_a_Tolosa',
         '/p/Rompre-li_la_crisma' => '/p/Trencar_o_rompre_la_crisma',
+        '/p/Ser_bo_per_a_la_forca_i_per_als_rampills' => '/p/Ser_bo_per_a_la_forca_i_per_al_rampill',
         '/p/Ser_un_trapsser' => '/p/Ser_un_trapasser',
         '/p/na_dreta_%C3%A9s_m%C3%A9s_un_homenot_que_una_doneta' => '/p/La_dona_que_fuma%2C_jura_i_orina_dreta_és_més_un_homenot_que_una_doneta',
     ];
@@ -1126,7 +1109,7 @@ function get_pager_url(int $page_number): string
 }
 
 /**
- * Renders a search pager element.
+ * Renders a search pagination element.
  */
 function render_pager_element(int $page_number, int|string $name, int|string $title = '', bool $is_active = false): string
 {
@@ -1135,9 +1118,9 @@ function render_pager_element(int $page_number, int|string $name, int|string $ti
         $rel = 'first';
     } elseif ($title === 'Última pàgina') {
         $rel = 'last';
-    } elseif ($title === 'Pàgina següent') {
+    } elseif ($title === 'Pàgina següent (Ctrl →)') {
         $rel = 'next';
-    } elseif ($title === 'Pàgina anterior') {
+    } elseif ($title === 'Pàgina anterior (Ctrl ←)') {
         $rel = 'prev';
     }
 
@@ -1145,10 +1128,6 @@ function render_pager_element(int $page_number, int|string $name, int|string $ti
     if ($is_active) {
         $pager_item .= '<strong class="page-link" title="' . $title . '">' . $name . '</strong>';
     } else {
-        if ($rel !== 'prev' && $rel !== 'next') {
-            // On mobile, show only next/prev buttons.
-            $pager_item = '<li class="d-none d-sm-block">';
-        }
         $pager_item .= '<a class="page-link" href="' . get_pager_url($page_number) . '" title="' . $title . '"';
         if ($rel !== '') {
             $pager_item .= ' rel="' . $rel . '"';
@@ -1161,7 +1140,7 @@ function render_pager_element(int $page_number, int|string $name, int|string $ti
 }
 
 /**
- * Returns the search pager.
+ * Returns the search pagination links.
  */
 function render_pager(int $page_num, int $num_pages): string
 {
@@ -1172,7 +1151,7 @@ function render_pager(int $page_num, int $num_pages): string
         $prev_links .= render_pager_element(
             $page_num - 1,
             '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M15.535 3.515L7.05 12l8.485 8.485l1.415-1.414L9.878 12l7.072-7.071l-1.415-1.414Z"/></svg> Anterior',
-            'Pàgina anterior'
+            'Pàgina anterior (Ctrl ←)'
         );
 
         // Show first page link.
@@ -1212,13 +1191,11 @@ function render_pager(int $page_num, int $num_pages): string
         $next_links .= render_pager_element(
             $page_num + 1,
             'Següent <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M8.465 20.485L16.95 12L8.465 3.515L7.05 4.929L14.122 12L7.05 19.071l1.415 1.414Z"/></svg>',
-            'Pàgina següent'
+            'Pàgina següent (Ctrl →)'
         );
-        // Make the browser prefetch next page.
-        set_prefetch_url(get_pager_url($page_num + 1), 'document');
     }
 
-    return '<nav class="float-left" aria-label="Paginació dels resultats"><ul class="pagination">' . $prev_links . $page_links . $next_links . '</ul></nav>';
+    return '<nav aria-label="Paginació dels resultats"><ul class="pagination">' . $prev_links . $page_links . $next_links . '</ul></nav>';
 }
 
 /**

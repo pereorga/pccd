@@ -20,7 +20,6 @@ cd "$(dirname "$0")"
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0")"
-    echo "Export Common Voice sentences."
 }
 
 if [[ -n $1 ]]; then

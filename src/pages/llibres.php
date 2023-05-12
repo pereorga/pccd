@@ -20,11 +20,16 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo '<div class="llibres">';
 foreach ($records as $o) {
     // TODO: FIXME in the DB.
-    if ($o['URL'] === null || $o['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
+    if ($o['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
         $o['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
     }
-    echo '<a href="' . $o['URL'] . '" title="' . htmlspecialchars($o['Títol']) . '">';
+
+    if ($o['URL'] !== null) {
+        echo '<a href="' . $o['URL'] . '" title="' . htmlspecialchars($o['Títol']) . '">';
+    }
     echo get_image_tags($o['Imatge'], '/img/obres/', $o['Títol'], $o['WIDTH'], $o['HEIGHT'], false);
-    echo '</a>';
+    if ($o['URL'] !== null) {
+        echo '</a>';
+    }
 }
 echo '</div>';

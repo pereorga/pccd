@@ -18,10 +18,9 @@ cd "$(dirname "$0")"
 ##############################################################################
 usage() {
     echo "Usage: $(basename "$0") [--fast]"
-    echo "Run multiple tests and checks in the website."
     echo ""
-    echo "  --fast"
-    echo "    Use it to skip slower validations (webhint, html-validate, linkinator)"
+    echo "Optional arguments:"
+    echo "  --fast                Skip slower validations (webhint, html-validate, linkinator)"
 }
 
 if [[ -n $2 ]]; then

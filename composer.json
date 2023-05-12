@@ -46,7 +46,7 @@
     "phpunit/phpunit": "^10.1",
     "psalm/plugin-phpunit": "^0.18.4",
     "tideways/php-xhprof-extension": "master",
-    "vimeo/psalm": "^5.9"
+    "vimeo/psalm": "^5.11"
   },
   "suggest": {
     "ext-apcu": "Increases website performance (strongly encouraged in the web server)",

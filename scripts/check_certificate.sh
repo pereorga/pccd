@@ -32,22 +32,15 @@ export REMOTE_ENVIRONMENT_URL
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [--help] [ENVIRONMENT_URL]"
-    echo "Check the expiration date of the production certificate."
+    echo "Usage: $(basename "$0") [ENVIRONMENT_URL]"
     echo ""
-    echo "  --help"
-    echo "    Show this help and exit"
+    echo "Optional arguments:"
     echo "  ENVIRONMENT_URL       The website URL, without trailing slash (default: https://pccd.dites.cat)"
 }
 
 if [[ -n $2 ]]; then
     usage
     exit 1
-fi
-
-if [[ $1 == "--help" ]]; then
-    usage
-    exit 0
 fi
 
 # Call gdate, if it is available.

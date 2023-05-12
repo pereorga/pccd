@@ -55,12 +55,33 @@ select:focus {
     outline: #cbd5e7 solid 3px;
 }
 
+#mostra {
+    width: initial;
+}
+
 label {
     display: inline-block;
 }
 
-.form-group {
-    margin-bottom: 1rem;
+.col-input,
+.col-options {
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+.col-input {
+    order: 1;
+}
+
+.col-mode {
+    order: 2;
+}
+
+.col-options-label {
+    display: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .form-row {
@@ -70,10 +91,10 @@ label {
     margin-left: -5px;
 }
 
-.form-row > .col,
-.form-row > [class*="col-"] {
+.form-row [class*="col-"] {
     padding-right: 5px;
     padding-left: 5px;
+    margin-bottom: 1rem;
 }
 
 .form-check {
@@ -121,15 +142,11 @@ label {
 .input-group-append button {
     position: relative;
     z-index: 2;
+    border-radius: 0 0.25rem 0.25rem 0;
 }
 
 .input-group-append button:focus {
     z-index: 3;
-}
-
-.input-group > .input-group-append > button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
 }
 
 #cerca:focus + .input-group-append button {
@@ -138,6 +155,8 @@ label {
 }
 
 .pager {
+    display: flex;
+    justify-content: space-between;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -154,8 +173,7 @@ label {
 }
 
 .page-link {
-    position: relative;
-    display: block;
+    display: none;
     padding: 0.5rem 0.75rem;
     border-radius: 0.25rem;
 }
@@ -165,50 +183,63 @@ label {
 }
 
 .page-link[rel="prev"] {
+    display: block;
     padding-left: 0;
 }
 
 .page-link[rel="next"] {
+    display: block;
     padding-right: 0;
 }
 
-.table {
+strong.page-link {
+    display: block;
+}
+
+table {
     width: 100%;
     margin-bottom: 1rem;
     border-collapse: collapse;
 }
 
-.table td {
+td {
     padding: 0.75rem;
-}
-
-.table-bordered td {
     border: 1px solid #dee2e6;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
+tr:nth-of-type(odd) {
     background-color: #f9f9f9;
 }
 
 .bloc-llibres img {
-    padding: 10px;
+    padding: 10px 30px;
 }
 
-@media (width <= 420px) {
-    .search-options-label {
-        display: none;
+/* Big mobile and greater */
+@media (width >= 576px) {
+    .page-link,
+    .col-options-label {
+        display: block;
+    }
+
+    .col-mode,
+    .col-options-label {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+    .col-mode {
+        order: 1;
+    }
+
+    .col-input {
+        order: 2;
     }
 }
 
+/* Tablet and greater */
 @media (width >= 768px) {
     #search-form aside {
-        margin-bottom: 2rem;
-    }
-}
-
-@media (width >= 992px) {
-    .bloc-llibres img {
-        padding-right: 30px;
-        padding-left: 30px;
+        margin-bottom: 1rem;
     }
 }

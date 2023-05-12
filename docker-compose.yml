@@ -15,7 +15,7 @@ services:
     ports:
       - ${APACHE_HTTP_PORT:-8080}:80
   mysql:
-    image: mariadb:10.5.19-focal
+    image: mariadb:10.5.20-focal
     container_name: pccd-mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
