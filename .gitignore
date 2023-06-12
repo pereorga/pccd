@@ -1,9 +1,9 @@
 # Unnecessary developer files
-.DS_Store
-sftp-config.json
 *.sublime-workspace
+.DS_Store
 .fleet
 .vscode
+sftp-config.json
 
 # The original database file (MS Access) and provided zipped files
 /*.accdb
@@ -14,24 +14,23 @@ sftp-config.json
 
 # Local settings files
 .env
-docker-compose.override.yml
 db_settings.local.php
+docker-compose.override.yml
 
 # Local dependencies
 *Brewfile.lock.json
+/scripts/common-voice-export/third_party
 node_modules
 vendor
-/scripts/common-voice-export/third_party
 
 # Temporary files
+*.generated.sh
+*.report.html
 .php-cs-fixer.cache
 .phpunit.result.cache
 /tmp/*.html
 /tmp/*.json
-/tmp/pccd
+!/tmp/assets-sizes.json
 /tmp/cv
-*.generated.sh
-*.report.html
-
-# Intermediate generated files
+/tmp/github
 /tmp/test_tmp_*.txt

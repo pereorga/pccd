@@ -20,12 +20,11 @@ if ($obra === false) {
     try_to_redirect_manual_and_exit();
 
     // If no match could be found, return an HTTP 404 page.
-    error_log("Error: no s'ha trobat l'obra per l'URL: " . $request_uri);
+    error_log("Error: entry not found for URL: {$request_uri}");
     return_404_and_exit();
 }
 
 $canonical_url = get_obra_url($obra['Identificador'], true);
-set_canonical_url($canonical_url);
 
 // Redirect old URLs to the new ones.
 if (!str_starts_with($request_uri, '/obra/')) {
@@ -34,25 +33,19 @@ if (!str_starts_with($request_uri, '/obra/')) {
     exit;
 }
 
-set_page_title(htmlspecialchars($obra['Identificador']));
-$meta_desc = '';
+set_canonical_url($canonical_url);
+set_page_title(htmlspecialchars($obra['Títol']));
 
-$output = '<section class="text-break">';
-$output .= '<div class="row">';
+$output = '<div class="row">';
 
-$image_exists = is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge']);
-if ($image_exists) {
+if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
     $output .= '<aside class="col-image">';
-    $output .= get_image_tags($obra['Imatge'], '/img/obres/', $obra['Títol'] ?? '', $obra['WIDTH'], $obra['HEIGHT'], false);
+    $output .= get_image_tags($obra['Imatge'], '/img/obres/', $obra['Títol'], $obra['WIDTH'], $obra['HEIGHT'], false);
     set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']));
     $output .= '</aside>';
 }
 
-$output .= '<article class="col-obra">';
-
-if ($obra['Títol'] !== null) {
-    $output .= '<h1>' . htmlspecialchars($obra['Títol']) . '</h1>';
-}
+$output .= '<div class="col-work text-break">';
 if ($obra['Autor'] !== null) {
     $output .= '<dl><dt>Autor:</dt><dd>' . htmlspecialchars($obra['Autor']) . '</dd></dl>';
 }
@@ -109,24 +102,17 @@ if ($obra['URL'] !== null) {
     $output .= '<dl><dt>Enllaç:</dt><dd>' . htmlEscapeAndLinkUrls($obra['URL']) . '</dd></dl>';
 }
 if ($obra['Observacions'] !== null) {
-    $output .= '<dl><dt>Observacions:</dt><dd>' . htmlEscapeAndLinkUrls($obra['Observacions'], '_blank', 'nofollow noopener noreferrer') . '</dd></dl>';
-    $meta_desc = htmlspecialchars($obra['Observacions']);
+    $output .= '<dl><dt>Observacions:</dt><dd>' . htmlEscapeAndLinkUrls(ct($obra['Observacions'], false), '_blank', 'nofollow noopener noreferrer') . '</dd></dl>';
+    set_meta_description_once(ct($obra['Observacions']));
 }
 
 if ($obra['Registres'] > 0) {
     $fitxes = format_nombre($obra['Registres']);
     $recollides = format_nombre(get_paremiotipus_count_by_font($obra['Identificador']));
     $registres = "Aquesta obra té {$fitxes} fitxes a la base de dades, de les quals {$recollides} estan recollides en aquest web.";
-    if ($meta_desc === '') {
-        // If Observacions was empty, use this as the meta description.
-        $meta_desc = $registres;
-    }
-
-    $output .= '<footer>' . $registres . '</footer>';
+    set_meta_description_once(htmlspecialchars($registres));
+    $output .= "<footer>{$registres}</footer>";
 }
 
-$output .= '</article></div></section>';
-
-set_meta_description($meta_desc);
-
+$output .= '</div></div>';
 echo $output;

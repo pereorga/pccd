@@ -27,6 +27,9 @@ if [[ -n $1 ]]; then
     exit 1
 fi
 
+# This is very quick, so we don't need to run it in the background.
+php image-convertor/unsupported_image_extensions_reporter.php > ../tmp/test_imatges_file_extensions.txt
+
 ./check_images.sh > /dev/null &
 PID_LIST="$!"
 

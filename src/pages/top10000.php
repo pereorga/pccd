@@ -12,19 +12,15 @@
 
 declare(strict_types=1);
 
-/*
- * Top 10000.
- *
- * This page is currently not discoverable.
- */
-
+// This page is currently not discoverable.
 header('X-Robots-Tag: noindex', true);
+
 set_page_title('Les 10.000 parèmies més citades');
 
 $stmt = get_db()->query('SELECT Paremiotipus FROM common_paremiotipus ORDER BY Compt DESC');
 $records = $stmt->fetchAll(PDO::FETCH_COLUMN);
 echo '<ol>';
-foreach ($records as $r) {
-    echo '<li><a href="' . get_paremiotipus_url($r) . '">' . get_paremiotipus_display($r) . '</a></li>';
+foreach ($records as $record) {
+    echo '<li><a href="' . get_paremiotipus_url($record) . '">' . get_paremiotipus_display($record) . '</a></li>';
 }
 echo '</ol>';

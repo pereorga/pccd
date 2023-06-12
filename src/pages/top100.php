@@ -13,11 +13,11 @@
 declare(strict_types=1);
 
 set_page_title('Les 100 parèmies més citades');
-set_meta_description('Llista de les frases més citades.');
+set_meta_description('Llista de les frases més citades de la Paremiologia catalana comparada digital.');
 
 $records = get_top100_paremiotipus();
 echo '<ol>';
-foreach ($records as $r) {
-    echo '<li><a href="' . get_paremiotipus_url($r) . '">' . get_paremiotipus_display($r) . '</a></li>';
+foreach ($records as $record) {
+    echo '<li><a href="' . get_paremiotipus_url($record) . '">' . get_paremiotipus_display($record) . '</a></li>';
 }
 echo '</ol>';

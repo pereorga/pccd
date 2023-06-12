@@ -13,7 +13,7 @@
 declare(strict_types=1);
 
 set_page_title("Instruccions d'ús");
-set_meta_description("Instruccions d'ús de la PCCD.");
+set_meta_description("Instruccions d'ús de la Paremiologia catalana comparada digital.");
 ?>
 <p>El cos principal de cerca fa una cerca simple en el camp de paremiotipus. Un paremiotipus és una unitat fraseològica (o parèmia) que hem pres com a principal de tot un seguit de variants formals, cronològiques o dialectals.</p>
 

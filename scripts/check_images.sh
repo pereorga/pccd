@@ -94,6 +94,7 @@ for f in ../src/images/paremies/*.gif; do
         echo "${filename} is ${filetype}" >> ../tmp/test_imatges_extensions.txt
     fi
 done
+echo "=============================" >> ../tmp/test_imatges_extensions.txt
 
 # Check image formats using jpeginfo, pngcheck and gifsicle.
 # We use set +e to ignore potential errors in these commands.

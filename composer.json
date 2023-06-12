@@ -31,7 +31,7 @@
   ],
   "homepage": "https://pccd.dites.cat",
   "require": {
-    "php": ">=8.1",
+    "php": ">=8.2",
     "ext-mbstring": "*"
   },
   "require-dev": {
@@ -43,13 +43,15 @@
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
-    "phpunit/phpunit": "^10.1",
+    "phpunit/phpunit": "^10.2",
     "psalm/plugin-phpunit": "^0.18.4",
+    "rector/rector": "^0.17.0",
     "tideways/php-xhprof-extension": "master",
-    "vimeo/psalm": "^5.11"
+    "vimeo/psalm": "^5.12"
   },
   "suggest": {
     "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
+    "ext-intl": "Required in the web server currently for only some tests",
     "ext-pdo": "Required in the web server",
     "ext-pdo-mysql": "Required in the web server",
     "ext-xhprof": "Xhprof may be used as a simple proofiler in development instances",
@@ -109,7 +111,10 @@
     "phpcs": "tools/phpcs -p --standard=phpcs.xml .",
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M",
     "phpunit": "vendor/bin/phpunit",
-    "psalm": "vendor/bin/psalm",
-    "psalm-taint-analysis": "vendor/bin/psalm --taint-analysis"
+    "psalm": "vendor/bin/psalm --no-cache",
+    "psalm-taint-analysis": "vendor/bin/psalm --no-cache --taint-analysis",
+    "rector": "vendor/bin/rector process",
+    "rector-lint": "vendor/bin/rector process --dry-run",
+    "yaml-lint": "tools/yaml-lint *.yml .*.yml .yamlfmt"
   }
 }

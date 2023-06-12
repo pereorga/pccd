@@ -10,7 +10,7 @@ test.describe("Paremiotipus", () => {
         page,
     }) => {
         await page.goto("/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era");
-        const results = await page.locator("main .resum").first().textContent();
+        const results = await page.locator(".article-summary").textContent();
 
         [, extractedNumber] = /([\d.]+)\srecurrències/.exec(results);
         const nEntries = Number(extractedNumber.replace(".", ""));
@@ -21,7 +21,7 @@ test.describe("Paremiotipus", () => {
         page,
     }) => {
         await page.goto("/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era");
-        const results = await page.locator("main .resum").first().textContent();
+        const results = await page.locator(".article-summary").textContent();
 
         [, extractedNumber] = /en ([\d.]+)\svariants/.exec(results);
         const nVariants = Number(extractedNumber.replace(".", ""));

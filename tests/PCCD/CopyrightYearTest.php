@@ -30,7 +30,7 @@ final class CopyrightYearTest extends TestCase
         $yearString = sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year);
         $yearMentions = substr_count($phpFile, $yearString);
 
-        static::assertSame(2, $yearMentions, "File src/pages/credits.php should contain the current year {$year} twice");
+        self::assertSame(2, $yearMentions, "File src/pages/credits.php should contain the current year {$year} twice");
     }
 
     public function testIndexPageHasCorrectCopyrightYear(): void
@@ -40,6 +40,6 @@ final class CopyrightYearTest extends TestCase
         $yearString = sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year);
         $yearMentions = substr_count($phpFile, $yearString);
 
-        static::assertSame(1, $yearMentions, "File docroot/index.php should contain the current year {$year}");
+        self::assertSame(1, $yearMentions, "File docroot/index.php should contain the current year {$year}");
     }
 }

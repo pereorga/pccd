@@ -43,7 +43,7 @@ final class ComposerPackageJsonTest extends TestCase
         ];
 
         foreach ($fields as $field) {
-            static::assertSame(
+            self::assertSame(
                 $this->package[$field],
                 $this->composer[$field],
                 "Field {$field} in package.json and composer.json must match",

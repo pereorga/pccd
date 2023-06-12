@@ -15,6 +15,7 @@ cd "$(dirname "$0")/.."
 
 ##############################################################################
 # Shows the help of this command.
+#
 # Arguments:
 #   None
 ##############################################################################
@@ -22,13 +23,12 @@ usage() {
     echo "Usage: $(basename "$0")"
 }
 
-# If an argument is passed
 if [[ -n $1 ]]; then
     usage
     exit 1
 fi
 
-# If the BASE_URL variable is not passed, load it from env file.
+# If BASE_URL variable is not set, load it from the .env file.
 if [[ -z ${BASE_URL} ]]; then
     export "$(grep 'BASE_URL=' .env | xargs)"
     if [[ -z ${BASE_URL} ]]; then
@@ -38,6 +38,36 @@ if [[ -z ${BASE_URL} ]]; then
 fi
 
 readonly BASE_URL
+
+##############################################################################
+# Converts a production URL to a local URL.
+#
+# Globals:
+#   BASE_URL
+# Arguments:
+#   Production URL
+# Outputs:
+#   Local URL
+##############################################################################
+production_to_local_url() {
+    echo "$1" | sed -e "s|https://pccd.dites.cat|${BASE_URL}|"
+}
+export -f production_to_local_url
+
+##############################################################################
+# Converts a local URL to a production URL.
+#
+# Globals:
+#   BASE_URL
+# Arguments:
+#   Local URL
+# Outputs:
+#   Production URL
+##############################################################################
+local_to_production_url() {
+    echo "$1" | sed -e "s|${BASE_URL}|https://pccd.dites.cat|"
+}
+export -f local_to_production_url
 
 cat /dev/null > tmp/test_html_errors.txt
 echo -n "Informe actualitzat el dia:" > tmp/test_zero_fonts.txt
@@ -49,15 +79,13 @@ LC_TIME='ca_ES' date | cut -d"," -f2 | sed "s/de o/d'o/" | sed "s/de a/d'a/" >> 
 # This is similar to the function available in scripts/validate_website.sh, but is simpler (e.g. it does not use
 # webhint, linkinator or lighthouse). See that file for more details.
 #
-# Globals:
-#   BASE_URL
 # Arguments:
 #   The URL to validate
 ##############################################################################
 validate_html_url() {
     local -r page_id=$(uuidgen)
     local -r filename="tmp/page_${page_id}.html"
-    local -r url=$(echo "$1" | sed -e "s|https://pccd.dites.cat|${BASE_URL}|")
+    local -r url=$(production_to_local_url "$1")
     local error
     local status_code
 
@@ -69,18 +97,9 @@ validate_html_url() {
         exit 255
     fi
 
-    npx htmlhint "${filename}" || exit 255
+    npx htmlhint --config .htmlhintrc.json "${filename}" || exit 255
 
     error=$(npx html-validate --config=.htmlvalidate.json "${filename}")
-    # Fail when there is an error.
-    # shellcheck disable=SC2181
-    if [[ $? -ne 0 ]]; then
-        echo "" >> tmp/test_html_errors.txt
-        echo "Error reported by html-validate in ${url}: ${error}" >> tmp/test_html_errors.txt
-        echo "" >> tmp/test_html_errors.txt
-        exit 255
-    fi
-    # Otherwise, just print the warning message.
     if [[ -n ${error} ]]; then
         echo "" >> tmp/test_html_errors.txt
         echo "Error reported by html-validate in ${url}: ${error}" >> tmp/test_html_errors.txt
@@ -89,25 +108,29 @@ validate_html_url() {
 
     error=$(tidy -config .tidyrc "${filename}" 2>&1 > /dev/null)
     if [[ -n ${error} ]]; then
-        # Log records with HTML issues for later analysis. This report is available in the admin section.
         echo "" >> tmp/test_html_errors.txt
         echo "Error reported by tidy in ${url}: ${error}" >> tmp/test_html_errors.txt
         echo "" >> tmp/test_html_errors.txt
     fi
 
-    # Log records with "0 sources" for later analysis. This report is available in the admin section.
-    if grep -q -F -m 1 "(0 fonts" "${filename}"; then
-        echo "${url}" >> tmp/test_zero_fonts.txt
+    # Log entries with "0 sources". This report is available in the admin section.
+    if grep -q -F -m 1 '<div class="summary">' "${filename}"; then
+        local_to_production_url "${url}" >> tmp/test_zero_fonts.txt
     fi
 }
 export -f validate_html_url
 
 if strings "$(command -v xargs)" | grep -q -F -m 1 "FreeBSD"; then
-    # The following is compatible with the xargs implementation (POSIX) included in macOS.
+    # Compatible with the xargs implementation available in Mac.
     xargs -n 1 -P 10 -S 512 -I {} bash -c 'validate_html_url "$@" || exit 255' _ {} < docroot/sitemap.txt
 else
-    # Let's assume this is GNU xargs.
+    # Compatible with GNU xargs.
     xargs -n 1 -P 10 -I {} bash -c 'validate_html_url "$@" || exit 255' _ {} < docroot/sitemap.txt
 fi
+
+if [[ $(wc -l < tmp/test_zero_fonts.txt) -lt 2 ]]; then
+    echo "<em>No hi ha parèmies amb 0 fonts.</em>" >> tmp/test_zero_fonts.txt
+fi
+
 echo "All URLs in the sitemap file returned HTTP 200."
 find tmp/ -type f -name '*.html' -delete

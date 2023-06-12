@@ -11,6 +11,10 @@ h2 {
     font-size: 1.125rem;
 }
 
+.article-summary {
+    margin-bottom: 1.5rem;
+}
+
 .shortcuts {
     margin-top: 0.5rem;
 }
@@ -41,16 +45,7 @@ a.media-link:focus {
     outline: 1px solid #333;
 }
 
-details {
-    margin-bottom: 2rem;
-}
-
-details summary {
-    font-size: 0.875rem;
-    cursor: pointer;
-}
-
-.entrada {
+.entry {
     margin-bottom: 1rem;
     font-size: 0.875rem;
     word-break: break-word;
@@ -58,31 +53,41 @@ details summary {
     border: 1px solid #dee2e6;
 }
 
-.entrada div,
-.entrada footer {
+.entry div,
+.entry footer {
     padding: 0.25rem;
 }
 
-.entrada footer {
+.entry footer {
     background-color: #f9f9f9;
+}
+
+details,
+.summary {
+    margin-bottom: 2rem;
+}
+
+summary,
+.summary {
+    font-size: 0.875rem;
+}
+
+summary {
+    cursor: pointer;
+}
+
+.bloc-image {
+    padding: 7px;
+}
+
+.bloc-top100 {
+    display: none;
 }
 
 figcaption {
     margin-top: 5px;
     font-size: 0.875rem;
     text-align: left;
-}
-
-.resum {
-    margin-bottom: 1.5rem;
-}
-
-.bloc-imatge {
-    padding: 7px;
-}
-
-.bloc-top-paremies {
-    display: none;
 }
 
 a.audio {
@@ -99,8 +104,8 @@ a.audio:focus {
 }
 
 /* Tablet and greater */
-@media (width >= 768px) {
-    .bloc-top-paremies {
+@media (min-width: 768px) {
+    .bloc-top100 {
         display: block;
     }
 

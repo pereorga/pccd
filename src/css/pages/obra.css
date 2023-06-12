@@ -27,11 +27,11 @@ dd {
     margin-left: 0.4rem;
 }
 
-.col-obra {
+.col-work {
     margin-bottom: 1rem;
 }
 
-.col-obra footer {
+.col-work footer {
     margin: 1rem 0;
 }
 
@@ -40,19 +40,19 @@ dd {
     text-align: center;
 }
 
-.col-image + .col-obra {
+.col-image + .col-work {
     order: 1;
 }
 
 /* Big mobile and greater */
-@media (width >= 576px) {
+@media (min-width: 576px) {
     .col-image {
         flex: 0 0 41.6667%;
         order: 1;
         max-width: 41.6667%;
     }
 
-    .col-image + .col-obra {
+    .col-image + .col-work {
         flex: 0 0 58.3333%;
         order: 2;
         max-width: 58.3333%;

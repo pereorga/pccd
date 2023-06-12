@@ -1,14 +1,11 @@
 include:
   - project: "docker/process-webhooks"
     file: "/gitlab/deploy.yml"
-
 variables:
   PROJECT_TO_BE_DEPLOYED: "docker/pccd"
-
 stages:
   - build
   - deploy
-
 build:
   image: docker:latest
   services:
@@ -28,13 +25,11 @@ build:
     - docker push $DOCKER_IMAGE:$CI_COMMIT_SHA
     - docker push $DOCKER_IMAGE:$DATETAG
     - docker push $DOCKER_IMAGE:latest
-
 deploy:
   stage: deploy
   when: manual
   extends:
     - .default-deploy
-
 reset:
   stage: deploy
   when: manual

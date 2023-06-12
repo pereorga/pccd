@@ -25,10 +25,10 @@ $header = <<<'EOF'
     EOF;
 
 $finder = PhpCsFixer\Finder::create()
-    ->notPath('vendor')
     ->notPath('node_modules')
-    ->notPath('tmp')
     ->notPath('src/third_party')
+    ->notPath('tmp')
+    ->notPath('vendor')
     ->name('*.php')
     ->ignoreDotFiles(false)
     ->in(__DIR__);
@@ -48,7 +48,7 @@ $config
         'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
         // 'no_blank_lines_after_phpdoc' => false,
         'phpdoc_to_comment' => false,
-        'random_api_migration' => true,
+        'random_api_migration' => false,
         'yoda_style' => false,
     ])
     ->setFinder($finder);

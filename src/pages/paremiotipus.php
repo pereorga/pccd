@@ -12,12 +12,6 @@
 
 declare(strict_types=1);
 
-/*
- * Paremiotipus pages.
- *
- * This file is probably the ugliest in the codebase.
- */
-
 const YEAR_MAX = 9999;
 
 $request_uri = get_request_uri();
@@ -31,7 +25,7 @@ if ($total_variants === 0) {
     try_to_redirect_to_valid_paremiotipus_and_exit($paremiotipus);
 
     // If no match could be found, return an HTTP 404 page.
-    error_log("Error: no s'ha trobat el paremiotipus per l'URL: " . $request_uri);
+    error_log("Error: entry not found for URL: {$request_uri}");
     return_404_and_exit();
 }
 
@@ -39,19 +33,17 @@ $editorials = get_editorials();
 $fonts = get_fonts();
 
 // We'll populate the right column.
-$blocks = '';
-$meta_desc = '';
-$meta_desc_fallback = '';
 $paremiotipus_db = '';
-$is_first_variant = true;
 $total_min_year = YEAR_MAX;
 $rendered_array = [];
+
+// Loop through the variants.
 foreach ($variants as $modisme => $variant) {
+    $is_first_variant = $paremiotipus_db === '';
     if ($is_first_variant) {
-        // Set the canonical URL.
+        // Set the canonical URL and page title.
         $paremiotipus_db = $variant[0]['PAREMIOTIPUS'];
         $canonical_url = get_paremiotipus_url($paremiotipus_db, true);
-        set_canonical_url($canonical_url);
 
         // Redirect old URLs to the new ones.
         if (!str_starts_with($request_uri, '/p/')) {
@@ -60,15 +52,17 @@ foreach ($variants as $modisme => $variant) {
             exit;
         }
 
-        // Get the page title.
+        set_canonical_url($canonical_url);
+
         set_page_title(get_paremiotipus_display($paremiotipus_db));
-        $is_first_variant = false;
     }
 
     $min_year = YEAR_MAX;
     $prev_work = '';
     $variant_sources = 0;
     $paremia = '';
+
+    // Loop through the variant's recurrences.
     foreach ($variant as $v) {
         $work = '';
         if ($v['AUTOR'] !== null) {
@@ -122,67 +116,35 @@ foreach ($variants as $modisme => $variant) {
             if ($v['ACCEPCIO'] !== null) {
                 $work .= ', accepció ' . htmlspecialchars($v['ACCEPCIO']);
             }
+            $work .= '.';
 
-            $explicacio = '';
-            if ($v['EXPLICACIO'] !== null && strlen($v['EXPLICACIO']) > 3) {
-                $explicacio = htmlspecialchars($v['EXPLICACIO']);
-                if ($meta_desc === '') {
-                    $meta_desc = 'Explicació: ' . trim($explicacio);
-                }
-                if ($v['EXPLICACIO2'] !== null) {
-                    $explicacio .= htmlspecialchars($v['EXPLICACIO2']);
-                }
-                $explicacio = trim($explicacio);
+            $explanation = '';
+            if ($v['EXPLICACIO'] !== null && $v['EXPLICACIO2'] !== null) {
+                $explanation = mb_ucfirst(ct($v['EXPLICACIO'] . $v['EXPLICACIO2']));
+            } elseif ($v['EXPLICACIO'] !== null && strlen($v['EXPLICACIO']) > 3) {
+                $explanation = mb_ucfirst(ct($v['EXPLICACIO']));
             }
-
             if ($v['AUTORIA'] !== null) {
-                if ($explicacio !== '') {
-                    if (
-                        !str_ends_with($explicacio, '.')
-                        && !str_ends_with($explicacio, '?')
-                        && !str_ends_with($explicacio, '!')
-                    ) {
-                        $explicacio .= '.';
-                    }
-                    $explicacio .= ' ';
+                if ($explanation !== '') {
+                    $explanation .= ' ';
                 }
-                $explicacio .= 'De: ' . htmlspecialchars($v['AUTORIA']);
-            }
-            if (
-                $explicacio !== ''
-                && !str_ends_with($explicacio, '.')
-                && !str_ends_with($explicacio, '?')
-                && !str_ends_with($explicacio, '!')
-            ) {
-                $explicacio .= '.';
+                $explanation .= 'De: ' . ct($v['AUTORIA']);
             }
 
             $body = '';
-            if ($explicacio !== '') {
-                $body .= '<div>' . ucfirst($explicacio) . '</div>';
+            if ($explanation !== '') {
+                set_meta_description_once("Explicació: {$explanation}");
+                $body .= "<div>{$explanation}</div>";
             }
             if ($v['EXEMPLES'] !== null) {
-                $exemples = ct($v['EXEMPLES']);
-                if ($meta_desc === '') {
-                    $meta_desc = "Exemple: {$exemples}";
-                }
-                $body .= '<div><i>' . ucfirst($exemples) . '</i>';
-                if (!str_ends_with($exemples, '?') && !str_ends_with($exemples, '!')) {
-                    $body .= '.';
-                }
-                $body .= '</div>';
+                $exemples = mb_ucfirst(ct($v['EXEMPLES']));
+                set_meta_description_once("Exemple: {$exemples}");
+                $body .= "<div><i>{$exemples}</i></div>";
             }
             if ($v['SINONIM'] !== null) {
-                $sinonim = trim(trim(trim($v['SINONIM']), '.'));
-                $sinonim = htmlspecialchars($sinonim, ENT_NOQUOTES);
-                if ($meta_desc === '') {
-                    $meta_desc = 'Sinònim: ' . $sinonim;
-                }
-                $body .= '<div>Sinònim: ' . $sinonim;
-                if (!str_ends_with($v['SINONIM'], '?') && !str_ends_with($v['SINONIM'], '!')) {
-                    $body .= '.';
-                }
-                $body .= '</div>';
+                $sinonim = ct($v['SINONIM']);
+                set_meta_description_once("Sinònim: {$sinonim}");
+                $body .= "<div>Sinònim: {$sinonim}</div>";
             }
             if ($v['EQUIVALENT'] !== null) {
                 $equivalent_label = 'Equivalent';
@@ -190,53 +152,46 @@ foreach ($variants as $modisme => $variant) {
                 if ($idioma !== '') {
                     $equivalent_label = "Equivalent en {$idioma}";
                 }
-                if ($meta_desc === '') {
-                    $meta_desc = $equivalent_label . ': ' . ct($v['EQUIVALENT']);
-                }
+                $equivalent = ct($v['EQUIVALENT']);
+                set_meta_description_once("{$equivalent_label}: {$equivalent}");
+
                 $iso_code = $v['IDIOMA'] !== null ? get_idioma_iso_code($v['IDIOMA']) : '';
                 if ($iso_code !== '') {
-                    $body .= "<div>{$equivalent_label}: <span lang=\"{$iso_code}\">" . ct($v['EQUIVALENT']) . '</span>';
+                    $body .= "<div>{$equivalent_label}: <span lang=\"{$iso_code}\">{$equivalent}</span></div>";
                 } else {
-                    $body .= "<div>{$equivalent_label}: " . ct($v['EQUIVALENT']);
+                    $body .= "<div>{$equivalent_label}: {$equivalent}</div>";
                 }
-                if (!str_ends_with($v['EQUIVALENT'], '?') && !str_ends_with($v['EQUIVALENT'], '!')) {
-                    $body .= '.';
-                }
-                $body .= '</div>';
             }
             if ($v['LLOC'] !== null) {
-                $body .= '<div>Lloc: ' . ct($v['LLOC']) . '.</div>';
-                if ($meta_desc_fallback === '') {
-                    $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC']);
-                }
+                $body .= '<div>Lloc: ' . ct($v['LLOC']) . '</div>';
             }
             if ($v['FONT'] !== null) {
-                $font = ct($v['FONT']);
-                $body .= '<div>Font: ' . $font;
-                // For DSFF.
-                if (!str_ends_with($font, '*')) {
-                    $body .= '.';
-                }
-                $body .= '</div>';
+                $body .= '<div>Font: ' . ct($v['FONT']) . '</div>';
             }
 
-            $paremia .= '<div class="entrada">';
-            if ($body !== '') {
-                $paremia .= $body;
+            // Do not print the footer if the entry only contains the year.
+            if ($body === '' && preg_match('/\(\d{4}\).$/', $work) > 0) {
+                $work = '';
             }
-            $paremia .= '<footer>' . $work . '.</footer>';
-            $paremia .= '</div>';
+
+            if ($body !== '' || $work !== '') {
+                $paremia .= '<div class="entry">';
+                if ($body !== '') {
+                    $paremia .= $body;
+                }
+                if ($work !== '') {
+                    $paremia .= "<footer>{$work}</footer>";
+                }
+                $paremia .= '</div>';
+            }
             if ($prev_work !== $work) {
                 $variant_sources++;
             }
             $prev_work = $work;
         } elseif ($v['LLOC'] !== null) {
-            $paremia .= '<div class="entrada">';
-            $paremia .= '<div>Lloc: ' . ct($v['LLOC']) . '.</div>';
+            $paremia .= '<div class="entry">';
+            $paremia .= '<div>Lloc: ' . ct($v['LLOC']) . '</div>';
             $paremia .= '</div>';
-            if ($meta_desc_fallback === '') {
-                $meta_desc_fallback = 'Lloc: ' . ct($v['LLOC']);
-            }
             $variant_sources++;
         }
     }
@@ -244,16 +199,23 @@ foreach ($variants as $modisme => $variant) {
     $modisme_safe = htmlspecialchars($modisme);
     if ($total_variants > 1 || $modisme_safe !== get_page_title()) {
         $rendered_variant = "<h2>{$modisme_safe}</h2>";
-        $rendered_variant .= '<details open>';
-        $rendered_variant .= '<summary>';
-        $rendered_variant .= $variant_sources === 1 ? '1 font' : "{$variant_sources} fonts";
-        if ($min_year < YEAR_MAX) {
-            $rendered_variant .= ", {$min_year}";
+        if ($variant_sources === 0) {
+            // Sources with only a year are displayed without details.
+            if ($min_year < YEAR_MAX) {
+                $rendered_variant .= '<div class="summary">1 font, ' . $min_year . '.</div>';
+            }
+        } else {
+            $rendered_variant .= '<details open>';
+            $rendered_variant .= '<summary>';
+            $rendered_variant .= $variant_sources === 1 ? '1 font' : "{$variant_sources} fonts";
+            if ($min_year < YEAR_MAX) {
+                $rendered_variant .= ", {$min_year}";
+            }
+            $rendered_variant .= '.';
+            $rendered_variant .= '</summary>';
+            $rendered_variant .= $paremia;
+            $rendered_variant .= '</details>';
         }
-        $rendered_variant .= '.';
-        $rendered_variant .= '</summary>';
-        $rendered_variant .= $paremia;
-        $rendered_variant .= '</details>';
     } else {
         $rendered_variant = $paremia;
     }
@@ -264,59 +226,38 @@ foreach ($variants as $modisme => $variant) {
     ];
 }
 
-if ($meta_desc === '') {
-    $meta_desc = $meta_desc_fallback;
-}
-set_meta_description($meta_desc);
-
 // Build the right column.
 // Common Voice.
 $mp3_files = get_cv_files($paremiotipus_db);
 $cv_output = '';
-foreach ($mp3_files as $file) {
-    if (is_file(__DIR__ . "/../../docroot/mp3/{$file}")) {
+foreach ($mp3_files as $mp3_file) {
+    if (is_file(__DIR__ . "/../../docroot/mp3/{$mp3_file}")) {
         $is_first_audio = $cv_output === '';
         if ($is_first_audio) {
-            set_og_audio_url("https://pccd.dites.cat/mp3/{$file}");
+            set_og_audio_url("https://pccd.dites.cat/mp3/{$mp3_file}");
         }
 
-        $cv_output .= '<a class="audio" href="/mp3/' . $file . '">';
-        $cv_output .= '<audio preload="none" src="/mp3/' . $file . '"></audio>';
+        $cv_output .= '<a class="audio" href="/mp3/' . $mp3_file . '">';
+        $cv_output .= '<audio preload="none" src="/mp3/' . $mp3_file . '"></audio>';
         $cv_output .= '<img width="32" height="27" alt="Altaveu" src="/img/speaker.svg">';
         $cv_output .= '</a>';
     } else {
-        error_log("Error: asset file is missing: {$file}");
+        error_log("Error: asset file is missing: {$mp3_file}");
     }
-}
-if ($cv_output !== '') {
-    $blocks .= '<div id="commonvoice" class="bloc text-break" title="Escolteu-ho">';
-    $blocks .= $cv_output;
-    $blocks .= '<p>';
-    $blocks .= '<a title="Projecte Common Voice" href="https://commonvoice.mozilla.org/ca">';
-    $blocks .= '<img alt="Logotip de Common Voice" width="100" height="25" src="/img/commonvoice.svg">';
-    $blocks .= '</a>';
-    $blocks .= '</p>';
-    $blocks .= '</div>';
 }
 
 // Images.
 $images = get_images($paremiotipus_db);
-$i = 0;
+$images_output = '';
 foreach ($images as $image) {
     if (is_file(__DIR__ . '/../../docroot/img/imatges/' . $image['Identificador'])) {
-        $i++;
-        $is_first_image = $i === 1;
+        $is_first_image = $images_output === '';
         if ($is_first_image) {
-            // Use it for meta image.
+            // Use it for the meta image.
             set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($image['Identificador']));
-
-            // Add an id for anchor links (once).
-            $blocks .= '<div id="imatges" class="bloc bloc-imatge text-break">';
-        } else {
-            $blocks .= '<div class="bloc bloc-imatge text-break">';
         }
 
-        $blocks .= '<figure>';
+        $images_output .= '<div class="bloc bloc-image text-break"><figure>';
 
         $image_tag = get_image_tags(
             $image['Identificador'],
@@ -329,24 +270,24 @@ foreach ($images as $image) {
 
         $image_url = get_clean_url($image['URL']);
         if ($image_url !== '') {
-            $blocks .= '<a href="' . $image_url . '">' . $image_tag . '</a>';
+            $images_output .= '<a href="' . $image_url . '">' . $image_tag . '</a>';
         } else {
-            $blocks .= $image_tag;
+            $images_output .= $image_tag;
         }
 
-        $work = '';
+        $image_caption = '';
         if ($image['AUTOR'] !== null) {
-            $work .= htmlspecialchars($image['AUTOR']);
+            $image_caption = htmlspecialchars($image['AUTOR']);
         }
         if ($image['ANY'] > 0) {
-            if ($work !== '') {
-                $work .= ' ';
+            if ($image_caption !== '') {
+                $image_caption .= ' ';
             }
-            $work .= '(' . $image['ANY'] . ')';
+            $image_caption .= '(' . $image['ANY'] . ')';
         }
         if ($image['DIARI'] !== null && $image['DIARI'] !== $image['AUTOR']) {
-            if ($work !== '') {
-                $work .= ': ';
+            if ($image_caption !== '') {
+                $image_caption .= ': ';
             }
 
             // If there is no ARTICLE, link DIARI to the content.
@@ -354,11 +295,11 @@ foreach ($images as $image) {
             if ($image_url !== '' && $image['ARTICLE'] === null) {
                 $diari = '<a href="' . $image_url . '">' . $diari . '</a>';
             }
-            $work .= "<em>{$diari}</em>";
+            $image_caption .= "<em>{$diari}</em>";
         }
         if ($image['ARTICLE'] !== null) {
-            if ($work !== '') {
-                $work .= ' ';
+            if ($image_caption !== '') {
+                $image_caption .= ' ';
             }
 
             // Link to the content, unless the text has a link already.
@@ -372,22 +313,36 @@ foreach ($images as $image) {
                     $article = '<a href="' . $image_url . '">' . $article . '</a>';
                 }
             }
-            $work .= "«{$article}»";
+            $image_caption .= "«{$article}»";
         }
 
-        if ($work !== '') {
-            $blocks .= '<figcaption class="small">' . $work . '</figcaption>';
+        if ($image_caption !== '') {
+            $images_output .= '<figcaption class="small">' . $image_caption . '</figcaption>';
         }
 
-        $blocks .= '</figure>';
-        $blocks .= '</div>';
+        $images_output .= '</figure></div>';
     }
 }
+
+$blocks = '';
+if ($cv_output !== '') {
+    $blocks = '<div id="commonvoice" class="bloc text-break" title="Escolteu-ho">';
+    $blocks .= $cv_output;
+    $blocks .= '<p><a title="Projecte Common Voice" href="https://commonvoice.mozilla.org/ca">';
+    $blocks .= '<img alt="Logotip de Common Voice" width="100" height="25" src="/img/commonvoice.svg"></a></p>';
+    $blocks .= '</div>';
+}
+if ($images_output !== '') {
+    $blocks .= '<div id="imatges">';
+    $blocks .= $images_output;
+    $blocks .= '</div>';
+}
+set_paremiotipus_blocks($blocks);
 
 // Main page output.
 $output = '';
 if ($total_variants > 1) {
-    $output = '<div class="resum">' . count($modismes) . "&nbsp;recurrències en {$total_variants}&nbsp;variants.";
+    $output = '<div class="article-summary">' . count($modismes) . "&nbsp;recurrències en {$total_variants}&nbsp;variants.";
     if ($total_min_year < YEAR_MAX) {
         $output .= " Primera&nbsp;citació:&nbsp;{$total_min_year}.";
     }
@@ -395,15 +350,13 @@ if ($total_variants > 1) {
     $output .= '<button type="button" id="toggle-all" title="Amaga els detalls de cada font">contrau-ho tot</button>';
 
     // Add an anchor link to the multimedia content, only visible on mobile.
-    if (get_meta_image() !== '') {
+    if ($images_output !== '') {
         $output .= '<a class="media-link" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '">';
         $output .= 'ves als fitxers';
         $output .= '</a>';
     }
     $output .= '</div></div>';
 }
-
-set_side_blocks($blocks);
 
 // Print the variants, sorted by the number of sources.
 usort($rendered_array, 'variants_comp');

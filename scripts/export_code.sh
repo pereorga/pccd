@@ -25,11 +25,11 @@ if [[ -n $1 ]]; then
     exit 1
 fi
 
-if [[ -d tmp/pccd ]]; then
-    rm -rf tmp/pccd
+if [[ -d tmp/github ]]; then
+    rm -rf tmp/github
 fi
 
-git clone --no-checkout git@github.com:Softcatala/pccd.git tmp/pccd
-git archive --prefix=pccd/ --format=tar HEAD | (cd tmp/ && tar xf -)
-(cd tmp/pccd && git add . && git commit -m "export source code")
-echo "Source code exported to tmp/pccd and ready to be pushed to GitHub."
+git clone --no-checkout git@github.com:Softcatala/pccd.git tmp/github
+git archive --prefix=github/ --format=tar HEAD | (cd tmp/ && tar xf -)
+(cd tmp/github && git add . && git commit -m "export source code")
+echo "Source code exported to tmp/github and ready to be pushed to GitHub."

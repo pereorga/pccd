@@ -68,7 +68,7 @@ if (isset($_SESSION['auth'])) {
 }
 
 $deployment_date = '';
-$timestamp = filemtime(__DIR__ . '/../index.php');
+$timestamp = filemtime(__FILE__);
 if ($timestamp !== false) {
     $deployment_date = date('Y/m/d H:i:s', $timestamp);
 }
@@ -106,60 +106,14 @@ if (isset($_GET['logout'])) {
 
 session_write_close();
 
-if (isset($_GET['test'])) {
+if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
     require __DIR__ . '/../../src/reports/tests.php';
 
-    if ($_GET['test'] === 'imatges') {
-        test_imatges_paremiotipus();
-        test_imatges_buides();
-        test_imatges_no_referenciades();
-        test_imatges_no_reconegudes();
-        test_imatges_extensio();
-        test_imatges_no_existents();
-        test_imatges_repetides();
-        test_imatges_format();
-        test_imatges_sense_paremiotipus();
-    } elseif ($_GET['test'] === 'urls') {
-        test_urls();
-    } elseif ($_GET['test'] === 'espais') {
-        test_espais();
-    } elseif ($_GET['test'] === 'puntuació') {
-        test_paremiotipus_caracters_inusuals();
-        test_paremiotipus_final();
-        test_puntuacio();
-    } elseif ($_GET['test'] === 'majúscules') {
-        test_majuscules();
-    } elseif ($_GET['test'] === 'equivalents') {
-        test_equivalents();
-    } elseif ($_GET['test'] === 'explicacions') {
-        test_explicacio();
-    } elseif ($_GET['test'] === 'repeticions') {
-        test_paremiotipus_accents();
-        test_paremiotipus_modismes_diferents();
-        test_paremiotipus_repetits();
-    } elseif ($_GET['test'] === 'repeticions_caracters') {
-        test_repeticio_caracters();
-    } elseif ($_GET['test'] === 'longitud') {
-        test_buits();
-        test_paremiotipus_modismes_curts();
-        test_paremiotipus_llargs();
-    } elseif ($_GET['test'] === 'editorials') {
-        test_editorials_no_referenciades();
-        test_editorials_no_existents();
-    } elseif ($_GET['test'] === 'fonts') {
-        test_fonts_sense_paremia();
-        test_paremies_sense_font_existent();
-        test_fonts_buides();
-    } elseif ($_GET['test'] === 'dates') {
-        test_paremies_any_erroni();
-        test_fonts_any_erroni();
-        test_imatges_any_erroni();
-    } elseif ($_GET['test'] === 'compostos') {
-        test_paremies_separar();
-    } elseif ($_GET['test'] === 'commonvoice_languagetool') {
-        test_commonvoice_languagetool();
-    } elseif ($_GET['test'] === 'cerques') {
-        test_searches();
+    $test_functions = get_test_functions();
+    if (isset($test_functions[$_GET['test']])) {
+        foreach ($test_functions[$_GET['test']] as $function_name) {
+            $function_name();
+        }
     }
 
     echo "<p>[<a href='/admin'>Torna endarrere</a>]</p>";
@@ -173,7 +127,6 @@ Informes:
 <ul>
     <li><a href="?test=cerques">Cerques</a></li>
     <li><a href="?test=commonvoice_languagetool">Common Voice / LanguageTool</a></li>
-    <li><a href="?test=compostos">Compostos</a></li>
     <li><a href="?test=dates">Dates</a></li>
     <li><a href="?test=editorials">Editorials</a></li>
     <li><a href="?test=equivalents">Equivalents</a></li>
@@ -181,11 +134,13 @@ Informes:
     <li><a href="?test=explicacions">Explicacions</a></li>
     <li><a href="?test=fonts">Fonts</a></li>
     <li><a href="?test=imatges">Imatges</a></li>
+    <li><a href="?test=llocs">Llocs</a></li>
     <li><a href="?test=longitud">Longitud</a></li>
     <li><a href="?test=majúscules">Majúscules</a></li>
     <li><a href="?test=puntuació">Puntuació</a></li>
     <li><a href="?test=repeticions_caracters">Repeticions de caràcters</a></li>
-    <li><a href="?test=repeticions">Repeticions de paremiotipus</a></li>
+    <li><a href="?test=repeticions_modismes">Repeticions de modismes</a></li>
+    <li><a href="?test=repeticions_paremiotipus">Repeticions de paremiotipus</a></li>
     <li><a href="?test=urls">URLs</a></li>
 </ul>
 Monitorització:
@@ -200,7 +155,8 @@ Monitorització:
 <p>[<a href='?logout'>Tanca la sessió</a>]</p>
 <small>
     Última base de dades: <?php require __DIR__ . '/../../tmp/db_date.txt'; ?>- Últim desplegament: <?php echo $deployment_date; ?>
-    <br><?php echo 'PHP ' . PHP_VERSION . ' on ' . apache_get_version() . ' (' . PHP_OS . '). BD ' . get_db()->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
+    <br><?php echo 'PHP ' . PHP_VERSION . ', ' . apache_get_version() . ' (' . PHP_OS . '), ' . get_db()->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
+    <br><?php echo 'MySQL ' . get_db()->getAttribute(PDO::ATTR_SERVER_INFO); ?>
 </small>
 </body>
 </html>

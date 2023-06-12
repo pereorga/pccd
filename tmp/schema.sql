@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.5.19-MariaDB, for debian-linux-gnu (aarch64)
+-- MariaDB dump 10.19  Distrib 10.5.21-MariaDB, for debian-linux-gnu (aarch64)
 --
 -- Host: localhost    Database: pccd
 -- ------------------------------------------------------
--- Server version	10.5.19-MariaDB-1:10.5.19+maria~ubu2004
+-- Server version	10.5.21-MariaDB-1:10.5.21+maria~ubu2004
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -89,7 +89,7 @@ CREATE TABLE `00_FONTS` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `Identificador` (`Identificador`)
-) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=505 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `00_IMATGES` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `PAREMIOTIPUS` (`PAREMIOTIPUS`)
-) ENGINE=InnoDB AUTO_INCREMENT=4563 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4756 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `00_PAREMIOTIPUS` (
   FULLTEXT KEY `PAREMIOTIPUS_LC_WA_6` (`PAREMIOTIPUS_LC_WA`,`MODISME_LC_WA`,`EQUIVALENT_LC_WA`),
   FULLTEXT KEY `PAREMIOTIPUS_LC_WA_7` (`PAREMIOTIPUS_LC_WA`,`SINONIM_LC_WA`,`EQUIVALENT_LC_WA`),
   FULLTEXT KEY `PAREMIOTIPUS_LC_WA_8` (`PAREMIOTIPUS_LC_WA`,`MODISME_LC_WA`,`SINONIM_LC_WA`,`EQUIVALENT_LC_WA`)
-) ENGINE=InnoDB AUTO_INCREMENT=739118 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=741767 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

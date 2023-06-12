@@ -56,14 +56,13 @@ $add_accepcio_stmt = $pdo->prepare('UPDATE 00_PAREMIOTIPUS SET MODISME = ?, ACCE
 $normalize_stmt = $pdo->prepare('UPDATE 00_PAREMIOTIPUS SET PAREMIOTIPUS_LC_WA = ?, MODISME_LC_WA = ?, SINONIM_LC_WA = ?, EQUIVALENT_LC_WA = ? WHERE Id = ?');
 $improve_sorting_stmt = $pdo->prepare('UPDATE 00_PAREMIOTIPUS SET PAREMIOTIPUS = ? WHERE Id = ?');
 
-$stmt = $pdo->query('SELECT Id, PAREMIOTIPUS, MODISME, SINONIM, EQUIVALENT FROM 00_PAREMIOTIPUS');
-$paremies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$paremies = $pdo->query('SELECT Id, PAREMIOTIPUS, MODISME, SINONIM, EQUIVALENT FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($paremies as $p) {
     // Try to clean names ending with numbers and fill ACCEPCIO field.
     $modisme = trim($p['MODISME']);
     if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
         $last_number = trim(end($matches[0]));
-        $modisme = rtrim(rtrim($modisme, $last_number));
+        $modisme = rtrim($modisme, "{$last_number} \n\r\t\v\x00");
         $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
     }
 
@@ -90,8 +89,7 @@ foreach ($paremies as $p) {
 
 echo date('[H:i:s]') . ' normalizing paremiotipus in images table...' . PHP_EOL;
 $normalize_paremiotipus_images_stmt = $pdo->prepare('UPDATE 00_IMATGES SET PAREMIOTIPUS = ? WHERE Comptador = ?');
-$stmt = $pdo->query('SELECT Comptador, PAREMIOTIPUS FROM 00_IMATGES');
-$images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$images = $pdo->query('SELECT Comptador, PAREMIOTIPUS FROM 00_IMATGES')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($images as $image) {
     $normalize_paremiotipus_images_stmt->execute([clean_paremiotipus_for_sorting($image['PAREMIOTIPUS'] ?? ''), $image['Comptador']]);
 }
@@ -117,17 +115,11 @@ foreach ($records as $title => $popular) {
 // -----------------------------------------------------------------------------------------------
 echo date('[H:i:s]') . ' importing Common Voice...' . PHP_EOL;
 $cv_content = file_get_contents(__DIR__ . '/common-voice-import/commonvoice_voices.json');
-if ($cv_content === false) {
-    error_log('Error loading commonvoice_voices.json file.');
+assert(is_string($cv_content));
 
-    exit;
-}
 $cv_json = json_decode(mb_strtolower($cv_content), true);
-if (!is_array($cv_json)) {
-    error_log('Error parsing commonvoice_voices.json file.');
+assert(is_array($cv_json));
 
-    exit;
-}
 $cv_insert_stmt = $pdo->prepare('INSERT IGNORE INTO commonvoice(paremiotipus, file) VALUES(?, ?)');
 $modismes = $pdo->query('SELECT MODISME, PAREMIOTIPUS FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($modismes as $m) {
@@ -137,11 +129,14 @@ foreach ($modismes as $m) {
     if (!str_ends_with($modisme, '.') && !str_ends_with($modisme, '!') && !str_ends_with($modisme, '?')) {
         $modisme .= '.';
     }
-    if (isset($cv_json[$modisme]) && is_array($cv_json[$modisme])) {
-        foreach ($cv_json[$modisme] as $frase) {
-            if (is_array($frase)) {
-                $cv_insert_stmt->execute([$m['PAREMIOTIPUS'], $frase['path']]);
-            }
+
+    if (!isset($cv_json[$modisme]) || !is_array($cv_json[$modisme])) {
+        continue;
+    }
+
+    foreach ($cv_json[$modisme] as $frase) {
+        if (is_array($frase)) {
+            $cv_insert_stmt->execute([$m['PAREMIOTIPUS'], $frase['path']]);
         }
     }
 }

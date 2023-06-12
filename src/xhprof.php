@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 xhprof_enable();
 register_shutdown_function(
-    function (): void {
+    static function (): void {
         file_put_contents('/tmp/' . uniqid() . '.ApplicationName.xhprof', serialize(xhprof_disable()));
     },
 );

@@ -1,10 +1,10 @@
 # Data
-*.sql
-/tmp/
-/docroot/sitemap*.txt
-/scripts/*/*.txt
-/scripts/*/*.json
 *.csv
+*.sql
+/docroot/sitemap*.txt
+/scripts/*/*.json
+/scripts/*/*.txt
+/tmp/
 
 # Vendor directories
 vendor/
@@ -12,24 +12,23 @@ node_modules/
 third_party/
 
 # Generated files
-composer.lock
-package-lock.json
-yarn.lock
-*Brewfile.lock.json
 *.sublime-workspace
+*Brewfile.lock.json
 /LICENSE
+composer.lock
+yarn.lock
 
 # Compiled assets and binaries
 *.min.*
-/docroot/mp3/
 /docroot/img/
+/docroot/mp3/
 /src/images/
 
 # Include hidden files but default, but ignore some.
 !.*
+.DS_Store
 .git
+.idea
 .php-cs-fixer.cache
 .phpunit.result.cache
-.idea
-.DS_Store
 .picasa.ini

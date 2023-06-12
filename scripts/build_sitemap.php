@@ -39,8 +39,8 @@ foreach ($records as $r) {
 
 $stmt = $pdo->query('SELECT DISTINCT Identificador FROM 00_FONTS');
 $records = $stmt->fetchAll(PDO::FETCH_COLUMN);
-foreach ($records as $r) {
-    $urls .= get_obra_url($r, true) . "\n";
+foreach ($records as $record) {
+    $urls .= get_obra_url($record, true) . "\n";
 }
 
 echo $urls;

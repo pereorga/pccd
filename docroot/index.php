@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-const NONCE_LENGTH = 18;
-
 require __DIR__ . '/../src/third_party/urlLinker.php';
 
 require __DIR__ . '/../src/common.php';
@@ -25,26 +23,13 @@ if (str_contains(get_request_uri(), 'index.php')) {
     exit;
 }
 
-header('Cache-Control: public, s-maxage=31536000, max-age=300');
-$nonce = base64_encode(random_bytes(NONCE_LENGTH));
-header(
-    "Content-Security-Policy: default-src 'self'; "
-    . "base-uri 'none'; "
-    . "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; "
-    . "frame-ancestors 'none'; "
-    . "img-src 'self' https://*.google-analytics.com https://*.googletagmanager.com; "
-    . "object-src 'none'; "
-    . "script-src 'self' https://*.googletagmanager.com; "
-    . "style-src 'nonce-{$nonce}'"
-);
+check_db_or_exit();
 
-// Build page content in advance, and populate some variables above.
+$nonce = set_default_headers();
+
+// Build page content in advance.
 $page_name = get_page_name();
 $main_content = build_main_content($page_name);
-
-if (get_page_title() === '') {
-    set_page_title('Paremiologia catalana comparada digital');
-}
 
 ?><!DOCTYPE html>
 <html lang="ca">
@@ -55,48 +40,7 @@ if (get_page_title() === '') {
     <meta name="theme-color" content="#2b5797">
     <meta property="og:title" content="<?php echo format_html_title(get_page_title()); ?>">
     <meta property="og:site_name" content="Paremiologia catalana comparada digital">
-<?php
-if ($page_name === 'search') {
-    if (!isset($_GET['cerca']) || $_GET['cerca'] === '') {
-        // Set canonical URL in the homepage.
-        set_canonical_url('https://pccd.dites.cat');
-    } else {
-        // Do not index the rest of result pages.
-        echo '<meta name="robots" content="noindex">';
-    }
-
-    // Provide nice-to-have social metadata for the homepage and search pages.
-    echo '<meta name="twitter:card" content="summary_large_image">';
-    echo '<meta property="og:type" content="website">';
-    // See https://stackoverflow.com/q/71087872/1391963.
-    echo '<meta name="twitter:image" property="og:image" content="https://pccd.dites.cat/img/screenshot.png">';
-} else {
-    // Set og:type article for all other pages.
-    echo '<meta property="og:type" content="article">';
-}
-
-// Canonical may be set above or in paremiotipus and obra pages.
-if (get_canonical_url() !== '') {
-    echo '<link rel="canonical" href="' . get_canonical_url() . '">';
-}
-
-// Meta description may be set when building main content.
-if (get_meta_description() !== '') {
-    echo '<meta name="description" property="og:description" content="' . get_meta_description() . '">';
-}
-
-// Meta image may be set in paremiotipus and obra pages.
-if (get_meta_image() !== '') {
-    echo '<meta name="twitter:card" content="summary">';
-    // See https://stackoverflow.com/q/71087872/1391963.
-    echo '<meta name="twitter:image" property="og:image" content="' . get_meta_image() . '">';
-}
-
-// og:audio URL may be set in paremiotipus pages.
-if (get_og_audio_url() !== '') {
-    echo '<meta property="og:audio" content="' . get_og_audio_url() . '">';
-}
-?>
+    <?php echo get_page_meta_tags($page_name); ?>
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="PCCD">
     <style nonce="<?php echo $nonce; ?>">
@@ -108,7 +52,6 @@ require __DIR__ . '/css/base.min.css';
 @include __DIR__ . "/css/{$page_name}.min.css";
 ?>
     </style>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </head>
 <body>
     <header>
@@ -132,75 +75,19 @@ require __DIR__ . '/css/base.min.css';
     <main class="container-md">
         <div class="row">
             <section class="col-main"<?php echo $page_name === 'search' ? ' data-nosnippet' : ''; ?>>
-<?php
-// Search and obra pages have a slightly different template.
-if ($page_name === 'obra' || $page_name === 'search') {
-    echo $main_content;
-} else {
-    echo '<article>';
-    echo '<h1>' . get_page_title() . '</h1>';
-    echo $main_content;
-    echo '</article>';
-}
-?>
+                <article>
+                    <h1><?php echo get_page_title(); ?></h1>
+                    <?php echo $main_content; ?>
+                </article>
             </section>
             <aside class="col-aside">
-<?php
-
-// Side blocks are populated in paremiotipus pages.
-echo get_side_blocks();
-
-if ($page_name === 'search') {
-    $random_paremiotipus = get_random_top100_paremiotipus();
-    echo '<div class="bloc bloc-top-paremies" data-nosnippet>';
-    echo '<p>';
-    echo '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
-    echo get_paremiotipus_display($random_paremiotipus);
-    echo '</a>»';
-    echo '</p>';
-    echo '<footer><a href="/top100">Les 100 parèmies més citades</a></footer>';
-    echo '</div>';
-
-    // TODO: FIXME in the DB.
-    $random_book = get_random_book();
-    if ($random_book['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
-        $random_book['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
-    }
-    echo '<div class="bloc bloc-llibres">';
-    echo '<p><a href="/llibres">Llibres de l\'autor</a></p>';
-    if ($random_book['URL'] !== null) {
-        echo '<a href="' . $random_book['URL'] . '" title="' . htmlspecialchars($random_book['Títol']) . '">';
-    }
-    echo get_image_tags(
-        $random_book['Imatge'],
-        '/img/obres/',
-        $random_book['Títol'],
-        $random_book['WIDTH'],
-        $random_book['HEIGHT'],
-        false
-    );
-    if ($random_book['URL'] !== null) {
-        echo '</a>';
-    }
-    echo '</div>';
-} else {
-    $random_paremiotipus = get_random_top10000_paremiotipus();
-    echo '<div class="bloc bloc-top-paremies" data-nosnippet>';
-    echo '<p>';
-    echo '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
-    echo get_paremiotipus_display($random_paremiotipus);
-    echo '</a>»';
-    echo '</p>';
-    echo '<footer>Les 10.000 parèmies més citades</footer>';
-    echo '</div>';
-}
-?>
+                <?php echo get_side_blocks($page_name); ?>
                 <div class="bloc bloc-credits bloc-white">
                     <p>Un projecte de:</p>
                     <p><a class="credits" href="http://www.dites.cat" title="www.dites.cat">dites.cat</a></p>
                     <p><a href="https://www.softcatala.org" title="Softcatalà"><img loading="lazy" alt="Logo de Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>
                 </div>
-                <div class="bloc bloc-contacte bloc-white">
+                <div class="bloc bloc-contact bloc-white">
                     <p>Ajudeu-nos a millorar</p>
                     <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="Email de contacte" title="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
                 </div>
@@ -218,5 +105,6 @@ if ($page_name === 'search') {
         </div>
     </div>
     <script async src="/js/script.min.js?v=2"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

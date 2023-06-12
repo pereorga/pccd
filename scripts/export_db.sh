@@ -25,7 +25,7 @@ if [[ -n $1 ]]; then
     exit 1
 fi
 
-# If the MYSQL_ROOT_PASSWORD variable is not passed, load it from env file.
+# If MYSQL_ROOT_PASSWORD variable is not set, load it from the .env file.
 if [[ -z ${MYSQL_ROOT_PASSWORD} ]]; then
     export "$(grep 'MYSQL_ROOT_PASSWORD=' .env | xargs)"
     if [[ -z ${MYSQL_ROOT_PASSWORD} ]]; then
@@ -36,6 +36,7 @@ fi
 
 readonly MYSQL_ROOT_PASSWORD
 
+# TODO: Add compatibility with mariadb-dump.
 docker exec pccd-mysql /usr/bin/mysqldump -uroot -p"${MYSQL_ROOT_PASSWORD}" --no-data --skip-dump-date pccd > tmp/schema.sql
 # TODO: consider adding --ignore-table=pccd.commonvoice when new import script is ready.
 docker exec pccd-mysql /usr/bin/mysqldump -uroot -p"${MYSQL_ROOT_PASSWORD}" --skip-dump-date pccd > install/db/db.sql

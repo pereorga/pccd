@@ -39,24 +39,17 @@ function store_image_dimensions(string $table, string $field, string $directory)
 {
     $pdo = get_db();
 
-    $stmt = $pdo->query("SELECT {$field} FROM {$table}");
     $update_stmt = $pdo->prepare("UPDATE {$table} SET WIDTH = ?, HEIGHT = ? WHERE {$field} = ?");
 
-    if ($stmt === false) {
-        error_log('Error: SQL statement failed in store_image_dimensions().');
-
-        return;
-    }
-
-    $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($images as $image_path) {
-        $filename = __DIR__ . '/../' . $directory . '/' . $image_path;
+    $images = $pdo->query("SELECT {$field} FROM {$table}")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($images as $image) {
+        $filename = __DIR__ . '/../' . $directory . '/' . $image;
         if (is_file($filename)) {
             $image_size = getimagesize($filename);
             if ($image_size !== false) {
                 [$width, $height] = $image_size;
                 if ($width > 0 && $height > 0) {
-                    $update_stmt->execute([$width, $height, $image_path]);
+                    $update_stmt->execute([$width, $height, $image]);
                 }
             }
         }

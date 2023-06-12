@@ -12,13 +12,8 @@ declare(strict_types=1);
  * source code in the file LICENSE.
  */
 
-/*
- * Search page and custom code functionality.
- *
- * Note that the homepage is a "search" page too.
- */
-
-set_meta_description("Dona accés a la consulta d'un gran ventall de fonts fraseològiques sobre parèmies en general (locucions, frases fetes, refranys, proverbis, citacions, etc.)");
+// Search page, including the homepage.
+set_meta_description("La PCCD dona accés a la consulta d'un gran ventall de fonts fraseològiques sobre parèmies en general (locucions, frases fetes, refranys, proverbis, citacions, etc.)");
 
 $results_per_page = get_page_limit();
 $current_page = get_page_number();
@@ -93,13 +88,14 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
 // Build query.
 $where_clause = '';
 $arguments = [];
-if ($search !== '') {
+if ($search === '') {
+    // If the search is empty, we are in the main page.
+    set_page_title('Paremiologia catalana comparada digital');
+    $total = get_n_paremiotipus();
+} else {
     set_page_title('Cerca «' . $raw_search_clean . '»');
     $arguments = build_search_query($search, $search_mode, $where_clause);
     $total = get_n_results($where_clause, $arguments);
-} else {
-    // If the search is empty, get the total number of paremiotipus.
-    $total = get_n_paremiotipus();
 }
 
 $output = '';
@@ -107,7 +103,7 @@ if ($total > 0) {
     $number_of_pages = (int) ceil($total / $results_per_page);
     if ($search !== '') {
         if ($number_of_pages > 1) {
-            set_page_title(get_page_title() . ", pàgina {$current_page}");
+            set_page_title('Cerca «' . $raw_search_clean . "», pàgina {$current_page}");
         }
         $output .= '<p class="text-break">';
         $output .= build_search_summary($offset, $results_per_page, $total, $raw_search_clean);
@@ -141,8 +137,8 @@ if ($total > 0) {
     $output .= '</div>';
 } else {
     $output .= '<p>';
-    $output .= "No s'ha trobat cap resultat coincident amb ";
-    $output .= '<span class="text-monospace text-break">' . $raw_search_clean . '</span>.';
+    $output .= "No s'ha trobat cap resultat coincident amb";
+    $output .= ' <span class="text-monospace text-break">' . $raw_search_clean . '</span>.';
     $output .= '</p>';
 
     if (

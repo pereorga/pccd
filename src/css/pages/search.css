@@ -7,6 +7,10 @@
  * source code in the file LICENSE.
  */
 
+h1 {
+    display: none;
+}
+
 /* stylelint-disable property-no-vendor-prefix */
 select {
     width: 100%;
@@ -15,16 +19,35 @@ select {
     padding-left: 0.75rem;
     font-size: 1rem;
     color: #495057;
+    -webkit-appearance: none;
+    appearance: none;
     background: #fff url("/img/chevron-down.svg") no-repeat right 0.75rem center / 0.75rem;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-    -webkit-appearance: none;
-    appearance: none;
 }
 /* stylelint-enable property-no-vendor-prefix */
 
 select:focus {
     outline: #cbd5e7 solid 2px;
+}
+
+label {
+    display: inline-block;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+}
+
+tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
 }
 
 /* stylelint-disable property-no-vendor-prefix */
@@ -36,13 +59,13 @@ select:focus {
     padding-right: 0.75rem;
     padding-left: 0.75rem;
     font-size: 1rem;
+    -webkit-appearance: textfield;
+    appearance: none;
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-right: none;
     border-radius: 0.25rem 0 0 0.25rem;
-    -webkit-appearance: textfield;
-    appearance: none;
 }
 /* stylelint-enable property-no-vendor-prefix */
 
@@ -57,10 +80,6 @@ select:focus {
 
 #mostra {
     width: initial;
-}
-
-label {
-    display: inline-block;
 }
 
 .col-input,
@@ -182,41 +201,26 @@ label {
     outline: #cbd5e7 solid 3px;
 }
 
-.page-link[rel="prev"] {
-    display: block;
-    padding-left: 0;
-}
-
-.page-link[rel="next"] {
-    display: block;
-    padding-right: 0;
-}
-
+.page-link[rel="prev"],
+.page-link[rel="next"],
 strong.page-link {
     display: block;
 }
 
-table {
-    width: 100%;
-    margin-bottom: 1rem;
-    border-collapse: collapse;
+.page-link[rel="prev"] {
+    padding-left: 0;
 }
 
-td {
-    padding: 0.75rem;
-    border: 1px solid #dee2e6;
+.page-link[rel="next"] {
+    padding-right: 0;
 }
 
-tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-}
-
-.bloc-llibres img {
+.bloc-books img {
     padding: 10px 30px;
 }
 
 /* Big mobile and greater */
-@media (width >= 576px) {
+@media (min-width: 576px) {
     .page-link,
     .col-options-label {
         display: block;
@@ -238,7 +242,7 @@ tr:nth-of-type(odd) {
 }
 
 /* Tablet and greater */
-@media (width >= 768px) {
+@media (min-width: 768px) {
     #search-form aside {
         margin-bottom: 1rem;
     }

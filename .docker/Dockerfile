@@ -1,4 +1,4 @@
-FROM php:8.2.6-apache-bullseye
+FROM php:8.2.7-apache-bullseye
 
 LABEL maintainer="Pere Orga pere@orga.cat"
 
@@ -18,13 +18,14 @@ RUN sed 's/expose_php = On/expose_php = Off/g' /usr/local/etc/php/php.ini-produc
     sed -i 's/zend.assertions = -1/zend.assertions = 1/g' /usr/local/etc/php/php.ini && \
     sed -i 's/;assert.exception = On/assert.exception = On/g' /usr/local/etc/php/php.ini
 
-# We may want to install this to normalize UTF-8 strings in PHP. Not currently required in our current MariaDB setup.
-#RUN apt-get update -y && \
-#    apt-get install --no-install-recommends -y libicu-dev zlib1g-dev && \
-#    docker-php-ext-install intl
-
 # PHP extensions
-RUN docker-php-ext-install pdo_mysql opcache && pecl install apcu-5.1.22 && docker-php-ext-enable apcu
+RUN apt-get update -y && \
+    apt-get install --no-install-recommends -y libicu-dev zlib1g-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-install pdo_mysql opcache intl && \
+    pecl install apcu-5.1.22 && \
+    docker-php-ext-enable apcu
 COPY .docker/php/apcu.ini /usr/local/etc/php/conf.d/apcu.ini
 
 # apcu.php uses gd, but we usually don't care

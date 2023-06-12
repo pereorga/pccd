@@ -1,8 +1,7 @@
 # Paremiologia catalana comparada digital (PCCD)
 
 This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/) website. The PCCD database
-and media files are covered by different terms and are not distributed with this repository. If you plan to contribute
-to the project, please contact us first (this GitHub repository is not used for development).
+and media files are covered by different terms and are not distributed with this repository.
 
 ## Installation
 
@@ -31,9 +30,11 @@ xargs sudo apt-get install -y < apt-packages.txt
 You may want to set up Docker to be used with a non-root user.
 
 For additional lossless compression of PNG images, [oxipng](https://github.com/shssoichiro/oxipng) can be installed. See
-also [hadolint](https://github.com/hadolint/hadolint) for linting Docker files, and [shfmt](https://github.com/mvdan/sh)
-for prettifying shell scripts. Also, some development scripts require at least [Node.js](https://nodejs.org/) v18. At
-this time (on Ubuntu 22.04) the packages and versions above can also be installed using [Homebrew](https://brew.sh/):
+also [hadolint](https://github.com/hadolint/hadolint) for linting Docker files,
+[yamlfmt](https://github.com/google/yamlfmt) for automatic formatting of yaml files, and
+[shfmt](https://github.com/mvdan/sh) for prettifying shell scripts. Also, some development scripts require at least
+[Node.js](https://nodejs.org/) v18. At this time (on Ubuntu 22.04) the packages and versions above can also be installed
+using [Homebrew](https://brew.sh/):
 
 ```bash
 brew bundle install --file=ubuntu.Brewfile
@@ -85,7 +86,7 @@ You may need to run `yarn refresh:test-data` if the data has changed, in order t
 
 ### Development requirements
 
-- PHP: 8.1 or later is required.
+- PHP: 8.2 or later is required.
 - Node.js: 18 or later is required.
 
 ### Assets
@@ -147,6 +148,13 @@ yarn build:docker:xhprof
 Profiler reports can be accessed in `/admin/`, alongside the other reports (web admin password is set in the `.env`
 file).
 
+## Contributing
+
+For details on contributing to this repository, see the contributing guidelines:
+
+- [English version](CONTRIBUTING.md)
+- [Versió en català](CONTRIBUTING_ca.md)
+
 ## TODO
 
 ### Short-term
@@ -161,7 +169,6 @@ file).
 - Consider switching to PHP-FPM and Nginx
 - Consider switching to pnpm, latest yarn or go back to npm
 - UX: Consider adding search functionality on every page
-- UX: Consider adding zoom icons for increasing font size
 
 ## License
 

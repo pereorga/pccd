@@ -15,10 +15,10 @@
     <directory name="src" />
     <directory name="tests" />
     <ignoreFiles>
-      <directory name="vendor" />
       <directory name="src/third_party" />
-      <file name="src/*xhprof*.php" />
+      <directory name="vendor" />
       <file name="*/*/apc.conf.php" />
+      <file name="src/*xhprof*.php" />
     </ignoreFiles>
   </projectFiles>
   <plugins>

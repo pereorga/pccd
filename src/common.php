@@ -12,14 +12,27 @@
 
 declare(strict_types=1);
 
-const TITLE_MAX_LENGTH = 70;
+const EASTER_EGG_PAGER_LIMIT = 999999;
 const ISBN10_LENGTH = 10;
 const ISBN13_LENGTH = 13;
-const PAGER_DEFAULT = 10;
-const SEARCH_MAX_LENGTH = 255;
-const EASTER_EGG_PAGER_LIMIT = 999999;
 const MAX_RANDOM_PAREMIOTIPUS = 10000;
 const MIN_SINONIM_WORD_LENGTH = 3;
+const NONCE_LENGTH = 18;
+const PAGER_DEFAULT = 10;
+const SEARCH_MAX_LENGTH = 255;
+const TITLE_MAX_LENGTH = 70;
+
+/**
+ * ucfirst() function for multibyte character encodings.
+ *
+ * Borrowed from https://stackoverflow.com/a/58915632/1391963.
+ *
+ * @suppress PhanTypeMismatchArgumentNullableInternal
+ */
+function mb_ucfirst(string $str, ?string $encoding = null): string
+{
+    return mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding) . mb_substr($str, 1, null, $encoding);
+}
 
 /**
  * Gets a clean sinonim, removing unnecessary characters or notes.
@@ -33,7 +46,7 @@ function get_sinonim_clean(string $sinonim): string
     }
 
     // Remove unnecessary characters or words.
-    $sinonim = trim(trim($sinonim), '.');
+    $sinonim = trim($sinonim, ". \n\r\t\v\x00");
     $sinonim = str_replace(['/', 'V.', 'Veg.', 'Similar:', 'Similars:', 'Contrari:'], ' ', $sinonim);
     $sinonim = preg_replace('/\s\s+/', ' ', $sinonim);
     assert(is_string($sinonim));
@@ -50,16 +63,16 @@ function get_sinonims(string $sinonim_field): array
 {
     $sinonims = explode('|', $sinonim_field);
     $sinonims_array = [];
-    foreach ($sinonims as $s) {
+    foreach ($sinonims as $sinonim) {
         // Try to remove unnecessary characters or words.
-        $s = get_sinonim_clean($s);
+        $sinonim = get_sinonim_clean($sinonim);
 
         // Discard empty or short records.
-        if (mb_strlen($s) < MIN_SINONIM_WORD_LENGTH) {
+        if (mb_strlen($sinonim) < MIN_SINONIM_WORD_LENGTH) {
             continue;
         }
 
-        $sinonims_array[] = $s;
+        $sinonims_array[] = $sinonim;
     }
 
     return $sinonims_array;
@@ -99,8 +112,6 @@ function pronunciations_filter(array $a): bool
 
 /**
  * Returns the database connection.
- *
- * @psalm-suppress PossiblyFalseOperand,PossiblyFalseArgument
  */
 function get_db(): PDO
 {
@@ -114,14 +125,50 @@ function get_db(): PDO
     //    require __DIR__ . '/db_settings.local.php';
     // }
 
-    /** @phpstan-ignore-next-line */
-    $pdo = new PDO('mysql:host=' . getenv('MYSQL_HOSTNAME') . ';dbname=' . getenv('MYSQL_DATABASE') . ';charset=utf8mb4', getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), [
+    $host = getenv('MYSQL_HOSTNAME');
+    $db_name = getenv('MYSQL_DATABASE');
+    $user = getenv('MYSQL_USER');
+    $password = getenv('MYSQL_PASSWORD');
+
+    assert(is_string($host));
+    assert(is_string($db_name));
+    assert(is_string($user));
+    assert(is_string($password));
+
+    $pdo = new PDO("mysql:host={$host};dbname={$db_name};charset=utf8mb4", $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_PERSISTENT => false,
         PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
     ]);
 
     return $pdo;
+}
+
+/**
+ * Sets the default HTTP headers, and returns the CSP nonce.
+ */
+function set_default_headers(): string
+{
+    header('Cache-Control: public, s-maxage=31536000, max-age=300');
+
+    try {
+        $nonce = base64_encode(random_bytes(NONCE_LENGTH));
+    } catch (Exception) {
+        $nonce = uniqid();
+    }
+
+    header(
+        "Content-Security-Policy: default-src 'self'; "
+        . "base-uri 'none'; "
+        . "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; "
+        . "frame-ancestors 'none'; "
+        . "img-src 'self' https://*.google-analytics.com https://*.googletagmanager.com; "
+        . "object-src 'none'; "
+        . "script-src 'self' https://*.googletagmanager.com; "
+        . "style-src 'nonce-{$nonce}'"
+    );
+
+    return $nonce;
 }
 
 /**
@@ -174,11 +221,49 @@ function get_page_limit(): int
 }
 
 /**
- * Trims and escapes $string, also removing trailing dot character.
+ * Removes newlines, extra spaces and unsafe characters.
+ *
+ * Optionally and by default, escapes HTML and ensures the string ends with a dot or exclamation mark.
  */
-function ct(string $string): string
+function ct(string $string, bool $escape_html = true, bool $end_with_dot = true): string
 {
-    return htmlspecialchars(trim(trim($string), '.'));
+    // Remove unsafe characters (https://htmlhint.com/docs/user-guide/rules/attr-unsafe-chars).
+    $string = preg_replace("/\u{00AD}/", '', $string);
+    assert(is_string($string));
+    $string = preg_replace("/\u{200E}/", '', $string);
+    assert(is_string($string));
+
+    // Remove newlines and extra spaces.
+    // https://html-validate.org/rules/attr-delimiter.html.
+    // https://html-validate.org/rules/no-trailing-whitespace.html.
+    // https://htmlhint.com/docs/user-guide/rules/attr-whitespace.
+    $string = preg_replace('/\n/', ' ', $string);
+    assert(is_string($string));
+    $string = preg_replace('/\s+/', ' ', $string);
+    assert(is_string($string));
+
+    // Escape HTML.
+    if ($escape_html) {
+        $string = htmlspecialchars($string);
+    }
+
+    if ($end_with_dot) {
+        // Remove trailing dot character.
+        $string = trim($string, ". \n\r\t\v\x00");
+
+        // Add trailing dot character.
+        if (
+            !str_ends_with($string, '?')
+            && !str_ends_with($string, '!')
+            && !str_ends_with($string, '…')
+            && !str_ends_with($string, ';')
+            && !str_ends_with($string, '*')
+        ) {
+            $string .= '.';
+        }
+    }
+
+    return $string;
 }
 
 /**
@@ -197,9 +282,9 @@ function get_page_name(): string
         'top10000',
     ];
 
-    foreach ($allowed_pages as $page) {
-        if (isset($_GET[$page])) {
-            return $page;
+    foreach ($allowed_pages as $allowed_page) {
+        if (isset($_GET[$allowed_page])) {
+            return $allowed_page;
         }
     }
 
@@ -225,23 +310,84 @@ function checkbox_checked(string $checkbox): bool
 }
 
 /**
- * Returns side blocks HTML.
+ * Returns the paremiotipus side blocks HTML.
  */
-function get_side_blocks(): string
+function get_paremiotipus_blocks(): string
 {
-    global $side_blocks;
+    global $paremiotipus_blocks;
 
-    return $side_blocks ?? '';
+    return $paremiotipus_blocks ?? '';
 }
 
 /**
- * Sets the side blocks HTML.
+ * Sets the paremiotipus side blocks HTML.
  */
-function set_side_blocks(string $blocks): void
+function set_paremiotipus_blocks(string $blocks): void
 {
-    global $side_blocks;
+    global $paremiotipus_blocks;
 
-    $side_blocks = $blocks;
+    $paremiotipus_blocks = $blocks;
+}
+
+/**
+ * Returns the side blocks HTML.
+ */
+function get_side_blocks(string $page_name): string
+{
+    $side_blocks = '';
+    if ($page_name === 'search') {
+        // Homepage and search pages show Top 100 and Books blocks.
+        $side_blocks = '<div class="bloc bloc-top100" data-nosnippet>';
+        $side_blocks .= '<p>';
+        $random_paremiotipus = get_random_top100_paremiotipus();
+        $side_blocks .= '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
+        $side_blocks .= get_paremiotipus_display($random_paremiotipus);
+        $side_blocks .= '</a>»';
+        $side_blocks .= '</p>';
+        $side_blocks .= '<footer><a href="/top100">Les 100 parèmies més citades</a></footer>';
+        $side_blocks .= '</div>';
+
+        $side_blocks .= '<div class="bloc bloc-books">';
+        $side_blocks .= '<p><a href="/llibres">Llibres de l\'autor</a></p>';
+        $random_book = get_random_book();
+        // TODO: FIXME in the DB.
+        if ($random_book['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
+            $random_book['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
+        }
+        if ($random_book['URL'] !== null) {
+            $side_blocks .= '<a href="' . $random_book['URL'] . '" title="' . htmlspecialchars($random_book['Títol']) . '">';
+        }
+        $side_blocks .= get_image_tags(
+            $random_book['Imatge'],
+            '/img/obres/',
+            $random_book['Títol'],
+            $random_book['WIDTH'],
+            $random_book['HEIGHT'],
+            false
+        );
+        if ($random_book['URL'] !== null) {
+            $side_blocks .= '</a>';
+        }
+        $side_blocks .= '</div>';
+    } else {
+        // Paremiotipus pages add specific blocks.
+        if ($page_name === 'paremiotipus') {
+            $side_blocks = get_paremiotipus_blocks();
+        }
+
+        // All non-search pages show the Top 10000 block.
+        $side_blocks .= '<div class="bloc bloc-top100" data-nosnippet>';
+        $side_blocks .= '<p>';
+        $random_paremiotipus = get_random_top10000_paremiotipus();
+        $side_blocks .= '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
+        $side_blocks .= get_paremiotipus_display($random_paremiotipus);
+        $side_blocks .= '</a>»';
+        $side_blocks .= '</p>';
+        $side_blocks .= '<footer>Les 10.000 parèmies més citades</footer>';
+        $side_blocks .= '</div>';
+    }
+
+    return $side_blocks;
 }
 
 /**
@@ -261,7 +407,8 @@ function set_page_title(string $title): void
 {
     global $page_title;
 
-    $page_title = $title;
+    // Remove some unsafe and unwanted characters.
+    $page_title = ct($title, false, false);
 }
 
 /**
@@ -295,13 +442,25 @@ function get_meta_description(): string
 }
 
 /**
- * Sets the meta description.
+ * Sets the meta description, but only once.
  */
 function set_meta_description(string $description): void
 {
     global $meta_description;
 
     $meta_description = $description;
+}
+
+/**
+ * Sets the meta description, but only once.
+ */
+function set_meta_description_once(string $description): void
+{
+    global $meta_description;
+
+    if ($meta_description === null || $meta_description === '') {
+        $meta_description = $description;
+    }
 }
 
 /**
@@ -342,6 +501,56 @@ function set_og_audio_url(string $audio_url): void
     global $og_audio_url;
 
     $og_audio_url = $audio_url;
+}
+
+/**
+ * Returns page-specific meta tags.
+ */
+function get_page_meta_tags(string $page_name): string
+{
+    $meta_tags = '';
+    if ($page_name === 'search') {
+        if (!isset($_GET['cerca']) || $_GET['cerca'] === '') {
+            // Set canonical URL in the homepage.
+            set_canonical_url('https://pccd.dites.cat');
+        } else {
+            // Do not index the rest of result pages.
+            $meta_tags .= '<meta name="robots" content="noindex">';
+        }
+
+        // Provide nice-to-have social metadata for the homepage and search pages.
+        $meta_tags .= '<meta name="twitter:card" content="summary_large_image">';
+        $meta_tags .= '<meta property="og:type" content="website">';
+        // See https://stackoverflow.com/q/71087872/1391963.
+        $meta_tags .= '<meta name="twitter:image" property="og:image" content="https://pccd.dites.cat/img/screenshot.png">';
+    } else {
+        // Set og:type article for all other pages.
+        $meta_tags .= '<meta property="og:type" content="article">';
+    }
+
+    // Canonical may be set above or in paremiotipus and obra pages.
+    if (get_canonical_url() !== '') {
+        $meta_tags .= '<link rel="canonical" href="' . get_canonical_url() . '">';
+    }
+
+    // Meta description may be set when building main content.
+    if (get_meta_description() !== '') {
+        $meta_tags .= '<meta name="description" property="og:description" content="' . get_meta_description() . '">';
+    }
+
+    // Meta image may be set in paremiotipus and obra pages.
+    if (get_meta_image() !== '') {
+        $meta_tags .= '<meta name="twitter:card" content="summary">';
+        // See https://stackoverflow.com/q/71087872/1391963.
+        $meta_tags .= '<meta name="twitter:image" property="og:image" content="' . get_meta_image() . '">';
+    }
+
+    // og:audio URL may be set in paremiotipus pages.
+    if (get_og_audio_url() !== '') {
+        $meta_tags .= '<meta property="og:audio" content="' . get_og_audio_url() . '">';
+    }
+
+    return $meta_tags;
 }
 
 /**
@@ -400,8 +609,8 @@ function get_paremiotipus_by_modisme(string $modisme): string
     $stmt = get_db()->prepare('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE MODISME = :modisme LIMIT 1');
     $stmt->bindParam(':modisme', $modisme);
     $stmt->execute();
-    $paremiotipus = $stmt->fetchColumn();
 
+    $paremiotipus = $stmt->fetchColumn();
     $paremiotipus = $paremiotipus !== false ? $paremiotipus : '';
     assert(is_string($paremiotipus));
 
@@ -411,7 +620,7 @@ function get_paremiotipus_by_modisme(string $modisme): string
 /**
  * Get the list of manual redirects.
  *
- * @return array<string, string>
+ * @return non-empty-array<string, string>
  */
 function get_redirects(): array
 {
@@ -434,6 +643,7 @@ function get_redirects(): array
         '/?obra=Revista+S%27Uni%C3%B3+de+S%27Arenal+%281988-1996%29' => '/obra/S%27Unió_de_S%27Arenal_%281988-1996%29',
         '/?obra=Revista+S%27Uni%C3%B3+de+S%27Arenal+(1988-1996)' => '/obra/S%27Unió_de_S%27Arenal_%281988-1996%29',
         '/?paremiotipus=%C3%A9s+dolent+que+la+carn+de+gos' => '/p/Dolent_com_la_carn_de_gos',
+        '/?paremiotipus=A+Cabanes%2C+hi+ha+qui+en+t%C3%A9+ganes' => '/p/A_Cabanes%2C_hi_va_qui_en_té_ganes',
         '/?paremiotipus=A+judici+i+pagar%C2%ABlo%C2%BB+judicat' => '/p/A_judici_i_pagar_«lo»_judicat',
         '/?paremiotipus=A+l%27Ascensi%C3%B3+cireretes+abundo+A+Val%C3%A8ncia%E2%80%A6+que+aqu%C3%AD+no' => '/p/Per_l%27Ascensió%2C_cireretes_en_abundor',
         '/?paremiotipus=A+l%27Ascensió+cireretes+abundo+A+València…+que+aquí+no' => '/p/Per_l%27Ascensió%2C_cireretes_en_abundor',
@@ -479,10 +689,12 @@ function get_redirects(): array
         '/?paremiotipus=Quan+la+Murta+s%27emborrasca+i+la+Casella+o+Matamon+fa+capell%2C+llaurador%2C+ves-te%27n+a+casa%2C+pica+espart+i+fes+cordell' => '/p/Pica_espart_i_fes_cordell',
         '/?paremiotipus=Rompre-li+la+crisma' => '/p/Trencar_o_rompre_la_crisma',
         '/?paremiotipus=Romprer-li+el+cap' => '/p/Trencar-li_el_cap',
+        '/?paremiotipus=Ser+jun+desvirgagallines' => '/p/Ser_un_desvirgagallines',
         '/?paremiotipus=Ser+un+figa+blana' => '/p/Figa_blana',
         '/?paremiotipus=Ser+un+figa+tova' => '/p/Figa_tova',
         '/?paremiotipus=Ser+un+malandando' => '/p/Malandando',
         '/?paremiotipus=Ser+un+trapsser' => '/p/Ser_un_trapasser',
+        '/?paremiotipus=Si+el+Vall%C3%83%C2%A8s+fos+un+ou,+el+rovell+fora+Palou' => '/p/Si_el_Vallès_fos_un_ou%2C_el_rovell_fora_Palou',
         '/?paremiotipus=Si+tens+una+filla+que+no+l%27estimis+gaire%2C+casa-la+a+Albons%2C+o+a+Bellcaire%2C+o+sin%C3%83%C2%B3+a+Vilademat%2C+que+ser%C3%83%C2%A0+morta+m%C3%83%C2%A9s+aviat' => '/p/Si_tens_una_filla_que_no_l%27estimis_gaire%2C_casa-la_a_Albons%2C_o_a_Bellcaire%2C_o_sin%C3%B3_a_Vilademat%2C_que_ser%C3%A0_morta_m%C3%A9s_aviat',
         '/?paremiotipus=Si+tens+una+filla+que+no+l%27estimis+gaire,+casa-la+a+Albons,+o+a+Bellcaire,+o+sin%C3%83%C2%B3+a+Vilademat,+que+ser%C3%83%C2%A0+morta+m%C3%83%C2%A9s+aviat' => '/p/Si_tens_una_filla_que_no_l%27estimis_gaire%2C_casa-la_a_Albons%2C_o_a_Bellcaire%2C_o_sinó_a_Vilademat%2C_que_serà_morta_més_aviat',
         '/?paremiotipus=Tenir+pinyo%CC%81' => '/p/Tenir_pinyó',
@@ -512,10 +724,12 @@ function get_redirects(): array
         '/obra/Gonz%C3%A1lez%2C_Juan_Antonio_%282018%29%3A_Els_refranys_a_l%E2%80%99obra_Los_col%C2%B7loquis_de_la_insigne_ciutat_de_Tortosa%2C_de_Crist%C3%B2fol_Despuig' => '/obra/González%2C_Juan_Antonio_%282018%29%3A_Els_refranys_a_l%27obra_Los_col·loquis_de_la_insigne_ciutat_de_Tortosa%2C_de_Cristòfol_Despuig',
         '/obra/Marrugat_Cuy%C3%A0s%2C_Ramon_%282018%29%3A_Alguna_cosa_m%C3%A9s_que_l%27anar_a_tocar_ferro' => '/obra/Marrugat_Cuyàs%2C_Ramon_%282018%29%3A_«Alguna_cosa_més_que_l%27anar_a_tocar_ferro»._La_fraseologia_tarragonina',
         '/obra/Marrugat_Cuy%c3%a0s%2C_Ramon_(2018):_Alguna_cosa_m%c3%a9s_que_l%27anar_a_tocar_ferro' => '/obra/Marrugat_Cuyàs%2C_Ramon_%282018%29%3A_«Alguna_cosa_més_que_l%27anar_a_tocar_ferro»._La_fraseologia_tarragonina',
+        '/obra/Matas_Dalmases%2C_Jordi_%282021%29%3A_El_viacrucis_de_la_negociaci%C3%B3_d%E2%80%99un_govern_de_coalici%C3%B3' => '/obra/Matas_Dalmases%2C_Jordi_%282021%29%3A_El_viacrucis_de_la_negociació_d%27un_govern_de_coalició',
         '/obra/Mettmann%2C_Walter_%281989%29%3A_%C2%ABProverbia_arabum%C2%BB_eine_altkatalanische_sprichw%C3%B6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
         '/obra/Mettmann%2C_Walter_(1989)%3A_%C2%ABProverbia_arabum%C2%BB_eine_altkatalanische_sprichw%C3%B6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
         '/obra/Mettmann%2C_Walter_(1989):_%c2%abProverbia_arabum%c2%bb_eine_altkatalanische_sprichw%c3%b6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
         '/obra/Mettmann,_Walter_(1989):_%C2%ABProverbia_arabum%C2%BB_eine_altkatalanische_sprichw%C3%B6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
+        '/p/A_Cabanes%2C_hi_ha_qui_en_t%C3%A9_ganes' => '/p/A_Cabanes%2C_hi_va_qui_en_té_ganes',
         '/p/A_judici_i_pagar%C2%ABlo%C2%BB_judicat' => '/p/A_judici_i_pagar_«lo»_judicat',
         '/p/Arribar_a_l' => '/p/Arribar_a_l%27ermita_i_no_veure_el_sant',
         '/p/Borratxos_s%C3%B3n_a_les_Coves%2C_%5C_borratxos_son_a_Alcal%C3%A0%2C_%5C_boratxos_a_orreblanca%2C_%5C_no_sabem_qui_guanyar%C3%A0' => '/p/Borratxos_són_a_les_Coves%2C_borratxos_són_a_Alcalà%2C_borratxos_a_Torreblanca_i_a_Orpesa_també_n%27hi_ha',
@@ -530,6 +744,7 @@ function get_redirects(): array
         '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_TolosaQui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_Tolosa' => '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_serà_a_Tolosa',
         '/p/Rompre-li_la_crisma' => '/p/Trencar_o_rompre_la_crisma',
         '/p/Ser_bo_per_a_la_forca_i_per_als_rampills' => '/p/Ser_bo_per_a_la_forca_i_per_al_rampill',
+        '/p/Ser_jun_desvirgagallines' => '/p/Ser_un_desvirgagallines',
         '/p/Ser_un_trapsser' => '/p/Ser_un_trapasser',
         '/p/na_dreta_%C3%A9s_m%C3%A9s_un_homenot_que_una_doneta' => '/p/La_dona_que_fuma%2C_jura_i_orina_dreta_és_més_un_homenot_que_una_doneta',
     ];
@@ -586,6 +801,29 @@ function return_404_and_exit(): never
     require __DIR__ . '/../docroot/404.html';
 
     exit;
+}
+
+/**
+ * Returns an HTTP 500 page and exits if the database connection fails.
+ */
+function check_db_or_exit(): void
+{
+    try {
+        get_db();
+    } catch (Exception) {
+        header(
+            "Content-Security-Policy: default-src 'none'; "
+            . "base-uri 'none'; "
+            . "frame-ancestors 'none'; "
+            . "img-src 'self'; "
+            . "style-src 'unsafe-inline'"
+        );
+        header('HTTP/1.1 500 Internal Server Error', true, 500);
+
+        require __DIR__ . '/../docroot/500.html';
+
+        exit;
+    }
 }
 
 /**
@@ -650,7 +888,7 @@ function get_paremiotipus_best_match(string $modisme): string
         try {
             $stmt->execute([$modisme]);
         } catch (Exception $e) {
-            error_log('Error buscant el modisme "' . $modisme . '": ' . $e->getMessage());
+            error_log("Error: {$modisme} not found: " . $e->getMessage());
 
             return '';
         }
@@ -658,10 +896,7 @@ function get_paremiotipus_best_match(string $modisme): string
         $paremiotipus = $stmt->fetchColumn();
     }
 
-    $paremiotipus = $paremiotipus !== false ? $paremiotipus : '';
-    assert(is_string($paremiotipus));
-
-    return $paremiotipus;
+    return is_string($paremiotipus) ? $paremiotipus : '';
 }
 
 /**
@@ -809,16 +1044,16 @@ function get_modismes(string $paremiotipus): array
  *     ID_FONT: ?string,
  * }>>
  *
- * @phan-return non-empty-associative-array<array>
+ * @phan-return non-empty-associative-array<list>
  */
 function group_modismes_by_variant(array $modismes): array
 {
     $variants = [];
-    foreach ($modismes as $m) {
-        if (!isset($variants[$m['MODISME']])) {
-            $variants[$m['MODISME']] = [];
+    foreach ($modismes as $modisme) {
+        if (!isset($variants[$modisme['MODISME']])) {
+            $variants[$modisme['MODISME']] = [];
         }
-        $variants[$m['MODISME']][] = $m;
+        $variants[$modisme['MODISME']][] = $modisme;
     }
 
     return $variants;
@@ -897,7 +1132,7 @@ function get_cv_files(string $paremiotipus): array
  *
  * @phpstan-return false|array{
  *     Identificador: string,
- *     Títol: ?string,
+ *     Títol: string,
  *     Autor: ?string,
  *     Any: ?string,
  *     ISBN: ?string,
@@ -919,10 +1154,8 @@ function get_cv_files(string $paremiotipus): array
  *     WIDTH: int,
  *     HEIGHT: int,
  * }
- *
- * @phan-return false|array
  */
-function get_obra(string $obra_title): bool|array
+function get_obra(string $obra_title): false|array
 {
     $stmt = get_db()->prepare('SELECT
         Identificador,
@@ -957,7 +1190,7 @@ function get_obra(string $obra_title): bool|array
     /**
      * @phpstan-var false|array{
      *     Identificador: string,
-     *     Títol: ?string,
+     *     Títol: string,
      *     Autor: ?string,
      *     Any: ?string,
      *     ISBN: ?string,
@@ -1241,7 +1474,7 @@ function format_nombre(int|string $num): string
  *
  * From the 00_EQUIVALENTS table, it returns `IDIOMA` values keyed by `CODI`.
  *
- * @return array<string, string>
+ * @return non-empty-array<string, string>
  */
 function get_idiomes(): array
 {
@@ -1254,7 +1487,7 @@ function get_idiomes(): array
         }
     }
 
-    /** @var array<string, string> $idiomes */
+    /** @var non-empty-array<string, string> $idiomes */
     return $idiomes;
 }
 
@@ -1480,7 +1713,7 @@ function normalize_search(?string $string, string $search_mode = ''): string
                 $words = preg_split('/\\s+/', $string);
                 $string = '';
 
-                /** @var list<string> $words */
+                /** @var non-empty-list<string> $words */
                 foreach ($words as $word) {
                     if (str_starts_with($word, '-')) {
                         // Respect `-` operator.
@@ -1510,7 +1743,7 @@ function normalize_search(?string $string, string $search_mode = ''): string
 /**
  * Returns array of 00_EDITORIA `NOM` values keyed by `CODI`.
  *
- * @return array<string, string>
+ * @return non-empty-array<string, string>
  */
 function get_editorials(): array
 {
@@ -1523,14 +1756,14 @@ function get_editorials(): array
         }
     }
 
-    /** @var array<string, string> $editorials */
+    /** @var non-empty-array<string, string> $editorials */
     return $editorials;
 }
 
 /**
  * Returns array of 00_FONTS `Títol` values keyed by `Identificador`.
  *
- * @return array<string, string>
+ * @return non-empty-array<string, string>
  */
 function get_fonts(): array
 {
@@ -1545,7 +1778,7 @@ function get_fonts(): array
         }
     }
 
-    /** @var array<string, string> $fonts */
+    /** @var non-empty-array<string, string> $fonts */
     return $fonts;
 }
 
@@ -1660,7 +1893,7 @@ function get_n_fonts(): int
 /**
  * Returns a list of top 100 paremiotipus.
  *
- * @return list<string>
+ * @return non-empty-list<string>
  */
 function get_top100_paremiotipus(): array
 {
@@ -1682,7 +1915,7 @@ function get_top100_paremiotipus(): array
         }
     }
 
-    /** @var list<string> $top_paremiotipus */
+    /** @var non-empty-list<string> $top_paremiotipus */
     return $top_paremiotipus;
 }
 

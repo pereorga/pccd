@@ -7,7 +7,7 @@
  * source code in the file LICENSE.
  */
 
-.llibres {
+.books {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     gap: 20px;
@@ -16,7 +16,7 @@
     text-align: center;
 }
 
-.llibres img {
+.books img {
     width: auto;
     max-height: 200px;
     border: 1px solid #dee2e6;

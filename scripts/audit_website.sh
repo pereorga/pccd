@@ -84,7 +84,7 @@ if [[ -n $1 ]]; then
     exit 1
 fi
 
-# If the BASE_URL variable is not passed, load it from env file.
+# If BASE_URL variable is not set, load it from the .env file.
 if [[ -z ${BASE_URL} ]]; then
     export "$(grep 'BASE_URL=' ../.env | xargs)"
     if [[ -z ${BASE_URL} ]]; then
@@ -98,8 +98,7 @@ readonly BASE_URL
 readonly URLS=(
     "/"
     "/p/A_Agramunt_comerciants_i_a_T%C3%A0rrega_comediants"
-    "/p/A_Adra%C3%A9n%2C_tanys"
-    "/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3"
+    "/p/A_Abrera%2C_garses"
     "/p/Cel_rogent%2C_pluja_o_vent"
     "/p/Tal_far%C3%A0s%2C_tal_trobar%C3%A0s"
     "/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Can%C3%A7oner%2C_3a_ed._1982"

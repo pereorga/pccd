@@ -128,46 +128,6 @@ header nav {
     justify-content: space-between;
 }
 
-.container-md {
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-.col-main {
-    margin-bottom: 30px;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-}
-
-[class*="col-"] {
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-
-header {
-    padding: 0.5rem 0;
-    background-color: #2b5797;
-}
-
-.navbar-brand {
-    color: #fff;
-    touch-action: manipulation;
-}
-
-.navbar-nav {
-    display: flex;
-    flex-direction: column;
-}
-
 #menu {
     flex-basis: 100%;
 }
@@ -192,6 +152,46 @@ header {
     vertical-align: -0.125em;
 }
 
+.container-md {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-main {
+    margin-bottom: 3rem;
+}
+
+[class*="col-"] {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+header {
+    padding: 0.5rem 0;
+    background-color: #2b5797;
+}
+
+.navbar-brand {
+    color: #fff;
+    touch-action: manipulation;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: column;
+}
+
 .navbar-nav a {
     display: block;
     padding: 0.5rem 0;
@@ -211,7 +211,7 @@ header {
 }
 
 .text-monospace {
-    padding: 0.25rem 2px;
+    padding: 0 0.25rem 0.2rem;
     font-family: monospace;
     background-color: #eff1f2;
     border-radius: 0.25rem;
@@ -229,9 +229,7 @@ header {
 .bloc {
     max-width: 350px;
     padding: 10px;
-    margin-top: 30px;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 0 auto 30px;
     overflow: hidden;
     text-align: center;
     text-wrap: balance;
@@ -240,8 +238,7 @@ header {
 }
 
 .bloc p {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 
 .bloc footer {
@@ -255,6 +252,16 @@ header {
     border: 0;
 }
 
+/* Contact block is always the latest block. */
+.bloc-contact {
+    margin-bottom: 0;
+}
+
+/* Credits block is always the first block after article content on mobile. */
+.bloc-credits {
+    margin-top: 3rem;
+}
+
 a.credits {
     font-size: 1.5rem;
 }
@@ -265,6 +272,15 @@ a.credits {
     bottom: 0;
     left: 0;
     z-index: 1004;
+}
+
+#snackbar button {
+    padding: 1.5rem;
+    font-size: 1rem;
+    color: #eeff41;
+    text-transform: uppercase;
+    background-color: transparent;
+    border: 0;
 }
 
 .snackbar-inner {
@@ -281,17 +297,8 @@ a.credits {
     font-size: 0.875rem;
 }
 
-#snackbar button {
-    padding: 1.5rem;
-    font-size: 1rem;
-    color: #eeff41;
-    text-transform: uppercase;
-    background-color: transparent;
-    border: 0;
-}
-
 /* Only medium and small mobile */
-@media (width < 400px) {
+@media (max-width: 399px) {
     .navbar-brand {
         font-size: 1.25rem;
     }
@@ -306,7 +313,7 @@ a.credits {
 }
 
 /* Big mobile and greater */
-@media (width >= 576px) {
+@media (min-width: 576px) {
     #snackbar {
         margin-right: 15px;
     }
@@ -323,16 +330,11 @@ a.credits {
 }
 
 /* Tablet and greater */
-@media (width >= 768px) {
+@media (min-width: 768px) {
     #menu {
         display: flex;
         flex-basis: auto;
         justify-content: flex-end;
-    }
-
-    .container-md {
-        padding-right: 30px;
-        padding-left: 30px;
     }
 
     #navbar-toggle {
@@ -343,11 +345,16 @@ a.credits {
         margin-top: 30px;
     }
 
+    .container-md {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
     .bloc-white {
         border: 1px solid #dee2e6;
     }
 
-    .bloc:first-child {
+    .bloc-credits {
         margin-top: 0;
     }
 
@@ -369,7 +376,7 @@ a.credits {
     }
 }
 
-@media (width >= 992px) {
+@media (min-width: 992px) {
     .navbar-brand {
         font-size: 1.25rem;
     }
@@ -379,7 +386,7 @@ a.credits {
     }
 }
 
-@media (width >= 1200px) {
+@media (min-width: 1200px) {
     .container-md {
         max-width: 1140px;
         padding-right: 15px;
@@ -411,7 +418,7 @@ a.credits {
     }
 
     header,
-    .bloc-contacte {
+    .bloc-contact {
         display: none;
     }
 }

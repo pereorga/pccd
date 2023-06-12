@@ -7,12 +7,22 @@ backend default {
 
 sub vcl_recv {
 
-    # Unset x-cache variable (will be used later).
+    # Disallow other methods.
+    if (req.method != "GET" && req.method != "HEAD" && req.method != "POST" && req.method != "OPTIONS") {
+        return (synth(405, "Method Not Allowed"));
+    }
+
+    # Unset x-cache header (will be used later).
     unset req.http.x-cache;
+
+    # Only cache GET and HEAD requests.
+    if (req.method != "GET" && req.method != "HEAD") {
+        return (pass);
+    }
 
     # Do not cache admin pages.
     if (req.url ~ "^/admin/") {
-        return(pass);
+        return (pass);
     }
 
     # Remove all cookies.
@@ -20,9 +30,10 @@ sub vcl_recv {
         unset req.http.Cookie;
     }
 
-    # Ensure static/compressed files are not cached.
+    # Unset Accept-Encoding header from compressed files.
+    # This will also be used later for determining whether to cache the object.
     if (req.url ~ "\.(avif|gif|jpg|jpeg|mp3|png|webp)$") {
-        return(pass);
+        unset req.http.Accept-Encoding;
     }
 
     # Normalize Accept-Encoding to increase cache hits.
@@ -44,13 +55,23 @@ sub vcl_recv {
         }
     }
 
-    # Do not cache the object if no encoding is set. It is likely a bot /
-    # outdated browser, and so we do not care about page speed.
+    # Do not cache the object if no encoding is set. It is likely:
+    #
+    #   1) A static/compressed file (see above).
+    #   2) A bad configured bot or scrapper, so we do not care about speed.
+    #   3) An outdated browser, so we do not care about speed.
+    #
     # We may want to remove this if we get too much traffic that impacts the
-    # web server, but otherwise, I believe using fewer Varnish cache resources
-    # is preferable.
+    # web server, but otherwise, it seems that using fewer Varnish cache
+    # resources is preferable.
     if (!req.http.Accept-Encoding) {
-        return(pass);
+
+        # But do cache AVIF and WEBP files, which should be the majority of the
+        # requests of static files, and still represent a relatively small
+        # amount of bytes.
+        if (!(req.url ~ "\.(avif|webp)$")) {
+            return (pass);
+        }
     }
 }
 
@@ -75,12 +96,11 @@ sub vcl_pipe {
 
 sub vcl_deliver {
 
-    # Remove some unnecessary/conflicting HTTP headers.
+    # Remove some unnecessary HTTP headers.
     unset resp.http.Server;
     unset resp.http.X-Varnish;
     unset resp.http.Via;
     unset resp.http.Age;
-    unset resp.http.Date;
 
     if (obj.uncacheable) {
         set req.http.x-cache = req.http.x-cache + " uncacheable" ;

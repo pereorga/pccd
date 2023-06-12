@@ -31,6 +31,9 @@ function background_test_small_image(string $source_directory, int $minimum_widt
 
         $source_file = $file_info->getPathname();
         $filename = $file_info->getFilename();
+        if ($filename === '.picasa.ini') {
+            continue;
+        }
 
         try {
             $imagick = new Imagick();
@@ -42,6 +45,32 @@ function background_test_small_image(string $source_directory, int $minimum_widt
         } catch (Exception) {
             $output .= "Error while trying to open {$filename}\n";
         }
+    }
+
+    return $output;
+}
+
+/**
+ * Returns a list of image files with unsupported extensions.
+ */
+function background_test_unsupported_extensions(string $source_directory): string
+{
+    $output = '';
+    $directory_iterator = new DirectoryIterator($source_directory);
+    foreach ($directory_iterator as $file_info) {
+        if ($file_info->isDot()) {
+            continue;
+        }
+
+        $filename = $file_info->getFilename();
+        if ($filename === '.picasa.ini') {
+            continue;
+        }
+        if (str_ends_with($filename, '.jpg') || str_ends_with($filename, '.png') || str_ends_with($filename, '.gif')) {
+            continue;
+        }
+
+        $output .= $filename . PHP_EOL;
     }
 
     return $output;
@@ -62,7 +91,11 @@ function resize_and_optimize_images_bulk(string $source_directory, string $targe
             continue;
         }
         $source_file = $file_info->getPathname();
-        $target_file = $target_directory . '/' . $file_info->getFilename();
+        $filename = $file_info->getFilename();
+        if ($filename === '.picasa.ini') {
+            continue;
+        }
+        $target_file = $target_directory . '/' . $filename;
 
         // Only process the file once.
         if (is_file($target_file)) {
@@ -153,8 +186,8 @@ function resize_image(string $source_file, string $target_file, int $width): voi
             $imagick->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
             $imagick->writeImage($target_file);
         }
-    } catch (Exception $e) {
-        echo "Error while trying to resize {$source_file}: {$e->getMessage()}";
+    } catch (Exception $exception) {
+        echo "Error while trying to resize {$source_file}: {$exception->getMessage()}";
     }
 
     // Restore original file if its size is not bigger than the generated file, or if the file was not written.
@@ -246,7 +279,7 @@ function process_jpg(string $source_file, string $target_file, int $width): void
         if (files_have_similar_sizes($target_file, $avif_file)) {
             unlink($avif_file);
         }
-    } catch (Exception $e) {
-        echo "Error while trying to process {$target_file}: {$e->getMessage()}";
+    } catch (Exception $exception) {
+        echo "Error while trying to process {$target_file}: {$exception->getMessage()}";
     }
 }

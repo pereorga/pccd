@@ -40,10 +40,10 @@ final class TitleLengthTest extends TestCase
 
         foreach ($sentences as $sentence) {
             $title = format_html_title($sentence);
-            static::assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
+            self::assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
 
             $title = format_html_title($sentence, 'PCCD');
-            static::assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
+            self::assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
         }
     }
 }

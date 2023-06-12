@@ -1,5 +1,5 @@
 const fs = require("node:fs");
-const { chromium } = require("playwright");
+const { chromium } = require("@playwright/test");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -34,14 +34,14 @@ const extractNumber = (text, regex) => {
     data.searchFeraWithVariantsNumberOfResults = extractNumber(content, /trobat ([\d.]+) paremiotipus per a/);
 
     await page.goto(`${process.env.BASE_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era`);
-    content = await page.locator("main .resum").first().textContent();
+    content = await page.locator(".article-summary").textContent();
     data.paremiotipusQuiNoVulguiPolsNumberOfEntries = extractNumber(content, /([\d.]+)\srecurrències/);
     data.paremiotipusQuiNoVulguiPolsNumberOfVariants = extractNumber(content, /en ([\d.]+)\svariants/);
 
     await page.goto(
         `${process.env.BASE_URL}/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Cançoner%2C_3a_ed._1982`
     );
-    const obra = await page.locator("article.col-obra").textContent();
+    const obra = await page.locator("article").textContent();
     data.obraFolkloreCatalunyaNumberOfEntries = extractNumber(
         obra,
         /Aquesta obra té ([\d.]+) fitxes a la base de dades/

@@ -17,18 +17,18 @@ set_meta_description("Llibres de l'autor de la Paremiologia catalana comparada d
 
 $stmt = get_db()->query('SELECT Imatge, `Títol`, URL, WIDTH, HEIGHT FROM `00_OBRESVPR`');
 $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
-echo '<div class="llibres">';
-foreach ($records as $o) {
+echo '<div class="books">';
+foreach ($records as $record) {
     // TODO: FIXME in the DB.
-    if ($o['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
-        $o['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
+    if ($record['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
+        $record['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
     }
 
-    if ($o['URL'] !== null) {
-        echo '<a href="' . $o['URL'] . '" title="' . htmlspecialchars($o['Títol']) . '">';
+    if ($record['URL'] !== null) {
+        echo '<a href="' . $record['URL'] . '" title="' . htmlspecialchars($record['Títol']) . '">';
     }
-    echo get_image_tags($o['Imatge'], '/img/obres/', $o['Títol'], $o['WIDTH'], $o['HEIGHT'], false);
-    if ($o['URL'] !== null) {
+    echo get_image_tags($record['Imatge'], '/img/obres/', $record['Títol'], $record['WIDTH'], $record['HEIGHT'], false);
+    if ($record['URL'] !== null) {
         echo '</a>';
     }
 }

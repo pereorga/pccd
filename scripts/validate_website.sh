@@ -17,18 +17,15 @@ cd "$(dirname "$0")"
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [--fast]"
-    echo ""
-    echo "Optional arguments:"
-    echo "  --fast                Skip slower validations (webhint, html-validate, linkinator)"
+    echo "Usage: $(basename "$0")"
 }
 
-if [[ -n $2 ]]; then
+if [[ -n $1 ]]; then
     usage
     exit 1
 fi
 
-# If the BASE_URL variable is not passed, load it from env file.
+# If BASE_URL variable is not set, load it from the .env file.
 if [[ -z ${BASE_URL} ]]; then
     export "$(grep 'BASE_URL=' ../.env | xargs)"
     if [[ -z ${BASE_URL} ]]; then
@@ -37,39 +34,56 @@ if [[ -z ${BASE_URL} ]]; then
     fi
 fi
 
-options=""
-if [[ $1 == "--fast" ]]; then
-    options="--fast"
-fi
-
 readonly BASE_URL
-readonly options
 
 ##############################################################################
 # Validates URL using curl, HTML Tidy, htmlhint, webhint, linkinator and html-validate.
 # Arguments:
-#   URL         The URL to validate
-#   [--fast]    (optional) Use it to skip webhint, linkinator and html-validate slower validations
+#   URL                  The URL to validate
+# Optional arguments:
+#   --skip-tidy          Skip HTML Tidy validation
+#   --skip-htmlhint      Skip htmlhint validation
+#   --skip-webhint       Skip webhint validation
+#   --skip-linkinator    Skip linkinator validation
+#   --skip-htmlvalidate  Skip html-validate validation
+# Globals:
+#   SKIP_TIDY            Whether to skip HTML Tidy
+#   SKIP_HTMLHINT        Whether to skip htmlhint
+#   SKIP_WEBHINT         Whether to skip webhint
+#   SKIP_LINKINATOR      Whether to skip linkinator
+#   SKIP_HTMLVALIDATE    Whether to skip html-validate
 ##############################################################################
 validate_url() {
     local -r URL=$1
-    local -r SPEED_MODE=$2
+    shift 1
+
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --skip-tidy) SKIP_TIDY=true ;;
+            --skip-htmlhint) SKIP_HTMLHINT=true ;;
+            --skip-webhint) SKIP_WEBHINT=true ;;
+            --skip-linkinator) SKIP_LINKINATOR=true ;;
+            --skip-htmlvalidate) SKIP_HTMLVALIDATE=true ;;
+            *)
+                echo "Unknown parameter passed: $1"
+                exit 1
+                ;;
+        esac
+        shift
+    done
+
     local -r OUTPUT_FILENAME=../tmp/page.html
 
     echo ""
-    if [[ -z ${SPEED_MODE} ]]; then
-        echo "Validating ${URL}"
-    else
-        echo "Validating ${URL} with ${SPEED_MODE} option"
-    fi
+    echo "Validating ${URL}"
 
     # curl is used to generated the HTML file, for the tools that only support local files. Additionally, HTTP status
     # code is also checked.
     echo "=============="
     echo "curl"
     echo "=============="
-    set +e
     local status_code
+    set +e
     status_code=$(curl --compressed -o "${OUTPUT_FILENAME}" --silent --write-out "%{http_code}" "${URL}")
     if [[ ${status_code} != "200" ]]; then
         echo "ERROR: Status code HTTP ${status_code}." >&2
@@ -77,20 +91,24 @@ validate_url() {
     else
         echo "No HTTP errors."
     fi
+    set -e -o pipefail
 
     # HTACG HTML Tidy is an old tool written in C that checks code against modern standards. See .tidyrc file.
-    echo "=============="
-    echo "HTML Tidy"
-    echo "=============="
-    local error
-    error=$(tidy -config ../.tidyrc "${OUTPUT_FILENAME}" 2>&1 > /dev/null)
-    if [[ -n ${error} ]]; then
-        echo "ERROR reported in HTML Tidy: ${error}" >&2
-        exit 255
-    else
-        echo "No errors."
+    if [[ -z ${SKIP_TIDY} ]]; then
+        echo "=============="
+        echo "HTML Tidy"
+        echo "=============="
+        local error
+        set +e
+        error=$(tidy -config ../.tidyrc "${OUTPUT_FILENAME}" 2>&1 > /dev/null)
+        if [[ -n ${error} ]]; then
+            echo "ERROR reported in HTML Tidy: ${error}" >&2
+            exit 255
+        else
+            echo "No errors."
+        fi
+        set -e -o pipefail
     fi
-    set -e -o pipefail
 
     # Check that $ signs are not found in the HTML, if for some reason a PHP variable is not printed properly.
     if grep -q -r -F -m 1 '$' "${OUTPUT_FILENAME}"; then
@@ -98,36 +116,34 @@ validate_url() {
         exit 255
     fi
 
-    # html-validator was previously used (via html-validator-cli)
-    # html-validate is used instead now, which is local and has additional checks to the ones provided by
-    # html-validator. See: https://github.com/zrrrzzt/html-validator/issues/162
-    #echo "=============="
-    #echo "html-validator"
-    #echo "=============="
-    #npx html-validator --verbose --file="${OUTPUT_FILENAME}"
+    # htmlhint is a quick static code analysis tool for HTML. See .htmlhintrc.json file.
+    if [[ -z ${SKIP_HTMLHINT} ]]; then
+        echo "=============="
+        echo "htmlhint"
+        echo "=============="
+        npx htmlhint --config ../.htmlhintrc.json "${OUTPUT_FILENAME}"
+    fi
 
-    # htmlhint is a quick static code analysis tool for HTML. See .htmlhintrc file.
-    echo "=============="
-    echo "htmlhint"
-    echo "=============="
-    npx htmlhint "${OUTPUT_FILENAME}"
-
-    if [[ ${SPEED_MODE} != "--fast" ]]; then
-        # webhint is one of the most extensive testing suites. It uses Chromium or Edge under the hood. Unfortunately it
-        # is slow, and probably a bit unmaintained. See .hintrc settings file.
+    # webhint is one of the most extensive testing suites. It uses Chromium or Edge under the hood. Unfortunately it is
+    # slow, and probably a bit unmaintained. See .hintrc settings file.
+    if [[ -z ${SKIP_WEBHINT} ]]; then
         echo "=============="
         echo "webhint"
         echo "=============="
         npx hint --formatters html --output ../tmp/ --config ../.hintrc "${URL}"
+    fi
 
-        # linkinator works well for checking that all local links work properly.
+    # linkinator works well for checking that all local links work properly.
+    if [[ -z ${SKIP_LINKINATOR} ]]; then
         echo "=============="
         echo "linkinator"
         echo "=============="
         npx linkinator "${URL}" --verbosity error --skip "^(?!${BASE_URL})"
+    fi
 
-        # html-validate is an offline HTML5 validator with strict parsing. Apart from parsing and content model
-        # validation it also includes style, cosmetics, good practice and accessibility rules. See .htmlvalidate.json.
+    # html-validate is an offline HTML5 validator with strict parsing. Apart from parsing and content model validation
+    # it also includes style, cosmetics, good practice and accessibility rules. See .htmlvalidate.json.
+    if [[ -z ${SKIP_HTMLVALIDATE} ]]; then
         echo "=============="
         echo "html-validate"
         echo "=============="
@@ -160,18 +176,6 @@ validate_url_404() {
     else
         echo "No HTTP errors."
     fi
-
-    echo "=============="
-    echo "HTML Tidy"
-    echo "=============="
-    local error
-    error=$(tidy -config ../.tidyrc "${OUTPUT_FILENAME}" 2>&1 > /dev/null)
-    if [[ -n ${error} ]]; then
-        echo "ERROR reported in HTML Tidy: ${error}" >&2
-        exit 255
-    else
-        echo "No errors."
-    fi
     set -e -o pipefail
 }
 
@@ -180,20 +184,19 @@ validate_url_404 "${BASE_URL}/p/A_Abrerasefserewrwe"
 validate_url_404 "${BASE_URL}/asdfasdfsadfs"
 
 # Validate HTML.
-validate_url "${BASE_URL}/" "${options}"
-validate_url "${BASE_URL}/projecte" "${options}"
-validate_url "${BASE_URL}/top100" "${options}"
-validate_url "${BASE_URL}/llibres" "${options}"
-validate_url "${BASE_URL}/instruccions" "${options}"
-validate_url "${BASE_URL}/credits" "${options}"
-validate_url "${BASE_URL}/p/A_Abrera%2C_donen_garses_per_perdius" "${options}"
-validate_url "${BASE_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era" "${options}"
-validate_url "${BASE_URL}/obra/Pons_Lluch%2C_Josep_%281993%29%3A_Refranyer_menorqu%C3%AD" "${options}"
-validate_url "${BASE_URL}/?pagina=5147" "${options}"
-validate_url "${BASE_URL}/?mode=&cerca=ca%C3%A7a&variant=&mostra=10" "${options}"
-validate_url "${BASE_URL}/p/A_Adra%C3%A9n%2C_tanys" "${options}"
-validate_url "${BASE_URL}/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3" "${options}"
-# This page is always executed with --fast, otherwise it is extremely slow.
-validate_url "${BASE_URL}/?mostra=infinit" --fast
+validate_url "${BASE_URL}/"
+validate_url "${BASE_URL}/projecte"
+validate_url "${BASE_URL}/top100"
+validate_url "${BASE_URL}/llibres"
+validate_url "${BASE_URL}/instruccions"
+validate_url "${BASE_URL}/credits"
+validate_url "${BASE_URL}/p/A_Abrera%2C_donen_garses_per_perdius"
+validate_url "${BASE_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era"
+validate_url "${BASE_URL}/obra/Pons_Lluch%2C_Josep_%281993%29%3A_Refranyer_menorqu%C3%AD"
+validate_url "${BASE_URL}/?pagina=5147"
+validate_url "${BASE_URL}/?mode=&cerca=ca%C3%A7a&variant=&mostra=10"
+validate_url "${BASE_URL}/p/A_Adra%C3%A9n%2C_tanys"
+validate_url "${BASE_URL}/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3"
+validate_url "${BASE_URL}/?mostra=infinit" --skip-webhint --skip-linkinator --skip-htmlvalidate
 
 echo "All validation tests finished OK :)"

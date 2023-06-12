@@ -14,23 +14,24 @@ const gtag = function () {
     dataLayer.push(arguments);
 };
 gtag("js", new Date());
-gtag("config", "G-CP42Y3NK1R");
+// eslint-disable-next-line camelcase
+gtag("config", "G-CP42Y3NK1R", { cookie_flags: "SameSite=None;Secure" });
 
 (function () {
     "use strict";
 
     const toggleAllSources = function () {
         const toggle = document.querySelector("#toggle-all");
-        const isExpanded = toggle.textContent.includes("contrau");
+        const wasExpanded = toggle.textContent.includes("contrau");
         for (const element of document.querySelectorAll("details")) {
-            if (isExpanded) {
+            if (wasExpanded) {
                 element.removeAttribute("open");
             } else {
                 element.setAttribute("open", "true");
             }
         }
-        toggle.textContent = isExpanded ? "desplega-ho tot" : "contrau-ho tot";
-        toggle.setAttribute("title", (isExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
+        toggle.textContent = wasExpanded ? "desplega-ho tot" : "contrau-ho tot";
+        toggle.setAttribute("title", (wasExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
     };
 
     const isTouchDevice = "ontouchstart" in window;
@@ -81,26 +82,26 @@ gtag("config", "G-CP42Y3NK1R");
         }
     } else {
         // All other pages.
-        // Play Common Voice files on click (paremiotipus page).
+        // Source collapsing, in paremiotipus pages.
+        const toggleAllElement = document.querySelector("#toggle-all");
+        if (toggleAllElement) {
+            // Collapse all sources if this is the user's preference, in paremiotipus pages.
+            if (localStorage.getItem("always_expand") === "2") {
+                toggleAllSources();
+            }
+            toggleAllElement.addEventListener("click", (event) => {
+                const wasExpanded = event.target.textContent.includes("contrau");
+                toggleAllSources();
+                localStorage.setItem("always_expand", wasExpanded ? "2" : "1");
+            });
+        }
+
+        // Play Common Voice files on click, in paremiotipus pages.
         for (const audio of document.querySelectorAll(".audio")) {
             audio.addEventListener("click", (event) => {
                 event.preventDefault();
                 audio.firstElementChild.play();
             });
-        }
-
-        // Toggle all sources (paremiotipus page).
-        const toggleAllElement = document.querySelector("#toggle-all");
-        if (toggleAllElement) {
-            toggleAllElement.addEventListener("click", (event) => {
-                const isExpanded = event.target.textContent.includes("contrau");
-                toggleAllSources();
-                localStorage.setItem("always_expand", isExpanded ? "2" : "1");
-            });
-            // Collapse all sources if this is the user's preference.
-            if (localStorage.getItem("always_expand") === "2") {
-                toggleAllSources();
-            }
         }
     }
 
@@ -138,13 +139,17 @@ gtag("config", "G-CP42Y3NK1R");
     });
 
     // Prefetch internal links on hover/touch.
+    const eventName = isTouchDevice ? "touchstart" : "mouseenter";
     for (const a of document.querySelectorAll("a")) {
         if (a.href && a.origin === location.origin) {
-            a.addEventListener(isTouchDevice ? "touchstart" : "mouseenter", () => {
-                const prefetchLink = document.createElement("link");
-                prefetchLink.rel = "prefetch";
-                prefetchLink.href = a.href;
-                document.head.append(prefetchLink);
+            a.addEventListener(eventName, () => {
+                // Add link only if it doesn't exist.
+                if (!document.querySelector('link[rel=prefetch][href="' + a.href + '"]')) {
+                    const link = document.createElement("link");
+                    link.rel = "prefetch";
+                    link.href = a.href;
+                    document.head.append(link);
+                }
             });
         }
     }

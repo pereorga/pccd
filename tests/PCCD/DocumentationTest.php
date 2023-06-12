@@ -32,7 +32,7 @@ final class DocumentationTest extends TestCase
         $minimumVersionInformation = sprintf('PHP: %s or later is required.', $minimumVersion);
         $installationDocPath = realpath(__DIR__ . '/../../README.md');
 
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             $minimumVersionInformation,
             file_get_contents($installationDocPath),
             sprintf('File %s needs to contain information "%s"', $installationDocPath, $minimumVersionInformation)
@@ -49,7 +49,7 @@ final class DocumentationTest extends TestCase
         $minimumVersionInformation = sprintf('Node.js: %s or later is required.', $minimumMajorVersion);
         $installationDocPath = realpath(__DIR__ . '/../../README.md');
 
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             $minimumVersionInformation,
             file_get_contents($installationDocPath),
             sprintf('File %s needs to contain information "%s"', $installationDocPath, $minimumVersionInformation)

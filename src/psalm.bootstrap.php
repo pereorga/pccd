@@ -12,6 +12,6 @@
 
 declare(strict_types=1);
 
-require_once 'third_party/urlLinker.php';
+require_once __DIR__ . '/third_party/urlLinker.php';
 
-require_once 'common.php';
+require_once __DIR__ . '/common.php';

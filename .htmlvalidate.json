@@ -2,9 +2,9 @@
   "root": true,
   "extends": ["html-validate:recommended", "html-validate:document"],
   "rules": {
-    "attr-pattern": 2,
-    "class-pattern": 2,
-    "id-pattern": 2,
-    "require-sri": 0
+    "attr-pattern": "error",
+    "class-pattern": "error",
+    "id-pattern": "error",
+    "require-sri": "off"
   }
 }

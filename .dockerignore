@@ -7,10 +7,10 @@
 src/images
 
 # Local dependencies and scripts
+node_modules
+scripts/SentenceSimilarityGroup
 scripts/image-convertor
 scripts/sinonims-export
-scripts/SentenceSimilarityGroup
-node_modules
 vendor
 # We use composer to add some git repositories as dev dependencies
 !vendor/noisebynorthwest/php-spx
@@ -20,7 +20,7 @@ vendor
 # Temporary files
 .php-cs-fixer.cache
 .phpunit.result.cache
-/tmp/*.html
-/tmp/*.json
-/tmp/*.tar
-/tmp/pccd
+tmp/*.html
+tmp/*.json
+tmp/*.tar
+tmp/github

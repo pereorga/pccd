@@ -31,7 +31,7 @@ final class RedirectsTest extends TestCase
 
         $redirects = get_redirects();
         foreach ($redirects as $source_url => $target_url) {
-            static::assertNotSame(
+            self::assertNotSame(
                 $source_url,
                 $target_url,
                 'Source URL and target URL are the same: ' . $source_url
@@ -45,31 +45,31 @@ final class RedirectsTest extends TestCase
 
         $redirects = get_redirects();
         foreach ($redirects as $source_url => $target_url) {
-            static::assertStringNotContainsString(
+            self::assertStringNotContainsString(
                 '%2B',
                 $source_url,
                 'Source url contains characters not normalized: ' . $source_url
             );
 
-            static::assertStringNotContainsString(
+            self::assertStringNotContainsString(
                 '%2B',
                 $target_url,
                 'Target url contains characters not normalized: ' . $target_url
             );
 
-            static::assertStringNotContainsString(
+            self::assertStringNotContainsString(
                 '+',
                 $target_url,
                 'Target url contains spaces rather than underscores: ' . $target_url
             );
 
-            static::assertStringNotContainsString(
+            self::assertStringNotContainsString(
                 "'",
                 $source_url,
                 'Source url contains single quotes: ' . $source_url
             );
 
-            static::assertStringNotContainsString(
+            self::assertStringNotContainsString(
                 "'",
                 $target_url,
                 'Target url contains single quotes: ' . $target_url
@@ -84,7 +84,7 @@ final class RedirectsTest extends TestCase
         $redirects = get_redirects();
         foreach ($redirects as $source_url => $target_url) {
             if (str_starts_with($source_url, '/?paremiotipus') || str_starts_with($source_url, '/p/')) {
-                static::assertStringStartsWith(
+                self::assertStringStartsWith(
                     '/p/',
                     $target_url,
                     'Target paremiotipus URL does not start with /p/: ' . $target_url
@@ -92,7 +92,7 @@ final class RedirectsTest extends TestCase
             }
 
             if (str_starts_with($source_url, '/?obra') || str_starts_with($source_url, '/obra/')) {
-                static::assertStringStartsWith(
+                self::assertStringStartsWith(
                     '/obra/',
                     $target_url,
                     'Target obra URL does not start with /p/: ' . $target_url
@@ -111,11 +111,11 @@ final class RedirectsTest extends TestCase
         \assert(\is_string($host));
 
         $redirects = get_redirects();
-        foreach ($redirects as $target_url) {
-            static::assertSame(
+        foreach ($redirects as $redirect) {
+            self::assertSame(
                 HTTP_STATUS_OK,
-                curl_get_response_code($host . $target_url),
-                'HTTP response code is not 200 for target URL: ' . $host . $target_url
+                curl_get_response_code($host . $redirect),
+                'HTTP response code is not 200 for target URL: ' . $host . $redirect
             );
         }
     }
@@ -131,7 +131,7 @@ final class RedirectsTest extends TestCase
 
         $redirects = get_redirects();
         foreach (array_keys($redirects) as $source_url) {
-            static::assertSame(
+            self::assertSame(
                 301,
                 curl_get_response_code($host . $source_url),
                 'HTTP response code is not 301 for source URL: ' . $host . $source_url

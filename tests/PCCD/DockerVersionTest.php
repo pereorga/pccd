@@ -32,7 +32,7 @@ final class DockerVersionTest extends TestCase
         $dockerVersionDev = $this->getDockerPhpVersion($dockerFileDev);
         $dockerVersionProd = $this->getDockerPhpVersion($dockerFileProd);
 
-        static::assertSame($dockerVersionDev, $dockerVersionProd, 'Dockerfile and web.prod.Dockerfile should use the same PHP version');
+        self::assertSame($dockerVersionDev, $dockerVersionProd, 'Dockerfile and web.prod.Dockerfile should use the same PHP version');
     }
 
     public function testDockerMysqlVersionMatch(): void
@@ -44,7 +44,7 @@ final class DockerVersionTest extends TestCase
         $dockerVersionDev = $this->getDockerComposeMysqlVersion($dockerComposeFile);
         $dockerVersionProd = $this->getDockerMysqlVersion($dockerFile);
 
-        static::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MySQL version');
+        self::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MySQL version');
     }
 
     public function testDockerApcVersionMatch(): void
@@ -56,7 +56,7 @@ final class DockerVersionTest extends TestCase
         $dockerVersionDev = $this->getDockerApcuVersion($dockerFileDev);
         $dockerVersionProd = $this->getDockerApcuVersion($dockerFileProd);
 
-        static::assertSame($dockerVersionDev, $dockerVersionProd, 'Dockerfile and web.prod.Dockerfile should use the same APCu version');
+        self::assertSame($dockerVersionDev, $dockerVersionProd, 'Dockerfile and web.prod.Dockerfile should use the same APCu version');
     }
 
     protected function getDockerPhpVersion(string $dockerFile): string

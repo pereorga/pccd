@@ -171,7 +171,7 @@ update_os_packages() {
         sudo apt-get update -y && xargs -a apt-packages.txt sudo apt-get install -y
         if [[ -x "$(command -v brew)" ]]; then
             echo "Installing/updating brew packages for systems that have apt-get..."
-            brew bundle install --file=ubuntu.Brewfile
+            brew update && brew bundle install --file=ubuntu.Brewfile
         else
             echo "Note: brew command is not available"
         fi
@@ -179,7 +179,7 @@ update_os_packages() {
         # This is likely macOS, a non-Debian Linux distribution (untested) or another POSIX system (untested).
         if [[ -x "$(command -v brew)" ]]; then
             echo "Installing/updating brew packages..."
-            brew bundle install
+            brew update && brew bundle install
         else
             echo "Note: brew command is not available"
         fi

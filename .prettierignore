@@ -4,17 +4,16 @@ vendor
 third_party
 
 # Generated files
-.idea
+*.min.*
+*.report.html
 *.sublime-project
 *.sublime-workspace
 *Brewfile.lock.json
-composer.lock
-package-lock.json
-yarn.lock
-*.min.*
-*.report.html
+.idea
 /scripts/common-voice-import/commonvoice_voices.json
 /tmp
+composer.lock
+yarn.lock
 
-# 404 page is formatted wrong on purpose
-/docroot/404.html
+# HTML pages
+/docroot/*.html

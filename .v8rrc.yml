@@ -1,4 +1,4 @@
-patterns: ["*.json", "*.yaml", "*.yml"]
+patterns: ["*.json", "*.yml"]
 customCatalog:
   schemas:
     - name: GitLab CI
