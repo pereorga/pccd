@@ -54,11 +54,13 @@ if ($obra['Any'] !== null) {
 }
 if ($obra['ISBN'] !== null) {
     $isbn = htmlspecialchars($obra['ISBN']);
+    $output .= '<dl><dt>ISBN:</dt><dd>';
     if (isbn_is_valid($isbn)) {
-        $output .= '<dl><dt>ISBN:</dt><dd><a title="Cerqueu l\'obra a llibreries i biblioteques" href="https://ca.wikipedia.org/wiki/Especial:Fonts_bibliogr%C3%A0fiques?isbn=' . $isbn . '">' . $isbn . '</a></dd></dl>';
+        $output .= '<a title="Cerqueu l\'obra a llibreries i biblioteques" href="https://ca.wikipedia.org/wiki/Especial:Fonts_bibliogr%C3%A0fiques?isbn=' . $isbn . '" class="external">' . $isbn . '</a>';
     } else {
-        $output .= "<dl><dt>ISBN:</dt><dd>{$isbn}</dd></dl>";
+        $output .= $isbn;
     }
+    $output .= '</dd></dl>';
 }
 if ($obra['Editorial'] !== null) {
     $output .= '<dl><dt>Editorial:</dt><dd>' . htmlspecialchars($obra['Editorial']) . '</dd></dl>';
@@ -89,17 +91,15 @@ if ($obra['Preu'] > 0) {
 }
 if ($obra['Data_compra'] !== null) {
     $date = DateTime::createFromFormat('Y-m-d', $obra['Data_compra']);
-    if ($date !== false) {
-        $output .= '<dl><dt>Data de compra:</dt><dd>' . $date->format('d/m/Y') . '</dd></dl>';
-    } else {
-        $output .= '<dl><dt>Data de compra:</dt><dd>' . htmlspecialchars($obra['Data_compra']) . '</dd></dl>';
-    }
+    $output .= '<dl><dt>Data de compra:</dt><dd>';
+    $output .= $date !== false ? $date->format('d/m/Y') : htmlspecialchars($obra['Data_compra']);
+    $output .= '</dd></dl>';
 }
 if ($obra['Lloc_compra'] !== null) {
     $output .= '<dl><dt>Lloc de compra:</dt><dd>' . htmlEscapeAndLinkUrls($obra['Lloc_compra'], '_blank', 'nofollow noopener noreferrer') . '</dd></dl>';
 }
 if ($obra['URL'] !== null) {
-    $output .= '<dl><dt>Enllaç:</dt><dd>' . htmlEscapeAndLinkUrls($obra['URL']) . '</dd></dl>';
+    $output .= '<div>' . htmlEscapeAndLinkUrls($obra['URL']) . '</div>';
 }
 if ($obra['Observacions'] !== null) {
     $output .= '<dl><dt>Observacions:</dt><dd>' . htmlEscapeAndLinkUrls(ct($obra['Observacions'], false), '_blank', 'nofollow noopener noreferrer') . '</dd></dl>';
@@ -110,8 +110,8 @@ if ($obra['Registres'] > 0) {
     $fitxes = format_nombre($obra['Registres']);
     $recollides = format_nombre(get_paremiotipus_count_by_font($obra['Identificador']));
     $registres = "Aquesta obra té {$fitxes} fitxes a la base de dades, de les quals {$recollides} estan recollides en aquest web.";
-    set_meta_description_once(htmlspecialchars($registres));
     $output .= "<footer>{$registres}</footer>";
+    set_meta_description_once($registres);
 }
 
 $output .= '</div></div>';

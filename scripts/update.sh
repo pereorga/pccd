@@ -23,8 +23,8 @@ usage() {
     echo ""
     echo "    help"
     echo "      Shows this help and exits"
-    echo "    os-packages"
-    echo "      Updates brew/apt packages"
+    echo "    brew"
+    echo "      Updates brew packages"
     echo "    yarn"
     echo "      Updates all yarn dev direct packages to latest release"
     echo "    composer"
@@ -160,15 +160,13 @@ check_version_docker_compose() {
 }
 
 ##############################################################################
-# Updates Homebrew packages and apt-get packages, if commands are available.
+# Updates Homebrew packages.
 # Arguments:
 #   None
 ##############################################################################
-update_os_packages() {
+update_brew_packages() {
     if [[ -x "$(command -v apt-get)" ]]; then
         # We consider this to be Debian-based.
-        echo "Installing/updating apt-get packages..."
-        sudo apt-get update -y && xargs -a apt-packages.txt sudo apt-get install -y
         if [[ -x "$(command -v brew)" ]]; then
             echo "Installing/updating brew packages for systems that have apt-get..."
             brew update && brew bundle install --file=ubuntu.Brewfile
@@ -192,6 +190,8 @@ update_os_packages() {
 #   None
 ##############################################################################
 update_composer_major() {
+    rm -f composer.lock
+
     # Update non-dev dependencies.
     tools/composer show --no-dev --direct --name-only |
         xargs tools/composer require
@@ -247,8 +247,8 @@ if [[ $1 == "help" ]]; then
     exit 0
 fi
 
-if [[ $1 == "os-packages" ]]; then
-    update_os_packages
+if [[ $1 == "brew" ]]; then
+    update_brew_packages
     exit 0
 fi
 
@@ -259,8 +259,8 @@ if [[ $1 == "pecl" ]]; then
 fi
 
 if [[ $1 == "composer" ]]; then
-    update_composer_major
     tools/composer update --with-all-dependencies
+    update_composer_major
     exit 0
 fi
 

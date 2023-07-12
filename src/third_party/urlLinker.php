@@ -9,7 +9,9 @@
  * and related or neighboring rights to UrlLinker.
  * http://creativecommons.org/publicdomain/zero/1.0/
  *
- * 2022: Simplified and updated to allow for rel and target attributes, for pccd.dites.cat.
+ * Updates for pccd.dites.cat, by Pere Orga:
+ *  2022: Simplified and updated to allow for rel and target attributes.
+ *  2023: Updated to include the scheme in the text of the link, to avoid linking IPs and to add a class.
  */
 
 /**
@@ -20,7 +22,6 @@ function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = 
 {
     $rexScheme     = 'https?://';
     $rexDomain     = '(?:[-a-zA-Z0-9\x7f-\xff]{1,63}\.)+[a-zA-Z\x7f-\xff][-a-zA-Z0-9\x7f-\xff]{1,62}';
-    $rexIp         = '(?:[1-9][0-9]{0,2}\.|0\.){3}(?:[1-9][0-9]{0,2}|0)';
     $rexPort       = '(:[0-9]{1,5})?';
     $rexPath       = '(/[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]*?)?';
     $rexQuery      = '(\?[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
@@ -28,7 +29,7 @@ function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = 
     $rexUsername   = '[^]\\\\\x00-\x20\"(),:-<>[\x7f-\xff]{1,64}';
     // Allow the same characters as in the username.
     $rexPassword   = $rexUsername;
-    $rexUrl        = "($rexScheme)?(?:($rexUsername)(:$rexPassword)?@)?($rexDomain|$rexIp)($rexPort$rexPath$rexQuery$rexFragment)";
+    $rexUrl        = "($rexScheme)?(?:($rexUsername)(:$rexPassword)?@)?($rexDomain)($rexPort$rexPath$rexQuery$rexFragment)";
     // Valid URL characters which are not part of the URL if they appear at the very end.
     $rexTrailPunct = "[)'?.!,;:]";
     // Characters that should never appear in a URL.
@@ -59,12 +60,10 @@ function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = 
         $domain      = $match[4][0];
         // Everything following the domain.
         $afterDomain = $match[5][0];
-        $port        = $match[6][0];
-        $path        = $match[7][0];
 
-        // Check that the TLD is valid or that $domain is an IP address.
+        // Check that the TLD is valid.
         $tld = strtolower(strrchr($domain, '.'));
-        if (isset($validTlds[$tld]) || preg_match('{^\.[0-9]{1,3}$}', $tld)) {
+        if (isset($validTlds[$tld])) {
             // Do not permit implicit scheme if a password is specified, as this causes too many errors (e.g.
             // "my email:foo@example.org").
             if (!$scheme && $password) {
@@ -82,7 +81,7 @@ function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = 
             } else {
                 // Prepend http:// if no scheme is specified.
                 $completeUrl = $scheme ? $url : "http://$url";
-                $linkText = "$domain$port$path";
+                $linkText = $completeUrl;
             }
 
             $linkHtml = '<a href="' . htmlspecialchars($completeUrl) . '"';
@@ -94,7 +93,7 @@ function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = 
                 $linkHtml .= ' rel="' . $rel . '"';
             }
 
-            $linkHtml .= '>' . htmlspecialchars($linkText) . '</a>';
+            $linkHtml .= ' class="external">' . htmlspecialchars($linkText) . '</a>';
 
             // Cheap e-mail obfuscation to trick the dumbest mail harvesters.
             $linkHtml = str_replace('@', '&#64;', $linkHtml);

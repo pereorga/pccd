@@ -157,17 +157,12 @@ For details on contributing to this repository, see the contributing guidelines:
 
 ## TODO
 
-### Short-term
-
-- Understand Apache configuration: <https://stackoverflow.com/q/72966421/1391963>
-
-### Long term
-
-- Consider start using GA conditionally when the cookie dialog has been accepted
-- Or better, consider removing Google Tag Manager or switching to a lighter Google Analytics alternative. See <https://news.ycombinator.com/item?id=32068539>
-- Consider migrating to Postgres
-- Consider switching to PHP-FPM and Nginx
-- Consider switching to pnpm, latest yarn or go back to npm
+- Compliance: consider start using GA conditionally when the cookie dialog has been accepted, or better, consider
+  removing Google Tag Manager or switching to a lighter Google Analytics alternative (see
+  <https://news.ycombinator.com/item?id=32068539>)
+- Infra: Consider migrating to Postgres
+- Infra: Consider switching to PHP-FPM, and maybe Nginx
+- Build: Consider switching to pnpm, latest yarn or going back to npm
 - UX: Consider adding search functionality on every page
 
 ## License

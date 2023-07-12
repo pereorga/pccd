@@ -47,7 +47,6 @@ echo "DROP TABLE IF EXISTS 00_EDITORIA;" >> ../install/db/db.sql
 echo "DROP TABLE IF EXISTS 00_OBRESVPR;" >> ../install/db/db.sql
 echo "DROP TABLE IF EXISTS 00_EQUIVALENTS;" >> ../install/db/db.sql
 echo "DROP TABLE IF EXISTS common_paremiotipus;" >> ../install/db/db.sql
-echo "DROP TABLE IF EXISTS commonvoice;" >> ../install/db/db.sql
 echo "DROP TABLE IF EXISTS paremiotipus_display;" >> ../install/db/db.sql
 echo "DROP TABLE IF EXISTS pccd_is_installed;" >> ../install/db/db.sql
 
@@ -108,7 +107,6 @@ echo "ALTER TABLE 00_EDITORIA ADD INDEX (CODI);" >> ../install/db/db.sql
 # Create additional custom tables.
 echo "CREATE TABLE common_paremiotipus(Paremiotipus varchar (255), Compt int);" >> ../install/db/db.sql
 echo "ALTER TABLE common_paremiotipus ADD INDEX (Compt);" >> ../install/db/db.sql
-echo "CREATE TABLE commonvoice(paremiotipus varchar (255), file varchar (200), PRIMARY KEY (paremiotipus, file));" >> ../install/db/db.sql
 echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, Display varchar (255));" >> ../install/db/db.sql
 
 # Normalize UTF-8 combined characters.

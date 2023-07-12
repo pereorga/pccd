@@ -28,8 +28,7 @@
 
 /* stylelint-disable property-no-vendor-prefix */
 body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial,
-        sans-serif;
+    font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
     font-size: 1rem;
     line-height: 1.5;
     color: #000;
@@ -61,8 +60,15 @@ a {
 }
 
 a:hover {
-    color: #007bff;
     text-decoration: underline;
+}
+
+a.external {
+    padding-right: 1em;
+    background-image: url("/img/external.svg");
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 0.857em;
 }
 
 img {
@@ -114,7 +120,7 @@ main {
 
 body > footer {
     padding: 30px 15px 20px;
-    margin-top: 60px;
+    margin-top: 30px;
     font-size: 0.875rem;
     text-align: center;
     text-wrap: balance;
@@ -167,14 +173,14 @@ header nav {
     margin-left: -15px;
 }
 
-.col-main {
-    margin-bottom: 3rem;
-}
-
 [class*="col-"] {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+.col-main {
+    margin-bottom: 30px;
 }
 
 header {
@@ -252,14 +258,13 @@ header {
     border: 0;
 }
 
-/* Contact block is always the latest block. */
-.bloc-contact {
-    margin-bottom: 0;
+.bloc-credits {
+    margin-top: 45px;
 }
 
-/* Credits block is always the first block after article content on mobile. */
-.bloc-credits {
-    margin-top: 3rem;
+/* Top100 and Top10000 blocks are not visible on mobile. */
+.bloc-top100 {
+    display: none;
 }
 
 a.credits {
@@ -358,6 +363,10 @@ a.credits {
         margin-top: 0;
     }
 
+    .bloc-top100 {
+        display: block;
+    }
+
     .navbar-nav {
         flex-direction: row;
     }
@@ -372,7 +381,6 @@ a.credits {
 
     .col-main {
         flex: 1;
-        margin-bottom: 0;
     }
 }
 

@@ -14,7 +14,8 @@ dd {
     margin: 0;
 }
 
-dl {
+dl,
+.col-work > div {
     margin-bottom: 0.5rem;
 }
 

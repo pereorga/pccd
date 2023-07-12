@@ -4,10 +4,10 @@
     "color-named": "never",
     "declaration-no-important": true,
     "declaration-property-unit-allowed-list": {
-      "/^background/": ["rem"],
+      "/^background/": ["em", "rem"],
       "/^border/": ["px", "rem"],
       "/^margin/": ["em", "px", "rem"],
-      "/^padding/": ["px", "rem"],
+      "/^padding/": ["em", "px", "rem"],
       "clip-path": ["px"],
       "font-size": ["rem"],
       "gap": "px",

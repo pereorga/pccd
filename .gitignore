@@ -20,6 +20,9 @@ docker-compose.override.yml
 # Local dependencies
 *Brewfile.lock.json
 /scripts/common-voice-export/third_party
+/tools/*
+!/tools/phive.phar
+!/tools/LICENSE.txt
 node_modules
 vendor
 

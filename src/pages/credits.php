@@ -17,10 +17,10 @@ set_meta_description('© Víctor Pàmies i Riudor, 2020-2023. Desenvolupat per P
 ?>
 <p>© Víctor Pàmies i Riudor, 2020-2023.</p>
 
-<p>Aquesta obra està sotmesa a les condicions de la llicència <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca">Creative Commons Atribució-NoComercial-CompartirIgual 4.0 Internacional</a>.</p>
+<p>Aquesta obra està sotmesa a les condicions de la llicència <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" class="external">Creative Commons Atribució-NoComercial-CompartirIgual 4.0 Internacional</a>.</p>
 
 <p>Les obres buidades, per a finalitats d'investigació i recerca, són propietat dels seus respectius autors, dels quals s'ofereix una citació completa i rigorosa.</p>
 
 <p>Les imatges contingudes en la PCCD són propietat dels seus autors. Sempre que ha estat possible s'ha enllaçat la font original de la imatge o, també sempre que ha estat possible, s'ofereix una citació completa i rigorosa de la font i de l'autor.</p>
 
-<p>Aquesta versió en línia de la PCCD ha estat desenvolupada per <a href="https://orga.cat">Pere Orga</a>, i el seu <a href="https://github.com/Softcatala/pccd">codi font</a> està disponible amb la llicència <a href="https://www.gnu.org/licenses/agpl-3.0.html">Affero GPL 3.0</a>.</p>
+<p>Aquesta versió en línia de la PCCD ha estat desenvolupada per <a href="https://orga.cat" class="external">Pere Orga</a>, i el seu <a href="https://github.com/Softcatala/pccd" class="external">codi font</a> està disponible amb la llicència <a href="https://www.gnu.org/licenses/agpl-3.0.html" class="external">Affero GPL 3.0</a>.</p>

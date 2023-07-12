@@ -36,6 +36,6 @@ services:
       - /var/lib/varnish:exec
     environment:
       - VARNISH_SIZE=2G
-    command: "-p default_keep=300 -p http_gzip_support=false"
+    command: "-p default_keep=300 -p http_gzip_support=false -p feature=-http2"
     depends_on:
       - "pccd"

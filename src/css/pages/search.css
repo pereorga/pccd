@@ -21,7 +21,11 @@ select {
     color: #495057;
     -webkit-appearance: none;
     appearance: none;
-    background: #fff url("/img/chevron-down.svg") no-repeat right 0.75rem center / 0.75rem;
+    background-color: #fff;
+    background-image: url("/img/chevron-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 0.75rem;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
 }
@@ -42,8 +46,13 @@ table {
 }
 
 td {
-    padding: 0.75rem;
+    padding: 0;
     border: 1px solid #dee2e6;
+}
+
+td a {
+    display: block;
+    padding: 0.75rem;
 }
 
 tr:nth-of-type(odd) {

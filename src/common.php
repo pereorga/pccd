@@ -35,82 +35,6 @@ function mb_ucfirst(string $str, ?string $encoding = null): string
 }
 
 /**
- * Gets a clean sinonim, removing unnecessary characters or notes.
- */
-function get_sinonim_clean(string $sinonim): string
-{
-    // Try to remove annotations.
-    $pos = mb_strpos($sinonim, '[');
-    if ($pos !== false) {
-        $sinonim = mb_substr($sinonim, 0, $pos);
-    }
-
-    // Remove unnecessary characters or words.
-    $sinonim = trim($sinonim, ". \n\r\t\v\x00");
-    $sinonim = str_replace(['/', 'V.', 'Veg.', 'Similar:', 'Similars:', 'Contrari:'], ' ', $sinonim);
-    $sinonim = preg_replace('/\s\s+/', ' ', $sinonim);
-    assert(is_string($sinonim));
-
-    return trim($sinonim);
-}
-
-/**
- * Gets multiple sinonims from a sinonim field.
- *
- * @return list<string>
- */
-function get_sinonims(string $sinonim_field): array
-{
-    $sinonims = explode('|', $sinonim_field);
-    $sinonims_array = [];
-    foreach ($sinonims as $sinonim) {
-        // Try to remove unnecessary characters or words.
-        $sinonim = get_sinonim_clean($sinonim);
-
-        // Discard empty or short records.
-        if (mb_strlen($sinonim) < MIN_SINONIM_WORD_LENGTH) {
-            continue;
-        }
-
-        $sinonims_array[] = $sinonim;
-    }
-
-    return $sinonims_array;
-}
-
-/**
- * Sorts list by `count` array associative key, desc.
- *
- * @param array{html: string, count: int} $a
- * @param array{html: string, count: int} $b
- */
-function variants_comp(array $a, array $b): int
-{
-    return $b['count'] <=> $a['count'];
-}
-
-/**
- * Sorts list by `v`(votes) array associative key, desc.
- *
- * @param array{f: string, v: int} $a
- * @param array{f: string, v: int} $b
- */
-function pronunciations_comp(array $a, array $b): int
-{
-    return $b['v'] <=> $a['v'];
-}
-
-/**
- * Returns true for pronunciations with more than 1 positive votes, false otherwise.
- *
- * @param array{f: string, v: int} $a
- */
-function pronunciations_filter(array $a): bool
-{
-    return $a['v'] >= 1;
-}
-
-/**
  * Returns the database connection.
  */
 function get_db(): PDO
@@ -177,15 +101,18 @@ function set_default_headers(): string
 function format_html_title(string $title, string $suffix = ''): string
 {
     if (mb_strlen($title) > TITLE_MAX_LENGTH) {
-        $s = mb_substr($title, 0, TITLE_MAX_LENGTH - 2);
-        $space_pos = mb_strrpos($s, ' ');
-        if ($space_pos !== false) {
-            $title = mb_substr($s, 0, $space_pos) . '…';
+        $truncated_title = mb_substr($title, 0, TITLE_MAX_LENGTH - 2);
+        $last_space_pos = mb_strrpos($truncated_title, ' ');
+        if ($last_space_pos !== false) {
+            $title = mb_substr($truncated_title, 0, $last_space_pos) . '…';
         }
     }
 
-    if ($suffix !== '' && mb_strlen($title . ' - ' . $suffix) <= TITLE_MAX_LENGTH) {
-        $title .= ' - ' . $suffix;
+    if ($suffix !== '') {
+        $full_title = $title . ' - ' . $suffix;
+        if (mb_strlen($full_title) <= TITLE_MAX_LENGTH) {
+            $title = $full_title;
+        }
     }
 
     return $title;
@@ -337,7 +264,7 @@ function get_side_blocks(string $page_name): string
     $side_blocks = '';
     if ($page_name === 'search') {
         // Homepage and search pages show Top 100 and Books blocks.
-        $side_blocks = '<div class="bloc bloc-top100" data-nosnippet>';
+        $side_blocks = '<div class="bloc bloc-top100 bloc-white" data-nosnippet>';
         $side_blocks .= '<p>';
         $random_paremiotipus = get_random_top100_paremiotipus();
         $side_blocks .= '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
@@ -376,7 +303,7 @@ function get_side_blocks(string $page_name): string
         }
 
         // All non-search pages show the Top 10000 block.
-        $side_blocks .= '<div class="bloc bloc-top100" data-nosnippet>';
+        $side_blocks .= '<div class="bloc bloc-top100 bloc-white" data-nosnippet>';
         $side_blocks .= '<p>';
         $random_paremiotipus = get_random_top10000_paremiotipus();
         $side_blocks .= '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
@@ -528,11 +455,6 @@ function get_page_meta_tags(string $page_name): string
         $meta_tags .= '<meta property="og:type" content="article">';
     }
 
-    // Canonical may be set above or in paremiotipus and obra pages.
-    if (get_canonical_url() !== '') {
-        $meta_tags .= '<link rel="canonical" href="' . get_canonical_url() . '">';
-    }
-
     // Meta description may be set when building main content.
     if (get_meta_description() !== '') {
         $meta_tags .= '<meta name="description" property="og:description" content="' . get_meta_description() . '">';
@@ -548,6 +470,11 @@ function get_page_meta_tags(string $page_name): string
     // og:audio URL may be set in paremiotipus pages.
     if (get_og_audio_url() !== '') {
         $meta_tags .= '<meta property="og:audio" content="' . get_og_audio_url() . '">';
+    }
+
+    // Canonical may be set above or in paremiotipus and obra pages.
+    if (get_canonical_url() !== '') {
+        $meta_tags .= '<link rel="canonical" href="' . get_canonical_url() . '">';
     }
 
     return $meta_tags;
@@ -736,9 +663,12 @@ function get_redirects(): array
         '/p/Cadasc%C3%BA%2C_en_sa_casa%2C_sal_el_que_hi_passa' => '/p/Cadascú%2C_en_sa_casa%2C_sap_el_que_hi_passa',
         '/p/Com_un_eix_a_l%27aigua' => '/p/Com_un_peix_a_l%27aigua',
         '/p/Fer_uin_merder' => '/p/Fer_merder',
+        '/p/Fr_els_ous_en_terra' => '/p/Fer_els_ous_en_terra',
+        '/p/M%C3%A9s_dolent_que_la_tinyaEn' => '/p/Més_dolent_que_la_tinya',
         '/p/Ni_fe_d%27enc%C3%A0rrec' => '/p/Ni_fet_d%27enc%C3%A0rrec',
         '/p/Ni_fe_d%27enc%c3%a0rrec' => '/p/Ni_fet_d%27enc%C3%A0rrec',
         '/p/Pel_setembre_o_desembre%2C_qui_tingui_blat%2C_que_en_sembri' => '/p/Pel_setembre%2C_qui_tingui_blat%2C_que_en_sembri',
+        '/p/Posar-li_els_dits_a_la_boca' => '/p/Ficar-li_els_dits_a_la_boca',
         '/p/Posr_en_gu%C3%A0rdia' => '/p/Posar_en_guàrdia',
         '/p/Posra_barba' => '/p/Posar_barba',
         '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_TolosaQui_dolent_fou_a_Tortosa%2C_dolent_ser%C3%A0_a_Tolosa' => '/p/Qui_dolent_fou_a_Tortosa%2C_dolent_serà_a_Tolosa',

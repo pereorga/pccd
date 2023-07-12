@@ -39,12 +39,12 @@ const extractNumber = (text, regex) => {
     data.paremiotipusQuiNoVulguiPolsNumberOfVariants = extractNumber(content, /en ([\d.]+)\svariants/);
 
     await page.goto(
-        `${process.env.BASE_URL}/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Cançoner%2C_3a_ed._1982`
+        `${process.env.BASE_URL}/obra/Amades_i_Gelats%2C_Joan_%281951%29%3A_Folklore_de_Catalunya._Cançoner%2C_3a_ed._1982`,
     );
     const obra = await page.locator("article").textContent();
     data.obraFolkloreCatalunyaNumberOfEntries = extractNumber(
         obra,
-        /Aquesta obra té ([\d.]+) fitxes a la base de dades/
+        /Aquesta obra té ([\d.]+) fitxes a la base de dades/,
     );
     data.obraFolkloreCatalunyaNumberOfEntriesCollected = extractNumber(obra, /de les quals ([\d.]+) estan recollides/);
 

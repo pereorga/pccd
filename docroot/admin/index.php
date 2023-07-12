@@ -20,7 +20,7 @@ ini_set('memory_limit', '512M');
 set_time_limit(0);
 session_start();
 
-header('X-Robots-Tag: noindex', true);
+header('X-Robots-Tag: noindex');
 
 if (isset($_POST['password']) && $_POST['password'] === getenv('WEB_ADMIN_PASSWORD')) {
     $_SESSION['auth'] = true;
@@ -65,12 +65,6 @@ if (isset($_SESSION['auth'])) {
 
         exit;
     }
-}
-
-$deployment_date = '';
-$timestamp = filemtime(__FILE__);
-if ($timestamp !== false) {
-    $deployment_date = date('Y/m/d H:i:s', $timestamp);
 }
 ?><!DOCTYPE html>
 <html lang="ca">
@@ -154,7 +148,7 @@ Monitorització:
 </ul>
 <p>[<a href='?logout'>Tanca la sessió</a>]</p>
 <small>
-    Última base de dades: <?php require __DIR__ . '/../../tmp/db_date.txt'; ?>- Últim desplegament: <?php echo $deployment_date; ?>
+    Última base de dades: <?php require __DIR__ . '/../../tmp/db_date.txt'; ?>
     <br><?php echo 'PHP ' . PHP_VERSION . ', ' . apache_get_version() . ' (' . PHP_OS . '), ' . get_db()->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
     <br><?php echo 'MySQL ' . get_db()->getAttribute(PDO::ATTR_SERVER_INFO); ?>
 </small>

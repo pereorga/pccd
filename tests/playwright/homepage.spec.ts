@@ -63,7 +63,7 @@ test.describe("Homepage", () => {
 
         [, updatedDate] = /actualització: (.+)/.exec(footerText);
         expect(updatedDate.trim()).toMatch(
-            /(gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre)/
+            /(gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre)/,
         );
     });
 

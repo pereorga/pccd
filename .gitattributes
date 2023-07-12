@@ -3,8 +3,6 @@
 /docroot/img/imatges/* binary
 /docroot/img/obres/* binary
 /docroot/mp3/* binary
-/src/images/* binary
-/tools/* binary
 
 *.css diff=css
 *.generated.php -diff
@@ -26,7 +24,4 @@
 /src/third_party/* export-ignore
 /src/third_party/urlLinker.php -export-ignore
 /tmp/test* export-ignore
-/tools/* export-ignore
-/tools/LICENSE.txt -export-ignore
-/tools/phive -export-ignore
 /vendor export-ignore

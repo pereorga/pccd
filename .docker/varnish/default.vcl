@@ -50,28 +50,37 @@ sub vcl_recv {
         }
         else {
 
-            # Otherwise, unset header and deliver the uncompressed object.
+            # Otherwise, unset header to deliver the uncompressed object.
             unset req.http.Accept-Encoding;
         }
     }
 
-    # Do not cache the object if no encoding is set. It is likely:
+    # Do not cache the object if no encoding is set, due to these probable scenarios:
     #
-    #   1) A static/compressed file (see above).
-    #   2) A bad configured bot or scrapper, so we do not care about speed.
-    #   3) An outdated browser, so we do not care about speed.
+    #   1) It may be a static or compressed file (as mentioned above, but see below).
+    #   2) It could be a poorly configured bot or scraper, where speed isn't a concern.
+    #   3) It might be an obsolete browser, where speed doesn't really matter.
     #
-    # We may want to remove this if we get too much traffic that impacts the
-    # web server, but otherwise, it seems that using fewer Varnish cache
-    # resources is preferable.
+    # This strategy might be reconsidered if we experience overwhelming traffic that strains the web server. However, as
+    # it stands, it seems that minimizing the usage of Varnish cache resources is beneficial.
     if (!req.http.Accept-Encoding) {
 
-        # But do cache AVIF and WEBP files, which should be the majority of the
-        # requests of static files, and still represent a relatively small
-        # amount of bytes.
+        # Make an exception for caching AVIF and WEBP files. These files should constitute the majority of static file
+        # requests, yet they represent a relatively modest data volume.
         if (!(req.url ~ "\.(avif|webp)$")) {
             return (pass);
         }
+    }
+
+    # Do the same for gzip encoding, due to these 2 probable scenarios:
+    #
+    #   1) The request might be originating from a bot or web scraper, in which case performance isn't a top priority.
+    #   2) The request could come from an outdated browser, again where speed is less crucial.
+    #
+    # Once again, the goal here is to optimize the usage of Varnish memory resources, even if it comes at the expense of
+    # increased CPU usage for Apache/PHP.
+    if (req.http.Accept-Encoding == "gzip") {
+        return (pass);
     }
 }
 

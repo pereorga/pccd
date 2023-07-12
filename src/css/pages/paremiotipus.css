@@ -64,7 +64,7 @@ a.media-link:focus {
 
 details,
 .summary {
-    margin-bottom: 2rem;
+    margin-bottom: 30px;
 }
 
 summary,
@@ -78,10 +78,6 @@ summary {
 
 .bloc-image {
     padding: 7px;
-}
-
-.bloc-top100 {
-    display: none;
 }
 
 figcaption {
@@ -105,10 +101,6 @@ a.audio:focus {
 
 /* Tablet and greater */
 @media (min-width: 768px) {
-    .bloc-top100 {
-        display: block;
-    }
-
     a.media-link {
         display: none;
     }

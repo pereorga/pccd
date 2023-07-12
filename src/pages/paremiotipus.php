@@ -83,7 +83,13 @@ foreach ($variants as $modisme => $variant) {
         if ($work !== '' && ($v['DIARI'] !== null || $v['ARTICLE'] !== null)) {
             $work .= ':';
         }
-        if ($v['DIARI'] !== null) {
+        $editorial = '';
+        if ($v['EDITORIAL'] !== null) {
+            $editorial = $v['EDITORIAL'];
+            $editorial = $editorials[$editorial] ?? $editorial;
+        }
+        // Print DIARI if it is different from EDITORIAL.
+        if ($v['DIARI'] !== null && $v['DIARI'] !== $editorial) {
             if ($work !== '') {
                 $work .= ' ';
             }
@@ -92,7 +98,7 @@ foreach ($variants as $modisme => $variant) {
                 $work .= '<i>' . htmlspecialchars($v['DIARI']) . '</i>';
                 $work .= '</a>';
             } else {
-                $work .= '<i>' . htmlspecialchars($v['DIARI']) . '</i>';
+                $work .= '<i>' . htmlEscapeAndLinkUrls($v['DIARI']) . '</i>';
             }
         }
         if ($v['ARTICLE'] !== null) {
@@ -104,9 +110,7 @@ foreach ($variants as $modisme => $variant) {
         if ($v['PAGINA'] !== null) {
             $work .= ', p. ' . htmlspecialchars($v['PAGINA']);
         }
-        if ($v['EDITORIAL'] !== null) {
-            $editorial = $v['EDITORIAL'];
-            $editorial = $editorials[$editorial] ?? $editorial;
+        if ($editorial !== '') {
             if ($work !== '') {
                 $work .= '. ';
             }
@@ -293,7 +297,7 @@ foreach ($images as $image) {
             // If there is no ARTICLE, link DIARI to the content.
             $diari = htmlspecialchars($image['DIARI']);
             if ($image_url !== '' && $image['ARTICLE'] === null) {
-                $diari = '<a href="' . $image_url . '">' . $diari . '</a>';
+                $diari = '<a href="' . $image_url . '" class="external">' . $diari . '</a>';
             }
             $image_caption .= "<em>{$diari}</em>";
         }
@@ -310,7 +314,7 @@ foreach ($images as $image) {
                 $article = htmlspecialchars($image['ARTICLE']);
                 // Reuse the link of the image, if there is one.
                 if ($image_url !== '') {
-                    $article = '<a href="' . $image_url . '">' . $article . '</a>';
+                    $article = '<a href="' . $image_url . '" class="external">' . $article . '</a>';
                 }
             }
             $image_caption .= "«{$article}»";
@@ -358,8 +362,9 @@ if ($total_variants > 1) {
     $output .= '</div></div>';
 }
 
-// Print the variants, sorted by the number of sources.
-usort($rendered_array, 'variants_comp');
+// Print the variants, sorted by the number of sources. @phan-suppress-next-line PhanPluginUnknownArrayClosureParamType
+usort($rendered_array, static fn (array $a, array $b): int => $b['count'] <=> $a['count']);
+
 foreach ($rendered_array as $rendered_variant) {
     $output .= $rendered_variant['html'];
 }

@@ -50,8 +50,7 @@ require __DIR__ . '/css/base.min.css';
 // If the page has page-specific CSS, include it.
 /** @psalm-suppress UnresolvableInclude */
 @include __DIR__ . "/css/{$page_name}.min.css";
-?>
-    </style>
+?></style>
 </head>
 <body>
     <header>

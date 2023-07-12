@@ -10,7 +10,6 @@ third_party
 *.sublime-workspace
 *Brewfile.lock.json
 .idea
-/scripts/common-voice-import/commonvoice_voices.json
 /tmp
 composer.lock
 yarn.lock

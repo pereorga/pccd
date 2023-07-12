@@ -111,37 +111,6 @@ foreach ($records as $title => $popular) {
     $insert_stmt->execute([$title, $popular]);
 }
 
-// TODO: remove this when Common Voice is integrated in the database via common-voice-import script.
-// -----------------------------------------------------------------------------------------------
-echo date('[H:i:s]') . ' importing Common Voice...' . PHP_EOL;
-$cv_content = file_get_contents(__DIR__ . '/common-voice-import/commonvoice_voices.json');
-assert(is_string($cv_content));
-
-$cv_json = json_decode(mb_strtolower($cv_content), true);
-assert(is_array($cv_json));
-
-$cv_insert_stmt = $pdo->prepare('INSERT IGNORE INTO commonvoice(paremiotipus, file) VALUES(?, ?)');
-$modismes = $pdo->query('SELECT MODISME, PAREMIOTIPUS FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
-foreach ($modismes as $m) {
-    /** @var array{MODISME: string, PAREMIOTIPUS: string} $m */
-    $modisme = mb_strtolower(trim($m['MODISME']));
-    // Add the final dot if it does not end with a punctuation sign already.
-    if (!str_ends_with($modisme, '.') && !str_ends_with($modisme, '!') && !str_ends_with($modisme, '?')) {
-        $modisme .= '.';
-    }
-
-    if (!isset($cv_json[$modisme]) || !is_array($cv_json[$modisme])) {
-        continue;
-    }
-
-    foreach ($cv_json[$modisme] as $frase) {
-        if (is_array($frase)) {
-            $cv_insert_stmt->execute([$m['PAREMIOTIPUS'], $frase['path']]);
-        }
-    }
-}
-// -----------------------------------------------------------------------------------------------
-
 echo date('[H:i:s]') . ' storing image dimensions...' . PHP_EOL;
 store_image_dimensions('00_IMATGES', 'Identificador', 'docroot/img/imatges');
 store_image_dimensions('00_FONTS', 'Imatge', 'docroot/img/obres');

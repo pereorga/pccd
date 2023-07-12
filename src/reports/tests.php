@@ -982,14 +982,16 @@ function test_paremiotipus_modismes_diferents(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    echo '<h3>Paremiotipus diferents que agrupen un mateix modisme</h3>';
+    echo '<h3>Modisme repetit classificat en 2 paremiotipus diferents</h3>';
     echo '<pre>';
     $paremiotipus = get_db()->query('SELECT a.PAREMIOTIPUS as PAREMIOTIPUS_A, a.MODISME as MODISME_A, b.PAREMIOTIPUS as PAREMIOTIPUS_B, b.MODISME as MODISME_B FROM 00_PAREMIOTIPUS a, 00_PAREMIOTIPUS b WHERE a.MODISME = b.MODISME AND a.PAREMIOTIPUS != b.PAREMIOTIPUS')->fetchAll(PDO::FETCH_ASSOC);
     $paremiotipus_unics = [];
     foreach ($paremiotipus as $m) {
         if (!isset($paremiotipus_unics[$m['PAREMIOTIPUS_A']]) && !isset($paremiotipus_unics[$m['PAREMIOTIPUS_B']])) {
-            echo $m['PAREMIOTIPUS_A'] . ' (modisme: ' . $m['MODISME_A'] . ")\n";
-            echo $m['PAREMIOTIPUS_B'] . ' (modisme: ' . $m['MODISME_B'] . ")\n\n";
+            echo $m['MODISME_A'] . "\n";
+            echo '    ' . $m['PAREMIOTIPUS_A'] . "\n";
+            echo '    ' . $m['PAREMIOTIPUS_B'] . "\n";
+            echo "\n";
         }
 
         $paremiotipus_unics[$m['PAREMIOTIPUS_A']] = true;
@@ -1137,6 +1139,38 @@ function test_paremiotipus_caracters_inusuals(): void
     echo '<h3>Paremiotipus amb caràcters de guió o guionet no estàndards (ni — ni -)</h3>';
     echo '<pre>';
     $paremiotipus = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $guions = [
+        // '-' => [],
+        // '—' => [],
+        '‑' => [],
+        '–' => [],
+        '―' => [],
+        '─' => [],
+    ];
+    $guions_keys = array_keys($guions);
+    foreach ($paremiotipus as $p) {
+        foreach ($guions_keys as $guio) {
+            if (str_contains($p, $guio)) {
+                $guions[$guio][] = $p;
+            }
+        }
+    }
+    foreach ($guions as $guio => $guio_array) {
+        $count = count($guio_array);
+        if ($count === 0) {
+            continue;
+        }
+        echo "Caràcter {$guio}\n";
+        foreach ($guio_array as $p) {
+            echo $p . "\n";
+        }
+        echo "\n\n";
+    }
+    echo '</pre>';
+
+    echo '<h3>Modismes amb caràcters de guió o guionet no estàndards (ni — ni -)</h3>';
+    echo '<pre>';
+    $paremiotipus = get_db()->query('SELECT MODISME FROM 00_PAREMIOTIPUS ORDER BY MODISME')->fetchAll(PDO::FETCH_COLUMN);
     $guions = [
         // '-' => [],
         // '—' => [],

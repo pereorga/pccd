@@ -13,7 +13,7 @@
 declare(strict_types=1);
 
 // This page is currently not discoverable.
-header('X-Robots-Tag: noindex', true);
+header('X-Robots-Tag: noindex');
 
 set_page_title('Les 10.000 parèmies més citades');
 

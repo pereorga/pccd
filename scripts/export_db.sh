@@ -38,5 +38,4 @@ readonly MYSQL_ROOT_PASSWORD
 
 # TODO: Add compatibility with mariadb-dump.
 docker exec pccd-mysql /usr/bin/mysqldump -uroot -p"${MYSQL_ROOT_PASSWORD}" --no-data --skip-dump-date pccd > tmp/schema.sql
-# TODO: consider adding --ignore-table=pccd.commonvoice when new import script is ready.
-docker exec pccd-mysql /usr/bin/mysqldump -uroot -p"${MYSQL_ROOT_PASSWORD}" --skip-dump-date pccd > install/db/db.sql
+docker exec pccd-mysql /usr/bin/mysqldump -uroot -p"${MYSQL_ROOT_PASSWORD}" --skip-dump-date --ignore-table=pccd.commonvoice pccd > install/db/db.sql

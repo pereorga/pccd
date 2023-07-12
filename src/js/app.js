@@ -14,8 +14,7 @@ const gtag = function () {
     dataLayer.push(arguments);
 };
 gtag("js", new Date());
-// eslint-disable-next-line camelcase
-gtag("config", "G-CP42Y3NK1R", { cookie_flags: "SameSite=None;Secure" });
+gtag("config", "G-CP42Y3NK1R");
 
 (function () {
     "use strict";
