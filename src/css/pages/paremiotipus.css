@@ -38,11 +38,14 @@ a.media-link {
 
 #toggle-all:hover,
 #toggle-all:focus,
+#toggle-all:focus-visible,
 a.media-link:hover,
-a.media-link:focus {
+a.media-link:focus,
+a.media-link:focus-visible {
     color: inherit;
     text-decoration: none;
     outline: 1px solid #333;
+    outline-offset: 0;
 }
 
 .entry {

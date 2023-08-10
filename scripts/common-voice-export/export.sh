@@ -34,13 +34,14 @@ rm -f filtered.txt controversial.txt
 docker exec pccd-web php scripts/common-voice-export/app.php > filtered.txt 2> controversial.txt
 
 # Exclude more sentences with LanguageTool.
-rm -rf third_party/
-mkdir third_party
-git clone --depth=1 https://github.com/pereorga/pccd-lt-filter.git third_party/pccd-lt-filter
 (
-    cd third_party/pccd-lt-filter &&
+    cd ../../vendor/pereorga/pccd-lt-filter &&
         mvn package &&
-        java -jar target/lt-filter-0.0.1-jar-with-dependencies.jar ../../filtered.txt > ../../pccd.txt 2> ../../error.txt
+        VERSION=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec) &&
+        java -jar target/lt-filter-${VERSION}-jar-with-dependencies.jar \
+            ../../../scripts/common-voice-export/filtered.txt \
+            > ../../../scripts/common-voice-export/pccd.txt \
+            2> ../../../scripts/common-voice-export/error.txt
 )
 
 # Clean up filter output.

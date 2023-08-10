@@ -20,7 +20,7 @@ trim_trailing_whitespace = false
 [*.neon]
 indent_size = 2
 
-[*.json]
+[{*.json,traffic-advice}]
 indent_size = 2
 
 [*.{yml,yaml,yamlfmt}]

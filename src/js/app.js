@@ -138,18 +138,31 @@ gtag("config", "G-CP42Y3NK1R");
     });
 
     // Prefetch internal links on hover/touch.
+    // Inspired by https://github.com/instantpage/instant.page/blob/master/instantpage.js
+    const preloadedList = new Set();
     const eventName = isTouchDevice ? "touchstart" : "mouseenter";
     for (const a of document.querySelectorAll("a")) {
         if (a.href && a.origin === location.origin) {
             a.addEventListener(eventName, () => {
                 // Add link only if it doesn't exist.
-                if (!document.querySelector('link[rel=prefetch][href="' + a.href + '"]')) {
+                if (!preloadedList.has(a.href)) {
+                    preloadedList.add(a.href);
                     const link = document.createElement("link");
-                    link.rel = "prefetch";
                     link.href = a.href;
+                    link.rel = "prefetch";
                     document.head.append(link);
                 }
             });
         }
+    }
+
+    // Make elements with role="button" to behave consistently with buttons.
+    for (const button of document.querySelectorAll('[role="button"]')) {
+        button.addEventListener("keydown", (event) => {
+            if (event.key === " ") {
+                event.preventDefault();
+                button.click();
+            }
+        });
     }
 })();

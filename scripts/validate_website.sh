@@ -130,7 +130,7 @@ validate_url() {
         echo "=============="
         echo "webhint"
         echo "=============="
-        npx hint --formatters html --output ../tmp/ --config ../.hintrc "${URL}"
+        npx hint --config ../.hintrc "${URL}"
     fi
 
     # linkinator works well for checking that all local links work properly.

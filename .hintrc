@@ -8,6 +8,9 @@
             "headless": true
         }
     },
+    "formatters": [
+        "stylish"
+    ],
     "ignoredUrls": [
         {
             "domain": ".*\\.googletagmanager\\.com/.*",
@@ -19,23 +22,23 @@
         }
     ],
     "hints": {
-        "compat-api/html": [
-            "default",
+        "compat-api/css": [
+            "error",
             {
                 "ignore": [
-                    "meta[name=theme-color]",
-                    "input[autocapitalize]",
-                    "img[loading]"
+                    "-webkit-tap-highlight-color",
+                    "-webkit-text-size-adjust",
+                    "accent-color",
+                    "overscroll-behavior-y"
                 ]
             }
         ],
-        "compat-api/css": [
-            "default",
+        "compat-api/html": [
+            "error",
             {
                 "ignore": [
-                    "accent-color",
-                    "-webkit-tap-highlight-color",
-                    "-webkit-text-size-adjust"
+                    "input[autocapitalize]",
+                    "meta[name=theme-color]"
                 ]
             }
         ]

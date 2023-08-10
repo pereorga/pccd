@@ -21,7 +21,7 @@ const SIMILAR_TEXT_MIN_LENGTH = 15;
 const SIMILAR_TEXT_MAX_LENGTH = 32;
 
 /**
- * Get the list of current test functions grouped by report group.
+ * Get the list of current test functions grouped by group.
  *
  * @return non-empty-array<non-empty-string, non-empty-array<callable>>
  */
@@ -52,13 +52,13 @@ function get_test_functions(): array
         'imatges' => [
             'test_imatges_buides',
             'test_imatges_extensions',
-            'test_imatges_format',
             'test_imatges_no_existents',
             'test_imatges_no_reconegudes',
-            'test_imatges_no_referenciades',
             'test_imatges_paremiotipus',
+            'test_imatges_no_referenciades',
             'test_imatges_repetides',
             'test_imatges_sense_paremiotipus',
+            'test_imatges_format',
         ],
         'llocs' => ['test_llocs'],
         'longitud' => [
@@ -117,7 +117,7 @@ function test_searches(): void
             }
         }
 
-        echo '<p>Total: ' . count($records) . '</p>';
+        echo 'Total: ' . count($records);
         echo '<pre>';
         asort($records, \SORT_NUMERIC);
         foreach ($records as $key => $value) {
@@ -329,6 +329,7 @@ function test_imatges_repetides(): void
     $numbers = [];
     foreach ($images as $image) {
         // Extract number at the beginning of the string.
+        assert(is_string($image));
         $number = (int) preg_replace('/^(\d+).*/', '$1', $image);
         if ($number === $prev) {
             echo $prev_image . "\n";
@@ -457,7 +458,7 @@ function test_llocs(): void
     echo '<pre>';
     foreach ($llocs as $lloc => $repetitions) {
         if ($repetitions > 0) {
-            echo "{$lloc} ({$repetitions} repeticions)\n";
+            echo "{$lloc} ({$repetitions} ocurrències)\n";
         }
     }
     echo '</pre>';
@@ -486,7 +487,7 @@ function test_fonts_buides(): void
 
 function test_fonts_zero(): void
 {
-    echo '<h3>Parèmies amb 0 fonts.</h3>';
+    echo '<h3>Paremiotipus amb almenys 1 registre sense detalls a la font.</h3>';
     echo '<div style="font-size: 13px;">';
     $file = file_get_contents(__DIR__ . '/../../tmp/test_zero_fonts.txt');
     if ($file !== false) {
@@ -982,15 +983,25 @@ function test_paremiotipus_modismes_diferents(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    echo '<h3>Modisme repetit classificat en 2 paremiotipus diferents</h3>';
+    echo '<h3>Paremiotipus diferents que contenen un modisme igual o molt semblant</h3>';
     echo '<pre>';
-    $paremiotipus = get_db()->query('SELECT a.PAREMIOTIPUS as PAREMIOTIPUS_A, a.MODISME as MODISME_A, b.PAREMIOTIPUS as PAREMIOTIPUS_B, b.MODISME as MODISME_B FROM 00_PAREMIOTIPUS a, 00_PAREMIOTIPUS b WHERE a.MODISME = b.MODISME AND a.PAREMIOTIPUS != b.PAREMIOTIPUS')->fetchAll(PDO::FETCH_ASSOC);
+    $paremiotipus = get_db()->query('SELECT
+            a.PAREMIOTIPUS as PAREMIOTIPUS_A,
+            a.MODISME as MODISME_A,
+            b.PAREMIOTIPUS as PAREMIOTIPUS_B,
+            b.MODISME as MODISME_B
+        FROM
+            00_PAREMIOTIPUS a,
+            00_PAREMIOTIPUS b
+        WHERE
+            a.MODISME = b.MODISME
+        AND
+            a.PAREMIOTIPUS != b.PAREMIOTIPUS')->fetchAll(PDO::FETCH_ASSOC);
     $paremiotipus_unics = [];
     foreach ($paremiotipus as $m) {
         if (!isset($paremiotipus_unics[$m['PAREMIOTIPUS_A']]) && !isset($paremiotipus_unics[$m['PAREMIOTIPUS_B']])) {
-            echo $m['MODISME_A'] . "\n";
-            echo '    ' . $m['PAREMIOTIPUS_A'] . "\n";
-            echo '    ' . $m['PAREMIOTIPUS_B'] . "\n";
+            echo $m['PAREMIOTIPUS_A'] . ' (modisme: ' . $m['MODISME_A'] . ")\n";
+            echo $m['PAREMIOTIPUS_B'] . ' (modisme: ' . $m['MODISME_B'] . ")\n";
             echo "\n";
         }
 
@@ -1354,15 +1365,15 @@ function test_commonvoice_languagetool(): void
     echo "<h3>Paremiotipus exclosos de Common Voice amb LanguageTool des de l'última pujada</h3>";
     $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded_new.txt');
     if ($text !== false) {
-        echo '<p>Total: ' . substr_count($text, "\n") . '</p>';
+        echo 'Total: ' . substr_count($text, "\n");
         echo "<pre>{$text}</pre>";
     }
 
     echo '<h3>Paremiotipus exclosos de Common Voice amb LanguageTool</h3>';
     $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded.txt');
     if ($text !== false) {
-        echo '<i>Pot ser a causa d\'errors tipogràfics, ortogràfics, per incloure paraules malsonants, localismes, o ser falsos positius.</i>';
-        echo '<p>Total: ' . substr_count($text, "\n") . '</p>';
+        echo '<i>A causa d\'errors tipogràfics, ortogràfics, per incloure paraules malsonants, noms propis, localismes o falsos positius.</i>';
+        echo '<br>Total: ' . substr_count($text, "\n");
         echo "<pre>{$text}</pre>";
     }
 }

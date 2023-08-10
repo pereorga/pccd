@@ -55,7 +55,7 @@ require __DIR__ . '/css/base.min.css';
 <body>
     <header>
         <nav class="container-md">
-            <a href="/" class="navbar-brand" aria-label="PCCD"><span>Paremiologia catalana comparada digital</span></a>
+            <a href="/" class="navbar-brand" aria-label="Paremiologia catalana comparada digital"><span>Paremiologia catalana comparada digital</span></a>
             <button id="navbar-toggle" type="button" aria-label="Desplega el menú">
                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                     <path fill="white" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/>
@@ -81,14 +81,9 @@ require __DIR__ . '/css/base.min.css';
             </section>
             <aside class="col-aside">
                 <?php echo get_side_blocks($page_name); ?>
-                <div class="bloc bloc-credits bloc-white">
-                    <p>Un projecte de:</p>
-                    <p><a class="credits" href="http://www.dites.cat" title="www.dites.cat">dites.cat</a></p>
-                    <p><a href="https://www.softcatala.org" title="Softcatalà"><img loading="lazy" alt="Logo de Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>
-                </div>
                 <div class="bloc bloc-contact bloc-white">
                     <p>Ajudeu-nos a millorar</p>
-                    <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="Email de contacte" title="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
+                    <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="arrova" title="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
                 </div>
             </aside>
         </div>
@@ -103,7 +98,7 @@ require __DIR__ . '/css/base.min.css';
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=2"></script>
+    <script async src="/js/script.min.js?v=3"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

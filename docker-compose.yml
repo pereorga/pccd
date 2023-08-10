@@ -1,6 +1,6 @@
 version: "3"
 services:
-  pccd:
+  web:
     build:
       context: .
       dockerfile: .docker/Dockerfile
@@ -38,4 +38,4 @@ services:
       - VARNISH_SIZE=2G
     command: "-p default_keep=300 -p http_gzip_support=false -p feature=-http2"
     depends_on:
-      - "pccd"
+      - "web"

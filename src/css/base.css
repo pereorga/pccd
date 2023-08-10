@@ -216,6 +216,15 @@ header {
     display: none;
 }
 
+.text-balance {
+    text-wrap: balance;
+}
+
+.text-break {
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
 .text-monospace {
     padding: 0 0.25rem 0.2rem;
     font-family: monospace;
@@ -227,18 +236,12 @@ header {
     white-space: nowrap;
 }
 
-.text-break {
-    word-break: break-word;
-    word-wrap: break-word;
-}
-
 .bloc {
-    max-width: 350px;
+    max-width: 400px;
     padding: 10px;
     margin: 0 auto 30px;
     overflow: hidden;
     text-align: center;
-    text-wrap: balance;
     background-color: #f9f9f9;
     border: 1px solid #dee2e6;
 }
@@ -260,11 +263,6 @@ header {
 
 .bloc-credits {
     margin-top: 45px;
-}
-
-/* Top100 and Top10000 blocks are not visible on mobile. */
-.bloc-top100 {
-    display: none;
 }
 
 a.credits {
@@ -361,10 +359,6 @@ a.credits {
 
     .bloc-credits {
         margin-top: 0;
-    }
-
-    .bloc-top100 {
-        display: block;
     }
 
     .navbar-nav {

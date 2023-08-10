@@ -30,18 +30,36 @@ if (!isset($argv[1])) {
 
 if ($argv[1] === 'llibres_urls') {
     echo background_test_llibres_urls();
+
+    exit;
 }
+
 if ($argv[1] === 'fonts_urls') {
     echo background_test_fonts_urls();
+
+    exit;
 }
+
 if ($argv[1] === 'imatges_urls') {
     echo background_test_imatges_urls();
+
+    exit;
 }
+
 if ($argv[1] === 'imatges_links') {
     echo background_test_imatges_links();
+
+    exit;
 }
+
 if ($argv[1] === 'paremiotipus_repetits') {
     $start = isset($argv[2]) ? (int) $argv[2] : 0;
     $end = isset($argv[3]) ? (int) $argv[3] : 0;
     echo background_test_paremiotipus_repetits($start, $end);
+
+    exit;
 }
+
+echo 'Unknown test name provided.' . \PHP_EOL;
+
+exit(1);

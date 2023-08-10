@@ -1,7 +1,7 @@
 vcl 4.1;
 
 backend default {
-    .host = "pccd";
+    .host = "web";
     .port = "80";
 }
 
@@ -11,9 +11,6 @@ sub vcl_recv {
     if (req.method != "GET" && req.method != "HEAD" && req.method != "POST" && req.method != "OPTIONS") {
         return (synth(405, "Method Not Allowed"));
     }
-
-    # Unset x-cache header (will be used later).
-    unset req.http.x-cache;
 
     # Only cache GET and HEAD requests.
     if (req.method != "GET" && req.method != "HEAD") {
@@ -84,25 +81,6 @@ sub vcl_recv {
     }
 }
 
-sub vcl_hit {
-    set req.http.x-cache = "hit";
-    if (obj.ttl <= 0s && obj.grace > 0s) {
-        set req.http.x-cache = "hit graced";
-    }
-}
-
-sub vcl_miss {
-    set req.http.x-cache = "miss";
-}
-
-sub vcl_pass {
-    set req.http.x-cache = "pass";
-}
-
-sub vcl_pipe {
-    set req.http.x-cache = "pipe uncacheable";
-}
-
 sub vcl_deliver {
 
     # Remove some unnecessary HTTP headers.
@@ -110,13 +88,4 @@ sub vcl_deliver {
     unset resp.http.X-Varnish;
     unset resp.http.Via;
     unset resp.http.Age;
-
-    if (obj.uncacheable) {
-        set req.http.x-cache = req.http.x-cache + " uncacheable" ;
-    }
-    else {
-        set req.http.x-cache = req.http.x-cache + " cached" ;
-    }
-
-    set resp.http.x-cache = req.http.x-cache;
 }

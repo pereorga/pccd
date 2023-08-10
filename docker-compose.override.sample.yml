@@ -1,5 +1,5 @@
 version: "3"
 services:
-  pccd:
+  web:
     volumes:
       - "./:/srv/app"

@@ -32,12 +32,10 @@ if ($total_variants === 0) {
 $editorials = get_editorials();
 $fonts = get_fonts();
 
-// We'll populate the right column.
+// Loop through the variants.
 $paremiotipus_db = '';
 $total_min_year = YEAR_MAX;
-$rendered_array = [];
-
-// Loop through the variants.
+$rendered_variants_array = [];
 foreach ($variants as $modisme => $variant) {
     $is_first_variant = $paremiotipus_db === '';
     if ($is_first_variant) {
@@ -57,12 +55,11 @@ foreach ($variants as $modisme => $variant) {
         set_page_title(get_paremiotipus_display($paremiotipus_db));
     }
 
+    // Loop through the variant's recurrences.
     $min_year = YEAR_MAX;
     $prev_work = '';
     $variant_sources = 0;
     $paremia = '';
-
-    // Loop through the variant's recurrences.
     foreach ($variant as $v) {
         $work = '';
         if ($v['AUTOR'] !== null) {
@@ -224,7 +221,7 @@ foreach ($variants as $modisme => $variant) {
         $rendered_variant = $paremia;
     }
 
-    $rendered_array[] = [
+    $rendered_variants_array[] = [
         'html' => $rendered_variant,
         'count' => $variant_sources,
     ];
@@ -241,9 +238,9 @@ foreach ($mp3_files as $mp3_file) {
             set_og_audio_url("https://pccd.dites.cat/mp3/{$mp3_file}");
         }
 
-        $cv_output .= '<a class="audio" href="/mp3/' . $mp3_file . '">';
+        $cv_output .= '<a class="audio" href="/mp3/' . $mp3_file . '" role="button">';
         $cv_output .= '<audio preload="none" src="/mp3/' . $mp3_file . '"></audio>';
-        $cv_output .= '<img width="32" height="27" alt="Altaveu" src="/img/speaker.svg">';
+        $cv_output .= '<img width="32" height="27" alt="altaveu" src="/img/speaker.svg">';
         $cv_output .= '</a>';
     } else {
         error_log("Error: asset file is missing: {$mp3_file}");
@@ -330,10 +327,10 @@ foreach ($images as $image) {
 
 $blocks = '';
 if ($cv_output !== '') {
-    $blocks = '<div id="commonvoice" class="bloc text-break" title="Escolteu-ho">';
+    $blocks = '<div id="commonvoice" class="bloc text-balance text-break" title="Escolteu-ho">';
     $blocks .= $cv_output;
     $blocks .= '<p><a title="Projecte Common Voice" href="https://commonvoice.mozilla.org/ca">';
-    $blocks .= '<img alt="Logotip de Common Voice" width="100" height="25" src="/img/commonvoice.svg"></a></p>';
+    $blocks .= '<img alt="logotip de Common Voice" width="100" height="25" src="/img/commonvoice.svg"></a></p>';
     $blocks .= '</div>';
 }
 if ($images_output !== '') {
@@ -346,7 +343,8 @@ set_paremiotipus_blocks($blocks);
 // Main page output.
 $output = '';
 if ($total_variants > 1) {
-    $output = '<div class="article-summary">' . count($modismes) . "&nbsp;recurrències en {$total_variants}&nbsp;variants.";
+    $output = '<div class="article-summary">';
+    $output .= count($modismes) . "&nbsp;recurrències en {$total_variants}&nbsp;variants.";
     if ($total_min_year < YEAR_MAX) {
         $output .= " Primera&nbsp;citació:&nbsp;{$total_min_year}.";
     }
@@ -355,17 +353,16 @@ if ($total_variants > 1) {
 
     // Add an anchor link to the multimedia content, only visible on mobile.
     if ($images_output !== '') {
-        $output .= '<a class="media-link" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '">';
+        $output .= '<a class="media-link" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '" role="button">';
         $output .= 'ves als fitxers';
         $output .= '</a>';
     }
     $output .= '</div></div>';
 }
 
-// Print the variants, sorted by the number of sources. @phan-suppress-next-line PhanPluginUnknownArrayClosureParamType
-usort($rendered_array, static fn (array $a, array $b): int => $b['count'] <=> $a['count']);
-
-foreach ($rendered_array as $rendered_variant) {
+// Sort variants by the number of sources. @phan-suppress-next-line PhanPluginUnknownArrayClosureParamType
+usort($rendered_variants_array, static fn (array $a, array $b): int => $b['count'] <=> $a['count']);
+foreach ($rendered_variants_array as $rendered_variant) {
     $output .= $rendered_variant['html'];
 }
 

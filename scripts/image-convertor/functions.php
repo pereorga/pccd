@@ -126,18 +126,21 @@ function resize_and_optimize_images_bulk(string $source_directory, string $targe
 
 /**
  * Returns whether two files have similar sizes, where $bigger_file is expected to be bigger.
+ *
+ * This is used to discard lossy compression of images that do not save enough bytes.
  */
 function files_have_similar_sizes(string $bigger_file, string $smaller_file): bool
 {
     $bigger_file_size = filesize($bigger_file);
     $smaller_file_size = filesize($smaller_file);
 
-    // Discard compression of images that do not save enough bytes.
     return $bigger_file_size > 0 && $smaller_file_size > 0 && ($bigger_file_size - SIZE_THRESHOLD) <= $smaller_file_size;
 }
 
 /**
  * Optimizes a GIF image.
+ *
+ * TODO: consider compressing GIFs to AVIF.
  */
 function process_gif(string $source_file, string $target_file): void
 {
@@ -190,7 +193,7 @@ function resize_image(string $source_file, string $target_file, int $width): voi
         echo "Error while trying to resize {$source_file}: {$exception->getMessage()}";
     }
 
-    // Restore original file if its size is not bigger than the generated file, or if the file was not written.
+    // Restore original file if its size is smaller or equal than the generated file, or if the file was not written.
     if (!is_file($target_file) || filesize($source_file) <= filesize($target_file)) {
         copy($source_file, $target_file);
     }
@@ -198,6 +201,8 @@ function resize_image(string $source_file, string $target_file, int $width): voi
 
 /**
  * Optimizes a PNG image and creates a WEBP version.
+ *
+ * TODO: consider compressing PNG images to AVIF.
  */
 function process_png(string $source_file, string $target_file, int $width): void
 {
@@ -249,14 +254,10 @@ function process_jpg(string $source_file, string $target_file, int $width): void
     resize_image($source_file, $target_file, $width);
 
     // Optimize JPG with lossless compression.
+    // TODO: First, further compress it with MozJPEG (maybe at 70%).
     exec("jpegoptim --quiet \"{$target_file}\"");
 
     // JPEG -> AVIF conversion.
-    // TODO: Convert animated GIFs and transparent PNGs too, maybe with https://github.com/lovell/sharp or
-    //       https://github.com/GoogleChromeLabs/squoosh/tree/dev/libsquoosh.
-    //       But note that 8-bit images may compress better in PNG than in AVIF at this point (see
-    //       https://vincent.bernat.ch/en/blog/2021-webp-avif-nginx) and that AVIF sequences have compatibility issues
-    //       in Firefox and Safari (see https://bugzilla.mozilla.org/show_bug.cgi?id=1686338#c28).
     $avif_file = str_ireplace('.jpg', '.avif', $target_file);
 
     // Only process the file once.

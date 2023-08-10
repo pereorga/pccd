@@ -39,8 +39,6 @@ usage() {
     echo "      Updates Docker images in Docker files and docker-compose.yml to next release"
     echo "    pecl"
     echo "      Updates pecl packages in Docker files to latest version"
-    echo "    mvn"
-    echo "      Checks for newer versions of Maven dependencies (for CV export script)"
 }
 
 ##############################################################################
@@ -191,6 +189,7 @@ update_brew_packages() {
 ##############################################################################
 update_composer_major() {
     rm -f composer.lock
+    tools/composer install
 
     # Update non-dev dependencies.
     tools/composer show --no-dev --direct --name-only |
@@ -210,31 +209,6 @@ update_composer_major() {
 ##############################################################################
 update_yarn_major() {
     jq '.devDependencies | keys | .[]' package.json | xargs yarn add --dev --silent
-}
-
-##############################################################################
-# Checks for newer versions of dependencies in a pom.xml file (Maven).
-# Arguments:
-#   A pom.xml file, a path (e.g. "pom.xml")
-##############################################################################
-check_dependencies_mvn() {
-    local -r POM_FILE="$1"
-    local pom_path
-    pom_path="$(dirname "${POM_FILE}")"
-
-    if [[ -f ${POM_FILE} ]]; then
-        echo "Checking dependencies in ${POM_FILE}..."
-        (cd "${pom_path}" && mvn versions:display-dependency-updates > versions.txt)
-        if grep -q -F 'The following dependencies in Dependencies have newer versions' "${pom_path}/versions.txt"; then
-            echo "Error: There are newer versions of dependencies specified in ${pom_path}:"
-            cat "${pom_path}/versions.txt"
-            exit 1
-        else
-            echo "OK: All mvn dependencies are using latest versions."
-        fi
-    else
-        echo "Warning: ${POM_FILE} does not exist."
-    fi
 }
 
 if [[ $# != 1 ]]; then
@@ -259,7 +233,6 @@ if [[ $1 == "pecl" ]]; then
 fi
 
 if [[ $1 == "composer" ]]; then
-    tools/composer update --with-all-dependencies
     update_composer_major
     exit 0
 fi
@@ -289,11 +262,6 @@ if [[ $1 == "docker" ]]; then
     check_version_docker_file .docker/Dockerfile php
     check_version_docker_compose docker-compose.yml mariadb
     check_version_docker_compose docker-compose.yml varnish
-    exit 0
-fi
-
-if [[ $1 == "mvn" ]]; then
-    check_dependencies_mvn scripts/common-voice-export/third_party/pccd-lt-filter/pom.xml
     exit 0
 fi
 

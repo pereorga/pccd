@@ -264,9 +264,9 @@ function get_side_blocks(string $page_name): string
     $side_blocks = '';
     if ($page_name === 'search') {
         // Homepage and search pages show Top 100 and Books blocks.
-        $side_blocks = '<div class="bloc bloc-top100 bloc-white" data-nosnippet>';
-        $side_blocks .= '<p>';
         $random_paremiotipus = get_random_top100_paremiotipus();
+        $side_blocks = '<div class="bloc" data-nosnippet>';
+        $side_blocks .= '<p class="text-balance">';
         $side_blocks .= '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
         $side_blocks .= get_paremiotipus_display($random_paremiotipus);
         $side_blocks .= '</a>»';
@@ -296,16 +296,22 @@ function get_side_blocks(string $page_name): string
             $side_blocks .= '</a>';
         }
         $side_blocks .= '</div>';
-    } else {
-        // Paremiotipus pages add specific blocks.
-        if ($page_name === 'paremiotipus') {
-            $side_blocks = get_paremiotipus_blocks();
-        }
+    } elseif ($page_name === 'paremiotipus') {
+        $side_blocks = get_paremiotipus_blocks();
+    }
 
-        // All non-search pages show the Top 10000 block.
-        $side_blocks .= '<div class="bloc bloc-top100 bloc-white" data-nosnippet>';
-        $side_blocks .= '<p>';
+    // All pages show the credits block.
+    $side_blocks .= '<div class="bloc bloc-credits bloc-white">';
+    $side_blocks .= '<p>Un projecte de:</p>';
+    $side_blocks .= '<p><a class="credits" href="http://www.dites.cat" title="www.dites.cat">dites.cat</a></p>
+        <p><a href="https://www.softcatala.org" title="Softcatalà"><img loading="lazy" alt="logotip de Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>';
+    $side_blocks .= '</div>';
+
+    if ($page_name !== 'search') {
+        // All non-search pages show the Top 10000 block, after credits.
         $random_paremiotipus = get_random_top10000_paremiotipus();
+        $side_blocks .= '<div class="bloc" data-nosnippet>';
+        $side_blocks .= '<p class="text-balance">';
         $side_blocks .= '«<a href="' . get_paremiotipus_url($random_paremiotipus) . '">';
         $side_blocks .= get_paremiotipus_display($random_paremiotipus);
         $side_blocks .= '</a>»';
@@ -431,14 +437,35 @@ function set_og_audio_url(string $audio_url): void
 }
 
 /**
+ * Returns the og:type.
+ */
+function get_og_type(): string
+{
+    global $og_type;
+
+    return $og_type ?? '';
+}
+
+/**
+ * Sets the og:type.
+ */
+function set_og_type(string $type): void
+{
+    global $og_type;
+
+    $og_type = $type;
+}
+
+/**
  * Returns page-specific meta tags.
  */
 function get_page_meta_tags(string $page_name): string
 {
     $meta_tags = '';
     if ($page_name === 'search') {
-        if (!isset($_GET['cerca']) || $_GET['cerca'] === '') {
-            // Set canonical URL in the homepage.
+        $is_homepage = (!isset($_GET['cerca']) || $_GET['cerca'] === '') && get_page_number() === 1;
+        if ($is_homepage) {
+            // Set canonical URL.
             set_canonical_url('https://pccd.dites.cat');
         } else {
             // Do not index the rest of result pages.
@@ -450,6 +477,9 @@ function get_page_meta_tags(string $page_name): string
         $meta_tags .= '<meta property="og:type" content="website">';
         // See https://stackoverflow.com/q/71087872/1391963.
         $meta_tags .= '<meta name="twitter:image" property="og:image" content="https://pccd.dites.cat/img/screenshot.png">';
+    } elseif (get_og_type() !== '') {
+        // Set specific type if set. This is only used for books in obra pages for now.
+        $meta_tags .= '<meta property="og:type" content="' . get_og_type() . '">';
     } else {
         // Set og:type article for all other pages.
         $meta_tags .= '<meta property="og:type" content="article">';
@@ -553,6 +583,10 @@ function get_redirects(): array
 {
     // These redirects are mapped manually based on a Google Search console report.
     return [
+        '/p/A_cabsssos' => '/p/A_cabassos',
+        '/?paremiotipus=A+la+Tallada+totes+les+dones+s%C3%83%C2%B3n+garrelles' => '/p/A_la_Tallada_totes_les_dones_són_garrelles',
+        '/p/Fer-li_fer_la_figuereta' => '/p/Fer_la_figuereta',
+        '/p/dintreAdeu-siau%2C_gent_de_Palau%3B_%C2%ABadi%C3%B3s%C2%BB%2C_gent_de_Palam%C3%B3s' => '/p/Adeu-siau%2C_gent_de_Palau%3B_«adiós»%2C_gent_de_Palamós',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282021%29%3A+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau%3F%3A+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282022%29%3A+Vilaweb+-+%E2%80%9CFotre%E2%80%9D%2C+el+Messi+dels+verbs+catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
         '/?obra=Badia+i+Pujol%2C+Jordi+(2021):+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau?:+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
@@ -598,7 +632,7 @@ function get_redirects(): array
         '/?paremiotipus=Fer+uin+merder' => '/p/Fer_merder',
         '/?paremiotipus=Fer-li+una+mala+jugada' => '/p/Mala_jugada',
         '/?paremiotipus=Ja+ports+xiular+si+l%27ase+no+vol+beure' => '/p/Ja_pots_xiular_si_l%27ase_no_vol_beure',
-        '/?paremiotipus=Jugar-li+una+mala+passada' => '/p/Fer-li_una_mala_passada',
+        '/?paremiotipus=Jugar-li+una+mala+passada' => '/p/Mala_passada',
         '/?paremiotipus=Les+xiques+de+Vilella+%28o+del+Poretal+d%27Horta%2C+o+de+Guardamar%2C+o+de+Torrevella+o+del+Vilar%29%2C+a+la+llum+diuen+%C2%ABcandil%C2%BB%2C+a+la+finestra%2C+%C2%ABventana%C2%BB+i+al+julivert%2C+%C2%ABperegil%C2%BB' => '/p/Les_xiques_de_Vilella_o_del_Portal_d%27Horta%2C_o_de_Guardamar%2C_o_de_Torrevella%2C_o_del_Vilar%2C_a_la_llum_diuen_«candil»%2C_a_la_finestra%2C_«ventana»_i_al_julivert%2C_«peregil»',
         '/?paremiotipus=Les+xiques+de+Vilella+(o+del+Poretal+d%27Horta%2C+o+de+Guardamar%2C+o+de+Torrevella+o+del+Vilar)%2C+a+la+llum+diuen+%C2%ABcandil%C2%BB%2C+a+la+finestra%2C+%C2%ABventana%C2%BB+i+al+julivert%2C+%C2%ABperegil%C2%BB' => '/p/Sas%2C_Malp%C3%A0s%2C_Peranera_i_Castell%C3%A0s%2C_Sent%C3%ADs%2C_C%C3%A9rvoles_i_Naens%3A_els_set_pobles_m%C3%A9s_dolents._Si_n%27hi_voleu_m%C3%A9s%2C_poseu-hi_Ben%C3%A9s%2C_si_no_n%27hi_ha_prou%2C_poseu-hi_Castellnou._Si_n%27hi_voleu_una_bona_renglera%2C_poseu-hi_tota_la_vall_de_Cabdella',
         '/?paremiotipus=Les+xiques+de+Vilella+o+del+Poretal+d%27Horta%2C+o+de+Guardamar%2C+o+de+Torrevella+o+del+Vilar%2C+a+la+llum+diuen+%C2%ABcandil%C2%BB%2C+a+la+finestra%2C+%C2%ABventana%C2%BB+i+al+julivert%2C+%C2%ABperegil%C2%BB' => '/p/Sas%2C_Malp%C3%A0s%2C_Peranera_i_Castell%C3%A0s%2C_Sent%C3%ADs%2C_C%C3%A9rvoles_i_Naens%3A_els_set_pobles_m%C3%A9s_dolents._Si_n%27hi_voleu_m%C3%A9s%2C_poseu-hi_Ben%C3%A9s%2C_si_no_n%27hi_ha_prou%2C_poseu-hi_Castellnou._Si_n%27hi_voleu_una_bona_renglera%2C_poseu-hi_tota_la_vall_de_Cabdella',
@@ -1438,33 +1472,35 @@ function get_idioma(string $code): string
 }
 
 /**
- * Tries to return an ISO 639-1 code.
+ * Tries to return a valid ISO 639-1/639-2 code when given a potentially wrong code coming from the database.
  *
- * ISO 639-2 is returned in some cases, or $code when not found, or an empty string when not valid.
+ * Input parameter $code is returned when value is not found in mapping but the format is valid. An empty string is
+ * returned if the format of $code is not valid. Value is trimmed and converted to lowercase before performing checks.
  */
 function get_idioma_iso_code(string $code): string
 {
     $code = strtolower(trim($code));
-
-    if (strlen($code) === 2 || strlen($code) === 3) {
-        $wrong_code_map = [
-            // `ar` is the ISO code of Arabic, but in the DB it is used for Aranès and Argentinian (Spanish).
-            'ar' => 'oc',
-            'as' => 'ast',
-            // `bs` is the ISO code of Bosnian, but in the DB it is used for Serbocroata.
-            'bs' => 'sh',
-            'll' => 'la',
-            'po' => 'pl',
-            'pr' => 'prv',
-            'sa' => 'sc',
-            // `si` is the ISO code of Sinhalese, but in the DB it is used for Sicilian.
-            'si' => 'scn',
-        ];
-
-        return $wrong_code_map[$code] ?? $code;
+    if (!ctype_lower($code) || (strlen($code) !== 2 && strlen($code) !== 3)) {
+        return '';
     }
 
-    return '';
+    $wrong_code_map = [
+        // `ar` is the ISO code for Arabic, but in the database it is used for Aranès and Argentinian (Spanish).
+        'ar' => 'oc',
+        'as' => 'ast',
+        // `bs` is the ISO code for Bosnian, but in the database it is used for Serbocroata.
+        'bs' => 'sh',
+        'll' => 'la',
+        'po' => 'pl',
+        // ISO code for Provençal is missing. "pro" is for Old Provençal, and "prv" is no longer recognised. In the
+        // database we have "pr", which is not assigned by ISO.
+        'pr' => 'prv',
+        'sa' => 'sc',
+        // `si` is the ISO code of Sinhalese, but in the database it is used for Sicilian.
+        'si' => 'scn',
+    ];
+
+    return $wrong_code_map[$code] ?? $code;
 }
 
 /**
@@ -1716,14 +1752,21 @@ function get_fonts(): array
  * Gets an image tag.
  *
  * Images will be inside a picture tag that will include an avif or webp file, if they exist.
+ * Note: image file existence is not checked, as it is expected to be checked before calling this function.
  */
-function get_image_tags(string $file_name, string $path, string $alt_text = '', int $width = 0, int $height = 0, bool $lazy_loading = true): string
-{
-    // Image files may have been provided in webp/avif format already.
+function get_image_tags(
+    string $file_name,
+    string $path,
+    string $alt_text = '',
+    int $width = 0,
+    int $height = 0,
+    bool $lazy_loading = true
+): string {
     $optimized_type = '';
     $optimized_file_path = '';
+    // Image files may have been provided in WEBP/AVIF format already.
     if (!str_ends_with($file_name, '.webp') && !str_ends_with($file_name, '.avif')) {
-        // TODO: Consider providing AVIFs for PNGs and GIFs too.
+        // We currently provide AVIF as an alternative for JPEG images, and WEBP for GIF/PNG images.
         $avif_file = str_ireplace('.jpg', '.avif', $file_name);
         $avif_exists = str_ends_with($avif_file, '.avif') && is_file(__DIR__ . "/../docroot{$path}{$avif_file}");
         if ($avif_exists) {

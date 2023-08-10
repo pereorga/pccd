@@ -11,14 +11,14 @@
  *
  * Updates for pccd.dites.cat, by Pere Orga:
  *  2022: Simplified and updated to allow for rel and target attributes.
- *  2023: Updated to include the scheme in the text of the link, to avoid linking IPs and to add a class.
+ *  2023: Updated to include the scheme in the text of the link, to avoid linking IPs, to add a class and a property.
  */
 
 /**
  *  Transforms plain text into valid HTML, escaping special characters and
  *  turning URLs into links.
  */
-function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = ''): string
+function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = '', $property = ''): string
 {
     $rexScheme     = 'https?://';
     $rexDomain     = '(?:[-a-zA-Z0-9\x7f-\xff]{1,63}\.)+[a-zA-Z\x7f-\xff][-a-zA-Z0-9\x7f-\xff]{1,62}';
@@ -91,6 +91,9 @@ function htmlEscapeAndLinkUrls(string $text, string $target = '', string $rel = 
             }
             if ($rel) {
                 $linkHtml .= ' rel="' . $rel . '"';
+            }
+            if ($property) {
+                $linkHtml .= ' property="' . $property . '"';
             }
 
             $linkHtml .= ' class="external">' . htmlspecialchars($linkText) . '</a>';

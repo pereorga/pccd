@@ -1,0 +1,2 @@
+Contact: https://github.com/Softcatala/pccd/blob/master/CONTRIBUTING.md#how-can-you-contribute
+Acknowledgements: https://github.com/Softcatala/pccd/blob/master/README.md

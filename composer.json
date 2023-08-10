@@ -40,14 +40,15 @@
     "ext-imagick": "*",
     "longxinh/xhprof": "master",
     "noisebynorthwest/php-spx": "master",
+    "pereorga/pccd-lt-filter": "master",
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
-    "phpunit/phpunit": "^10.2",
+    "phpunit/phpunit": "^10.3",
     "psalm/plugin-phpunit": "^0.18.4",
-    "rector/rector": "^0.17.4",
+    "rector/rector": "^0.17.10",
     "tideways/php-xhprof-extension": "master",
-    "vimeo/psalm": "^5.13"
+    "vimeo/psalm": "^5.14"
   },
   "suggest": {
     "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
@@ -58,6 +59,18 @@
     "ext-zend-opcache": "Increases website performance (strongly encouraged in the web server)"
   },
   "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "pereorga/pccd-lt-filter",
+        "version": "master",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/pereorga/pccd-lt-filter.git",
+          "reference": "master"
+        }
+      }
+    },
     {
       "type": "package",
       "package": {

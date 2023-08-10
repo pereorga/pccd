@@ -5,8 +5,9 @@ module.exports = {
     extends: [
         "eslint:recommended",
         "plugin:compat/recommended",
-        "plugin:unicorn/recommended",
         "plugin:no-unsanitized/DOM",
+        "plugin:regexp/recommended",
+        "plugin:unicorn/recommended",
         "prettier",
     ],
     ignorePatterns: [".eslintrc.js"],
