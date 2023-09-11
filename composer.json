@@ -38,17 +38,17 @@
     "ext-curl": "*",
     "ext-gd": "*",
     "ext-imagick": "*",
-    "longxinh/xhprof": "master",
-    "noisebynorthwest/php-spx": "master",
-    "pereorga/pccd-lt-filter": "master",
+    "longxinh/xhprof": "dev-master",
+    "noisebynorthwest/php-spx": "dev-master",
+    "pereorga/pccd-lt-filter": "dev-master",
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
     "phpunit/phpunit": "^10.3",
     "psalm/plugin-phpunit": "^0.18.4",
-    "rector/rector": "^0.17.10",
-    "tideways/php-xhprof-extension": "master",
-    "vimeo/psalm": "^5.14"
+    "rector/rector": "^0.18.2",
+    "tideways/php-xhprof-extension": "dev-master",
+    "vimeo/psalm": "^5.15"
   },
   "suggest": {
     "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
@@ -63,7 +63,7 @@
       "type": "package",
       "package": {
         "name": "pereorga/pccd-lt-filter",
-        "version": "master",
+        "version": "dev-master",
         "source": {
           "type": "git",
           "url": "https://github.com/pereorga/pccd-lt-filter.git",
@@ -75,7 +75,7 @@
       "type": "package",
       "package": {
         "name": "noisebynorthwest/php-spx",
-        "version": "master",
+        "version": "dev-master",
         "source": {
           "type": "git",
           "url": "https://github.com/NoiseByNorthwest/php-spx.git",
@@ -87,7 +87,7 @@
       "type": "package",
       "package": {
         "name": "longxinh/xhprof",
-        "version": "master",
+        "version": "dev-master",
         "source": {
           "type": "git",
           "url": "https://github.com/longxinH/xhprof.git",
@@ -99,7 +99,7 @@
       "type": "package",
       "package": {
         "name": "tideways/php-xhprof-extension",
-        "version": "master",
+        "version": "dev-master",
         "source": {
           "type": "git",
           "url": "https://github.com/tideways/php-xhprof-extension.git",

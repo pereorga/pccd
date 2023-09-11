@@ -22,12 +22,12 @@ test.describe("Homepage", () => {
     });
 
     test("pager displays 10 rows by default", async ({ page }) => {
-        const rows = await page.locator("#search-form tr td").count();
+        const rows = await page.locator("form[role=search] tr td").count();
         expect(rows).toBe(10);
     });
 
     test(`first record is "${data.homepageFirstParemiotipus}"`, async ({ page }) => {
-        const firstRecord = await page.locator("#search-form tr td").first().textContent();
+        const firstRecord = await page.locator("form[role=search] tr td").first().textContent();
         expect(firstRecord).toBe(data.homepageFirstParemiotipus);
     });
 

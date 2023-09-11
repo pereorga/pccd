@@ -95,7 +95,7 @@ foreach ($variants as $modisme => $variant) {
                 $work .= '<i>' . htmlspecialchars($v['DIARI']) . '</i>';
                 $work .= '</a>';
             } else {
-                $work .= '<i>' . htmlEscapeAndLinkUrls($v['DIARI']) . '</i>';
+                $work .= '<i>' . htmlspecialchars($v['DIARI']) . '</i>';
             }
         }
         if ($v['ARTICLE'] !== null) {
@@ -349,14 +349,7 @@ if ($total_variants > 1) {
         $output .= " Primera&nbsp;citació:&nbsp;{$total_min_year}.";
     }
     $output .= '<div class="shortcuts">';
-    $output .= '<button type="button" id="toggle-all" title="Amaga els detalls de cada font">contrau-ho tot</button>';
-
-    // Add an anchor link to the multimedia content, only visible on mobile.
-    if ($images_output !== '') {
-        $output .= '<a class="media-link" href="' . ($cv_output !== '' ? '#commonvoice' : '#imatges') . '" role="button">';
-        $output .= 'ves als fitxers';
-        $output .= '</a>';
-    }
+    $output .= '<button type="button" id="toggle-all" title="Amaga els detalls de cada font">Contrau-ho tot</button>';
     $output .= '</div></div>';
 }
 

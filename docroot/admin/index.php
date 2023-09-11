@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/../../src/third_party/urlLinker.php';
-
 require __DIR__ . '/../../src/common.php';
 
 ini_set('memory_limit', '512M');
@@ -120,7 +118,6 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
 Informes:
 <ul>
     <li><a href="?test=cerques">Cerques</a></li>
-    <li><a href="?test=commonvoice_languagetool">Common Voice / LanguageTool</a></li>
     <li><a href="?test=dates">Dates</a></li>
     <li><a href="?test=editorials">Editorials</a></li>
     <li><a href="?test=equivalents">Equivalents</a></li>
@@ -128,6 +125,7 @@ Informes:
     <li><a href="?test=explicacions">Explicacions</a></li>
     <li><a href="?test=fonts">Fonts</a></li>
     <li><a href="?test=imatges">Imatges</a></li>
+    <li><a href="?test=commonvoice_languagetool">LanguageTool</a></li>
     <li><a href="?test=llocs">Llocs</a></li>
     <li><a href="?test=longitud">Longitud</a></li>
     <li><a href="?test=majúscules">Majúscules</a></li>

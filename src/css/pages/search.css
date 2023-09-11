@@ -252,7 +252,7 @@ strong.page-link {
 
 /* Tablet and greater */
 @media (min-width: 768px) {
-    #search-form aside {
+    form[role="search"] aside {
         margin-bottom: 1rem;
     }
 }

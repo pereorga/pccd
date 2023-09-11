@@ -21,7 +21,6 @@
 /scripts/common-voice-import export-ignore
 /scripts/sinonims-export export-ignore
 /src/images export-ignore
-/src/third_party/* export-ignore
-/src/third_party/urlLinker.php -export-ignore
+/src/third_party export-ignore
 /tmp/test* export-ignore
 /vendor export-ignore

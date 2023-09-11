@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/../src/third_party/urlLinker.php';
-
 require __DIR__ . '/../src/common.php';
 
 // Redirect to the homepage any request where the URL contains 'index.php'.
@@ -98,7 +96,7 @@ require __DIR__ . '/css/base.min.css';
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=3"></script>
+    <script async src="/js/script.min.js?v=4"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

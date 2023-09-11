@@ -8,8 +8,6 @@ parameters:
     - src
     - docroot
     - scripts
-  scanFiles:
-    - src/third_party/urlLinker.php
   excludePaths:
     - *.generated.php
     - */apc.conf.php

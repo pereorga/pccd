@@ -21,7 +21,7 @@ gtag("config", "G-CP42Y3NK1R");
 
     const toggleAllSources = function () {
         const toggle = document.querySelector("#toggle-all");
-        const wasExpanded = toggle.textContent.includes("contrau");
+        const wasExpanded = toggle.textContent.includes("Contrau");
         for (const element of document.querySelectorAll("details")) {
             if (wasExpanded) {
                 element.removeAttribute("open");
@@ -29,11 +29,10 @@ gtag("config", "G-CP42Y3NK1R");
                 element.setAttribute("open", "true");
             }
         }
-        toggle.textContent = wasExpanded ? "desplega-ho tot" : "contrau-ho tot";
+        toggle.textContent = wasExpanded ? "Desplega-ho tot" : "Contrau-ho tot";
         toggle.setAttribute("title", (wasExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
     };
 
-    const isTouchDevice = "ontouchstart" in window;
     const searchBox = document.querySelector("#cerca");
     if (searchBox) {
         // We are in the search page / homepage.
@@ -76,7 +75,7 @@ gtag("config", "G-CP42Y3NK1R");
         const mostra = document.querySelector("#mostra");
         if (mostra) {
             mostra.addEventListener("change", () => {
-                document.querySelector("#search-form").submit();
+                document.querySelector("form[role=search]").submit();
             });
         }
     } else {
@@ -89,7 +88,7 @@ gtag("config", "G-CP42Y3NK1R");
                 toggleAllSources();
             }
             toggleAllElement.addEventListener("click", (event) => {
-                const wasExpanded = event.target.textContent.includes("contrau");
+                const wasExpanded = event.target.textContent.includes("Contrau");
                 toggleAllSources();
                 localStorage.setItem("always_expand", wasExpanded ? "2" : "1");
             });
@@ -105,7 +104,7 @@ gtag("config", "G-CP42Y3NK1R");
     }
 
     // On non-touch devices.
-    if (!isTouchDevice) {
+    if (!("ontouchstart" in window)) {
         // Ensure the following is executed with browser back/forward navigation.
         window.addEventListener("pageshow", () => {
             // If we are in the search page and there is text inside the search box, select it.
@@ -140,19 +139,20 @@ gtag("config", "G-CP42Y3NK1R");
     // Prefetch internal links on hover/touch.
     // Inspired by https://github.com/instantpage/instant.page/blob/master/instantpage.js
     const preloadedList = new Set();
-    const eventName = isTouchDevice ? "touchstart" : "mouseenter";
     for (const a of document.querySelectorAll("a")) {
         if (a.href && a.origin === location.origin) {
-            a.addEventListener(eventName, () => {
-                // Add link only if it doesn't exist.
-                if (!preloadedList.has(a.href)) {
-                    preloadedList.add(a.href);
-                    const link = document.createElement("link");
-                    link.href = a.href;
-                    link.rel = "prefetch";
-                    document.head.append(link);
-                }
-            });
+            for (const eventName of ["mouseenter", "touchstart"]) {
+                a.addEventListener(eventName, () => {
+                    // Add link only if it doesn't exist.
+                    if (!preloadedList.has(a.href)) {
+                        preloadedList.add(a.href);
+                        const link = document.createElement("link");
+                        link.href = a.href;
+                        link.rel = "prefetch";
+                        document.head.append(link);
+                    }
+                });
+            }
         }
     }
 

@@ -292,7 +292,7 @@ function test_imatges_any_erroni(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    echo "<h3>Imatges amb l'any erroni</h3>";
+    echo "<h3>Imatges amb l'any probablement incorrecte</h3>";
     echo '<pre>';
     $stmt = get_db()->query('SELECT Identificador, `Any` FROM 00_IMATGES');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -520,7 +520,7 @@ function test_fonts_any_erroni(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    echo "<h3>Obres amb l'any erroni</h3>";
+    echo "<h3>Obres amb l'any probablement incorrecte</h3>";
     echo '<pre>';
     $stmt = get_db()->query('SELECT Identificador, `Any` FROM 00_FONTS');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -531,7 +531,7 @@ function test_fonts_any_erroni(): void
     }
     echo '</pre>';
 
-    echo "<h3>Obres amb l'any d'edició erroni</h3>";
+    echo "<h3>Obres amb l'any d'edició probablement incorrecte</h3>";
     echo '<pre>';
     $stmt = get_db()->query('SELECT Identificador, `Any_edició` FROM 00_FONTS');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -569,7 +569,7 @@ function test_paremies_any_erroni(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    echo "<h3>Modismes amb l'any erroni</h3>";
+    echo "<h3>Modismes amb l'any probablement incorrecte</h3>";
     echo '<pre>';
     $stmt = get_db()->query('SELECT MODISME, `Any` FROM 00_PAREMIOTIPUS');
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -983,7 +983,7 @@ function test_paremiotipus_modismes_diferents(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    echo '<h3>Paremiotipus diferents que contenen un modisme igual o molt semblant</h3>';
+    echo '<h3>Paremiotipus diferents que contenen el mateix modisme (o amb diferències de majúscules o accents)</h3>';
     echo '<pre>';
     $paremiotipus = get_db()->query('SELECT
             a.PAREMIOTIPUS as PAREMIOTIPUS_A,
@@ -1047,7 +1047,7 @@ function test_paremiotipus_repetits(): void
     }
     echo '</pre>';
 
-    echo "<h3>Nous paremiotipus molt semblants des de l'última pujada (Levenshtein)</h3>";
+    echo "<h3>Nous paremiotipus molt semblants des de l'última actualització (Levenshtein)</h3>";
     echo '<pre>';
     readfile(__DIR__ . '/../../tmp/test_repetits_new.txt');
     echo '</pre>';
@@ -1362,14 +1362,14 @@ function test_buits(): void
 
 function test_commonvoice_languagetool(): void
 {
-    echo "<h3>Paremiotipus exclosos de Common Voice amb LanguageTool des de l'última pujada</h3>";
+    echo "<h3>Nous paremiotipus detectats amb LanguageTool des de l'última actualització</h3>";
     $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded_new.txt');
     if ($text !== false) {
         echo 'Total: ' . substr_count($text, "\n");
         echo "<pre>{$text}</pre>";
     }
 
-    echo '<h3>Paremiotipus exclosos de Common Voice amb LanguageTool</h3>';
+    echo '<h3>Paremiotipus detectats amb LanguageTool</h3>';
     $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded.txt');
     if ($text !== false) {
         echo '<i>A causa d\'errors tipogràfics, ortogràfics, per incloure paraules malsonants, noms propis, localismes o falsos positius.</i>';

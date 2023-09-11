@@ -14,7 +14,7 @@ test.describe("Search", () => {
         const nParemiotipus = Number(extractedNumber.replace(".", ""));
 
         await page.goto("/?mode=&cerca=*&variant=&mostra=10");
-        const resultats = await page.locator("#search-form > p").first().textContent();
+        const resultats = await page.locator("form[role=search] > p").first().textContent();
 
         [, extractedNumber] = /trobat ([\d.]+) paremiotipus per a/.exec(resultats);
         const nResultats = Number(extractedNumber.replace(".", ""));
@@ -24,7 +24,7 @@ test.describe("Search", () => {
 
     test(`"fera" returns ${data.searchFeraNumberOfResults} results`, async ({ page }) => {
         await page.goto("/?mode=&cerca=fera&mostra=10");
-        const resultats = await page.locator("#search-form > p").first().textContent();
+        const resultats = await page.locator("form[role=search] > p").first().textContent();
 
         [, extractedNumber] = /trobat ([\d.]+) paremiotipus per a/.exec(resultats);
         const nResultats = Number(extractedNumber.replace(".", ""));
@@ -34,7 +34,7 @@ test.describe("Search", () => {
 
     test(`"fera" with variants returns ${data.searchFeraWithVariantsNumberOfResults} results`, async ({ page }) => {
         await page.goto("/?mode=&cerca=fera&variant&mostra=10");
-        const resultats = await page.locator("#search-form > p").first().textContent();
+        const resultats = await page.locator("form[role=search] > p").first().textContent();
 
         [, extractedNumber] = /trobat ([\d.]+) paremiotipus per a/.exec(resultats);
         const nResultats = Number(extractedNumber.replace(".", ""));
@@ -44,7 +44,7 @@ test.describe("Search", () => {
 
     test(`"Val més un boig conegut que un savi per conèixer" returns exactly 1 result`, async ({ page }) => {
         await page.goto("/?mode=&cerca=Val+m%C3%A9s+un+boig+conegut+que+un+savi+per+con%C3%A8ixer&variant=&mostra=10");
-        const resultats = await page.locator("#search-form > p").first().textContent();
+        const resultats = await page.locator("form[role=search] > p").first().textContent();
 
         [, extractedNumber] = /trobat ([\d.]+) paremiotipus per a/.exec(resultats);
         const nResultats = Number(extractedNumber.replace(".", ""));
@@ -54,7 +54,7 @@ test.describe("Search", () => {
 
     test(`"asdfasdf" returns no results`, async ({ page }) => {
         await page.goto("/?mode=&cerca=asdfasdf&variant=&mostra=10");
-        const resultats = await page.locator("#search-form > p").first().textContent();
+        const resultats = await page.locator("form[role=search] > p").first().textContent();
         expect(resultats.match(/cap resultat coincident/)).toBeTruthy();
     });
 });

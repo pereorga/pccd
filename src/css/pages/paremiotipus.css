@@ -19,33 +19,21 @@ h2 {
     margin-top: 0.5rem;
 }
 
-#toggle-all,
-a.media-link {
+#toggle-all {
     display: inline-block;
-    padding: 3px 6px;
+    padding: 2px 8px;
+    margin-right: 1rem;
     font-size: 0.875rem;
     line-height: 1;
-    color: #000;
-    text-decoration: none;
     background-color: #eee;
     border: 1px solid #ccc;
     border-radius: 0.25rem;
 }
 
-#toggle-all {
-    margin-right: 1rem;
-}
-
 #toggle-all:hover,
 #toggle-all:focus,
-#toggle-all:focus-visible,
-a.media-link:hover,
-a.media-link:focus,
-a.media-link:focus-visible {
-    color: inherit;
-    text-decoration: none;
+#toggle-all:focus-visible {
     outline: 1px solid #333;
-    outline-offset: 0;
 }
 
 .entry {
@@ -100,13 +88,6 @@ a.audio:hover,
 a.audio:focus {
     filter: brightness(75%);
     opacity: 1;
-}
-
-/* Tablet and greater */
-@media (min-width: 768px) {
-    a.media-link {
-        display: none;
-    }
 }
 
 @media print {

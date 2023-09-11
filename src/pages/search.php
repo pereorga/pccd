@@ -42,7 +42,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
     }
 }
 ?>
-<form method="get" id="search-form">
+<form method="get" role="search">
     <aside>
         <div class="form-row">
             <div class="col-mode">

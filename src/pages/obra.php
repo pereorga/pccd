@@ -157,21 +157,16 @@ if ($obra['Data_compra'] !== null) {
     $output .= '</dl>';
 }
 if ($obra['Lloc_compra'] !== null) {
-    $lloc_de_compra = htmlEscapeAndLinkUrls($obra['Lloc_compra'], '_blank', 'nofollow noopener noreferrer');
     $output .= '<dl>';
     $output .= '<dt>Lloc de compra:</dt>';
-    $output .= "<dd>{$lloc_de_compra}</dd>";
+    $output .= '<dd>' . htmlspecialchars($obra['Lloc_compra']) . '</dd>';
     $output .= '</dl>';
 }
 if ($obra['URL'] !== null) {
-    $output .= '<div>' . htmlEscapeAndLinkUrls($obra['URL'], '', '', 'url') . '</div>';
+    $output .= '<div>' . htmlEscapeAndLinkUrls($obra['URL'], 'url') . '</div>';
 }
 if ($obra['Observacions'] !== null) {
-    $comment = htmlEscapeAndLinkUrls(
-        ct($obra['Observacions'], false),
-        '_blank',
-        'nofollow noopener noreferrer'
-    );
+    $comment = htmlEscapeAndLinkUrls(ct($obra['Observacions'], false));
     $output .= '<dl>';
     $output .= '<dt>Observacions:</dt>';
     $output .= '<dd property="description">' . $comment . '</dd>';

@@ -22,6 +22,100 @@ const PAGER_DEFAULT = 10;
 const SEARCH_MAX_LENGTH = 255;
 const TITLE_MAX_LENGTH = 70;
 
+const REX_SCHEME = 'https?://';
+const REX_DOMAIN = '(?:[-a-zA-Z0-9\x7f-\xff]{1,63}\.)+[a-zA-Z\x7f-\xff][-a-zA-Z0-9\x7f-\xff]{1,62}';
+const REX_PORT = '(:[0-9]{1,5})?';
+const REX_PATH = '(/[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]*?)?';
+const REX_QUERY = '(\?[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
+const REX_FRAGMENT = '(#[!$-/0-9?:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
+const REX_USERNAME = '[^]\\\\\x00-\x20\"(),:-<>[\x7f-\xff]{1,64}';
+const REX_PASSWORD = '[^]\\\\\x00-\x20\"(),:-<>[\x7f-\xff]{1,64}';
+const REX_TRAIL_PUNCT = "[)'?.!,;:]";
+const REX_NON_URL = "[^-_#$+.!*%'(),;/?:@=&a-zA-Z0-9\x7f-\xff]";
+
+/**
+ * Transforms plain text into valid HTML turning URLs into links.
+ *
+ * Originally based on urlLinker by Søren Løvborg.
+ * TODO: make it work with multibyte strings
+ * TODO: convert host (whole domain?) to lowercase characters
+ */
+function htmlEscapeAndLinkUrls(string $text, string $property = ''): string
+{
+    $rexUrl = '(' . REX_SCHEME . ')?(?:( ' . REX_USERNAME . ' )(:' . REX_PASSWORD . ')?@)?(' . REX_DOMAIN . ')(' . REX_PORT . REX_PATH . REX_QUERY . REX_FRAGMENT . ')';
+    $rexUrlLinker = "{\\b{$rexUrl}(?=" . REX_TRAIL_PUNCT . '*(' . REX_NON_URL . '|$))}';
+
+    // List of valid TLDs
+    $tlds = '.ac .ad .ae .af .ag .ai .al .am .an .ao .app .aq .ar .arpa .as .asia .at .au .aw .ax .az
+        .ba .barcelona .bb .bd .be .bf .bg .bh .bi .bio .biz .blog .bj .bm .bn .bo .br .bs .bt .bv
+        .bw .by .bz .ca .cat .cc .cd .cf .cg .ch .ci .ck .cl .cm .cn .co .com .coop .cr .cu .cv .cw
+        .cx .cy .cz .de .dev .dj .dk .dm .do .dz .ec .edu .ee .eg .er .es .et .eu .eus .fi .fj .fk
+        .fm .fo .fr .ga .gal .gb .gd .ge .gf .gg .gh .gi .gl .gm .gn .gov .gp .gq .gr .gs .gt .gu .gw
+        .gy .hk .hm .hn .hr .ht .hu .id .ie .il .im .in .info .int .io .iq .ir .is .it .je .jm .jo .jp
+        .ke .kg .kh .ki .km .kn .kp .kr .kw .ky .kz .la .lb .lc .li .link .lk .lr .ls .lt .lu .lv .ly
+        .ma .mc .md .me .mg .mh .mk .ml .mm .mn .mo .mp .mq .mr .ms .mt .mu .mv .mw .mx .my .mz .na
+        .nc .ne .net .nf .ng .ni .nl .no .np .nr .nu .nz .om .online .org .pa .pe .pf .pg .ph .pk .pl
+        .pm .pn .pr .ps .pt .pub .pw .py .qa .quebec .re .rio .ro .rs .ru .rw .sa .sb .sc .sd .se .sg
+        .sh .si .site .sj .sk .sl .sm .sn .so .sr .st .su .sv .sx .sy .sz .tc .td .tech .tf .tg .th
+        .tj .tk .tl .tm .tn .to .tp .tr .tt .tv .tw .tz .ua .ug .uk .us .uy .uz .va .vc .ve .vet .vg
+        .vi .vn .vu .website .wf .wiki .ws .xyz .ye .yt .za .zm .zw';
+
+    // Convert the space-separated list into an associative array
+    $validTlds = array_fill_keys(explode(' ', $tlds), true);
+
+    $html = '';
+    $position = 0;
+    while (preg_match($rexUrlLinker, $text, $match, PREG_OFFSET_CAPTURE, $position)) {
+        [$url, $urlPosition] = $match[0];
+
+        // Add the text leading up to the URL.
+        $html .= htmlspecialchars(substr($text, $position, $urlPosition - $position));
+
+        $scheme = $match[1][0];
+        $username = $match[2][0];
+        $password = $match[3][0];
+        $domain = $match[4][0];
+        // Everything following the domain.
+        $afterDomain = $match[5][0];
+
+        $tld = mb_strrchr($domain, '.');
+        assert(is_string($tld));
+        $tld = mb_strtolower($tld);
+        if (isset($validTlds[$tld])) {
+            if ($username !== '' && $password === '' && $afterDomain === '') {
+                // Looks like an email address.
+                $completeUrl = "mailto:{$url}";
+                $linkText = $url;
+            } else {
+                // Prepend https:// if no scheme is specified.
+                $completeUrl = $scheme !== '' && $scheme !== '0' ? $url : "https://{$url}";
+                $linkText = $completeUrl;
+            }
+
+            $linkHtml = '<a class="external" target="_blank" rel="nofollow noopener noreferrer"';
+            $linkHtml .= ' href="' . htmlspecialchars($completeUrl) . '"';
+            if ($property !== '') {
+                $linkHtml .= ' property="' . $property . '"';
+            }
+            $linkHtml .= '>' . htmlspecialchars($linkText) . '</a>';
+
+            // Add the hyperlink.
+            $html .= $linkHtml;
+        } else {
+            // This is not a valid URL.
+            $html .= htmlspecialchars($url);
+        }
+
+        // Continue text parsing from after the URL.
+        $position = $urlPosition + mb_strlen($url);
+    }
+
+    // Add the remainder of the text.
+    $html .= htmlspecialchars(substr($text, $position));
+
+    return $html;
+}
+
 /**
  * ucfirst() function for multibyte character encodings.
  *
@@ -711,6 +805,9 @@ function get_redirects(): array
         '/p/Ser_jun_desvirgagallines' => '/p/Ser_un_desvirgagallines',
         '/p/Ser_un_trapsser' => '/p/Ser_un_trapasser',
         '/p/na_dreta_%C3%A9s_m%C3%A9s_un_homenot_que_una_doneta' => '/p/La_dona_que_fuma%2C_jura_i_orina_dreta_és_més_un_homenot_que_una_doneta',
+        '/p/A_prendre_ple_sac' => '/p/A_prendre_pel_sac',
+        '/?paremiotipus=A+prendre+ple+sac' => '/p/A_prendre_pel_sac',
+        '/p/ata_ton_porc%2C_posa_les_olives_al_top%C3%AD%2C_destapa_la_b%C3%B3ta%2C_beu_ton_vi_i_convida_el_teu_ve%C3%AD' => '/p/Per_Sant_Martí_mata_ton_porc%2C_posa_les_olives_al_topí%2C_destapa_la_bóta%2C_beu_ton_vi_i_convida_el_teu_veí',
     ];
 }
 

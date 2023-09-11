@@ -26,11 +26,11 @@ const extractNumber = (text, regex) => {
     data.fontsNumber = extractNumber(footerText, /([\d.]+) fonts/);
 
     await page.goto(`${process.env.BASE_URL}/?mode=&cerca=fera&mostra=10`);
-    let content = await page.locator("#search-form > p").first().textContent();
+    let content = await page.locator("form[role=search] > p").first().textContent();
     data.searchFeraNumberOfResults = extractNumber(content, /trobat ([\d.]+) paremiotipus per a/);
 
     await page.goto(`${process.env.BASE_URL}/?mode=&cerca=fera&variant&mostra=10`);
-    content = await page.locator("#search-form > p").first().textContent();
+    content = await page.locator("form[role=search] > p").first().textContent();
     data.searchFeraWithVariantsNumberOfResults = extractNumber(content, /trobat ([\d.]+) paremiotipus per a/);
 
     await page.goto(`${process.env.BASE_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era`);

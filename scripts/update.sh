@@ -188,7 +188,10 @@ update_brew_packages() {
 #   None
 ##############################################################################
 update_composer_major() {
+    # Make sure repositories are updated too.
     rm -f composer.lock
+    rm -rf vendor/
+    tools/composer clear-cache
     tools/composer install
 
     # Update non-dev dependencies.
