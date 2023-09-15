@@ -42,6 +42,7 @@
     "fix:rector": "tools/composer run rector",
     "fix:shfmt": "find scripts -type f -name '*.sh' -exec shfmt --list --write --case-indent --space-redirects --simplify --indent 4 {} \\;",
     "fix:stylelint": "stylelint --fix src/css/",
+    "fix:yamlfmt": "yamlfmt",
     "generate:reports": "scripts/generate_reports.sh",
     "import:commonvoice": "scripts/common-voice-export/import.sh",
     "install:db": "scripts/install.sh",
@@ -60,6 +61,7 @@
     "lint:shfmt": "find scripts -type f -name '*.sh' -not -name '*.generated.sh' -exec shfmt --list --diff --case-indent --space-redirects --simplify --indent 4 {} \\;",
     "lint:xml": "xmllint --noout *.xml docroot/*.xml .phive/phars.xml",
     "lint:yaml-lint": "tools/composer yaml-lint",
+    "lint:yamlfmt": "yamlfmt -lint -quiet",
     "lint:yamllint": "yamllint . .yamlfmt --strict",
     "optimize:images": "php scripts/image-convertor/app.php",
     "optimize:svg": "svgo --multipass -r --folder docroot/img",
@@ -106,7 +108,7 @@
     "refranys"
   ],
   "devDependencies": {
-    "@playwright/test": "^1.37.1",
+    "@playwright/test": "^1.38.0",
     "@size-limit/file": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
@@ -129,7 +131,7 @@
     "linkinator": "^5.0.2",
     "markdownlint-cli": "^0.36.0",
     "prettier": "^3.0.3",
-    "puppeteer": "^21.1.1",
+    "puppeteer": "^21.2.1",
     "size-limit": "^9.0.0",
     "stylelint": "^15.10.3",
     "stylelint-config-recess-order": "^4.3.0",

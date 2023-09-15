@@ -3,7 +3,6 @@ include:
   # See https://github.com/google/yamlfmt/issues/122
   - .yamlfmt
 exclude:
-  # Not working. See https://github.com/google/yamlfmt/issues/121
   - node_modules
   - tmp
   - vendor

@@ -142,16 +142,20 @@ gtag("config", "G-CP42Y3NK1R");
     for (const a of document.querySelectorAll("a")) {
         if (a.href && a.origin === location.origin) {
             for (const eventName of ["mouseenter", "touchstart"]) {
-                a.addEventListener(eventName, () => {
-                    // Add link only if it doesn't exist.
-                    if (!preloadedList.has(a.href)) {
-                        preloadedList.add(a.href);
-                        const link = document.createElement("link");
-                        link.href = a.href;
-                        link.rel = "prefetch";
-                        document.head.append(link);
-                    }
-                });
+                a.addEventListener(
+                    eventName,
+                    () => {
+                        // Add link only if it doesn't exist.
+                        if (!preloadedList.has(a.href)) {
+                            preloadedList.add(a.href);
+                            const link = document.createElement("link");
+                            link.href = a.href;
+                            link.rel = "prefetch";
+                            document.head.append(link);
+                        }
+                    },
+                    eventName === "touchstart" ? { passive: true } : false,
+                );
             }
         }
     }

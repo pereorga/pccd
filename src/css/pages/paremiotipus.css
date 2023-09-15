@@ -20,14 +20,11 @@ h2 {
 }
 
 #toggle-all {
-    display: inline-block;
     padding: 2px 8px;
-    margin-right: 1rem;
     font-size: 0.875rem;
     line-height: 1;
     background-color: #eee;
     border: 1px solid #ccc;
-    border-radius: 0.25rem;
 }
 
 #toggle-all:hover,
