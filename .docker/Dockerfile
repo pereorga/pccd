@@ -1,4 +1,4 @@
-FROM php:8.2.10-apache-bookworm
+FROM php:8.2.11-apache-bookworm
 
 LABEL maintainer="Pere Orga pere@orga.cat"
 
@@ -7,9 +7,11 @@ ARG profiler
 # Set working directory
 WORKDIR /srv/app
 
-# Set Apache/PHP settings, including enabling assertions (DEV only), and enable PHP extensions
+# Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY .docker/php/apcu.ini /usr/local/etc/php/conf.d/apcu.ini
+
+# Set Apache/PHP settings and enable PHP extensions and Apache modules, including enabling PHP assertions (DEV only)
 RUN rm -f /etc/apache2/mods-enabled/deflate.conf && \
     sed -i 's/ServerTokens OS/ServerTokens Prod/g' /etc/apache2/conf-available/security.conf && \
     sed 's/expose_php = On/expose_php = Off/g' /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini && \
@@ -20,13 +22,11 @@ RUN rm -f /etc/apache2/mods-enabled/deflate.conf && \
     rm -rf /var/lib/apt/lists/* && \
     docker-php-ext-install pdo_mysql opcache intl && \
     pecl install apcu-5.1.22 && \
-    docker-php-ext-enable apcu
+    docker-php-ext-enable apcu && \
+    a2enmod rewrite headers brotli
 
 # apcu.php uses gd, but we usually don't care
 #RUN apt-get update -y && apt-get install --no-install-recommends -y libpng-dev && apt-get clean && rm -rf /var/lib/apt/lists/* && docker-php-ext-install gd
-
-# Enable Apache modules
-RUN a2enmod rewrite && a2enmod headers && a2enmod brotli
 
 # Copy project files
 COPY . .
@@ -34,10 +34,6 @@ COPY . .
 # SPX profiler
 # hadolint ignore=DL3003
 RUN if [ "$profiler" = "spx" ]; then \
-        apt-get update -y && \
-        apt-get install --no-install-recommends -y zlib1g-dev && \
-        apt-get clean && \
-        rm -rf /var/lib/apt/lists/* && \
         cp -a vendor/noisebynorthwest/php-spx . && \
         cd php-spx && \
         phpize && \

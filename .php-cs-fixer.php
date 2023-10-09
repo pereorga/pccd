@@ -12,8 +12,6 @@
 
 declare(strict_types=1);
 
-// PHP Coding Standards Fixer (PHP CS Fixer) settings.
-
 $header = <<<'EOF'
     This file is part of PCCD.
 

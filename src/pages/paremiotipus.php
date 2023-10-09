@@ -102,7 +102,7 @@ foreach ($variants as $modisme => $variant) {
             if ($work !== '') {
                 $work .= ' ';
             }
-            $work .= '«' . htmlEscapeAndLinkUrls($v['ARTICLE']) . '»';
+            $work .= '«' . html_escape_and_link_urls($v['ARTICLE']) . '»';
         }
         if ($v['PAGINA'] !== null) {
             $work .= ', p. ' . htmlspecialchars($v['PAGINA']);
@@ -294,7 +294,7 @@ foreach ($images as $image) {
             // If there is no ARTICLE, link DIARI to the content.
             $diari = htmlspecialchars($image['DIARI']);
             if ($image_url !== '' && $image['ARTICLE'] === null) {
-                $diari = '<a href="' . $image_url . '" class="external">' . $diari . '</a>';
+                $diari = '<a href="' . $image_url . '" class="external" target="_blank" rel="noopener noreferrer">' . $diari . '</a>';
             }
             $image_caption .= "<em>{$diari}</em>";
         }
@@ -306,12 +306,12 @@ foreach ($images as $image) {
             // Link to the content, unless the text has a link already.
             if (str_contains($image['ARTICLE'], 'http')) {
                 // In that case, link to the included URL.
-                $article = htmlEscapeAndLinkUrls($image['ARTICLE']);
+                $article = html_escape_and_link_urls($image['ARTICLE']);
             } else {
                 $article = htmlspecialchars($image['ARTICLE']);
                 // Reuse the link of the image, if there is one.
                 if ($image_url !== '') {
-                    $article = '<a href="' . $image_url . '" class="external">' . $article . '</a>';
+                    $article = '<a href="' . $image_url . '" class="external" target="_blank" rel="noopener noreferrer">' . $article . '</a>';
                 }
             }
             $image_caption .= "«{$article}»";

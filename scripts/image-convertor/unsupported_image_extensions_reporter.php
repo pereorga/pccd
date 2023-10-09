@@ -15,7 +15,7 @@ declare(strict_types=1);
 /*
  * Reports a list of image files with unsupported extensions.
  *
- * This script is called by scripts/generate_reports.sh script.
+ * This script is called by yarn generate:reports script.
  */
 
 require __DIR__ . '/functions.php';

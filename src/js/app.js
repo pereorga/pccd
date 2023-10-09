@@ -21,16 +21,16 @@ gtag("config", "G-CP42Y3NK1R");
 
     const toggleAllSources = function () {
         const toggle = document.querySelector("#toggle-all");
-        const wasExpanded = toggle.textContent.includes("Contrau");
+        const isExpanded = toggle.textContent.startsWith("Contrau");
+        toggle.textContent = isExpanded ? "Desplega-ho tot" : "Contrau-ho tot";
+        toggle.setAttribute("title", (isExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
         for (const element of document.querySelectorAll("details")) {
-            if (wasExpanded) {
+            if (isExpanded) {
                 element.removeAttribute("open");
             } else {
                 element.setAttribute("open", "true");
             }
         }
-        toggle.textContent = wasExpanded ? "Desplega-ho tot" : "Contrau-ho tot";
-        toggle.setAttribute("title", (wasExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
     };
 
     const searchBox = document.querySelector("#cerca");
@@ -88,9 +88,8 @@ gtag("config", "G-CP42Y3NK1R");
                 toggleAllSources();
             }
             toggleAllElement.addEventListener("click", (event) => {
-                const wasExpanded = event.target.textContent.includes("Contrau");
                 toggleAllSources();
-                localStorage.setItem("always_expand", wasExpanded ? "2" : "1");
+                localStorage.setItem("always_expand", event.target.textContent.startsWith("Desplega") ? "2" : "1");
             });
         }
 

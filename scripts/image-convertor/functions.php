@@ -70,7 +70,7 @@ function background_test_unsupported_extensions(string $source_directory): strin
             continue;
         }
 
-        $output .= $filename . PHP_EOL;
+        $output .= $filename . "\n";
     }
 
     return $output;
@@ -79,9 +79,12 @@ function background_test_unsupported_extensions(string $source_directory): strin
 /**
  * Resizes and optimizes images in bulk.
  *
- * TODO: Review default options used in https://github.com/spatie/image-optimizer.
- *      Monitor new tool jpegli development
- *      Consider https://github.com/imagemin/imagemin-cli and https://www.npmjs.com/search?q=keywords:imageminplugin
+ * TODO:
+ *  Review default options used in https://github.com/spatie/image-optimizer.
+ *  Monitor jpegli development
+ *  Consider https://github.com/imagemin/imagemin-cli and https://www.npmjs.com/search?q=keywords:imageminplugin,
+ *      Squoosh (although the cli is currently abandoned), and https://github.com/lovell/sharp, especially to reduce the
+ *      number of apt-get / brew dev dependencies and to be able to use MozJPEG and good defaults.
  */
 function resize_and_optimize_images_bulk(string $source_directory, string $target_directory, int $width): void
 {
@@ -128,6 +131,8 @@ function resize_and_optimize_images_bulk(string $source_directory, string $targe
  * Returns whether two files have similar sizes, where $bigger_file is expected to be bigger.
  *
  * This is used to discard lossy compression of images that do not save enough bytes.
+ *
+ * @phpstan-impure
  */
 function files_have_similar_sizes(string $bigger_file, string $smaller_file): bool
 {
@@ -254,7 +259,6 @@ function process_jpg(string $source_file, string $target_file, int $width): void
     resize_image($source_file, $target_file, $width);
 
     // Optimize JPG with lossless compression.
-    // TODO: First, further compress it with MozJPEG (maybe at 70%).
     exec("jpegoptim --quiet \"{$target_file}\"");
 
     // JPEG -> AVIF conversion.

@@ -1,13 +1,14 @@
 * text=auto eol=lf
 
-/docroot/img/imatges/* binary
-/docroot/img/obres/* binary
-/docroot/mp3/* binary
-
 *.css diff=css
 *.generated.php -diff
 *.min.* -diff
 *.php diff=php
+
+/docroot/img/imatges/* binary
+/docroot/img/obres/* binary
+/docroot/mp3/* binary
+/src/third_party/* linguist-vendored
 
 .mailmap export-ignore
 /docroot/google*.html export-ignore
@@ -15,11 +16,10 @@
 /docroot/img/obres export-ignore
 /docroot/mp3 export-ignore
 /install/db/*.sql export-ignore
-/scripts/SentenceSimilarityGroup export-ignore
 /scripts/common-voice-export/*.txt export-ignore
 /scripts/common-voice-export/pccd.txt -export-ignore
-/scripts/common-voice-import export-ignore
-/scripts/sinonims-export export-ignore
+/scripts/SentenceSimilarityGroup export-ignore
+/scripts/sinonims-export/*.txt export-ignore
 /src/images export-ignore
 /src/third_party export-ignore
 /tmp/test* export-ignore

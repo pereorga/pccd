@@ -80,7 +80,7 @@ if ($obra['ISBN'] !== null) {
     $output .= '<dd>';
     if (isbn_is_valid($isbn)) {
         $isbn_url = 'https://ca.wikipedia.org/wiki/Especial:Fonts_bibliogr%C3%A0fiques?isbn=' . $isbn;
-        $output .= '<a property="isbn" title="Cerqueu l\'obra a llibreries i biblioteques" href="' . $isbn_url . '" class="external">';
+        $output .= '<a property="isbn" title="Cerqueu l\'obra a llibreries i biblioteques" href="' . $isbn_url . '" class="external" target="_blank" rel="noopener noreferrer">';
         $output .= $isbn;
         $output .= '</a>';
     } else {
@@ -163,10 +163,10 @@ if ($obra['Lloc_compra'] !== null) {
     $output .= '</dl>';
 }
 if ($obra['URL'] !== null) {
-    $output .= '<div>' . htmlEscapeAndLinkUrls($obra['URL'], 'url') . '</div>';
+    $output .= '<div>' . html_escape_and_link_urls($obra['URL'], 'url') . '</div>';
 }
 if ($obra['Observacions'] !== null) {
-    $comment = htmlEscapeAndLinkUrls(ct($obra['Observacions'], false));
+    $comment = html_escape_and_link_urls(ct($obra['Observacions'], false));
     $output .= '<dl>';
     $output .= '<dt>Observacions:</dt>';
     $output .= '<dd property="description">' . $comment . '</dd>';

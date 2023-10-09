@@ -44,9 +44,9 @@
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
-    "phpunit/phpunit": "^10.3",
+    "phpunit/phpunit": "^10.4",
     "psalm/plugin-phpunit": "^0.18.4",
-    "rector/rector": "^0.18.3",
+    "rector/rector": "^0.18.5",
     "tideways/php-xhprof-extension": "dev-master",
     "vimeo/psalm": "^5.15"
   },

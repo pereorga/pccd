@@ -133,6 +133,7 @@ Informes:
     <li><a href="?test=repeticions_caracters">Repeticions de caràcters</a></li>
     <li><a href="?test=repeticions_modismes">Repeticions de modismes</a></li>
     <li><a href="?test=repeticions_paremiotipus">Repeticions de paremiotipus</a></li>
+    <li><a href="?test=sinonims">Sinònims</a></li>
     <li><a href="?test=urls">URLs</a></li>
 </ul>
 Monitorització:

@@ -8,6 +8,7 @@ brew "sqlite", link: false
 brew "unzip", link: false
 brew "xz", link: false
 
+brew "dotenv-linter"
 brew "hadolint"
 brew "nodejs"
 brew "npm"

@@ -15,7 +15,7 @@ declare(strict_types=1);
 /*
  * Execute time-consuming tests.
  *
- * This file is called by generate_reports.sh script.
+ * This file is called by yarn generate:reports script.
  */
 
 require __DIR__ . '/../src/reports/tests.php';
@@ -23,7 +23,7 @@ require __DIR__ . '/../src/reports/tests.php';
 ini_set('memory_limit', '512M');
 
 if (!isset($argv[1])) {
-    echo 'Argument is required.' . \PHP_EOL;
+    echo 'Argument is required.' . "\n";
 
     exit;
 }
@@ -60,6 +60,30 @@ if ($argv[1] === 'paremiotipus_repetits') {
     exit;
 }
 
-echo 'Unknown test name provided.' . \PHP_EOL;
+if ($argv[1] === 'html_escape_and_link_urls') {
+    echo background_test_html_escape_and_link_urls();
+
+    exit;
+}
+
+if ($argv[1] === 'imatges_no_existents') {
+    echo background_test_imatges_no_existents();
+
+    exit;
+}
+
+if ($argv[1] === 'imatges_duplicades') {
+    echo background_test_imatges_duplicades();
+
+    exit;
+}
+
+if ($argv[1] === 'imatges_no_referenciades') {
+    echo background_test_imatges_no_referenciades();
+
+    exit;
+}
+
+echo 'Unknown test name provided.' . "\n";
 
 exit(1);

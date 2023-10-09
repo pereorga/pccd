@@ -34,11 +34,12 @@ rm -f filtered.txt controversial.txt
 docker exec pccd-web php scripts/common-voice-export/app.php > filtered.txt 2> controversial.txt
 
 # Exclude more sentences with LanguageTool.
+# shellcheck disable=SC2016
 (
     cd ../../vendor/pereorga/pccd-lt-filter &&
         mvn package &&
         VERSION=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec) &&
-        java -jar target/lt-filter-${VERSION}-jar-with-dependencies.jar \
+        java -jar target/lt-filter-"${VERSION}"-jar-with-dependencies.jar \
             ../../../scripts/common-voice-export/filtered.txt \
             > ../../../scripts/common-voice-export/pccd.txt \
             2> ../../../scripts/common-voice-export/error.txt

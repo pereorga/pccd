@@ -1,7 +1,7 @@
 # Paremiologia catalana comparada digital (PCCD)
 
 This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/) website. The PCCD database
-and media files are covered by different terms and are not distributed with this repository.
+and media files are not distributed with this repository.
 
 ## Installation
 
@@ -21,7 +21,7 @@ Note: If you don't have a database, you can copy `tmp/schema.sql` and `tmp/schem
 
 ## Updating the repository with a new release
 
-### Installation on Linux (Debian-based, tested on Ubuntu 22.04)
+### Installation on Linux (Debian-based)
 
 ```bash
 xargs sudo apt-get install -y < apt-packages.txt
@@ -29,18 +29,13 @@ xargs sudo apt-get install -y < apt-packages.txt
 
 You may want to set up Docker to be used with a non-root user.
 
-For additional lossless compression of PNG images, [oxipng](https://github.com/shssoichiro/oxipng) can be installed. See
-also [hadolint](https://github.com/hadolint/hadolint) for linting Docker files,
-[yamlfmt](https://github.com/google/yamlfmt) for automatic formatting of yaml files, and
-[shfmt](https://github.com/mvdan/sh) for prettifying shell scripts. Also, some development scripts require at least
-[Node.js](https://nodejs.org/) v18. At this time (on Ubuntu 22.04) the packages and versions above can also be installed
-using [Homebrew](https://brew.sh/):
+Some additional packages can be installed using [Homebrew](https://brew.sh/):
 
 ```bash
 brew bundle install --file=ubuntu.Brewfile
 ```
 
-The rest of dependencies can be installed using [Yarn](https://yarnpkg.com/):
+You may also need to install latest PHP. The rest of dependencies can be installed using [Yarn](https://yarnpkg.com/):
 
 ```bash
 npm install --global yarn && yarn install
@@ -164,6 +159,7 @@ For details on contributing to this repository, see the contributing guidelines:
 - Infra: Consider switching to PHP-FPM, and maybe Nginx
 - Build: Consider switching to pnpm, latest yarn or going back to npm
 - UX: Consider adding search functionality on every page
+- Style: Consider sorting HTML attributes, although that would be insane
 
 ## License
 

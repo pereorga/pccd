@@ -75,10 +75,10 @@ foreach ($paremiotipus as $p) {
         || preg_match('/\\bsogra\\b/', $p_lowercase) === 1
         || preg_match('/\\bsogres\\b/', $p_lowercase) === 1
     ) {
-        fwrite(STDERR, $p_display . PHP_EOL);
+        fwrite(STDERR, $p_display . "\n");
 
         continue;
     }
 
-    fwrite(STDOUT, $p_display . PHP_EOL);
+    fwrite(STDOUT, $p_display . "\n");
 }

@@ -23,7 +23,7 @@ if (str_contains(get_request_uri(), 'index.php')) {
 
 check_db_or_exit();
 
-$nonce = set_default_headers();
+header('Cache-Control: public, s-maxage=31536000, max-age=300');
 
 // Build page content in advance.
 $page_name = get_page_name();
@@ -41,7 +41,7 @@ $main_content = build_main_content($page_name);
     <?php echo get_page_meta_tags($page_name); ?>
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="PCCD">
-    <style nonce="<?php echo $nonce; ?>">
+    <style>
 <?php
 require __DIR__ . '/css/base.min.css';
 

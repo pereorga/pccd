@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Updates composer/phive/phar/yarn/pecl/apt/brew/maven dependencies and Docker images.
+# Updates Composer/PHIVE/Yarn/PECL/apt-get/Homebrew/Maven dependencies and Docker images.
 #
 # This script is called by `yarn run update` script.
 #
@@ -24,13 +24,13 @@ usage() {
     echo "    help"
     echo "      Shows this help and exits"
     echo "    brew"
-    echo "      Updates brew packages"
+    echo "      Updates Homebrew packages"
     echo "    yarn"
-    echo "      Updates all yarn dev direct packages to latest release"
+    echo "      Updates all Yarn dev packages to latest release"
     echo "    composer"
-    echo "      Updates all composer dependencies to latest release, including non-direct dependencies"
+    echo "      Updates all Composer dependencies to latest release, including non-direct dependencies"
     echo "    phive"
-    echo "      Updates all phive (phar) packages and phive itself to latest releases"
+    echo "      Updates all PHIVE (phar) packages and phive itself to latest releases"
     echo "    apc-gui"
     echo "      Updates apc.php file to latest revision"
     echo "    opcache-gui"
@@ -38,7 +38,7 @@ usage() {
     echo "    docker"
     echo "      Updates Docker images in Docker files and docker-compose.yml to next release"
     echo "    pecl"
-    echo "      Updates pecl packages in Docker files to latest version"
+    echo "      Updates PECL packages in Docker files to latest version"
 }
 
 ##############################################################################
@@ -183,11 +183,11 @@ update_brew_packages() {
 }
 
 ##############################################################################
-# Installs newest major versions of composer packages. See https://stackoverflow.com/a/74760024/1391963
+# Installs newest versions of Composer packages. See https://stackoverflow.com/a/74760024/1391963
 # Arguments:
 #   None
 ##############################################################################
-update_composer_major() {
+update_composer() {
     # Make sure repositories are updated too.
     rm -f composer.lock
     rm -rf vendor/
@@ -206,12 +206,16 @@ update_composer_major() {
 }
 
 ##############################################################################
-# Installs newest major versions of yarn dev packages. See https://stackoverflow.com/a/75525951/1391963
+# Updates all Yarn dev dependencies.
 # Arguments:
 #   None
 ##############################################################################
-update_yarn_major() {
+update_yarn() {
+    # See https://stackoverflow.com/a/75525951/1391963
     jq '.devDependencies | keys | .[]' package.json | xargs yarn add --dev --silent
+
+    rm -rf node_modules yarn.lock
+    yarn install
 }
 
 if [[ $# != 1 ]]; then
@@ -236,7 +240,7 @@ if [[ $1 == "pecl" ]]; then
 fi
 
 if [[ $1 == "composer" ]]; then
-    update_composer_major
+    update_composer
     exit 0
 fi
 
@@ -257,7 +261,7 @@ if [[ $1 == "opcache-gui" ]]; then
 fi
 
 if [[ $1 == "yarn" ]]; then
-    update_yarn_major
+    update_yarn
     exit 0
 fi
 

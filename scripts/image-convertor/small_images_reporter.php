@@ -15,7 +15,7 @@ declare(strict_types=1);
 /*
  * Reports a list of small images.
  *
- * This script is called by scripts/generate_reports.sh script.
+ * This script is called by yarn generate:reports script.
  */
 
 require __DIR__ . '/functions.php';

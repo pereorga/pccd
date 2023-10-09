@@ -1,6 +1,9 @@
+7zip
+build-essential
 curl
 docker-compose
 file
+gcc
 gifsicle
 gnupg
 icu-devtools
@@ -18,11 +21,15 @@ php-curl
 php-dev
 php-gd
 php-imagick
+php-intl
 php-mbstring
+php-mysql
+php-zip
 pngcheck
 pngquant
 shellcheck
 tidy
 unar
+unzip
 webp
 yamllint

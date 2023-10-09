@@ -6,6 +6,18 @@ backend default {
 }
 
 sub vcl_recv {
+    # If CF-Connecting-IP is set, use that as the client's real IP.
+    if (req.http.CF-Connecting-IP) {
+        set req.http.X-Real-IP = req.http.CF-Connecting-IP;
+    } else {
+        set req.http.X-Real-IP = client.ip;
+    }
+
+    # Clear out any existing X-Forwarded-For headers to prevent spoofing.
+    unset req.http.X-Forwarded-For;
+
+    # Set X-Forwarded-For to the real IP.
+    set req.http.X-Forwarded-For = req.http.X-Real-IP;
 
     # Disallow other methods.
     if (req.method != "GET" && req.method != "HEAD" && req.method != "POST" && req.method != "OPTIONS") {
@@ -61,12 +73,7 @@ sub vcl_recv {
     # This strategy might be reconsidered if we experience overwhelming traffic that strains the web server. However, as
     # it stands, it seems that minimizing the usage of Varnish cache resources is beneficial.
     if (!req.http.Accept-Encoding) {
-
-        # Make an exception for caching AVIF and WEBP files. These files should constitute the majority of static file
-        # requests, yet they represent a relatively modest data volume.
-        if (!(req.url ~ "\.(avif|webp)$")) {
-            return (pass);
-        }
+        return (pass);
     }
 
     # Do the same for gzip encoding, due to these 2 probable scenarios:

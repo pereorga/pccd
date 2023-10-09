@@ -25,43 +25,24 @@ const TITLE_MAX_LENGTH = 70;
 const REX_SCHEME = 'https?://';
 const REX_DOMAIN = '(?:[-a-zA-Z0-9\x7f-\xff]{1,63}\.)+[a-zA-Z\x7f-\xff][-a-zA-Z0-9\x7f-\xff]{1,62}';
 const REX_PORT = '(:[0-9]{1,5})?';
-const REX_PATH = '(/[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]*?)?';
+const REX_PATH = '(/[!$-/0-9:;=@_~\':;!a-zA-Z\x7f-\xff]*?)?';
 const REX_QUERY = '(\?[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
 const REX_FRAGMENT = '(#[!$-/0-9?:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
 const REX_USERNAME = '[^]\\\\\x00-\x20\"(),:-<>[\x7f-\xff]{1,64}';
 const REX_PASSWORD = '[^]\\\\\x00-\x20\"(),:-<>[\x7f-\xff]{1,64}';
 const REX_TRAIL_PUNCT = "[)'?.!,;:]";
-const REX_NON_URL = "[^-_#$+.!*%'(),;/?:@=&a-zA-Z0-9\x7f-\xff]";
+const REX_NON_URL = "[^-_#$+.!*%'(),;/?:@~=&a-zA-Z0-9\x7f-\xff]";
 
 /**
  * Transforms plain text into valid HTML turning URLs into links.
  *
  * Originally based on urlLinker by Søren Løvborg.
  * TODO: make it work with multibyte strings
- * TODO: convert host (whole domain?) to lowercase characters
  */
-function htmlEscapeAndLinkUrls(string $text, string $property = ''): string
+function html_escape_and_link_urls(string $text, string $property = '', bool $debug = false): string
 {
-    $rexUrl = '(' . REX_SCHEME . ')?(?:( ' . REX_USERNAME . ' )(:' . REX_PASSWORD . ')?@)?(' . REX_DOMAIN . ')(' . REX_PORT . REX_PATH . REX_QUERY . REX_FRAGMENT . ')';
+    $rexUrl = '(' . REX_SCHEME . ')?(?:(' . REX_USERNAME . ')(:' . REX_PASSWORD . ')?@)?(' . REX_DOMAIN . ')(' . REX_PORT . REX_PATH . REX_QUERY . REX_FRAGMENT . ')';
     $rexUrlLinker = "{\\b{$rexUrl}(?=" . REX_TRAIL_PUNCT . '*(' . REX_NON_URL . '|$))}';
-
-    // List of valid TLDs
-    $tlds = '.ac .ad .ae .af .ag .ai .al .am .an .ao .app .aq .ar .arpa .as .asia .at .au .aw .ax .az
-        .ba .barcelona .bb .bd .be .bf .bg .bh .bi .bio .biz .blog .bj .bm .bn .bo .br .bs .bt .bv
-        .bw .by .bz .ca .cat .cc .cd .cf .cg .ch .ci .ck .cl .cm .cn .co .com .coop .cr .cu .cv .cw
-        .cx .cy .cz .de .dev .dj .dk .dm .do .dz .ec .edu .ee .eg .er .es .et .eu .eus .fi .fj .fk
-        .fm .fo .fr .ga .gal .gb .gd .ge .gf .gg .gh .gi .gl .gm .gn .gov .gp .gq .gr .gs .gt .gu .gw
-        .gy .hk .hm .hn .hr .ht .hu .id .ie .il .im .in .info .int .io .iq .ir .is .it .je .jm .jo .jp
-        .ke .kg .kh .ki .km .kn .kp .kr .kw .ky .kz .la .lb .lc .li .link .lk .lr .ls .lt .lu .lv .ly
-        .ma .mc .md .me .mg .mh .mk .ml .mm .mn .mo .mp .mq .mr .ms .mt .mu .mv .mw .mx .my .mz .na
-        .nc .ne .net .nf .ng .ni .nl .no .np .nr .nu .nz .om .online .org .pa .pe .pf .pg .ph .pk .pl
-        .pm .pn .pr .ps .pt .pub .pw .py .qa .quebec .re .rio .ro .rs .ru .rw .sa .sb .sc .sd .se .sg
-        .sh .si .site .sj .sk .sl .sm .sn .so .sr .st .su .sv .sx .sy .sz .tc .td .tech .tf .tg .th
-        .tj .tk .tl .tm .tn .to .tp .tr .tt .tv .tw .tz .ua .ug .uk .us .uy .uz .va .vc .ve .vet .vg
-        .vi .vn .vu .website .wf .wiki .ws .xyz .ye .yt .za .zm .zw';
-
-    // Convert the space-separated list into an associative array
-    $validTlds = array_fill_keys(explode(' ', $tlds), true);
 
     $html = '';
     $position = 0;
@@ -70,34 +51,18 @@ function htmlEscapeAndLinkUrls(string $text, string $property = ''): string
 
         // Add the text leading up to the URL.
         $html .= htmlspecialchars(substr($text, $position, $urlPosition - $position));
-
         $scheme = $match[1][0];
-        $username = $match[2][0];
-        $password = $match[3][0];
-        $domain = $match[4][0];
-        // Everything following the domain.
-        $afterDomain = $match[5][0];
-
-        $tld = mb_strrchr($domain, '.');
-        assert(is_string($tld));
-        $tld = mb_strtolower($tld);
-        if (isset($validTlds[$tld])) {
-            if ($username !== '' && $password === '' && $afterDomain === '') {
-                // Looks like an email address.
-                $completeUrl = "mailto:{$url}";
-                $linkText = $url;
-            } else {
-                // Prepend https:// if no scheme is specified.
-                $completeUrl = $scheme !== '' && $scheme !== '0' ? $url : "https://{$url}";
-                $linkText = $completeUrl;
+        if ($scheme === 'http://' || $scheme === 'https://') {
+            if ($debug) {
+                file_put_contents(__DIR__ . '/../tmp/test_tmp_debug_html_escape_and_link_urls.txt', $url . "\n", FILE_APPEND);
             }
 
-            $linkHtml = '<a class="external" target="_blank" rel="nofollow noopener noreferrer"';
-            $linkHtml .= ' href="' . htmlspecialchars($completeUrl) . '"';
+            $linkHtml = '<a class="external" target="_blank" rel="noopener noreferrer"';
+            $linkHtml .= ' href="' . htmlspecialchars($url) . '"';
             if ($property !== '') {
                 $linkHtml .= ' property="' . $property . '"';
             }
-            $linkHtml .= '>' . htmlspecialchars($linkText) . '</a>';
+            $linkHtml .= '>' . htmlspecialchars($url) . '</a>';
 
             // Add the hyperlink.
             $html .= $linkHtml;
@@ -107,7 +72,7 @@ function htmlEscapeAndLinkUrls(string $text, string $property = ''): string
         }
 
         // Continue text parsing from after the URL.
-        $position = $urlPosition + mb_strlen($url);
+        $position = $urlPosition + strlen($url);
     }
 
     // Add the remainder of the text.
@@ -126,6 +91,56 @@ function htmlEscapeAndLinkUrls(string $text, string $property = ''): string
 function mb_ucfirst(string $str, ?string $encoding = null): string
 {
     return mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding) . mb_substr($str, 1, null, $encoding);
+}
+
+/**
+ * Gets a clean sinonim, removing unnecessary characters or notes.
+ */
+function get_sinonim_clean(string $sinonim): string
+{
+    // Try to remove annotations.
+    $pos = mb_strpos($sinonim, '[');
+    if ($pos !== false) {
+        $sinonim = mb_substr($sinonim, 0, $pos);
+    }
+
+    // Remove unnecessary characters or words.
+    $sinonim = trim($sinonim, ". \n\r\t\v\x00");
+    $sinonim = str_replace([' / ', 'v.', 'V.', 'Veg.', 'Similar:', 'Similars:', 'Contrari:'], ' ', $sinonim);
+    $sinonim = preg_replace('/\s\s+/', ' ', $sinonim);
+    assert(is_string($sinonim));
+
+    // Remove last character if it is a number.
+    if (preg_match('/\d$/', $sinonim) === 1) {
+        $sinonim = substr($sinonim, 0, -1);
+    }
+
+    return trim($sinonim);
+}
+
+/**
+ * Gets multiple sinonims from a SINONIM field.
+ *
+ * @return list<string>
+ */
+function get_sinonims(string $sinonim_field): array
+{
+    $sinonims = explode('|', $sinonim_field);
+
+    $sinonims_array = [];
+    foreach ($sinonims as $sinonim) {
+        // Try to remove unnecessary characters or words.
+        $sinonim = get_sinonim_clean($sinonim);
+
+        // Discard empty or short records.
+        if (mb_strlen($sinonim) < MIN_SINONIM_WORD_LENGTH) {
+            continue;
+        }
+
+        $sinonims_array[] = $sinonim;
+    }
+
+    return $sinonims_array;
 }
 
 /**
@@ -160,33 +175,6 @@ function get_db(): PDO
     ]);
 
     return $pdo;
-}
-
-/**
- * Sets the default HTTP headers, and returns the CSP nonce.
- */
-function set_default_headers(): string
-{
-    header('Cache-Control: public, s-maxage=31536000, max-age=300');
-
-    try {
-        $nonce = base64_encode(random_bytes(NONCE_LENGTH));
-    } catch (Exception) {
-        $nonce = uniqid();
-    }
-
-    header(
-        "Content-Security-Policy: default-src 'self'; "
-        . "base-uri 'none'; "
-        . "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; "
-        . "frame-ancestors 'none'; "
-        . "img-src 'self' https://*.google-analytics.com https://*.googletagmanager.com; "
-        . "object-src 'none'; "
-        . "script-src 'self' https://*.googletagmanager.com; "
-        . "style-src 'nonce-{$nonce}'"
-    );
-
-    return $nonce;
 }
 
 /**
@@ -677,10 +665,10 @@ function get_redirects(): array
 {
     // These redirects are mapped manually based on a Google Search console report.
     return [
-        '/p/A_cabsssos' => '/p/A_cabassos',
-        '/?paremiotipus=A+la+Tallada+totes+les+dones+s%C3%83%C2%B3n+garrelles' => '/p/A_la_Tallada_totes_les_dones_són_garrelles',
-        '/p/Fer-li_fer_la_figuereta' => '/p/Fer_la_figuereta',
-        '/p/dintreAdeu-siau%2C_gent_de_Palau%3B_%C2%ABadi%C3%B3s%C2%BB%2C_gent_de_Palam%C3%B3s' => '/p/Adeu-siau%2C_gent_de_Palau%3B_«adiós»%2C_gent_de_Palamós',
+        '/p/M%C3%A9s_ruc_que_el_Set-soles' => '/p/Més_ruc_que_en_Set-soles',
+        '/?paremiotipus=Ser+un+titafreda' => '/p/Titafreda',
+        '/p/Ser_un_torraneules' => '/p/Torraneules',
+        '/p/Ser_un_titafreda' => '/p/Titafreda',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282021%29%3A+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau%3F%3A+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282022%29%3A+Vilaweb+-+%E2%80%9CFotre%E2%80%9D%2C+el+Messi+dels+verbs+catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
         '/?obra=Badia+i+Pujol%2C+Jordi+(2021):+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau?:+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
@@ -703,6 +691,8 @@ function get_redirects(): array
         '/?paremiotipus=A+l%27Ascensi%C3%B3+cireretes+abundo+A+Val%C3%A8ncia%E2%80%A6+que+aqu%C3%AD+no' => '/p/Per_l%27Ascensió%2C_cireretes_en_abundor',
         '/?paremiotipus=A+l%27Ascensió+cireretes+abundo+A+València…+que+aquí+no' => '/p/Per_l%27Ascensió%2C_cireretes_en_abundor',
         '/?paremiotipus=A+l%27aire+llure' => '/p/A_l%27aire_lliure',
+        '/?paremiotipus=A+la+Tallada+totes+les+dones+s%C3%83%C2%B3n+garrelles' => '/p/A_la_Tallada_totes_les_dones_són_garrelles',
+        '/?paremiotipus=A+prendre+ple+sac' => '/p/A_prendre_pel_sac',
         '/?paremiotipus=C%C3%A0cilment' => '/p/D%C3%B2cilment',
         '/?paremiotipus=Cadasc%C3%BA%2C+en+sa+casa%2C+sal+el+que+hi+passa' => '/p/Cadascú%2C_en_sa_casa%2C_sap_el_que_hi_passa',
         '/?paremiotipus=Camina+que+caminara%CC%80s' => '/p/Camina_que_caminar%C3%A0s',
@@ -745,6 +735,7 @@ function get_redirects(): array
         '/?paremiotipus=Rompre-li+la+crisma' => '/p/Trencar_o_rompre_la_crisma',
         '/?paremiotipus=Romprer-li+el+cap' => '/p/Trencar-li_el_cap',
         '/?paremiotipus=Ser+jun+desvirgagallines' => '/p/Ser_un_desvirgagallines',
+        '/?paremiotipus=Ser+un+escuraampolles' => '/p/Escuraampolles',
         '/?paremiotipus=Ser+un+figa+blana' => '/p/Figa_blana',
         '/?paremiotipus=Ser+un+figa+tova' => '/p/Figa_tova',
         '/?paremiotipus=Ser+un+malandando' => '/p/Malandando',
@@ -785,11 +776,15 @@ function get_redirects(): array
         '/obra/Mettmann%2C_Walter_(1989):_%c2%abProverbia_arabum%c2%bb_eine_altkatalanische_sprichw%c3%b6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
         '/obra/Mettmann,_Walter_(1989):_%C2%ABProverbia_arabum%C2%BB_eine_altkatalanische_sprichw%C3%B6rter-Uns_sentenzensammlung' => '/obra/Mettmann%2C_Walter_%281298%29%3A_«Proverbia_arabum»_eine_altkatalanische_sprichwörter-Uns_sentenzensammlung%2C_ed._1989',
         '/p/A_Cabanes%2C_hi_ha_qui_en_t%C3%A9_ganes' => '/p/A_Cabanes%2C_hi_va_qui_en_té_ganes',
+        '/p/A_cabsssos' => '/p/A_cabassos',
         '/p/A_judici_i_pagar%C2%ABlo%C2%BB_judicat' => '/p/A_judici_i_pagar_«lo»_judicat',
+        '/p/A_la_casa_dels_sastre_les_rates_roseguen_draps' => '/p/A_casa_del_sastre_les_rates_roseguen_draps',
+        '/p/A_prendre_ple_sac' => '/p/A_prendre_pel_sac',
         '/p/Arribar_a_l' => '/p/Arribar_a_l%27ermita_i_no_veure_el_sant',
         '/p/Borratxos_s%C3%B3n_a_les_Coves%2C_%5C_borratxos_son_a_Alcal%C3%A0%2C_%5C_boratxos_a_orreblanca%2C_%5C_no_sabem_qui_guanyar%C3%A0' => '/p/Borratxos_són_a_les_Coves%2C_borratxos_són_a_Alcalà%2C_borratxos_a_Torreblanca_i_a_Orpesa_també_n%27hi_ha',
         '/p/Cadasc%C3%BA%2C_en_sa_casa%2C_sal_el_que_hi_passa' => '/p/Cadascú%2C_en_sa_casa%2C_sap_el_que_hi_passa',
         '/p/Com_un_eix_a_l%27aigua' => '/p/Com_un_peix_a_l%27aigua',
+        '/p/Fer-li_fer_la_figuereta' => '/p/Fer_la_figuereta',
         '/p/Fer_uin_merder' => '/p/Fer_merder',
         '/p/Fr_els_ous_en_terra' => '/p/Fer_els_ous_en_terra',
         '/p/M%C3%A9s_dolent_que_la_tinyaEn' => '/p/Més_dolent_que_la_tinya',
@@ -804,10 +799,9 @@ function get_redirects(): array
         '/p/Ser_bo_per_a_la_forca_i_per_als_rampills' => '/p/Ser_bo_per_a_la_forca_i_per_al_rampill',
         '/p/Ser_jun_desvirgagallines' => '/p/Ser_un_desvirgagallines',
         '/p/Ser_un_trapsser' => '/p/Ser_un_trapasser',
-        '/p/na_dreta_%C3%A9s_m%C3%A9s_un_homenot_que_una_doneta' => '/p/La_dona_que_fuma%2C_jura_i_orina_dreta_és_més_un_homenot_que_una_doneta',
-        '/p/A_prendre_ple_sac' => '/p/A_prendre_pel_sac',
-        '/?paremiotipus=A+prendre+ple+sac' => '/p/A_prendre_pel_sac',
         '/p/ata_ton_porc%2C_posa_les_olives_al_top%C3%AD%2C_destapa_la_b%C3%B3ta%2C_beu_ton_vi_i_convida_el_teu_ve%C3%AD' => '/p/Per_Sant_Martí_mata_ton_porc%2C_posa_les_olives_al_topí%2C_destapa_la_bóta%2C_beu_ton_vi_i_convida_el_teu_veí',
+        '/p/dintreAdeu-siau%2C_gent_de_Palau%3B_%C2%ABadi%C3%B3s%C2%BB%2C_gent_de_Palam%C3%B3s' => '/p/Adeu-siau%2C_gent_de_Palau%3B_«adiós»%2C_gent_de_Palamós',
+        '/p/na_dreta_%C3%A9s_m%C3%A9s_un_homenot_que_una_doneta' => '/p/La_dona_que_fuma%2C_jura_i_orina_dreta_és_més_un_homenot_que_una_doneta',
     ];
 }
 
@@ -848,15 +842,6 @@ function try_to_redirect_manual_and_exit(): void
  */
 function return_404_and_exit(): never
 {
-    header(
-        "Content-Security-Policy: default-src 'none'; "
-        . "base-uri 'none'; "
-        . "connect-src 'self'; "
-        . "frame-ancestors 'none'; "
-        . "img-src 'self'; "
-        . "prefetch-src 'self'; "
-        . "style-src 'unsafe-inline'"
-    );
     header('HTTP/1.1 404 Not Found', true, 404);
 
     require __DIR__ . '/../docroot/404.html';
@@ -872,13 +857,6 @@ function check_db_or_exit(): void
     try {
         get_db();
     } catch (Exception) {
-        header(
-            "Content-Security-Policy: default-src 'none'; "
-            . "base-uri 'none'; "
-            . "frame-ancestors 'none'; "
-            . "img-src 'self'; "
-            . "style-src 'unsafe-inline'"
-        );
         header('HTTP/1.1 500 Internal Server Error', true, 500);
 
         require __DIR__ . '/../docroot/500.html';
@@ -1340,7 +1318,7 @@ function build_main_content(string $page_name): string
 }
 
 /**
- * Returns a valid URL.
+ * Returns a URL with some escaped characters if $url is a valid HTTP/HTTPS url, or an empty string otherwise.
  */
 function get_clean_url(?string $url): string
 {

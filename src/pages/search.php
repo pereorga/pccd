@@ -111,13 +111,11 @@ if ($total > 0) {
     }
 
     $paremiotipus = get_paremiotipus_search_results($where_clause, $arguments, $offset, $results_per_page);
-    $output .= '<table><tbody>';
+    $output .= '<ol class="search-results">';
     foreach ($paremiotipus as $p) {
-        $output .= '<tr><td>';
-        $output .= '<a href="' . get_paremiotipus_url($p) . '">' . get_paremiotipus_display($p) . '</a>';
-        $output .= '</td></tr>';
+        $output .= '<li><a href="' . get_paremiotipus_url($p) . '">' . get_paremiotipus_display($p) . '</a></li>';
     }
-    $output .= '</tbody></table>';
+    $output .= '</ol>';
 
     $output .= '<div class="pager">';
     // Only show pagination links and dropdown if it can be useful.

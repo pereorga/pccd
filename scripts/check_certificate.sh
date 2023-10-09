@@ -2,10 +2,12 @@
 #
 # Checks the expiration date in the production certificate.
 #
-# URL of the environment can be passed as argument:
-#   ./check_certificate.sh https://pccd.dites.cat
+# Usage:
+#   ./check_certificate.sh [ENVIRONMENT_URL] [IP]
 #
-# Otherwise, https://pccd.dites.cat is used as default.
+# The website URL and IP address can be passed as arguments.
+# By default, https://pccd.dites.cat is used and the IP is omitted. Pass "origin" as IP if you want to use ORIGIN_IP
+# variable defined in your .env file.
 #
 # (c) Pere Orga Esteve <pere@orga.cat>
 #
@@ -18,11 +20,7 @@ shopt -s expand_aliases
 
 cd "$(dirname "$0")/.."
 
-if [[ -z $1 ]]; then
-    REMOTE_ENVIRONMENT_URL="https://pccd.dites.cat"
-else
-    REMOTE_ENVIRONMENT_URL="$1"
-fi
+REMOTE_ENVIRONMENT_URL="${1:-https://pccd.dites.cat}"
 readonly REMOTE_ENVIRONMENT_URL
 export REMOTE_ENVIRONMENT_URL
 
@@ -32,24 +30,36 @@ export REMOTE_ENVIRONMENT_URL
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [ENVIRONMENT_URL]"
+    echo "Usage: $(basename "$0") [ENVIRONMENT_URL] [IP]"
     echo ""
     echo "Optional arguments:"
     echo "  ENVIRONMENT_URL       The website URL, without trailing slash (default: https://pccd.dites.cat)"
+    echo "  IP                    The IP address to connect to. Use when you want to resolve the domain to a specific IP."
 }
 
-if [[ -n $2 ]]; then
+if [[ $# -gt 2 ]]; then
     usage
     exit 1
 fi
 
-# Call gdate, if it is available.
+# Call gdate from coreutils.
 if command -v gdate > /dev/null; then
     alias date=gdate
 fi
 
+ORIGIN_IP="$2"
+if [[ ${ORIGIN_IP} == 'origin' ]]; then
+    export "$(grep 'ORIGIN_IP=' .env | xargs)"
+fi
+readonly ORIGIN_IP
+
 # Get the expiration date of the certificate with curl.
-EXPIRATION_DATE=$(curl -v -I --stderr - "${REMOTE_ENVIRONMENT_URL}" | grep "expire date" | cut -d ":" -f 2- | xargs)
+if [[ -z ${ORIGIN_IP} ]]; then
+    EXPIRATION_DATE=$(curl -v -I --stderr - "${REMOTE_ENVIRONMENT_URL}" | grep "expire date" | cut -d ":" -f 2- | xargs)
+else
+    DOMAIN=$(echo "${REMOTE_ENVIRONMENT_URL}" | awk -F/ '{print $3}')
+    EXPIRATION_DATE=$(curl -v -I --stderr - --resolve "${DOMAIN}:443:${ORIGIN_IP}" "${REMOTE_ENVIRONMENT_URL}" | grep "expire date" | cut -d ":" -f 2- | xargs)
+fi
 
 # Convert the expiration date to seconds, using GNU date.
 EXPIRATION_DATE_SECONDS=$(date -d "${EXPIRATION_DATE}" +%s)
@@ -62,12 +72,17 @@ EXPIRATION_DATE_DAYS=$(((EXPIRATION_DATE_SECONDS - CURRENT_DATE) / 86400))
 
 # Exit with error if the certificate expires in less than 10 days.
 if [[ ${EXPIRATION_DATE_DAYS} -lt 10 ]]; then
-    RED='\033[0;31m'
-    NC='\033[0m'
-    echo -e "${RED}${REMOTE_ENVIRONMENT_URL} certificate expires in ${EXPIRATION_DATE_DAYS} days.${NC}"
-    exit 1
+    COLOR='\033[0;31m'
+    RET=1
 else
-    GREEN='\033[0;32m'
-    NC='\033[0m'
-    echo -e "${GREEN}${REMOTE_ENVIRONMENT_URL} certificate expires in ${EXPIRATION_DATE_DAYS} days.${NC}"
+    COLOR='\033[0;32m'
+    RET=0
 fi
+
+NC='\033[0m'
+if [[ -z ${ORIGIN_IP} ]]; then
+    echo -e "${COLOR}${REMOTE_ENVIRONMENT_URL} certificate expires in ${EXPIRATION_DATE_DAYS} days.${NC}"
+else
+    echo -e "${COLOR}${REMOTE_ENVIRONMENT_URL} (${ORIGIN_IP}) certificate expires in ${EXPIRATION_DATE_DAYS} days.${NC}"
+fi
+exit "${RET}"

@@ -1,37 +1,17 @@
 default:
-  image: php:8.2-fpm-bullseye
-php_static_analysis:
+  image: ubuntu:23.10
+check_code:
   before_script:
-    - apt-get update && apt-get install --no-install-recommends -y git curl build-essential zip unzip libmagickwand-dev libfreetype6-dev libwebp-dev libjpeg62-turbo-dev libpng-dev zlib1g-dev libzip-dev && docker-php-ext-install mysqli pdo pdo_mysql zip && pecl install imagick && docker-php-ext-enable imagick
-    - tools/composer install --no-interaction --ignore-platform-reqs
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update && apt-get upgrade -y && xargs apt-get install -y < apt-packages.txt
+    - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    - brew bundle install --file=ubuntu.Brewfile
+    - npm install --global yarn && yarn install
   script:
-    - tools/composer run parallel-lint --no-interaction
-    - tools/composer run php-cs-fixer-lint --no-interaction
-    - tools/composer run phpcs --no-interaction
-    - tools/composer run phpstan --no-interaction
-    - tools/composer run phan --no-interaction
-    - tools/composer run psalm --no-interaction
-    - tools/composer run psalm-taint-analysis --no-interaction
-    - tools/composer run phpcpd --no-interaction
-  when: manual
-eslint_stylelint_prettier:
-  image: node:latest
-  before_script:
-    - yarn install --ignore-engines --frozen-lockfile
-  script:
-    - yarn lint:eslint
-    - yarn lint:stylelint
-    - yarn lint:prettier
-  when: manual
-shellcheck:
-  before_script:
-    - apt-get update && apt-get install --no-install-recommends -y shellcheck
-  script:
-    - find scripts -type f -name '*.sh' -not -name '*.generated.sh' -exec shellcheck {} \;
-  when: manual
-yamllint:
-  before_script:
-    - apt-get update && apt-get install --no-install-recommends -y yamllint
-  script:
-    - yamllint . .yamlfmt --list-files --strict
+    - tools/composer run parallel-lint
+    - yarn check:size
+    - yarn lint
+    - yarn analysis
+    - npx editorconfig-checker
   when: manual
