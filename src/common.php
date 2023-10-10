@@ -727,7 +727,7 @@ function get_redirects(): array
         '/?paremiotipus=Passarse-li+l%27arr%C3%B2s' => '/p/Passar-se-li_l%27arr%C3%B2s',
         '/?paremiotipus=Passr+el+rosari' => '/p/Passar_el_rosari',
         '/?paremiotipus=Pel+setembre+o+desembre%2C+qui+tingui+blat%2C+que+en+sembri' => '/p/Pel_setembre%2C_qui_tingui_blat%2C_que_en_sembri',
-        '/?paremiotipus=Posar-li+el+dogall+al+coll' => '/p/Estar_amb_el_dogal_al_coll',
+        '/?paremiotipus=Posar-li+el+dogall+al+coll' => '/p/Amb_el_dogal_al_coll',
         '/?paremiotipus=Posr+en+gu%C3%A0rdia' => '/p/Posar_en_guàrdia',
         '/?paremiotipus=Posra+barba' => '/p/Posar_barba',
         '/?paremiotipus=Prendre+a+manlleu' => '/p/Anar_a_manlleu',

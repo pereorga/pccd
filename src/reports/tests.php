@@ -57,6 +57,7 @@ function get_test_functions(): array
             'test_imatges_paremiotipus',
             'test_imatges_no_referenciades',
             'test_imatges_repetides',
+            'test_imatges_camps_duplicats',
             'test_imatges_sense_paremiotipus',
             'test_imatges_format',
         ],
@@ -264,6 +265,42 @@ function test_imatges_buides(): void
     if ($n > 0) {
         echo "{$n} camps 'Identificador' buits a la taula 00_IMATGES";
     }
+}
+
+function test_imatges_camps_duplicats(): void
+{
+    require_once __DIR__ . '/../common.php';
+
+    echo '<h3>Paremiotipus de la taula 00_IMATGES amb els camps URL_ENLLAÇ, AUTOR, DIARI i ARTICLE duplicats:</h3>';
+    $stmt = get_db()->query('SELECT
+        PAREMIOTIPUS,
+        URL_ENLLAÇ as URL,
+        AUTOR,
+        DIARI,
+        ARTICLE,
+        GROUP_CONCAT(Identificador) as Identificadors
+    FROM
+        00_IMATGES
+    WHERE
+        PAREMIOTIPUS IS NOT NULL AND PAREMIOTIPUS <> \'\'
+        AND URL_ENLLAÇ IS NOT NULL
+        AND AUTOR IS NOT NULL
+        AND DIARI IS NOT NULL
+        AND ARTICLE IS NOT NULL
+    GROUP BY
+        PAREMIOTIPUS,
+        URL_ENLLAÇ,
+        AUTOR,
+        DIARI,
+        ARTICLE
+    HAVING
+        COUNT(*) > 1');
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo '<ul>';
+    foreach ($results as $r) {
+        echo '<li><a href="' . get_paremiotipus_url($r['PAREMIOTIPUS']) . '">' . get_paremiotipus_display($r['PAREMIOTIPUS']) . '</a></li>';
+    }
+    echo '</ul>';
 }
 
 function test_imatges_no_existents(): void
