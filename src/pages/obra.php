@@ -28,7 +28,7 @@ $canonical_url = get_obra_url($obra['Identificador'], true);
 
 // Redirect old URLs to the new ones.
 if (!str_starts_with($request_uri, '/obra/')) {
-    header("Location: {$canonical_url}", true, 301);
+    header("Location: {$canonical_url}", response_code: 301);
 
     exit;
 }
@@ -166,7 +166,7 @@ if ($obra['URL'] !== null) {
     $output .= '<div>' . html_escape_and_link_urls($obra['URL'], 'url') . '</div>';
 }
 if ($obra['Observacions'] !== null) {
-    $comment = html_escape_and_link_urls(ct($obra['Observacions'], false));
+    $comment = html_escape_and_link_urls(ct($obra['Observacions'], escape_html: false));
     $output .= '<dl>';
     $output .= '<dt>Observacions:</dt>';
     $output .= '<dd property="description">' . $comment . '</dd>';

@@ -27,8 +27,7 @@ final class CopyrightYearTest extends TestCase
     {
         $year = date('Y');
         $phpFile = file_get_contents(__DIR__ . '/../../src/pages/credits.php');
-        $yearString = sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year);
-        $yearMentions = substr_count($phpFile, $yearString);
+        $yearMentions = substr_count($phpFile, sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year));
 
         self::assertSame(2, $yearMentions, "File src/pages/credits.php should contain the current year {$year} twice");
     }
@@ -37,8 +36,7 @@ final class CopyrightYearTest extends TestCase
     {
         $year = date('Y');
         $phpFile = file_get_contents(__DIR__ . '/../../docroot/index.php');
-        $yearString = sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year);
-        $yearMentions = substr_count($phpFile, $yearString);
+        $yearMentions = substr_count($phpFile, sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year));
 
         self::assertSame(1, $yearMentions, "File docroot/index.php should contain the current year {$year}");
     }

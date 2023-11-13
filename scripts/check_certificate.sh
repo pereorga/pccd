@@ -30,7 +30,7 @@ export REMOTE_ENVIRONMENT_URL
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [ENVIRONMENT_URL] [IP]"
+    echo "Usage: ./$(basename "$0") [ENVIRONMENT_URL] [IP]"
     echo ""
     echo "Optional arguments:"
     echo "  ENVIRONMENT_URL       The website URL, without trailing slash (default: https://pccd.dites.cat)"

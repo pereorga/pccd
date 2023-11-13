@@ -14,7 +14,7 @@ parameters:
     - */node_modules/*
     - */third_party/*
     - */vendor/*
-    - src/*xhprof*.php
+    - src/xhprof.php
   ignoreErrors:
     - '#Cannot call method fetchAll\(\) on PDOStatement\|false.#'
     - '#Cannot call method fetchColumn\(\) on PDOStatement\|false.#'

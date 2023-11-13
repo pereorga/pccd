@@ -12,15 +12,11 @@
 
 declare(strict_types=1);
 
-/*
- * Code to prepend when using XHProf in dev environments.
- *
- * This is not working with the latest PHP versions on ARM, use Tideways XHProf or SPX instead (see Dockerfile).
- */
+// Code to prepend when using XHProf in dev environments.
 
-xhprof_enable();
+xhprof_enable(XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY);
 register_shutdown_function(
     static function (): void {
-        file_put_contents('/tmp/' . uniqid() . '.ApplicationName.xhprof', serialize(xhprof_disable()));
+        file_put_contents('/tmp/' . uniqid() . '.PCCD.xhprof', serialize(xhprof_disable()));
     },
 );

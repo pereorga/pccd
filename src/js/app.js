@@ -39,17 +39,30 @@ gtag("config", "G-CP42Y3NK1R");
         const variantCheckbox = document.querySelector("#variant");
         const sinonimCheckbox = document.querySelector("#sinonim");
         const equivalentCheckbox = document.querySelector("#equivalent");
-        const nextButton = document.querySelector(".page-link[rel=next]");
-        const previousButton = document.querySelector(".page-link[rel=prev]");
+        const nextButton = document.querySelector("a[rel=next]");
+        const previousButton = document.querySelector("a[rel=prev]");
+        const mostra = document.querySelector("#mostra");
 
         // Remember the search options, but only if the search is empty (e.g. we are in the homepage).
         if (searchBox.value === "") {
             variantCheckbox.checked = localStorage.getItem("variant") !== "2";
             sinonimCheckbox.checked = localStorage.getItem("sinonim") === "1";
             equivalentCheckbox.checked = localStorage.getItem("equivalent") === "1";
+
+            // Remember pagination.
+            const storedValue = localStorage.getItem("mostra");
+            if (storedValue && storedValue !== mostra.value) {
+                if (document.querySelector(".pager ul")) {
+                    // Request the front page with the preferred pagination, if there is more than 1 page.
+                    location.assign("/?mostra=" + storedValue);
+                } else {
+                    // Otherwise, set the value.
+                    mostra.value = storedValue;
+                }
+            }
         }
 
-        // Store checkboxes values in local storage.
+        // Store values in local storage.
         variantCheckbox.addEventListener("change", () => {
             localStorage.setItem("variant", variantCheckbox.checked ? "1" : "2");
         });
@@ -58,6 +71,11 @@ gtag("config", "G-CP42Y3NK1R");
         });
         equivalentCheckbox.addEventListener("change", () => {
             localStorage.setItem("equivalent", equivalentCheckbox.checked ? "1" : "");
+        });
+        mostra.addEventListener("change", () => {
+            localStorage.setItem("mostra", mostra.value === "10" ? "" : mostra.value);
+            // Submit the form automatically when the pager changes.
+            document.querySelector("form[role=search]").submit();
         });
 
         // Search keyboard shortcuts.
@@ -71,11 +89,14 @@ gtag("config", "G-CP42Y3NK1R");
             }
         });
 
-        // Pager is only available when there are more than 10 results.
-        const mostra = document.querySelector("#mostra");
-        if (mostra) {
-            mostra.addEventListener("change", () => {
-                document.querySelector("form[role=search]").submit();
+        // On non-touch devices.
+        if (!("ontouchstart" in window)) {
+            // Ensure the following is executed with browser back/forward navigation.
+            window.addEventListener("pageshow", () => {
+                // If there is text inside the search box, select it.
+                if (searchBox.value) {
+                    searchBox.select();
+                }
             });
         }
     } else {
@@ -100,31 +121,31 @@ gtag("config", "G-CP42Y3NK1R");
                 audio.firstElementChild.play();
             });
         }
-    }
 
-    // On non-touch devices.
-    if (!("ontouchstart" in window)) {
-        // Ensure the following is executed with browser back/forward navigation.
-        window.addEventListener("pageshow", () => {
-            // If we are in the search page and there is text inside the search box, select it.
-            if (searchBox && searchBox.value) {
-                searchBox.select();
-            }
-        });
+        // Make elements with role="button" to behave consistently with buttons. This only exist in paremiotipus pages
+        // for now (for Common Voice audio).
+        for (const button of document.querySelectorAll('[role="button"]')) {
+            button.addEventListener("keydown", (event) => {
+                if (event.key === " ") {
+                    event.preventDefault();
+                    button.click();
+                }
+            });
+        }
     }
 
     // Show the cookie alert if it hasn't been accepted.
     if (localStorage.getItem("accept_cookies") !== "1") {
-        const snackBar = document.querySelector("#snackbar");
-        snackBar.classList.remove("d-none");
-        snackBar.querySelector("button").addEventListener("click", () => {
-            snackBar.remove();
+        const snack = document.querySelector("#snack");
+        snack.classList.remove("d-none");
+        snack.querySelector("button").addEventListener("click", () => {
+            snack.remove();
             localStorage.setItem("accept_cookies", "1");
         });
     }
 
     // Toggle hamburger menu on click.
-    document.querySelector("#navbar-toggle").addEventListener("click", () => {
+    document.querySelector("#nav-toggle").addEventListener("click", () => {
         document.querySelector("#menu").classList.toggle("d-none");
     });
 
@@ -157,15 +178,5 @@ gtag("config", "G-CP42Y3NK1R");
                 );
             }
         }
-    }
-
-    // Make elements with role="button" to behave consistently with buttons.
-    for (const button of document.querySelectorAll('[role="button"]')) {
-        button.addEventListener("keydown", (event) => {
-            if (event.key === " ") {
-                event.preventDefault();
-                button.click();
-            }
-        });
     }
 })();

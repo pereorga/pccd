@@ -60,8 +60,6 @@ return [
     //       should be added to the `directory_list` as
     //       to `exclude_analysis_directory_list`.
     'exclude_analysis_directory_list' => [
-        'src/tideways_xhprof_append.php',
-        'src/tideways_xhprof_prepend.php',
         'src/third_party/',
         'src/xhprof.php',
         'vendor/',
@@ -125,5 +123,11 @@ return [
         'UnusedSuppressionPlugin',
         'UseReturnValuePlugin',
         'WhitespacePlugin',
+    ],
+    'suppress_issue_types' => [
+        // Buggy warnings when using arrow functions.
+        'PhanPluginUnknownArrayClosureParamType',
+        // Buggy warnings when using named arguments.
+        'PhanTypeMismatchArgumentInternalReal',
     ],
 ];

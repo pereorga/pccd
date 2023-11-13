@@ -19,7 +19,7 @@ cd "$(dirname "$0")/.."
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") COMMAND"
+    echo "Usage: ./$(basename "$0") COMMAND"
     echo ""
     echo "    help"
     echo "      Shows this help and exits"
@@ -188,7 +188,7 @@ update_brew_packages() {
 #   None
 ##############################################################################
 update_composer() {
-    # Make sure repositories are updated too.
+    # Make sure repositories are updated too. See https://getcomposer.org/doc/05-repositories.md#package-2
     rm -f composer.lock
     rm -rf vendor/
     tools/composer clear-cache
@@ -203,6 +203,9 @@ update_composer() {
         <(tools/composer show --direct --no-dev --name-only | sort) \
         <(tools/composer show --direct --name-only | sort) |
         xargs tools/composer require --dev
+
+    # Mitigate https://github.com/composer/composer/issues/11698
+    tools/composer install
 }
 
 ##############################################################################

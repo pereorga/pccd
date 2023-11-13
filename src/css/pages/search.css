@@ -14,18 +14,14 @@ h1 {
 /* stylelint-disable property-no-vendor-prefix */
 select {
     width: 100%;
-    height: 38px;
+    height: 2.5rem;
     padding-right: 2rem;
     padding-left: 0.75rem;
     font-size: 1rem;
     color: #495057;
     -webkit-appearance: none;
     appearance: none;
-    background-color: #fff;
-    background-image: url("/img/chevron-down.svg");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 0.75rem;
+    background: #fff url("/img/chevron-down.svg") no-repeat right 0.75rem center / 0.75rem;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
 }
@@ -47,9 +43,8 @@ label {
 }
 
 .search-results li {
-    border-right: 1px solid #dee2e6;
-    border-bottom: 1px solid #dee2e6;
-    border-left: 1px solid #dee2e6;
+    border: 1px solid #dee2e6;
+    border-top: none;
 }
 
 .search-results li:first-child {
@@ -70,7 +65,7 @@ label {
     flex: 1 1 auto;
     width: 1%;
     min-width: 0;
-    height: 38px;
+    height: 2.5rem;
     padding-right: 0.75rem;
     padding-left: 0.75rem;
     font-size: 1rem;
@@ -154,7 +149,8 @@ label {
     width: 100%;
 }
 
-.btn {
+.input-group button {
+    z-index: 2;
     display: inline-block;
     padding: 0 0.75rem;
     font-size: 1rem;
@@ -163,30 +159,21 @@ label {
     text-align: center;
     background-color: #2b5797;
     border: 1px solid #2b5797;
-}
-
-.btn svg {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-.input-group-append {
-    display: flex;
-}
-
-.input-group-append button {
-    position: relative;
-    z-index: 2;
     border-radius: 0 0.25rem 0.25rem 0;
 }
 
-.input-group-append button:focus {
+.input-group button:focus {
     z-index: 3;
 }
 
-#cerca:focus + .input-group-append button {
+#cerca:focus + button {
     clip-path: inset(-3px -3px -3px 0);
     box-shadow: 0 0 0 3px #cbd5e7;
+}
+
+.input-group button svg {
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .pager {
@@ -195,38 +182,44 @@ label {
     margin-bottom: 1rem;
 }
 
-.pagination {
+.pager ul {
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
     list-style: none;
 }
 
-.pagination svg {
+.pager ul svg {
+    width: 1rem;
+    height: 1rem;
     vertical-align: -2px;
 }
 
-.page-link {
-    display: none;
+.pager ul a,
+.pager ul strong {
     padding: 0.5rem 0.75rem;
     border-radius: 0.25rem;
 }
 
-.page-link:focus {
-    outline: #cbd5e7 solid 3px;
+.pager ul a {
+    display: none;
 }
 
-.page-link[rel="prev"],
-.page-link[rel="next"],
-strong.page-link {
+.pager ul strong,
+.pager ul a[rel="prev"],
+.pager ul a[rel="next"] {
     display: block;
 }
 
-.page-link[rel="prev"] {
+.pager ul a:focus {
+    outline: #cbd5e7 solid 3px;
+}
+
+.pager ul a[rel="prev"] {
     padding-left: 0;
 }
 
-.page-link[rel="next"] {
+.pager ul a[rel="next"] {
     padding-right: 0;
 }
 
@@ -234,9 +227,9 @@ strong.page-link {
     padding: 10px 30px;
 }
 
-/* Big mobile and greater */
+/* Medium devices (large phones, 576px and up) */
 @media (min-width: 576px) {
-    .page-link,
+    .pager ul a,
     .col-options-label {
         display: block;
     }
@@ -256,7 +249,7 @@ strong.page-link {
     }
 }
 
-/* Tablet and greater */
+/* Large devices (tablets, 768px and up) */
 @media (min-width: 768px) {
     form[role="search"] aside {
         margin-bottom: 1rem;

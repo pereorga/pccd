@@ -59,7 +59,7 @@ foreach ($paremiotipus as $p) {
         || preg_match('/\\bcony\\b/', $p_lowercase) === 1
         || preg_match('/\\bcunyada\\b/', $p_lowercase) === 1
         || preg_match('/\\bcunyades\\b/', $p_lowercase) === 1
-        || (preg_match('/\\bdona\\b/', $p_lowercase) === 1 && mb_strpos($p_lowercase, 'dona-') === false)
+        || (preg_match('/\\bdona\\b/', $p_lowercase) === 1 && !str_contains($p_lowercase, 'dona-'))
         || preg_match('/\\bdones\\b/', $p_lowercase) === 1
         || preg_match('/\\bfilla\\b/', $p_lowercase) === 1
         || preg_match('/\\bfilles\\b/', $p_lowercase) === 1

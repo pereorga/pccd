@@ -11,13 +11,13 @@
       "clip-path": ["px"],
       "font-size": ["rem"],
       "gap": "px",
-      "height": ["em", "px", "rem"],
+      "height": ["em", "rem"],
       "line-height": [],
       "max-height": ["px"],
       "max-width": ["%", "px"],
       "outline": ["px"],
       "vertical-align": ["em", "px"],
-      "width": ["%", "em", "px", "rem"]
+      "width": ["%", "em", "rem"]
     },
     "declaration-property-value-no-unknown": true,
     "media-feature-range-notation": "prefix",

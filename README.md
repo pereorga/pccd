@@ -21,6 +21,12 @@ Note: If you don't have a database, you can copy `tmp/schema.sql` and `tmp/schem
 
 ## Updating the repository with a new release
 
+### Installation using Nix (Linux, macOS) - WIP
+
+```bash
+nix-shell
+```
+
 ### Installation on Linux (Debian-based)
 
 ```bash
@@ -35,7 +41,7 @@ Some additional packages can be installed using [Homebrew](https://brew.sh/):
 brew bundle install --file=ubuntu.Brewfile
 ```
 
-You may also need to install latest PHP. The rest of dependencies can be installed using [Yarn](https://yarnpkg.com/):
+The rest of dependencies can be installed using [Yarn](https://yarnpkg.com/):
 
 ```bash
 npm install --global yarn && yarn install
@@ -43,7 +49,7 @@ npm install --global yarn && yarn install
 
 ### Installation on macOS (using Homebrew)
 
-After installing [Homebrew](https://brew.sh/), run the following in this directory to install all developer
+After installing [Homebrew](https://brew.sh/), run the following from the root directory to install all developer
 dependencies:
 
 ```bash
@@ -53,7 +59,7 @@ brew bundle install && npm install --global yarn && yarn install && pecl install
 ### Procedure
 
 **Part 1**: Update files and build. Usually, new image files (Cobertes.zip, Imatges.zip, Obres-VPR.zip) and the database
-(database.accdb) are provided. Put them in this directory before running the following:
+(database.accdb) are provided. Put them in the root directory before running the following:
 
 ```bash
 yarn decompress:images && yarn optimize:images && yarn convert:db && yarn build:docker
@@ -75,14 +81,12 @@ git add . && git commit -m 'new release' && git push
 yarn export:code
 ```
 
-You may need to run `yarn refresh:test-data` if the data has changed, in order to pass the tests.
-
 ## Local development
 
 ### Development requirements
 
 - PHP: 8.2 or later is required.
-- Node.js: 18 or later is required.
+- Node.js: 18.16 or later is required.
 
 ### Assets
 
@@ -122,6 +126,8 @@ Note: e2e tests require the website to be running.
 yarn test
 ```
 
+You may need to run `yarn refresh:test-data` if the data has changed, in order to pass the tests.
+
 For running some tests in **all** pages, run:
 
 ```bash
@@ -159,7 +165,6 @@ For details on contributing to this repository, see the contributing guidelines:
 - Infra: Consider switching to PHP-FPM, and maybe Nginx
 - Build: Consider switching to pnpm, latest yarn or going back to npm
 - UX: Consider adding search functionality on every page
-- Style: Consider sorting HTML attributes, although that would be insane
 
 ## License
 

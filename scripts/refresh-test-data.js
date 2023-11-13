@@ -34,7 +34,7 @@ const extractNumber = (text, regex) => {
     data.searchFeraWithVariantsNumberOfResults = extractNumber(content, /trobat ([\d.]+) paremiotipus per a/);
 
     await page.goto(`${process.env.BASE_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era`);
-    content = await page.locator(".article-summary").textContent();
+    content = await page.locator(".description").textContent();
     data.paremiotipusQuiNoVulguiPolsNumberOfEntries = extractNumber(content, /([\d.]+)\srecurrències/);
     data.paremiotipusQuiNoVulguiPolsNumberOfVariants = extractNumber(content, /en ([\d.]+)\svariants/);
 

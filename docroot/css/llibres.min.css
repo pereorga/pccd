@@ -1,1 +1,1 @@
-.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:20px;align-items:center;margin-top:20px;text-align:center}.books img{width:auto;max-height:200px;border:1px solid #dee2e6}
+.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:30px 0;align-items:center;margin-top:1.5rem;margin-left:-1.5rem;text-align:center}.books img{width:auto;max-height:160px;border:1px solid #dee2e6}

@@ -11,10 +11,8 @@ scripts/SentenceSimilarityGroup
 scripts/image-convertor
 scripts/sinonims-export
 vendor
-# We use composer to add some git repositories as dev dependencies
+# We use Composer to add git repositories as dev dependencies
 !vendor/noisebynorthwest/php-spx
-!vendor/tideways/php-xhprof-extension
-!vendor/longxinh/xhprof
 
 # Temporary files
 .php-cs-fixer.cache

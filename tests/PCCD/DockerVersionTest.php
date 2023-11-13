@@ -62,7 +62,7 @@ final class DockerVersionTest extends TestCase
     protected function getDockerPhpVersion(string $dockerFile): string
     {
         $matches = [];
-        preg_match('/^FROM php:([0-9.]+)-apache/', $dockerFile, $matches);
+        preg_match('/^FROM php:([0-9.]+(-rc|beta\d+)?)-apache/', $dockerFile, $matches);
 
         return $matches[1];
     }

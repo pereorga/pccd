@@ -45,7 +45,7 @@ foreach ($variants as $modisme => $variant) {
 
         // Redirect old URLs to the new ones.
         if (!str_starts_with($request_uri, '/p/')) {
-            header("Location: {$canonical_url}", true, 301);
+            header("Location: {$canonical_url}", response_code: 301);
 
             exit;
         }
@@ -90,13 +90,11 @@ foreach ($variants as $modisme => $variant) {
             if ($work !== '') {
                 $work .= ' ';
             }
+            $diari = '<i>' . htmlspecialchars($v['DIARI']) . '</i>';
             if ($v['ID_FONT'] !== null && isset($fonts[$v['ID_FONT']])) {
-                $work .= '<a href="' . get_obra_url($v['ID_FONT']) . '">';
-                $work .= '<i>' . htmlspecialchars($v['DIARI']) . '</i>';
-                $work .= '</a>';
-            } else {
-                $work .= '<i>' . htmlspecialchars($v['DIARI']) . '</i>';
+                $diari = '<a href="' . get_obra_url($v['ID_FONT']) . '">' . $diari . '</a>';
             }
+            $work .= $diari;
         }
         if ($v['ARTICLE'] !== null) {
             if ($work !== '') {
@@ -148,25 +146,22 @@ foreach ($variants as $modisme => $variant) {
                 $body .= "<div>Sinònim: {$sinonim}</div>";
             }
             if ($v['EQUIVALENT'] !== null) {
-                $equivalent_label = 'Equivalent';
+                $equivalent = ct($v['EQUIVALENT']);
                 $idioma = $v['IDIOMA'] !== null ? get_idioma($v['IDIOMA']) : '';
                 if ($idioma !== '') {
-                    $equivalent_label = "Equivalent en {$idioma}";
-                }
-                $equivalent = ct($v['EQUIVALENT']);
-                set_meta_description_once("{$equivalent_label}: {$equivalent}");
-
-                $iso_code = $v['IDIOMA'] !== null ? get_idioma_iso_code($v['IDIOMA']) : '';
-                if ($iso_code !== '') {
-                    $body .= "<div>{$equivalent_label}: <span lang=\"{$iso_code}\">{$equivalent}</span></div>";
+                    $iso_code = get_idioma_iso_code($idioma);
+                    if ($iso_code !== '') {
+                        $equivalent = "<span lang=\"{$iso_code}\">{$equivalent}</span>";
+                    }
+                    $body .= "<div>Equivalent en {$idioma}: {$equivalent}</div>";
                 } else {
-                    $body .= "<div>{$equivalent_label}: {$equivalent}</div>";
+                    $body .= "<div>Equivalent: {$equivalent}</div>";
                 }
             }
             if ($v['LLOC'] !== null) {
                 $body .= '<div>Lloc: ' . ct($v['LLOC']) . '</div>';
             }
-            if ($v['FONT'] !== null) {
+            if ($v['FONT'] !== null && strlen($v['FONT']) > 1) {
                 $body .= '<div>Font: ' . ct($v['FONT']) . '</div>';
             }
 
@@ -240,7 +235,7 @@ foreach ($mp3_files as $mp3_file) {
 
         $cv_output .= '<a class="audio" href="/mp3/' . $mp3_file . '" role="button">';
         $cv_output .= '<audio preload="none" src="/mp3/' . $mp3_file . '"></audio>';
-        $cv_output .= '<img width="32" height="27" alt="altaveu" src="/img/speaker.svg">';
+        $cv_output .= '<img width="32" height="27" alt="▶ Reprodueix" src="/img/speaker.svg">';
         $cv_output .= '</a>';
     } else {
         error_log("Error: asset file is missing: {$mp3_file}");
@@ -271,10 +266,9 @@ foreach ($images as $image) {
 
         $image_url = get_clean_url($image['URL']);
         if ($image_url !== '') {
-            $images_output .= '<a href="' . $image_url . '">' . $image_tag . '</a>';
-        } else {
-            $images_output .= $image_tag;
+            $image_tag = '<a href="' . $image_url . '">' . $image_tag . '</a>';
         }
+        $images_output .= $image_tag;
 
         $image_caption = '';
         if ($image['AUTOR'] !== null) {
@@ -327,10 +321,10 @@ foreach ($images as $image) {
 
 $blocks = '';
 if ($cv_output !== '') {
-    $blocks = '<div id="commonvoice" class="bloc text-balance text-break" title="Escolteu-ho">';
+    $blocks = '<div id="commonvoice" class="bloc text-balance text-break" title="Reprodueix un enregistrament">';
     $blocks .= $cv_output;
-    $blocks .= '<p><a title="Projecte Common Voice" href="https://commonvoice.mozilla.org/ca">';
-    $blocks .= '<img alt="logotip de Common Voice" width="100" height="25" src="/img/commonvoice.svg"></a></p>';
+    $blocks .= '<p><a href="https://commonvoice.mozilla.org/ca">';
+    $blocks .= '<img alt="Projecte Common Voice" width="100" height="25" src="/img/commonvoice.svg"></a></p>';
     $blocks .= '</div>';
 }
 if ($images_output !== '') {
@@ -343,7 +337,7 @@ set_paremiotipus_blocks($blocks);
 // Main page output.
 $output = '';
 if ($total_variants > 1) {
-    $output = '<div class="article-summary">';
+    $output = '<div class="description">';
     $output .= count($modismes) . "&nbsp;recurrències en {$total_variants}&nbsp;variants.";
     if ($total_min_year < YEAR_MAX) {
         $output .= " Primera&nbsp;citació:&nbsp;{$total_min_year}.";
@@ -353,7 +347,7 @@ if ($total_variants > 1) {
     $output .= '</div></div>';
 }
 
-// Sort variants by the number of sources. @phan-suppress-next-line PhanPluginUnknownArrayClosureParamType
+// Sort variants by the number of sources.
 usort($rendered_variants_array, static fn (array $a, array $b): int => $b['count'] <=> $a['count']);
 foreach ($rendered_variants_array as $rendered_variant) {
     $output .= $rendered_variant['html'];

@@ -80,7 +80,7 @@ $sql = 'DROP TABLE IF EXISTS `commonvoice`;
 $sql .= 'INSERT IGNORE INTO commonvoice(paremiotipus, file) VALUES ' . "\n";
 
 foreach ($sentences_array as $paremiotipus => $pronunciations) {
-    // Sort by votes and keep the top 20. @phan-suppress-next-line PhanPluginUnknownArrayClosureParamType
+    // Sort by votes and keep the top 20.
     usort($pronunciations, static fn (array $a, array $b): int => $b['v'] <=> $a['v']);
     $pronunciations = array_slice($pronunciations, 0, 20);
 

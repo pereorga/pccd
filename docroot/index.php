@@ -16,14 +16,14 @@ require __DIR__ . '/../src/common.php';
 
 // Redirect to the homepage any request where the URL contains 'index.php'.
 if (str_contains(get_request_uri(), 'index.php')) {
-    header('Location: https://pccd.dites.cat', true, 302);
+    header('Location: /');
 
     exit;
 }
 
 check_db_or_exit();
 
-header('Cache-Control: public, s-maxage=31536000, max-age=300');
+header('Cache-Control: public, s-maxage=31536000, max-age=900');
 
 // Build page content in advance.
 $page_name = get_page_name();
@@ -52,22 +52,22 @@ require __DIR__ . '/css/base.min.css';
 </head>
 <body>
     <header>
-        <nav class="container-md">
-            <a href="/" class="navbar-brand" aria-label="Paremiologia catalana comparada digital"><span>Paremiologia catalana comparada digital</span></a>
-            <button id="navbar-toggle" type="button" aria-label="Desplega el menú">
-                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                    <path fill="white" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/>
+        <div class="container-md">
+            <a href="/" class="brand"><span class="brand-text">Paremiologia catalana comparada digital</span><span class="brand-text-xs">PCCD</span></a>
+            <button id="nav-toggle" type="button" aria-label="Desplega el menú">
+                <svg aria-hidden="true" viewBox="0 0 16 16">
+                    <path fill="#fff" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/>
                 </svg>
             </button>
             <div class="d-none" id="menu">
-                <div class="navbar-nav">
+                <nav>
                     <a href="/projecte">Projecte</a>
                     <a href="/" title="Ctrl + /">Cerca</a>
                     <a href="/instruccions">Instruccions d'ús</a>
                     <a href="/credits">Crèdits</a>
-                </div>
+                </nav>
             </div>
-        </nav>
+        </div>
     </header>
     <main class="container-md">
         <div class="row">
@@ -81,7 +81,7 @@ require __DIR__ . '/css/base.min.css';
                 <?php echo get_side_blocks($page_name); ?>
                 <div class="bloc bloc-contact bloc-white">
                     <p>Ajudeu-nos a millorar</p>
-                    <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="arrova" title="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
+                    <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
                 </div>
             </aside>
         </div>
@@ -90,13 +90,13 @@ require __DIR__ . '/css/base.min.css';
         <p><?php echo format_nombre(get_n_modismes()); ?> fitxes, corresponents a <?php echo format_nombre(get_n_paremiotipus()); ?> paremiotipus, de <?php echo format_nombre(get_n_fonts()); ?> fonts. Última actualització: <?php require __DIR__ . '/../tmp/db_date.txt'; ?></p>
         <p>© Víctor Pàmies i Riudor, 2020-2023.</p>
     </footer>
-    <div id="snackbar" class="d-none">
-        <div class="snackbar-inner" role="alert">
-            <div class="snackbar-message">Aquest lloc web fa servir galetes de Google per analitzar el trànsit.</div>
+    <div id="snack" class="d-none">
+        <div class="snack-inner" role="alert">
+            <div class="snack-message">Aquest lloc web fa servir galetes de Google per analitzar el trànsit.</div>
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=4"></script>
+    <script async src="/js/script.min.js?v=5"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

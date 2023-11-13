@@ -17,7 +17,6 @@ const ISBN10_LENGTH = 10;
 const ISBN13_LENGTH = 13;
 const MAX_RANDOM_PAREMIOTIPUS = 10000;
 const MIN_SINONIM_WORD_LENGTH = 3;
-const NONCE_LENGTH = 18;
 const PAGER_DEFAULT = 10;
 const SEARCH_MAX_LENGTH = 255;
 const TITLE_MAX_LENGTH = 70;
@@ -106,7 +105,7 @@ function get_sinonim_clean(string $sinonim): string
 
     // Remove unnecessary characters or words.
     $sinonim = trim($sinonim, ". \n\r\t\v\x00");
-    $sinonim = str_replace([' / ', 'v.', 'V.', 'Veg.', 'Similar:', 'Similars:', 'Contrari:'], ' ', $sinonim);
+    $sinonim = str_replace(['*', ' / ', 'v.', 'V.', 'Veg.', 'tb.', 'Similar:', 'Similars:', 'Contrari:', '(incorrecte)', '(cast.)'], ' ', $sinonim);
     $sinonim = preg_replace('/\s\s+/', ' ', $sinonim);
     assert(is_string($sinonim));
 
@@ -226,53 +225,57 @@ function get_page_limit(): int
         }
     }
 
+    if (isset($_GET['font'])) {
+        return EASTER_EGG_PAGER_LIMIT;
+    }
+
     return PAGER_DEFAULT;
 }
 
 /**
- * Removes newlines, extra spaces and unsafe characters.
+ * Trims and removes newlines, extra spaces and unsafe characters from the provided string.
  *
- * Optionally and by default, escapes HTML and ensures the string ends with a dot or exclamation mark.
+ * Optionally and by default, escapes HTML and ensures the string ends with a dot or punctuation.
  */
-function ct(string $string, bool $escape_html = true, bool $end_with_dot = true): string
+function ct(string $text, bool $escape_html = true, bool $end_with_dot = true): string
 {
     // Remove unsafe characters (https://htmlhint.com/docs/user-guide/rules/attr-unsafe-chars).
-    $string = preg_replace("/\u{00AD}/", '', $string);
-    assert(is_string($string));
-    $string = preg_replace("/\u{200E}/", '', $string);
-    assert(is_string($string));
+    $text = preg_replace("/\u{00AD}/", '', $text);
+    assert(is_string($text));
+    $text = preg_replace("/\u{200E}/", '', $text);
+    assert(is_string($text));
 
     // Remove newlines and extra spaces.
     // https://html-validate.org/rules/attr-delimiter.html.
     // https://html-validate.org/rules/no-trailing-whitespace.html.
     // https://htmlhint.com/docs/user-guide/rules/attr-whitespace.
-    $string = preg_replace('/\n/', ' ', $string);
-    assert(is_string($string));
-    $string = preg_replace('/\s+/', ' ', $string);
-    assert(is_string($string));
+    $text = preg_replace('/\n/', ' ', $text);
+    assert(is_string($text));
+    $text = preg_replace('/\s+/', ' ', $text);
+    assert(is_string($text));
 
     // Escape HTML.
     if ($escape_html) {
-        $string = htmlspecialchars($string);
+        $text = htmlspecialchars($text);
     }
 
     if ($end_with_dot) {
         // Remove trailing dot character.
-        $string = trim($string, ". \n\r\t\v\x00");
+        $text = trim($text, ". \n\r\t\v\x00");
 
         // Add trailing dot character.
         if (
-            !str_ends_with($string, '?')
-            && !str_ends_with($string, '!')
-            && !str_ends_with($string, '…')
-            && !str_ends_with($string, ';')
-            && !str_ends_with($string, '*')
+            !str_ends_with($text, '?')
+            && !str_ends_with($text, '!')
+            && !str_ends_with($text, '…')
+            && !str_ends_with($text, ';')
+            && !str_ends_with($text, '*')
         ) {
-            $string .= '.';
+            $text .= '.';
         }
     }
 
-    return $string;
+    return trim($text);
 }
 
 /**
@@ -364,7 +367,7 @@ function get_side_blocks(string $page_name): string
             $random_book['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
         }
         if ($random_book['URL'] !== null) {
-            $side_blocks .= '<a href="' . $random_book['URL'] . '" title="' . htmlspecialchars($random_book['Títol']) . '">';
+            $side_blocks .= '<a href="' . $random_book['URL'] . '">';
         }
         $side_blocks .= get_image_tags(
             $random_book['Imatge'],
@@ -385,8 +388,8 @@ function get_side_blocks(string $page_name): string
     // All pages show the credits block.
     $side_blocks .= '<div class="bloc bloc-credits bloc-white">';
     $side_blocks .= '<p>Un projecte de:</p>';
-    $side_blocks .= '<p><a class="credits" href="http://www.dites.cat" title="www.dites.cat">dites.cat</a></p>
-        <p><a href="https://www.softcatala.org" title="Softcatalà"><img loading="lazy" alt="logotip de Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>';
+    $side_blocks .= '<p><a class="credits" href="http://www.dites.cat">dites.cat</a></p>';
+    $side_blocks .= '<p><a href="https://www.softcatala.org"><img loading="lazy" alt="Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>';
     $side_blocks .= '</div>';
 
     if ($page_name !== 'search') {
@@ -423,7 +426,7 @@ function set_page_title(string $title): void
     global $page_title;
 
     // Remove some unsafe and unwanted characters.
-    $page_title = ct($title, false, false);
+    $page_title = ct(text: $title, escape_html: false, end_with_dot: false);
 }
 
 /**
@@ -665,10 +668,28 @@ function get_redirects(): array
 {
     // These redirects are mapped manually based on a Google Search console report.
     return [
-        '/p/M%C3%A9s_ruc_que_el_Set-soles' => '/p/Més_ruc_que_en_Set-soles',
+        '/?paremiotipus=Posar-se+en+gr%C3%A0cia' => '/p/En_gràcia',
+        '/?paremiotipus=Ser+un+alabaix' => '/p/Alabaix',
+        '/?paremiotipus=Ser+un+escuracassoles' => '/p/Escuracassoles',
+        '/?paremiotipus=Ser+un+espantalloques' => '/p/Espantalloques',
+        '/?paremiotipus=Ser+un+nus+de+nervis' => '/p/Feix_de_nervis',
         '/?paremiotipus=Ser+un+titafreda' => '/p/Titafreda',
-        '/p/Ser_un_torraneules' => '/p/Torraneules',
+        '/?paremiotipus=Tenir-l%27hi+jurada' => '/p/Tenir-li_jurada',
+        '/p/Cadasc%C3%BA_sap_el_que_bell_en_la_seva_olla%2C_com_aquell_que_hi_bullia_una_rajola' => '/p/Cadascú_sap_el_que_bull_en_la_seva_olla%2C_com_aquell_que_hi_bullia_una_rajola',
+        '/p/Fer_la_puta_i_al_ramoneta' => '/p/Fer_la_puta_i_la_ramoneta',
+        '/p/M%C3%A9s_ruc_que_el_Set-soles' => '/p/Més_ruc_que_en_Set-soles',
+        '/p/Posar-se_en_gr%C3%A0cia' => '/p/En_gràcia',
+        '/p/Ser_un_aguaitacossos' => '/p/Aguaitacossos',
+        '/p/Ser_un_alabaix' => '/p/Alabaix',
+        '/p/Ser_un_escuracassoles' => '/p/Escuracassoles',
+        '/p/Ser_un_espantalloques' => '/p/Espantalloques',
+        '/p/Ser_un_nus_de_nervis' => '/p/Feix_de_nervis',
+        '/p/Ser_un_sac_de_mentides' => '/p/Sac_de_mentides',
         '/p/Ser_un_titafreda' => '/p/Titafreda',
+        '/p/Ser_un_torraneules' => '/p/Torraneules',
+        '/p/t_Mart%C3%AD_al_mat%C3%AD%2C_la_pluja_ja_%C3%A9s_aqu%C3%AD._A_la_tarda%2C_la_pluja_ja_%C3%A9s_passada' => '/p/Arc_de_sant_Martí_al_matí%2C_la_pluja_ja_és_aquí._A_la_tarda%2C_la_pluja_ja_és_passada',
+        '/p/Tenir-l%27hi_jurada' => '/p/Tenir-li_jurada',
+        '/p/Val_m%C3%A9s_relga_que_renda' => '/p/Val_més_regla_que_renda',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282021%29%3A+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau%3F%3A+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
         '/?obra=Badia+i+Pujol%2C+Jordi+%282022%29%3A+Vilaweb+-+%E2%80%9CFotre%E2%80%9D%2C+el+Messi+dels+verbs+catalans' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Vilaweb_-_«Fotre»%2C_el_Messi_dels_verbs_catalans',
         '/?obra=Badia+i+Pujol%2C+Jordi+(2021):+Ras+i+curt+-+Fer+un+%E2%80%98polvo%E2%80%99+o+fotre+un+clau?:+aquesta+%C3%A9s+la+q%C3%BCesti%C3%B3' => '/obra/Badia_i_Pujol%2C_Jordi_%282022%29%3A_Ras_i_curt_-_Deu_refranys_catalans_intradu%C3%AFbles',
@@ -829,7 +850,7 @@ function try_to_redirect_manual_and_exit(): void
     $request_uri = str_replace('%2B', '+', get_request_uri());
 
     if (isset($redirects[$request_uri])) {
-        header('Location: ' . $redirects[$request_uri], true, 301);
+        header('Location: ' . $redirects[$request_uri], response_code: 301);
 
         exit;
     }
@@ -842,7 +863,7 @@ function try_to_redirect_manual_and_exit(): void
  */
 function return_404_and_exit(): never
 {
-    header('HTTP/1.1 404 Not Found', true, 404);
+    header('HTTP/1.1 404 Not Found', response_code: 404);
 
     require __DIR__ . '/../docroot/404.html';
 
@@ -857,7 +878,7 @@ function check_db_or_exit(): void
     try {
         get_db();
     } catch (Exception) {
-        header('HTTP/1.1 500 Internal Server Error', true, 500);
+        header('HTTP/1.1 500 Internal Server Error', response_code: 500);
 
         require __DIR__ . '/../docroot/500.html';
 
@@ -884,7 +905,7 @@ function try_to_redirect_to_valid_paremiotipus_and_exit(string $paremiotipus): v
     $paremiotipus_match = get_paremiotipus_by_modisme($paremiotipus);
     if ($paremiotipus_match !== '') {
         // Redirect to an existing page.
-        header('Location: ' . get_paremiotipus_url($paremiotipus_match), true, 301);
+        header('Location: ' . get_paremiotipus_url($paremiotipus_match), response_code: 301);
 
         exit;
     }
@@ -894,7 +915,7 @@ function try_to_redirect_to_valid_paremiotipus_and_exit(string $paremiotipus): v
     $paremiotipus_match = get_paremiotipus_best_match($paremiotipus);
     if ($paremiotipus_match !== '') {
         // Redirect to an existing page.
-        header('Location: ' . get_paremiotipus_url($paremiotipus_match), true, 302);
+        header('Location: ' . get_paremiotipus_url($paremiotipus_match));
 
         exit;
     }
@@ -1194,7 +1215,7 @@ function get_cv_files(string $paremiotipus): array
  *     HEIGHT: int,
  * }
  */
-function get_obra(string $obra_title): false|array
+function get_obra(string $obra_title): array|false
 {
     $stmt = get_db()->prepare('SELECT
         Identificador,
@@ -1326,7 +1347,6 @@ function get_clean_url(?string $url): string
     if ($url !== null) {
         $url = trim($url);
 
-        /** @noinspection NotOptimalIfConditionsInspection */
         if ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) && filter_var($url, \FILTER_SANITIZE_URL) === $url) {
             $clean_url = str_replace(['&', '[', ']'], ['&amp;', '%5B', '%5D'], $url);
         }
@@ -1398,9 +1418,9 @@ function render_pager_element(int $page_number, int|string $name, int|string $ti
 
     $pager_item = '<li>';
     if ($is_active) {
-        $pager_item .= '<strong class="page-link" title="' . $title . '">' . $name . '</strong>';
+        $pager_item .= '<strong title="' . $title . '">' . $name . '</strong>';
     } else {
-        $pager_item .= '<a class="page-link" href="' . get_pager_url($page_number) . '" title="' . $title . '"';
+        $pager_item .= '<a href="' . get_pager_url($page_number) . '" title="' . $title . '"';
         if ($rel !== '') {
             $pager_item .= ' rel="' . $rel . '"';
         }
@@ -1422,7 +1442,7 @@ function render_pager(int $page_num, int $num_pages): string
         // Show previous link.
         $prev_links .= render_pager_element(
             $page_num - 1,
-            '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M15.535 3.515L7.05 12l8.485 8.485l1.415-1.414L9.878 12l7.072-7.071l-1.415-1.414Z"/></svg> Anterior',
+            '<svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M15.535 3.515L7.05 12l8.485 8.485l1.415-1.414L9.878 12l7.072-7.071l-1.415-1.414Z"/></svg> Anterior',
             'Pàgina anterior (Ctrl ←)'
         );
 
@@ -1462,12 +1482,12 @@ function render_pager(int $page_num, int $num_pages): string
         // Show the next link.
         $next_links .= render_pager_element(
             $page_num + 1,
-            'Següent <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M8.465 20.485L16.95 12L8.465 3.515L7.05 4.929L14.122 12L7.05 19.071l1.415 1.414Z"/></svg>',
+            'Següent <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M8.465 20.485L16.95 12L8.465 3.515L7.05 4.929L14.122 12L7.05 19.071l1.415 1.414Z"/></svg>',
             'Pàgina següent (Ctrl →)'
         );
     }
 
-    return '<nav aria-label="Paginació dels resultats"><ul class="pagination">' . $prev_links . $page_links . $next_links . '</ul></nav>';
+    return '<nav aria-label="Paginació dels resultats"><ul>' . $prev_links . $page_links . $next_links . '</ul></nav>';
 }
 
 /**
@@ -1626,6 +1646,9 @@ function build_search_query(string $search, string $search_mode, string &$where_
         $where_clause = " WHERE PAREMIOTIPUS_LC_WA LIKE CONCAT(?, '%')";
     } elseif ($search_mode === 'acaba') {
         $where_clause = " WHERE PAREMIOTIPUS_LC_WA LIKE CONCAT('%', ?)";
+    } elseif (isset($_GET['font']) && is_string($_GET['font']) && $_GET['font'] !== '') {
+        $arguments = [path_to_name($_GET['font'])];
+        $where_clause = ' WHERE ID_FONT = ?';
     } else {
         // 'conté' (default) search mode uses full-text.
         $columns = 'PAREMIOTIPUS_LC_WA';

@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/cypress/downloads" />
       <excludeFolder url="file://$MODULE_DIR$/cypress/videos" />
+      <excludeFolder url="file://$MODULE_DIR$/src/third_party" />
       <excludePattern pattern="page*.html" />
     </content>
     <orderEntry type="inheritedJdk" />

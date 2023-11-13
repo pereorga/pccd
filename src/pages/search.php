@@ -46,7 +46,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
     <aside>
         <div class="form-row">
             <div class="col-mode">
-                <select id="mode" name="mode" title="Mode de cerca" aria-label="Seleccioneu el mode de cerca">
+                <select id="mode" name="mode" aria-label="Mode de cerca">
                     <option value="">conté</option>
                     <option<?php echo $search_mode === 'comença' ? ' selected' : ''; ?> value="comença">comença per</option>
                     <option<?php echo $search_mode === 'acaba' ? ' selected' : ''; ?> value="acaba">acaba en</option>
@@ -54,31 +54,29 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
             </div>
             <div class="col-input">
                 <div class="input-group">
-                    <input type="search" id="cerca" name="cerca" aria-autocomplete="both" autocapitalize="off" autocomplete="off" value="<?php echo $raw_search_clean; ?>" placeholder="Introduïu un o diversos termes" aria-label="Cerqueu parèmies" maxlength="255" pattern="(.|\s)*\S(.|\s)*" autofocus required>
-                    <div class="input-group-append">
-                        <button type="submit" class="btn" aria-label="Cerca" title="Cerca">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                            </svg>
-                        </button>
-                    </div>
+                    <input type="search" id="cerca" name="cerca" autocapitalize="off" autocomplete="off" value="<?php echo $raw_search_clean; ?>" placeholder="Introduïu un o diversos termes" aria-label="Introduïu un o diversos termes" maxlength="255" pattern="(.|\s)*\S(.|\s)*" autofocus required>
+                    <button type="submit" aria-label="Cerca">
+                        <svg aria-hidden="true" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-options-label">Inclou en la cerca:</div>
             <div class="col-options">
-                <div class="form-check">
-                    <input type="checkbox" name="variant" id="variant" title="Variants del paremiotipus" value=""<?php echo checkbox_checked('variant') ? ' checked' : ''; ?>>
-                    <label for="variant" title="Variants del paremiotipus">variants</label>
+                <div class="form-check" title="Variants del paremiotipus">
+                    <input type="checkbox" name="variant" id="variant" value=""<?php echo checkbox_checked('variant') ? ' checked' : ''; ?>>
+                    <label for="variant">variants</label>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" name="sinonim" id="sinonim" title="Expressions sinònimes" value=""<?php echo checkbox_checked('sinonim') ? ' checked' : ''; ?>>
-                    <label for="sinonim" title="Expressions sinònimes">sinònims</label>
+                <div class="form-check" title="Expressions sinònimes">
+                    <input type="checkbox" name="sinonim" id="sinonim" value=""<?php echo checkbox_checked('sinonim') ? ' checked' : ''; ?>>
+                    <label for="sinonim">sinònims</label>
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" name="equivalent" id="equivalent" title="Equivalents en altres llengües" value=""<?php echo checkbox_checked('equivalent') ? ' checked' : ''; ?>>
-                    <label for="equivalent" title="Equivalents en altres llengües">altres idiomes</label>
+                <div class="form-check" title="Equivalents en altres llengües">
+                    <input type="checkbox" name="equivalent" id="equivalent" value=""<?php echo checkbox_checked('equivalent') ? ' checked' : ''; ?>>
+                    <label for="equivalent">altres idiomes</label>
                 </div>
             </div>
         </div>
@@ -88,7 +86,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
 // Build query.
 $where_clause = '';
 $arguments = [];
-if ($search === '') {
+if ($search === '' && !isset($_GET['font'])) {
     // If the search is empty, we are in the main page.
     set_page_title('Paremiologia catalana comparada digital');
     $total = get_n_paremiotipus();
@@ -99,6 +97,7 @@ if ($search === '') {
 }
 
 $output = '';
+$number_of_pages = 0;
 if ($total > 0) {
     $number_of_pages = (int) ceil($total / $results_per_page);
     if ($search !== '') {
@@ -116,23 +115,6 @@ if ($total > 0) {
         $output .= '<li><a href="' . get_paremiotipus_url($p) . '">' . get_paremiotipus_display($p) . '</a></li>';
     }
     $output .= '</ol>';
-
-    $output .= '<div class="pager">';
-    // Only show pagination links and dropdown if it can be useful.
-    if ($total > PAGER_DEFAULT) {
-        // Only show pagination links if there is more than one page.
-        if ($number_of_pages > 1) {
-            $output .= render_pager($current_page, $number_of_pages);
-        }
-
-        $output .= '<select id="mostra" name="mostra" aria-label="Limiteu el nombre de resultats per pàgina" title="Nombre de resultats per pàgina">
-                        <option' . ($results_per_page === PAGER_DEFAULT ? ' selected' : '') . ' value="10">10</option>
-                        <option' . ($results_per_page === 15 ? ' selected' : '') . ' value="15">15</option>
-                        <option' . ($results_per_page === 25 ? ' selected' : '') . ' value="25">25</option>
-                        <option' . ($results_per_page === 50 ? ' selected' : '') . ' value="50">50</option>
-                    </select>';
-    }
-    $output .= '</div>';
 } else {
     $output .= '<p>';
     $output .= "No s'ha trobat cap resultat coincident amb";
@@ -147,11 +129,23 @@ if ($total > 0) {
         $output .= '<p>';
         $output .= '<strong>Nota:</strong> els caràcters <span class="text-monospace">*</span> i';
         $output .= ' <span class="text-monospace">?</span> funcionen com a comodins només quan es busca un sol terme';
-        $output .= ' en el mode <em>conté</em>.';
+        $output .= ' amb el mode <em>conté</em>.';
         $output .= '</p>';
     }
 }
 
+$output .= '<div class="pager">';
+// Only show pagination links if there is more than one page.
+if ($number_of_pages > 1) {
+    $output .= render_pager($current_page, $number_of_pages);
+}
+$output .= '<select id="mostra" name="mostra" aria-label="Nombre de resultats per pàgina">';
+$output .= '<option' . ($results_per_page === PAGER_DEFAULT ? ' selected' : '') . ' value="10">10</option>';
+$output .= '<option' . ($results_per_page === 15 ? ' selected' : '') . ' value="15">15</option>';
+$output .= '<option' . ($results_per_page === 25 ? ' selected' : '') . ' value="25">25</option>';
+$output .= '<option' . ($results_per_page === 50 ? ' selected' : '') . ' value="50">50</option>';
+$output .= '</select>';
+$output .= '</div>';
 $output .= '</form>';
 
 echo $output;

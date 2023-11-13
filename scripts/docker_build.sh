@@ -15,7 +15,7 @@ set -e
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [OPTIONS]"
+    echo "Usage: ./$(basename "$0") [OPTIONS]"
     echo ""
     echo "Optional arguments:"
     echo "  OPTIONS               The options to pass to docker-compose build command"

@@ -45,7 +45,7 @@ dd {
     order: 1;
 }
 
-/* Big mobile and greater */
+/* Medium devices (large phones, 576px and up) */
 @media (min-width: 576px) {
     .col-image {
         flex: 0 0 41.6667%;

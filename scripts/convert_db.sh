@@ -19,7 +19,7 @@ cd "$(dirname "$0")"
 #   None
 ##############################################################################
 usage() {
-    echo "Usage: $(basename "$0") [DATABASE_FILENAME]"
+    echo "Usage: ./$(basename "$0") [DATABASE_FILENAME]"
     echo ""
     echo "Optional arguments:"
     echo "  DATABASE_FILENAME     The MS Access database file (default: database.accdb)"
@@ -110,19 +110,8 @@ echo "ALTER TABLE common_paremiotipus ADD INDEX (Compt);" >> ../install/db/db.sq
 echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, Display varchar (255));" >> ../install/db/db.sql
 
 # Normalize UTF-8 combined characters.
-if [[ -x "$(command -v uconv)" ]]; then
-    uconv -x nfkc ../install/db/db.sql > ../install/db/db_temp.sql
-elif [[ -x "$(command -v brew)" ]]; then
-    if brew info icu4c &> /dev/null; then
-        $(brew list icu4c | grep -F -m1 "bin/uconv") -x nfkc ../install/db/db.sql > ../install/db/db_temp.sql
-    else
-        echo "Error: uconv command not found."
-        exit 1
-    fi
-else
-    echo "Error: uconv and brew commands not found."
-    exit 1
-fi
+uconv -x nfkc ../install/db/db.sql > ../install/db/db_temp.sql
+
 # See https://github.com/mdbtools/mdbtools/issues/391.
 sed 's/varchar (255)/varchar (300)/g' ../install/db/db_temp.sql > ../install/db/db.sql
 rm ../install/db/db_temp.sql

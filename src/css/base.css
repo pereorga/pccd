@@ -28,12 +28,15 @@
 
 /* stylelint-disable property-no-vendor-prefix */
 body {
-    font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #000;
-    text-align: left;
-    background-color: #fff;
+    font:
+        1rem/1.5 system-ui,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        "Noto Sans",
+        "Liberation Sans",
+        Arial,
+        sans-serif;
     -webkit-tap-highlight-color: transparent;
     -webkit-text-size-adjust: 100%;
 }
@@ -59,6 +62,12 @@ a {
     background-color: transparent;
 }
 
+header nav a {
+    display: block;
+    padding: 0.5rem 0;
+    color: #fff;
+}
+
 a:hover {
     text-decoration: underline;
 }
@@ -69,6 +78,19 @@ a.external {
     background-repeat: no-repeat;
     background-position: center right;
     background-size: 0.857em;
+}
+
+a.brand {
+    color: #fff;
+    touch-action: manipulation;
+}
+
+a.brand:focus,
+a.brand:hover,
+header nav a:focus,
+header nav a:hover {
+    color: #dee2e7;
+    text-decoration: none;
 }
 
 img {
@@ -127,18 +149,11 @@ body > footer {
     border-top: 1px solid #dee2e6;
 }
 
-header nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-
 #menu {
     flex-basis: 100%;
 }
 
-#navbar-toggle {
+#nav-toggle {
     padding: 0.25rem 0.75rem;
     font-size: 1.5rem;
     line-height: 1;
@@ -146,12 +161,12 @@ header nav {
     border: 0;
 }
 
-#navbar-toggle:focus,
-#navbar-toggle:hover {
+#nav-toggle:focus,
+#nav-toggle:hover {
     opacity: 0.8;
 }
 
-#navbar-toggle svg {
+#nav-toggle svg {
     display: inline-block;
     width: 1em;
     height: 1em;
@@ -164,6 +179,13 @@ header nav {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+}
+
+header .container-md {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .row {
@@ -188,31 +210,13 @@ header {
     background-color: #2b5797;
 }
 
-.navbar-brand {
-    color: #fff;
-    touch-action: manipulation;
-}
-
-.navbar-nav {
+header nav {
     display: flex;
     flex-direction: column;
 }
 
-.navbar-nav a {
-    display: block;
-    padding: 0.5rem 0;
-    color: #fff;
-}
-
-.navbar-brand:focus,
-.navbar-brand:hover,
-.navbar-nav a:focus,
-.navbar-nav a:hover {
-    color: #dee2e7;
-    text-decoration: none;
-}
-
-.d-none {
+.d-none,
+.brand-text {
     display: none;
 }
 
@@ -234,6 +238,10 @@ header {
 
 .text-nowrap {
     white-space: nowrap;
+}
+
+.brand-text-xs {
+    font-size: 1.25rem;
 }
 
 .bloc {
@@ -269,7 +277,7 @@ a.credits {
     font-size: 1.5rem;
 }
 
-#snackbar {
+#snack {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -277,7 +285,7 @@ a.credits {
     z-index: 1004;
 }
 
-#snackbar button {
+#snack button {
     padding: 1.5rem;
     font-size: 1rem;
     color: #eeff41;
@@ -286,7 +294,7 @@ a.credits {
     border: 0;
 }
 
-.snackbar-inner {
+.snack-inner {
     position: absolute;
     bottom: 0;
     display: flex;
@@ -295,44 +303,40 @@ a.credits {
     background-color: #3c4043;
 }
 
-.snackbar-message {
+.snack-message {
     padding: 1.5rem 1.5rem 0;
     font-size: 0.875rem;
 }
 
-/* Only medium and small mobile */
-@media (max-width: 399px) {
-    .navbar-brand {
-        font-size: 1.25rem;
+/* Small devices (landscape phones, 400px and up) */
+@media (min-width: 400px) {
+    .brand-text {
+        display: inline;
     }
 
-    .navbar-brand::after {
-        content: "PCCD";
-    }
-
-    .navbar-brand span {
+    .brand-text-xs {
         display: none;
     }
 }
 
-/* Big mobile and greater */
+/* Medium devices (large phones, 576px and up) */
 @media (min-width: 576px) {
-    #snackbar {
+    #snack {
         margin-right: 15px;
     }
 
-    .snackbar-inner {
+    .snack-inner {
         flex-wrap: nowrap;
         margin-bottom: 15px;
         margin-left: 15px;
     }
 
-    .snackbar-message {
+    .snack-message {
         padding: 1.5rem;
     }
 }
 
-/* Tablet and greater */
+/* Large devices (tablets, 768px and up) */
 @media (min-width: 768px) {
     #menu {
         display: flex;
@@ -340,7 +344,7 @@ a.credits {
         justify-content: flex-end;
     }
 
-    #navbar-toggle {
+    #nav-toggle {
         display: none;
     }
 
@@ -361,11 +365,11 @@ a.credits {
         margin-top: 0;
     }
 
-    .navbar-nav {
+    header nav {
         flex-direction: row;
     }
 
-    .navbar-nav a {
+    header nav a {
         padding: 1rem 0.5rem;
     }
 
@@ -378,8 +382,9 @@ a.credits {
     }
 }
 
+/* Extra large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-    .navbar-brand {
+    .brand {
         font-size: 1.25rem;
     }
 
@@ -388,6 +393,7 @@ a.credits {
     }
 }
 
+/* XXL devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
     .container-md {
         max-width: 1140px;
