@@ -39,7 +39,7 @@ $main_content = build_main_content($page_name);
     <meta property="og:title" content="<?php echo format_html_title(get_page_title()); ?>">
     <meta property="og:site_name" content="Paremiologia catalana comparada digital">
     <?php echo get_page_meta_tags($page_name); ?>
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.ico">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="PCCD">
     <style>
 <?php

@@ -20,6 +20,9 @@ trim_trailing_whitespace = false
 [*.neon]
 indent_size = 2
 
+[*.nix]
+indent_size = 2
+
 [{*.json,traffic-advice}]
 indent_size = 2
 

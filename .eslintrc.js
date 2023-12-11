@@ -46,7 +46,7 @@ module.exports = {
         "no-lone-blocks": "error",
         "no-lonely-if": "error",
         "no-loop-func": "error",
-        "no-magic-numbers": ["error", { ignore: [-1, 0, 1, 768] }],
+        "no-magic-numbers": "error",
         "no-multi-str": "error",
         "no-native-reassign": "error",
         "no-negated-condition": "error",

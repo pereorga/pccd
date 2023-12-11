@@ -21,24 +21,24 @@ cd "$(dirname "$0")/.."
 usage() {
     echo "Usage: ./$(basename "$0") COMMAND"
     echo ""
-    echo "    help"
-    echo "      Shows this help and exits"
-    echo "    brew"
-    echo "      Updates Homebrew packages"
-    echo "    yarn"
-    echo "      Updates all Yarn dev packages to latest release"
-    echo "    composer"
-    echo "      Updates all Composer dependencies to latest release, including non-direct dependencies"
-    echo "    phive"
-    echo "      Updates all PHIVE (phar) packages and phive itself to latest releases"
     echo "    apc-gui"
     echo "      Updates apc.php file to latest revision"
-    echo "    opcache-gui"
-    echo "      Updates OPcache GUI to latest revision"
+    echo "    brew"
+    echo "      Updates Homebrew packages"
+    echo "    composer"
+    echo "      Updates all Composer dependencies to latest release, including non-direct dependencies and repositories"
     echo "    docker"
     echo "      Updates Docker images in Docker files and docker-compose.yml to next release"
+    echo "    nixpkgs"
+    echo "      Updates the nixpkgs version in shell.nix to the latest commit"
+    echo "    opcache-gui"
+    echo "      Updates OPcache GUI to latest revision"
     echo "    pecl"
     echo "      Updates PECL packages in Docker files to latest version"
+    echo "    phive"
+    echo "      Updates all PHIVE (phar) packages and phive itself to latest releases"
+    echo "    yarn"
+    echo "      Updates all Yarn dev packages to latest release"
 }
 
 ##############################################################################
@@ -191,21 +191,21 @@ update_composer() {
     # Make sure repositories are updated too. See https://getcomposer.org/doc/05-repositories.md#package-2
     rm -f composer.lock
     rm -rf vendor/
-    tools/composer clear-cache
-    tools/composer install
+    tools/composer.phar clear-cache
+    tools/composer.phar install
 
     # Update non-dev dependencies.
-    tools/composer show --no-dev --direct --name-only |
-        xargs tools/composer require
+    tools/composer.phar show --no-dev --direct --name-only |
+        xargs tools/composer.phar require
 
     # Update dev dependencies.
     grep -F -v -f \
-        <(tools/composer show --direct --no-dev --name-only | sort) \
-        <(tools/composer show --direct --name-only | sort) |
-        xargs tools/composer require --dev
+        <(tools/composer.phar show --direct --no-dev --name-only | sort) \
+        <(tools/composer.phar show --direct --name-only | sort) |
+        xargs tools/composer.phar require --dev
 
     # Mitigate https://github.com/composer/composer/issues/11698
-    tools/composer install
+    tools/composer.phar install
 }
 
 ##############################################################################
@@ -219,6 +219,42 @@ update_yarn() {
 
     rm -rf node_modules yarn.lock
     yarn install
+}
+
+##############################################################################
+# Updates the nixpkgs version in shell.nix to the latest commit.
+# Arguments:
+#   None
+##############################################################################
+update_nixpkgs_version() {
+    echo "Updating nixpkgs version in shell.nix..."
+
+    # Fetch the latest commit hash from the NixOS/nixpkgs repository
+    local latest_commit
+    latest_commit=$(curl --silent "https://api.github.com/repos/NixOS/nixpkgs/commits/master" | jq -r '.sha')
+
+    if [[ -z ${latest_commit} ]]; then
+        echo "Error: Could not fetch the latest commit hash of nixpkgs."
+        exit 1
+    fi
+
+    local new_url="https://github.com/NixOS/nixpkgs/archive/${latest_commit}.tar.gz"
+    local new_sha256
+    new_sha256=$(nix-prefetch-url --unpack "${new_url}")
+
+    if [[ -z ${new_sha256} ]]; then
+        echo "Error: Could not fetch the new sha256 for the latest commit."
+        exit 1
+    fi
+
+    # Update shell.nix with the new URL and sha256
+    local shell_nix_backup="shell.nix.bak"
+    cp shell.nix "${shell_nix_backup}"
+    sed -e "s|url = \".*\";|url = \"${new_url}\";|" "${shell_nix_backup}" > shell.nix
+    sed -e "s|sha256 = \".*\";|sha256 = \"${new_sha256}\";|" shell.nix > "${shell_nix_backup}"
+    mv "${shell_nix_backup}" shell.nix
+
+    echo "nixpkgs version updated in shell.nix."
 }
 
 if [[ $# != 1 ]]; then
@@ -272,6 +308,11 @@ if [[ $1 == "docker" ]]; then
     check_version_docker_file .docker/Dockerfile php
     check_version_docker_compose docker-compose.yml mariadb
     check_version_docker_compose docker-compose.yml varnish
+    exit 0
+fi
+
+if [[ $1 == "nixpkgs" ]]; then
+    update_nixpkgs_version
     exit 0
 fi
 

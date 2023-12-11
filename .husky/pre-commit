@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 if [ ! -z "$IN_NIX_SHELL" ]; then
-  echo "You are in a Nix shell. Commits are disabled."
-  exit 1
+    echo "You are in a Nix shell. Commits are disabled."
+    exit 1
 fi
 
 . "$(dirname -- "$0")/_/husky.sh"

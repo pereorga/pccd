@@ -38,23 +38,27 @@
     "ext-curl": "*",
     "ext-gd": "*",
     "ext-imagick": "*",
+    "guzzlehttp/guzzle": "^7.8",
     "noisebynorthwest/php-spx": "dev-master",
     "pereorga/pccd-lt-filter": "dev-master",
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
-    "phpunit/phpunit": "^10.4",
-    "psalm/plugin-phpunit": "^0.18.4",
-    "rector/rector": "^0.18.6",
-    "vimeo/psalm": "^5.15"
+    "rector/rector": "^0.18.12"
   },
   "suggest": {
-    "ext-apcu": "Increases website performance (strongly encouraged in the web server)",
-    "ext-intl": "Required in the web server currently for only some tests",
+    "ext-apcu": "Increases website performance. Strongly encouraged in the web server",
+    "ext-curl": "Dev: Used for tests after install",
+    "ext-gd": "Dev: Required for image size detection during install",
+    "ext-imagick": "Dev: Required for image optimization during install",
+    "ext-intl": "Required in the web server for some tests",
     "ext-pdo": "Required in the web server",
     "ext-pdo-mysql": "Required in the web server",
-    "ext-xhprof": "Xhprof may be used as a simple proofiler in development instances",
-    "ext-zend-opcache": "Increases website performance (strongly encouraged in the web server)"
+    "ext-xhprof": "Dev: Xhprof may be used as a simple proofiler in development instances",
+    "ext-zend-opcache": "Increases website performance. Encouraged in the web server",
+    "guzzlehttp/guzzle": "Dev: Used by sentence-tagger-openai dev script",
+    "noisebynorthwest/php-spx": "Dev: May be used for debugging PHP",
+    "pereorga/pccd-lt-filter": "Dev: Used by common-voice-export dev script"
   },
   "repositories": [
     {
@@ -88,20 +92,19 @@
     "sort-packages": true
   },
   "scripts": {
-    "composer-normalize": "tools/composer-normalize",
-    "parallel-lint": "tools/parallel-lint --exclude vendor --exclude node_modules --exclude tmp .",
-    "phan": "tools/phan --allow-polyfill-parser",
-    "php-cs-fixer": "tools/php-cs-fixer fix --diff --verbose",
-    "php-cs-fixer-lint": "tools/php-cs-fixer fix --verbose --dry-run --stop-on-violation",
-    "phpcbf": "tools/phpcbf -p --standard=phpcs.xml .",
-    "phpcpd": "tools/phpcpd --exclude src/vendor --fuzzy docroot src tests",
-    "phpcs": "tools/phpcs -p --standard=phpcs.xml .",
+    "composer-normalize": "tools/composer-normalize.phar",
+    "parallel-lint": "tools/parallel-lint.phar --exclude vendor --exclude node_modules --exclude tmp .",
+    "phan": "tools/phan.phar --allow-polyfill-parser",
+    "php-cs-fixer": "tools/php-cs-fixer.phar fix --diff --verbose",
+    "php-cs-fixer-lint": "tools/php-cs-fixer.phar fix --verbose --dry-run --stop-on-violation",
+    "phpcbf": "tools/phpcbf.phar -p --standard=phpcs.xml .",
+    "phpcpd": "tools/phpcpd.phar --exclude src/vendor --fuzzy docroot src tests",
+    "phpcs": "tools/phpcs.phar -p --standard=phpcs.xml .",
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M",
-    "phpunit": "vendor/bin/phpunit --fail-on-warning --display-warnings",
-    "psalm": "vendor/bin/psalm --no-cache",
-    "psalm-taint-analysis": "vendor/bin/psalm --no-cache --taint-analysis",
+    "phpunit": "tools/phpunit.phar --fail-on-warning --display-warnings",
+    "psalm": "tools/psalm.phar --no-cache",
     "rector": "vendor/bin/rector process",
     "rector-lint": "vendor/bin/rector process --dry-run",
-    "yaml-lint": "tools/yaml-lint *.yml .*.yml .yamlfmt"
+    "yaml-lint": "tools/yaml-lint.phar *.yml .*.yml .yamlfmt"
   }
 }

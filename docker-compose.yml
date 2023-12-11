@@ -12,10 +12,11 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_HOSTNAME: mysql
       WEB_ADMIN_PASSWORD: ${WEB_ADMIN_PASSWORD}
+      OPENAI_KEY: ${OPENAI_KEY}
     ports:
       - ${APACHE_HTTP_PORT:-8080}:80
   mysql:
-    image: mariadb:10.5.22-focal
+    image: mariadb:10.5.23-focal
     container_name: pccd-mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -26,7 +27,7 @@ services:
       - "./.docker/mysql:/etc/mysql/conf.d"
       - "./install/db:/docker-entrypoint-initdb.d"
   varnish:
-    image: varnish:6.0.11
+    image: varnish:6.0.12
     container_name: pccd-varnish
     volumes:
       - "./.docker/varnish/default.vcl:/etc/varnish/default.vcl"
@@ -36,6 +37,6 @@ services:
       - /var/lib/varnish:exec
     environment:
       - VARNISH_SIZE=2G
-    command: "-p default_keep=300 -p http_gzip_support=false -p feature=-http2"
+    command: "-p default_keep=300 -p http_gzip_support=off"
     depends_on:
       - "web"

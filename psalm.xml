@@ -13,7 +13,6 @@
     <directory name="docroot" />
     <directory name="scripts" />
     <directory name="src" />
-    <directory name="tests" />
     <ignoreFiles>
       <directory name="src/third_party" />
       <directory name="vendor" />
@@ -21,7 +20,4 @@
       <file name="src/xhprof.php" />
     </ignoreFiles>
   </projectFiles>
-  <plugins>
-    <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
-  </plugins>
 </psalm>

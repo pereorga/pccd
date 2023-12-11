@@ -1,8 +1,9 @@
 # Unnecessary developer files
 *.sublime-workspace
 .DS_Store
-.fleet
-.vscode
+.fleet/
+.vscode/
+.idea/php-test-framework.xml
 sftp-config.json
 
 # The original database file (MS Access) and provided zipped files
@@ -19,11 +20,9 @@ docker-compose.override.yml
 
 # Local dependencies
 *Brewfile.lock.json
-/tools/*
-!/tools/phive
-!/tools/LICENSE.txt
-node_modules
-vendor
+/tools/*.phar
+node_modules/
+vendor/
 
 # Temporary files
 *.generated.sh
@@ -33,6 +32,6 @@ vendor
 /tmp/*.html
 /tmp/*.json
 !/tmp/assets-sizes.json
-/tmp/cv
-/tmp/github
+/tmp/cv/
+/tmp/github/
 /tmp/test_tmp_*.txt

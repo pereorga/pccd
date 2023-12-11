@@ -36,7 +36,7 @@ $config
     ->setRiskyAllowed(true)
     ->setRules([
         '@PHP80Migration:risky' => true,
-        '@PHP82Migration' => true,
+        '@PHP83Migration' => true,
         '@PhpCsFixer' => true,
         '@PhpCsFixer:risky' => true,
         '@PHPUnit100Migration:risky' => true,

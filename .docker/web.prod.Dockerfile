@@ -1,4 +1,4 @@
-FROM php:8.2.12-apache-bookworm
+FROM php:8.2.13-apache-bookworm
 
 LABEL maintainer="Pere Orga pere@orga.cat"
 

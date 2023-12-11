@@ -28,7 +28,6 @@ final class ComposerPackageJsonTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->package = $this->getJsonArray(__DIR__ . '/../../package.json');
         $this->composer = $this->getJsonArray(__DIR__ . '/../../composer.json');
     }

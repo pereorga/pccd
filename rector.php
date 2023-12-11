@@ -22,7 +22,6 @@ use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php70\Rector\FuncCall\RandomFunctionRector;
-use Rector\Php71\Rector\FuncCall\CountOnNullRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -49,7 +48,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         __DIR__ . '/src/third_party/*',
-        CountOnNullRector::class,
         EncapsedStringsToSprintfRector::class,
         JoinStringConcatRector::class,
         JsonThrowOnErrorRector::class,

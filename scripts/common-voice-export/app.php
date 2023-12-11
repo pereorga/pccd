@@ -47,7 +47,7 @@ foreach ($paremiotipus as $p) {
         continue;
     }
 
-    $p_display = get_paremiotipus_display($p, false, false);
+    $p_display = get_paremiotipus_display($p, htmlspecialchars: false);
     // End the sentence with a dot, to align with Common Voice corpus.
     if (preg_match('/[.!?,;:]$/', $p_display) === 0) {
         $p_display .= '.';

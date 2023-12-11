@@ -10,10 +10,9 @@ test.describe("Cookie disclaimer", () => {
         await page.goto("/");
     });
 
-    // TODO: broke after playwright update.
-    // test("message is visible", async ({ page }) => {
-    //    await expect(page.locator(`text=${data.cookieMessage}`)).toBeVisible();
-    // });
+    test("message is visible", async ({ page }) => {
+        await expect(page.locator(`text=${data.cookieMessage}`)).toBeVisible();
+    });
 
     test("message is in the view port", async ({ page }) => {
         await expect(page.locator(`text=${data.cookieMessage}`)).toBeInViewport();

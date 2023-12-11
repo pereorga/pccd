@@ -80,7 +80,6 @@ label {
 /* stylelint-enable property-no-vendor-prefix */
 
 #cerca:focus {
-    z-index: 3;
     padding-left: 13px;
     clip-path: inset(-3px 0 -3px -3px);
     background-color: #fff;
@@ -150,7 +149,6 @@ label {
 }
 
 .input-group button {
-    z-index: 2;
     display: inline-block;
     padding: 0 0.75rem;
     font-size: 1rem;
@@ -160,10 +158,6 @@ label {
     background-color: #2b5797;
     border: 1px solid #2b5797;
     border-radius: 0 0.25rem 0.25rem 0;
-}
-
-.input-group button:focus {
-    z-index: 3;
 }
 
 #cerca:focus + button {

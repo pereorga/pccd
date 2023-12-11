@@ -44,7 +44,7 @@ brew bundle install --file=ubuntu.Brewfile
 The rest of dependencies can be installed using [Yarn](https://yarnpkg.com/):
 
 ```bash
-npm install --global yarn && yarn install
+npm install --global yarn && yarn install --frozen-lockfile
 ```
 
 ### Installation on macOS (using Homebrew)
@@ -53,7 +53,7 @@ After installing [Homebrew](https://brew.sh/), run the following from the root d
 dependencies:
 
 ```bash
-brew bundle install && npm install --global yarn && yarn install && pecl install imagick
+brew bundle install && npm install --global yarn && yarn install --frozen-lockfile && pecl install imagick
 ```
 
 ### Procedure
@@ -120,13 +120,11 @@ yarn fix
 
 ### Automated tests
 
-Note: e2e tests require the website to be running.
-
 ```bash
 yarn test
 ```
 
-You may need to run `yarn refresh:test-data` if the data has changed, in order to pass the tests.
+You may need to run `yarn refresh:test-data` if the data has changed, in order to pass some e2e tests.
 
 For running some tests in **all** pages, run:
 
@@ -161,9 +159,9 @@ For details on contributing to this repository, see the contributing guidelines:
 - Compliance: consider start using GA conditionally when the cookie dialog has been accepted, or better, consider
   removing Google Tag Manager or switching to a lighter Google Analytics alternative (see
   <https://news.ycombinator.com/item?id=32068539>)
-- Infra: Consider migrating to Postgres
-- Infra: Consider switching to PHP-FPM, and maybe Nginx
-- Build: Consider switching to pnpm, latest yarn or going back to npm
+- Infra: Consider migrating from MariaDB/MySQL to Postgres
+- Infra: Consider switching from mod_php to PHP-FPM, and maybe from Apache to Nginx
+- Build: Consider switching from Yarn Classic to pnpm, modern Yarn, npm, Bun, or Deno
 - UX: Consider adding search functionality on every page
 
 ## License

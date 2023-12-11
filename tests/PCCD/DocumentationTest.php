@@ -27,12 +27,12 @@ final class DocumentationTest extends TestCase
     {
         $composerJsonContent = file_get_contents(__DIR__ . '/../../composer.json');
         $composerJson = json_decode($composerJsonContent, true);
-        $minimumVersion = trim($composerJson['require']['php'], '>=^');
-        $minimumVersionInformation = sprintf('PHP: %s or later is required.', $minimumVersion);
+        $composerPhpVersion = trim($composerJson['require']['php'], '>=^');
+        $minimumVersionInformation = sprintf('PHP: %s or later is required.', $composerPhpVersion);
         $installationDocPath = realpath(__DIR__ . '/../../README.md');
 
         self::assertStringContainsString(
-            $minimumVersionInformation,
+            $composerPhpVersion,
             file_get_contents($installationDocPath),
             sprintf('File %s needs to contain information "%s"', $installationDocPath, $minimumVersionInformation)
         );

@@ -196,7 +196,7 @@ validate_url "${BASE_URL}/obra/Pons_Lluch%2C_Josep_%281993%29%3A_Refranyer_menor
 validate_url "${BASE_URL}/?pagina=5147"
 validate_url "${BASE_URL}/?mode=&cerca=ca%C3%A7a&variant=&mostra=10"
 validate_url "${BASE_URL}/p/A_Adra%C3%A9n%2C_tanys"
-validate_url "${BASE_URL}/p//A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3_o_bot%C3%B3"
+validate_url "${BASE_URL}/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3_o_bot%C3%B3"
 validate_url "${BASE_URL}/?mostra=infinit" --skip-webhint --skip-linkinator --skip-htmlvalidate
 
 echo "All validation tests finished OK :)"

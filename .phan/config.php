@@ -46,6 +46,7 @@ return [
         'docroot',
         'scripts',
         'src',
+        'vendor/guzzlehttp/guzzle/src',
     ],
 
     // A directory list that defines files that will be excluded

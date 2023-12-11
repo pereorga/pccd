@@ -13,6 +13,15 @@ third_party
 /tmp
 composer.lock
 yarn.lock
+*.sql
 
 # HTML pages
 /docroot/*.html
+
+# Binary files
+*.jpg
+*.png
+*.avif
+*.webp
+*.gif
+*.mp3
