@@ -1,15 +1,15 @@
 [
   {
     "name": "docroot/css/base.min.css",
-    "size": 1202
+    "size": 1208
   },
   {
     "name": "docroot/css/search.min.css",
-    "size": 800
+    "size": 798
   },
   {
     "name": "docroot/css/paremiotipus.min.css",
-    "size": 283
+    "size": 282
   },
   {
     "name": "docroot/css/obra.min.css",
@@ -17,6 +17,6 @@
   },
   {
     "name": "docroot/js/script.min.js",
-    "size": 972
+    "size": 1139
   }
 ]

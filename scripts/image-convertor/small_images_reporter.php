@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 /*
  * Reports a list of small images.
  *

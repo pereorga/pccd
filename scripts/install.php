@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 /*
  * Installation script.
  *
@@ -59,11 +57,13 @@ $improve_sorting_stmt = $pdo->prepare('UPDATE 00_PAREMIOTIPUS SET PAREMIOTIPUS =
 $paremies = $pdo->query('SELECT Id, PAREMIOTIPUS, MODISME, SINONIM, EQUIVALENT FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($paremies as $p) {
     // Try to clean names ending with numbers and fill ACCEPCIO field.
-    $modisme = trim($p['MODISME']);
-    if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
-        $last_number = trim(end($matches[0]));
-        $modisme = rtrim($modisme, "{$last_number} \n\r\t\v\x00");
-        $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
+    if ($p['MODISME'] !== null) {
+        $modisme = trim($p['MODISME']);
+        if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
+            $last_number = trim(end($matches[0]));
+            $modisme = rtrim($modisme, "{$last_number} \n\r\t\v\x00");
+            $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
+        }
     }
 
     // Normalize strings for searching.

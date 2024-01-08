@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 $request_uri = get_request_uri();
 $obra_title = is_string($_GET['obra']) ? path_to_name($_GET['obra']) : '';
 $obra = get_obra($obra_title);

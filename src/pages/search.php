@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of PCCD.
  *
@@ -22,7 +20,7 @@ $search_mode = isset($_GET['mode']) && is_string($_GET['mode']) && $_GET['mode']
 
 $search = '';
 $raw_search_clean = '';
-if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' && !is_numeric($_GET['cerca'])) {
+if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '') {
     $trimmed_search = trim($_GET['cerca']);
     $raw_search_clean = htmlspecialchars($trimmed_search);
     $search_length = strlen($trimmed_search);
@@ -46,7 +44,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
     <aside>
         <div class="form-row">
             <div class="col-mode">
-                <select id="mode" name="mode" aria-label="Mode de cerca">
+                <select name="mode" aria-label="Mode de cerca">
                     <option value="">conté</option>
                     <option<?php echo $search_mode === 'comença' ? ' selected' : ''; ?> value="comença">comença per</option>
                     <option<?php echo $search_mode === 'acaba' ? ' selected' : ''; ?> value="acaba">acaba en</option>
@@ -54,7 +52,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '' 
             </div>
             <div class="col-input">
                 <div class="input-group">
-                    <input type="search" id="cerca" name="cerca" autocapitalize="off" autocomplete="off" value="<?php echo $raw_search_clean; ?>" placeholder="Introduïu un o diversos termes" aria-label="Introduïu un o diversos termes" maxlength="255" pattern="(.|\s)*\S(.|\s)*" autofocus required>
+                    <input type="search" name="cerca" autocapitalize="off" autocomplete="off" autofocus value="<?php echo $raw_search_clean; ?>" placeholder="Introduïu un o diversos termes" aria-label="Introduïu un o diversos termes" pattern=".*[a-zA-Z]+.*" required>
                     <button type="submit" aria-label="Cerca">
                         <svg aria-hidden="true" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
@@ -110,7 +108,7 @@ if ($total > 0) {
     }
 
     $paremiotipus = get_paremiotipus_search_results($where_clause, $arguments, $offset, $results_per_page);
-    $output .= '<ol class="search-results">';
+    $output .= '<ol>';
     foreach ($paremiotipus as $p) {
         $output .= '<li><a href="' . get_paremiotipus_url($p) . '">' . get_paremiotipus_display($p) . '</a></li>';
     }
@@ -139,8 +137,8 @@ $output .= '<div class="pager">';
 if ($number_of_pages > 1) {
     $output .= render_pager($current_page, $number_of_pages);
 }
-$output .= '<select id="mostra" name="mostra" aria-label="Nombre de resultats per pàgina">';
-$output .= '<option' . ($results_per_page === PAGER_DEFAULT ? ' selected' : '') . ' value="10">10</option>';
+$output .= '<select name="mostra" aria-label="Nombre de resultats per pàgina">';
+$output .= '<option value="10">10</option>';
 $output .= '<option' . ($results_per_page === 15 ? ' selected' : '') . ' value="15">15</option>';
 $output .= '<option' . ($results_per_page === 25 ? ' selected' : '') . ' value="25">25</option>';
 $output .= '<option' . ($results_per_page === 50 ? ' selected' : '') . ' value="50">50</option>';

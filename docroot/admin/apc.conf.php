@@ -10,6 +10,4 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 defaults('ADMIN_PASSWORD', getenv('WEB_ADMIN_PASSWORD'));

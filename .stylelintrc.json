@@ -3,25 +3,8 @@
   "rules": {
     "color-named": "never",
     "declaration-no-important": true,
-    "declaration-property-unit-allowed-list": {
-      "/^background/": ["em", "rem"],
-      "/^border/": ["px", "rem"],
-      "/^margin/": ["em", "px", "rem"],
-      "/^padding/": ["em", "px", "rem"],
-      "clip-path": ["px"],
-      "font-size": ["rem"],
-      "gap": "px",
-      "height": ["em", "rem"],
-      "line-height": [],
-      "max-height": ["px"],
-      "max-width": ["%", "px"],
-      "outline": ["px"],
-      "vertical-align": ["em", "px"],
-      "width": ["%", "em", "rem"]
-    },
     "declaration-property-value-no-unknown": true,
     "media-feature-range-notation": "prefix",
-    "no-unknown-animations": true,
     "shorthand-property-no-redundant-values": true
   }
 }

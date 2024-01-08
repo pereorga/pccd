@@ -28,6 +28,7 @@ php-zip
 pngcheck
 pngquant
 shellcheck
+shfmt
 tidy
 unar
 unzip

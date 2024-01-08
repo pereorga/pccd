@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 require __DIR__ . '/../src/common.php';
 
 // Redirect to the homepage any request where the URL contains 'index.php'.
@@ -21,8 +19,10 @@ if (str_contains(get_request_uri(), 'index.php')) {
     exit;
 }
 
+// If the connection to the database fails, fail fast.
 check_db_or_exit();
 
+// Cache pages for 15 minutes in the browser, for 1 year in reverse proxies.
 header('Cache-Control: public, s-maxage=31536000, max-age=900');
 
 // Build page content in advance.
@@ -54,7 +54,7 @@ require __DIR__ . '/css/base.min.css';
     <header>
         <div class="container-md">
             <a href="/" class="brand"><span class="brand-text">Paremiologia catalana comparada digital</span><span class="brand-text-xs">PCCD</span></a>
-            <button id="nav-toggle" type="button" aria-label="Desplega el menú">
+            <button type="button" aria-label="Desplega el menú">
                 <svg aria-hidden="true" viewBox="0 0 16 16">
                     <path fill="#fff" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/>
                 </svg>
@@ -62,7 +62,7 @@ require __DIR__ . '/css/base.min.css';
             <div class="d-none" id="menu">
                 <nav>
                     <a href="/projecte">Projecte</a>
-                    <a href="/" title="Ctrl + /">Cerca</a>
+                    <a href="/" title="Cerca (premeu Ctrl + K)" rel="home">Cerca</a>
                     <a href="/instruccions">Instruccions d'ús</a>
                     <a href="/credits">Crèdits</a>
                 </nav>
@@ -88,15 +88,15 @@ require __DIR__ . '/css/base.min.css';
     </main>
     <footer>
         <p><?php echo format_nombre(get_n_modismes()); ?> fitxes, corresponents a <?php echo format_nombre(get_n_paremiotipus()); ?> paremiotipus, de <?php echo format_nombre(get_n_fonts()); ?> fonts. Última actualització: <?php require __DIR__ . '/../tmp/db_date.txt'; ?></p>
-        <p>© Víctor Pàmies i Riudor, 2020-2023.</p>
+        <p>© Víctor Pàmies i Riudor, 2020-2024.</p>
     </footer>
-    <div id="snack" class="d-none">
-        <div class="snack-inner" role="alert">
-            <div class="snack-message">Aquest lloc web fa servir galetes de Google per analitzar el trànsit.</div>
+    <div id="cookie-banner" class="d-none">
+        <div role="alert">
+            <div>Aquest lloc web fa servir galetes de Google per analitzar el trànsit.</div>
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=5"></script>
+    <script async src="/js/script.min.js?v=7"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

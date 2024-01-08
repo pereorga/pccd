@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 // This page is currently not discoverable.
 header('X-Robots-Tag: noindex');
 

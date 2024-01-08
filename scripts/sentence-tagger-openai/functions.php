@@ -10,10 +10,7 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Get tags from sentence, using OpenAI API.
@@ -21,33 +18,32 @@ use GuzzleHttp\Exception\GuzzleException;
  * @return list<string>
  *
  * @throws JsonException
- * @throws GuzzleException
  *
- * @suppress PhanUndeclaredClassMethod, PhanTypeInvalidThrowsIsInterface
+ * @suppress PhanUndeclaredClassMethod
  */
 function getSentenceTags(string $sentence): array
 {
     $client = new Client();
     $data = [
-        'model' => 'gpt-3.5-turbo-1106',
-        'temperature' => 0.3,
         'messages' => [
             [
-                'role' => 'system',
                 'content' => 'Your task is to generate tags for Catalan idioms and proverbs in JSON. Tags should be in Catalan, lowercase, and include nouns, places, names, topics, and words related to the meaning of the sentence.',
+                'role' => 'system',
             ],
             [
-                'role' => 'user',
                 'content' => "Generate tags for: \"{$sentence}\"",
+                'role' => 'user',
             ],
         ],
+        'model' => 'gpt-3.5-turbo-1106',
+        'temperature' => 0.3,
     ];
 
     $api_key = getenv('OPENAI_KEY');
     $response = $client->request('POST', 'https://api.openai.com/v1/chat/completions', [
         'headers' => [
-            'Content-Type' => 'application/json',
             'Authorization' => "Bearer {$api_key}",
+            'Content-Type' => 'application/json',
         ],
         'json' => $data,
     ]);

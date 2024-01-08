@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 /*
  * This configuration will be read and overlaid on top of the
  * default configuration. Command line arguments will be applied
@@ -19,22 +17,6 @@ declare(strict_types=1);
  */
 
 return [
-    // Supported values: `'5.6'`, `'7.0'`, `'7.1'`, `'7.2'`, `'7.3'`, `'7.4'`,
-    // `'8.0'`, `'8.1'`, `null`.
-    // If this is set to `null`,
-    // then Phan assumes the PHP version which is closest to the minor version
-    // of the php executable used to execute Phan.
-    'target_php_version' => null,
-
-    'error_prone_truthy_condition_detection' => true,
-    'force_tracking_references' => true,
-    'redundant_condition_detection' => true,
-    // 'strict_method_checking' => true,
-    // 'strict_param_checking' => true,
-    'strict_property_checking' => true,
-    'strict_return_checking' => true,
-    'unused_variable_detection' => true,
-
     // A list of directories that should be parsed for class and
     // method information. After excluding the directories
     // defined in exclude_analysis_directory_list, the remaining
@@ -48,6 +30,8 @@ return [
         'src',
         'vendor/guzzlehttp/guzzle/src',
     ],
+
+    'error_prone_truthy_condition_detection' => true,
 
     // A directory list that defines files that will be excluded
     // from static analysis, but whose class and method
@@ -67,6 +51,7 @@ return [
     ],
 
     'exclude_file_regex' => '@\\.(generated\\.php)$@',
+    'force_tracking_references' => true,
 
     // A list of plugin files to execute.
     // Plugins which are bundled with Phan can be added here by providing their name
@@ -125,10 +110,18 @@ return [
         'UseReturnValuePlugin',
         'WhitespacePlugin',
     ],
+    'redundant_condition_detection' => true,
+    // 'strict_method_checking' => true,
+    // 'strict_param_checking' => true,
+    'strict_property_checking' => true,
+    'strict_return_checking' => true,
     'suppress_issue_types' => [
         // Buggy warnings when using arrow functions.
         'PhanPluginUnknownArrayClosureParamType',
         // Buggy warnings when using named arguments.
+        'PhanTypeMismatchArgumentInternal',
         'PhanTypeMismatchArgumentInternalReal',
     ],
+    'target_php_version' => null,
+    'unused_variable_detection' => true,
 ];

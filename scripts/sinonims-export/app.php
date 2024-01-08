@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 ini_set('memory_limit', '2048M');
 
 require __DIR__ . '/../../src/common.php';

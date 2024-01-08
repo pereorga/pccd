@@ -21,7 +21,7 @@ test.describe("Cookie disclaimer", () => {
     test("clicking accept button removes the message, and the message is not visible after reloading", async ({
         page,
     }) => {
-        await page.click("#snack button");
+        await page.click("#cookie-banner button");
         // For that case, both of these work. The first one is more precise, but the second could be more reliable.
         await expect(page.locator(`text=${data.cookieMessage}`)).toHaveCount(0);
         await expect(page.locator(`text=${data.cookieMessage}`)).toBeHidden();

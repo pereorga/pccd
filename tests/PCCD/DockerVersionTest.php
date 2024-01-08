@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
@@ -47,18 +45,6 @@ final class DockerVersionTest extends TestCase
         self::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MySQL version');
     }
 
-    public function testDockerApcVersionMatch(): void
-    {
-        // Test that the APCu version matches in all Dockerfiles.
-        $dockerFileDev = file_get_contents(__DIR__ . '/../../.docker/Dockerfile');
-        $dockerFileProd = file_get_contents(__DIR__ . '/../../.docker/web.prod.Dockerfile');
-
-        $dockerVersionDev = $this->getDockerApcuVersion($dockerFileDev);
-        $dockerVersionProd = $this->getDockerApcuVersion($dockerFileProd);
-
-        self::assertSame($dockerVersionDev, $dockerVersionProd, 'Dockerfile and web.prod.Dockerfile should use the same APCu version');
-    }
-
     protected function getDockerPhpVersion(string $dockerFile): string
     {
         $matches = [];
@@ -79,14 +65,6 @@ final class DockerVersionTest extends TestCase
     {
         $matches = [];
         preg_match('/image: mariadb:([0-9.]+)/', $dockerComposeFile, $matches);
-
-        return $matches[1];
-    }
-
-    protected function getDockerApcuVersion(string $dockerFile): string
-    {
-        $matches = [];
-        preg_match('/pecl install apcu-([0-9.]+)/', $dockerFile, $matches);
 
         return $matches[1];
     }

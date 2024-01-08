@@ -1,4 +1,4 @@
-FROM php:8.2.13-apache-bookworm
+FROM php:8.2.14-apache-bookworm
 
 LABEL maintainer="Pere Orga pere@orga.cat"
 
@@ -15,24 +15,28 @@ ENV WEB_ADMIN_PASSWORD=${ARG_WEB_ADMIN_PWD}
 # Set working directory
 WORKDIR /srv/app
 
+# Install install-php-extensions
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
 # Copy configuration files, including extreme OPcache optimizations (PROD only)
 COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY .docker/php/apcu.ini /usr/local/etc/php/conf.d/apcu.ini
 COPY .docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-# Set Apache/PHP settings and enable PHP extensions and Apache modules
-RUN apt-get update -y && \
-    apt-get install --no-install-recommends -y libicu-dev zlib1g-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -f /etc/apache2/mods-enabled/deflate.conf && \
+# Apache/PHP Configuration
+# - Remove Apache Deflate and Alias default settings provided by Debian
+# - Set PHP production settings
+# - Install essential PHP extensions
+# - Disable unnecessary Apache modules
+# - Enable required Apache modules for URL rewriting, HTTP headers manipulation, and Brotli compression
+RUN rm -f /etc/apache2/mods-enabled/deflate.conf /etc/apache2/mods-enabled/alias.conf && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
-    docker-php-ext-install pdo_mysql opcache intl && \
-    pecl install apcu-5.1.23 && \
-    docker-php-ext-enable apcu && \
+    chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions apcu intl opcache pdo_mysql && \
+    a2dismod -f access_compat auth_basic authn_core authn_file authz_host authz_user autoindex negotiation setenvif status && \
     a2enmod rewrite headers brotli
 
 # apcu.php uses gd, but we usually don't care
-#RUN apt-get update -y && apt-get install --no-install-recommends -y libpng-dev && apt-get clean && rm -rf /var/lib/apt/lists/* && docker-php-ext-install gd
+#RUN install-php-extensions gd
 
 COPY . .

@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 require __DIR__ . '/../../src/common.php';
 
 ini_set('memory_limit', '512M');
@@ -103,7 +101,7 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
         }
     }
 
-    echo "<p>[<a href='/admin'>Torna endarrere</a>]</p>";
+    echo "<p>[<a href='/admin/'>Torna endarrere</a>]</p>";
     echo '</body>';
     echo '</html>';
 

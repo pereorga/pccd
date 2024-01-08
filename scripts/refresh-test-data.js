@@ -18,7 +18,7 @@ const extractNumber = (text, regex) => {
 
     await page.goto(process.env.BASE_URL);
 
-    data.homepageFirstParemiotipus = await page.locator(".search-results li").first().textContent();
+    data.homepageFirstParemiotipus = await page.locator("form[role=search] ol li").first().textContent();
 
     const footerText = await page.locator("body > footer p").first().textContent();
     data.paremiotipusNumber = extractNumber(footerText, /([\d.]+) paremiotipus/);

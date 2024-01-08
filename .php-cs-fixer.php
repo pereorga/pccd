@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 $header = <<<'EOF'
     This file is part of PCCD.
 
@@ -41,6 +39,7 @@ $config
         '@PhpCsFixer:risky' => true,
         '@PHPUnit100Migration:risky' => true,
         'concat_space' => ['spacing' => 'one'],
+        'declare_strict_types' => false,
         'header_comment' => ['header' => $header, 'comment_type' => 'PHPDoc', 'location' => 'after_open'],
         'increment_style' => ['style' => 'post'],
         'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],

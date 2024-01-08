@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 const IMAGE_MIN_WIDTH = 350;
 const SIZE_THRESHOLD = 5000;
 const PNG_MIN_QUALITY = 70;

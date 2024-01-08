@@ -9,13 +9,10 @@
  * This source file is subject to the AGPL license that is bundled with this
  * source code in the file LICENSE.
  */
-
-declare(strict_types=1);
-
 set_page_title('Crèdits');
-set_meta_description('© Víctor Pàmies i Riudor, 2020-2023. Desenvolupat per Pere Orga.');
+set_meta_description('© Víctor Pàmies i Riudor, 2020-2024. Desenvolupat per Pere Orga.');
 ?>
-<p>© Víctor Pàmies i Riudor, 2020-2023.</p>
+<p>© Víctor Pàmies i Riudor, 2020-2024.</p>
 
 <p>Aquesta obra està sotmesa a les condicions de la llicència <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" class="external" target="_blank" rel="noopener noreferrer">Creative Commons Atribució-NoComercial-CompartirIgual 4.0 Internacional</a>.</p>
 

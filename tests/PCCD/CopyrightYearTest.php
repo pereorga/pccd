@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
@@ -27,7 +25,7 @@ final class CopyrightYearTest extends TestCase
     {
         $year = date('Y');
         $phpFile = file_get_contents(__DIR__ . '/../../src/pages/credits.php');
-        $yearMentions = substr_count($phpFile, sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year));
+        $yearMentions = substr_count($phpFile, "© Víctor Pàmies i Riudor, 2020-{$year}.");
 
         self::assertSame(2, $yearMentions, "File src/pages/credits.php should contain the current year {$year} twice");
     }
@@ -36,7 +34,7 @@ final class CopyrightYearTest extends TestCase
     {
         $year = date('Y');
         $phpFile = file_get_contents(__DIR__ . '/../../docroot/index.php');
-        $yearMentions = substr_count($phpFile, sprintf('© Víctor Pàmies i Riudor, 2020-%s.', $year));
+        $yearMentions = substr_count($phpFile, "© Víctor Pàmies i Riudor, 2020-{$year}.");
 
         self::assertSame(1, $yearMentions, "File docroot/index.php should contain the current year {$year}");
     }

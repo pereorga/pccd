@@ -44,18 +44,17 @@
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
-    "rector/rector": "^0.18.12"
+    "rector/rector": "^0.18.13",
+    "slevomat/coding-standard": "^8.14"
   },
   "suggest": {
-    "ext-apcu": "Increases website performance. Strongly encouraged in the web server",
+    "ext-apcu": "Used for caching SQL queries. Strongly encouraged in the web server",
     "ext-curl": "Dev: Used for tests after install",
     "ext-gd": "Dev: Required for image size detection during install",
     "ext-imagick": "Dev: Required for image optimization during install",
     "ext-intl": "Required in the web server for some tests",
-    "ext-pdo": "Required in the web server",
     "ext-pdo-mysql": "Required in the web server",
-    "ext-xhprof": "Dev: Xhprof may be used as a simple proofiler in development instances",
-    "ext-zend-opcache": "Increases website performance. Encouraged in the web server",
+    "ext-zend-opcache": "Encouraged in the web server",
     "guzzlehttp/guzzle": "Dev: Used by sentence-tagger-openai dev script",
     "noisebynorthwest/php-spx": "Dev: May be used for debugging PHP",
     "pereorga/pccd-lt-filter": "Dev: Used by common-voice-export dev script"
@@ -89,6 +88,9 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
     "sort-packages": true
   },
   "scripts": {
@@ -98,13 +100,11 @@
     "php-cs-fixer": "tools/php-cs-fixer.phar fix --diff --verbose",
     "php-cs-fixer-lint": "tools/php-cs-fixer.phar fix --verbose --dry-run --stop-on-violation",
     "phpcbf": "tools/phpcbf.phar -p --standard=phpcs.xml .",
-    "phpcpd": "tools/phpcpd.phar --exclude src/vendor --fuzzy docroot src tests",
     "phpcs": "tools/phpcs.phar -p --standard=phpcs.xml .",
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M",
     "phpunit": "tools/phpunit.phar --fail-on-warning --display-warnings",
     "psalm": "tools/psalm.phar --no-cache",
     "rector": "vendor/bin/rector process",
-    "rector-lint": "vendor/bin/rector process --dry-run",
-    "yaml-lint": "tools/yaml-lint.phar *.yml .*.yml .yamlfmt"
+    "rector-lint": "vendor/bin/rector process --dry-run"
   }
 }

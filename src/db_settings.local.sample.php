@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 putenv('MYSQL_DATABASE=pccd');
 putenv('MYSQL_USER=pccd');
 putenv('MYSQL_PASSWORD=yoursecretpassword');

@@ -120,10 +120,6 @@ button::-moz-focus-inner {
     border-style: none;
 }
 
-button:focus {
-    outline: #cbd5e7 solid 3px;
-}
-
 h1,
 h2,
 h3 {
@@ -153,7 +149,7 @@ body > footer {
     flex-basis: 100%;
 }
 
-#nav-toggle {
+header button {
     padding: 0.25rem 0.75rem;
     font-size: 1.5rem;
     line-height: 1;
@@ -161,12 +157,16 @@ body > footer {
     border: 0;
 }
 
-#nav-toggle:focus,
-#nav-toggle:hover {
+button:focus {
+    outline: #cbd5e7 solid 3px;
+}
+
+header button:focus,
+header button:hover {
     opacity: 0.8;
 }
 
-#nav-toggle svg {
+header button svg {
     display: inline-block;
     width: 1em;
     height: 1em;
@@ -273,11 +273,13 @@ header nav {
     margin-top: 45px;
 }
 
-a.credits {
+/* stylelint-disable no-descending-specificity */
+.bloc-credits a {
     font-size: 1.5rem;
 }
+/* stylelint-enable no-descending-specificity */
 
-#snack {
+#cookie-banner {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -285,7 +287,7 @@ a.credits {
     z-index: 10;
 }
 
-#snack button {
+#cookie-banner button {
     padding: 1.5rem;
     font-size: 1rem;
     color: #eeff41;
@@ -294,7 +296,7 @@ a.credits {
     border: 0;
 }
 
-.snack-inner {
+#cookie-banner > div {
     position: absolute;
     bottom: 0;
     display: flex;
@@ -303,7 +305,7 @@ a.credits {
     background-color: #3c4043;
 }
 
-.snack-message {
+#cookie-banner > div > div {
     padding: 1.5rem 1.5rem 0;
     font-size: 0.875rem;
 }
@@ -321,17 +323,17 @@ a.credits {
 
 /* Medium devices (large phones, 576px and up) */
 @media (min-width: 576px) {
-    #snack {
+    #cookie-banner {
         margin-right: 15px;
     }
 
-    .snack-inner {
+    #cookie-banner > div {
         flex-wrap: nowrap;
         margin-bottom: 15px;
         margin-left: 15px;
     }
 
-    .snack-message {
+    #cookie-banner > div > div {
         padding: 1.5rem;
     }
 }
@@ -344,7 +346,7 @@ a.credits {
         justify-content: flex-end;
     }
 
-    #nav-toggle {
+    header button {
         display: none;
     }
 

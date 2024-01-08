@@ -1,6 +1,4 @@
-
 # Homebrew dev packages (tested on macOS, but may work on Linux distros too)
-
 brew "bash"
 brew "coreutils"
 brew "dotenv-linter"

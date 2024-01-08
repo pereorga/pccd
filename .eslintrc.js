@@ -2,14 +2,7 @@ module.exports = {
     env: {
         browser: true,
     },
-    extends: [
-        "eslint:recommended",
-        "plugin:compat/recommended",
-        "plugin:no-unsanitized/DOM",
-        "plugin:regexp/recommended",
-        "plugin:unicorn/recommended",
-        "prettier",
-    ],
+    extends: ["eslint:recommended", "plugin:regexp/recommended", "plugin:unicorn/recommended", "prettier"],
     ignorePatterns: [".eslintrc.js"],
     parserOptions: {
         ecmaVersion: "latest",

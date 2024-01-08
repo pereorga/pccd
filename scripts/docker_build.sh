@@ -23,5 +23,5 @@ usage() {
 
 (cd "$(dirname "$0")/.." &&
     docker-compose down --volumes &&
-    docker-compose build "$@" &&
+    docker-compose build --no-cache "$@" &&
     docker-compose up)

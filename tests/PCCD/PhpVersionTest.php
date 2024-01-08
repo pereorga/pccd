@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
@@ -38,7 +36,7 @@ final class PhpVersionTest extends TestCase
 
         self::assertTrue(
             version_compare($nixPhpVersion, $composerPhpVersion, '>='),
-            sprintf('PHP version in shell.nix (%s) is lower than composer.json minimum version (%s)', $nixPhpVersion, $composerPhpVersion)
+            "PHP version in shell.nix ({$nixPhpVersion}) is lower than composer.json minimum version ({$composerPhpVersion})"
         );
     }
 
@@ -57,7 +55,7 @@ final class PhpVersionTest extends TestCase
 
         self::assertTrue(
             version_compare($phpStormPhpVersion, $composerPhpVersion, '>='),
-            sprintf('PHP version in PhpStorm settings (%s) is lower than composer.json minimum version (%s)', $phpStormPhpVersion, $composerPhpVersion)
+            "PHP version in PhpStorm settings {$phpStormPhpVersion}) is lower than composer.json minimum version ({$composerPhpVersion})"
         );
     }
 
@@ -75,7 +73,7 @@ final class PhpVersionTest extends TestCase
 
         self::assertTrue(
             version_compare($extractedRectorPhpVersion, $composerPhpVersion, '>='),
-            sprintf('PHP version in Rector (%s) is lower than the minimum required version in composer.json (%s)', $extractedRectorPhpVersion, $composerPhpVersion)
+            "PHP version in Rector ({$extractedRectorPhpVersion}) is lower than the minimum required version in composer.json ({$composerPhpVersion})"
         );
     }
 }

@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 const LEVENSHTEIN_SIMILARITY_THRESHOLD = 0.8;
 const LEVENSHTEIN_MAX_DISTANCE = 12;
 
@@ -29,8 +27,8 @@ function get_test_functions(): array
 {
     return [
         'cerques' => ['test_searches'],
-        'compostos' => ['test_paremies_separar'],
         'commonvoice_languagetool' => ['test_commonvoice_languagetool'],
+        'compostos' => ['test_paremies_separar'],
         'dates' => [
             'test_fonts_any_erroni',
             'test_imatges_any_erroni',
@@ -125,7 +123,19 @@ function test_searches(): void
 
         echo 'Total: ' . count($records);
         echo '<pre>';
+
+        // Sort by number of records.
         asort($records, \SORT_NUMERIC);
+
+        // Sort by key alphabetically, but only if values are equal.
+        uksort($records, static function (string $key1, string $key2) use ($records): int {
+            if ($records[$key1] === $records[$key2]) {
+                return $key1 <=> $key2;
+            }
+
+            return 0;
+        });
+
         foreach ($records as $key => $value) {
             echo "{$key} ({$value} resultats)\n";
         }
@@ -345,7 +355,7 @@ function test_imatges_any_erroni(): void
     $stmt = get_db()->query('SELECT Identificador, `Any` FROM 00_IMATGES');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $imatge) {
-        if (((int) $imatge['Any']) < 0 || ((int) $imatge['Any']) > ((int) date('Y'))) {
+        if (((int) $imatge['Any']) < 0 || ((int) $imatge['Any']) > (int) date('Y')) {
             echo 'paremies/' . $imatge['Identificador'] . ' (' . $imatge['Any'] . ")\n";
         }
     }
@@ -455,7 +465,7 @@ function test_fonts_buides(): void
     require_once __DIR__ . '/../common.php';
 
     echo '<h3>Registres a la taula 00_FONTS amb el camp Títol buit.</h3>';
-    $records = get_db()->query("SELECT Identificador FROM 00_FONTS WHERE `Títol` IS NULL OR `Títol` = ''")->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT Identificador FROM 00_FONTS WHERE `Títol` IS NULL OR LENGTH(`Títol`) < 2')->fetchAll(PDO::FETCH_COLUMN);
     echo '<pre>';
     foreach ($records as $r) {
         echo "{$r}\n";
@@ -463,7 +473,7 @@ function test_fonts_buides(): void
     echo '</pre>';
 
     echo '<h3>Registres a la taula 00_FONTS amb el camp Autor buit.</h3>';
-    $records = get_db()->query("SELECT Identificador FROM 00_FONTS WHERE `Autor` IS NULL OR `Autor` = ''")->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT Identificador FROM 00_FONTS WHERE `Autor` IS NULL OR LENGTH(`Autor`) < 2')->fetchAll(PDO::FETCH_COLUMN);
     echo '<pre>';
     foreach ($records as $record) {
         echo "{$record}\n";
@@ -511,7 +521,7 @@ function test_fonts_any_erroni(): void
     $stmt = get_db()->query('SELECT Identificador, `Any` FROM 00_FONTS');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $i) {
-        if (((int) $i['Any']) < 0 || ((int) $i['Any']) > ((int) date('Y'))) {
+        if (((int) $i['Any']) < 0 || ((int) $i['Any']) > (int) date('Y')) {
             echo $i['Identificador'] . ' (' . $i['Any'] . ")\n";
         }
     }
@@ -522,7 +532,7 @@ function test_fonts_any_erroni(): void
     $stmt = get_db()->query('SELECT Identificador, `Any_edició` FROM 00_FONTS');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $imatge) {
-        if (((int) $imatge['Any_edició']) < 0 || ((int) $imatge['Any_edició']) > ((int) date('Y'))) {
+        if (((int) $imatge['Any_edició']) < 0 || ((int) $imatge['Any_edició']) > (int) date('Y')) {
             echo $imatge['Identificador'] . ' (' . $imatge['Any_edició'] . ")\n";
         }
     }
@@ -615,7 +625,7 @@ function test_paremies_any_erroni(): void
     $stmt = get_db()->query('SELECT MODISME, `Any` FROM 00_PAREMIOTIPUS');
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($results as $result) {
-        if (((int) $result['Any']) < 0 || ((int) $result['Any']) > ((int) date('Y'))) {
+        if (((int) $result['Any']) < 0 || ((int) $result['Any']) > (int) date('Y')) {
             echo $result['MODISME'] . ' (' . $result['Any'] . ")\n";
         }
     }
@@ -673,8 +683,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        assert(is_string($m));
-        if (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1) {
+        if (is_string($m) && (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1)) {
             echo $m . "\n";
         }
     }
@@ -684,8 +693,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        assert(is_string($m));
-        if ($checker->isSuspicious($m)) {
+        if (is_string($m) && $checker->isSuspicious($m)) {
             echo $m . "\n";
         }
     }
@@ -735,8 +743,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        assert(is_string($m));
-        if (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1) {
+        if (is_string($m) && (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1)) {
             echo $m . "\n";
         }
     }
@@ -746,8 +753,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
-        assert(is_string($modisme));
-        if ($checker->isSuspicious($modisme)) {
+        if (is_string($modisme) && $checker->isSuspicious($modisme)) {
             echo $modisme . "\n";
         }
     }
@@ -932,7 +938,7 @@ function test_majuscules(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (mb_ucfirst($m) !== $m) {
+        if (is_string($m) && mb_ucfirst($m) !== $m) {
             echo $m . "\n";
         }
     }
@@ -1167,7 +1173,7 @@ function test_repeticio_caracters(): void
     echo '<details><pre>';
     $modismes = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (string_has_consecutive_repeated_chars($m)) {
+        if (is_string($m) && string_has_consecutive_repeated_chars($m)) {
             echo $m . "\n";
         }
     }
@@ -1177,7 +1183,7 @@ function test_repeticio_caracters(): void
     echo '<details><pre>';
     $modismes = get_db()->query('SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
-        if (string_has_consecutive_repeated_chars($modisme)) {
+        if (is_string($modisme) && string_has_consecutive_repeated_chars($modisme)) {
             echo $modisme . "\n";
         }
     }

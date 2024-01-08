@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 set_page_title('Llibres de Víctor Pàmies');
 set_meta_description("Llibres de l'autor de la Paremiologia catalana comparada digital (PCCD).");
 

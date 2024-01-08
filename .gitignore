@@ -17,6 +17,7 @@ sftp-config.json
 .env
 db_settings.local.php
 docker-compose.override.yml
+docker-compose-alpine.override.yml
 
 # Local dependencies
 *Brewfile.lock.json

@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 set_page_title('Les 100 parèmies més citades');
 set_meta_description('Llista de les frases més citades de la Paremiologia catalana comparada digital.');
 

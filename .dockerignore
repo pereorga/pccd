@@ -1,7 +1,13 @@
 # Developer files
 .git
+.github
+.husky
+.phan
+.phive
+tests
+tools
 
-# The original database file (MS Access) and provided zip files
+# The database files and provided zip files
 *.accdb
 *.zip
 
@@ -21,6 +27,7 @@ tmp/*.html
 tmp/*.json
 tmp/*.tar
 tmp/github
+test-results
 
 # Last line may be added/removed by docker:images:* Yarn scripts. This is because the source image files are only needed
 # when executing some background tests, and keeping them in the image would impact Docker image size and performance.

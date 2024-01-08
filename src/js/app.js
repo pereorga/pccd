@@ -17,13 +17,11 @@ gtag("js", new Date());
 gtag("config", "G-CP42Y3NK1R");
 
 (function () {
-    "use strict";
-
     const toggleAllSources = function () {
-        const toggle = document.querySelector("#toggle-all");
-        const isExpanded = toggle.textContent.startsWith("Contrau");
-        toggle.textContent = isExpanded ? "Desplega-ho tot" : "Contrau-ho tot";
-        toggle.setAttribute("title", (isExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
+        const toggleAllButton = document.querySelector("#toggle-all");
+        const isExpanded = toggleAllButton.textContent.startsWith("Contrau");
+        toggleAllButton.textContent = isExpanded ? "Desplega-ho tot" : "Contrau-ho tot";
+        toggleAllButton.setAttribute("title", (isExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
         for (const element of document.querySelectorAll("details")) {
             if (isExpanded) {
                 element.removeAttribute("open");
@@ -33,7 +31,7 @@ gtag("config", "G-CP42Y3NK1R");
         }
     };
 
-    const searchBox = document.querySelector("#cerca");
+    const searchBox = document.querySelector("input[type=search]");
     if (searchBox) {
         // We are in the search page / homepage.
         const variantCheckbox = document.querySelector("#variant");
@@ -41,23 +39,20 @@ gtag("config", "G-CP42Y3NK1R");
         const equivalentCheckbox = document.querySelector("#equivalent");
         const nextButton = document.querySelector("a[rel=next]");
         const previousButton = document.querySelector("a[rel=prev]");
-        const mostra = document.querySelector("#mostra");
+        const mostra = document.querySelector(".pager select");
 
-        // Remember the search options, but only if the search is empty (e.g. we are in the homepage).
+        // Remember the search options, but only if the search is empty.
         if (searchBox.value === "") {
             variantCheckbox.checked = localStorage.getItem("variant") !== "2";
             sinonimCheckbox.checked = localStorage.getItem("sinonim") === "1";
             equivalentCheckbox.checked = localStorage.getItem("equivalent") === "1";
 
-            // Remember pagination.
-            const storedValue = localStorage.getItem("mostra");
-            if (storedValue && storedValue !== mostra.value) {
-                if (document.querySelector(".pager ul")) {
-                    // Request the front page with the preferred pagination, if there is more than 1 page.
+            // If we are in the homepage, remember pagination if set previously.
+            if (!previousButton && nextButton) {
+                const storedValue = localStorage.getItem("mostra");
+                if (storedValue && storedValue !== mostra.value) {
+                    // Request the front page with the preferred pagination.
                     location.assign("/?mostra=" + storedValue);
-                } else {
-                    // Otherwise, set the value.
-                    mostra.value = storedValue;
                 }
             }
         }
@@ -89,26 +84,38 @@ gtag("config", "G-CP42Y3NK1R");
             }
         });
 
-        // On non-touch devices.
-        if (!("ontouchstart" in window)) {
-            // Ensure the following is executed with browser back/forward navigation.
-            window.addEventListener("pageshow", () => {
-                // If there is text inside the search box, select it.
-                if (searchBox.value) {
+        // Ensure the following is executed with browser back/forward navigation.
+        window.addEventListener("pageshow", () => {
+            // Ensure browser does not try to remember last form value, as it doesn't help.
+            const queryParameters = new URLSearchParams(location.search);
+            const searchQuery = queryParameters.get("cerca") || "";
+            searchBox.value = searchQuery.trim();
+
+            // On desktop, select the searched value, so it can be replaced by simply typing.
+            if (searchBox.value !== "" && !/iPhone|iPad|iPod|Android/.test(navigator.userAgent)) {
+                searchBox.select();
+            }
+        });
+
+        searchBox.addEventListener("touchend", () => {
+            // On touch devices, select the word on touch, unless it is already selected.
+            if (searchBox.value !== "") {
+                const isTextSelected = searchBox.selectionStart - searchBox.selectionEnd;
+                if (!isTextSelected) {
                     searchBox.select();
                 }
-            });
-        }
+            }
+        });
     } else {
         // All other pages.
         // Source collapsing, in paremiotipus pages.
-        const toggleAllElement = document.querySelector("#toggle-all");
-        if (toggleAllElement) {
+        const toggleAllButton = document.querySelector("#toggle-all");
+        if (toggleAllButton) {
             // Collapse all sources if this is the user's preference, in paremiotipus pages.
             if (localStorage.getItem("always_expand") === "2") {
                 toggleAllSources();
             }
-            toggleAllElement.addEventListener("click", (event) => {
+            toggleAllButton.addEventListener("click", (event) => {
                 toggleAllSources();
                 localStorage.setItem("always_expand", event.target.textContent.startsWith("Desplega") ? "2" : "1");
             });
@@ -136,22 +143,22 @@ gtag("config", "G-CP42Y3NK1R");
 
     // Show the cookie alert if it hasn't been accepted.
     if (localStorage.getItem("accept_cookies") !== "1") {
-        const snack = document.querySelector("#snack");
-        snack.classList.remove("d-none");
-        snack.querySelector("button").addEventListener("click", () => {
-            snack.remove();
+        const cookieDialog = document.querySelector("#cookie-banner");
+        cookieDialog.classList.remove("d-none");
+        cookieDialog.querySelector("button").addEventListener("click", () => {
+            cookieDialog.remove();
             localStorage.setItem("accept_cookies", "1");
         });
     }
 
     // Toggle hamburger menu on click.
-    document.querySelector("#nav-toggle").addEventListener("click", () => {
+    document.querySelector("header button").addEventListener("click", () => {
         document.querySelector("#menu").classList.toggle("d-none");
     });
 
     // Add keyboard shortcut to go the homepage.
     document.addEventListener("keydown", (event) => {
-        if (event.ctrlKey && (event.key === "/" || event.key === "7")) {
+        if ((event.ctrlKey || event.metaKey) && event.key === "k") {
             location.assign("/");
         }
     });
@@ -159,24 +166,36 @@ gtag("config", "G-CP42Y3NK1R");
     // Prefetch internal links on hover/touch.
     // Inspired by https://github.com/instantpage/instant.page/blob/master/instantpage.js
     const preloadedList = new Set();
+    const prefetchLink = function (event) {
+        const a = event.currentTarget;
+        if (!preloadedList.has(a.href)) {
+            preloadedList.add(a.href);
+            const link = document.createElement("link");
+            link.href = a.href;
+            link.rel = "prefetch";
+            document.head.append(link);
+        }
+    };
     for (const a of document.querySelectorAll("a")) {
         if (a.href && a.origin === location.origin) {
-            for (const eventName of ["mouseenter", "touchstart"]) {
-                a.addEventListener(
-                    eventName,
-                    () => {
-                        // Add link only if it doesn't exist.
-                        if (!preloadedList.has(a.href)) {
-                            preloadedList.add(a.href);
-                            const link = document.createElement("link");
-                            link.href = a.href;
-                            link.rel = "prefetch";
-                            document.head.append(link);
-                        }
-                    },
-                    eventName === "touchstart" ? { passive: true } : false,
-                );
-            }
+            a.addEventListener("mouseenter", prefetchLink);
+            a.addEventListener("touchstart", prefetchLink, { passive: true });
+        }
+    }
+
+    // Document Mac-specific shortcuts.
+    if (navigator.platform.startsWith("Mac")) {
+        const searchLink = document.querySelector('a[rel="home"]');
+        searchLink.title = "Cerca (premeu ⌘K)";
+
+        const nextLink = document.querySelector('a[rel="next"]');
+        if (nextLink) {
+            nextLink.title = "Pàgina següent (premeu ^⇧→)";
+        }
+
+        const previousLink = document.querySelector('a[rel="prev"]');
+        if (previousLink) {
+            previousLink.title = "Pàgina següent (premeu ^⇧←)";
         }
     }
 })();

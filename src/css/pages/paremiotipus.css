@@ -19,7 +19,7 @@ h2 {
     margin-top: 0.5rem;
 }
 
-#toggle-all {
+.shortcuts button {
     padding: 2px 8px;
     font-size: 0.875rem;
     line-height: 1;
@@ -27,9 +27,9 @@ h2 {
     border: 1px solid #ccc;
 }
 
-#toggle-all:hover,
-#toggle-all:focus,
-#toggle-all:focus-visible {
+.shortcuts button:hover,
+.shortcuts button:focus,
+.shortcuts button:focus-visible {
     outline: 1px solid #333;
 }
 

@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 const YEAR_MAX = 9999;
 
 $request_uri = get_request_uri();
@@ -149,7 +147,7 @@ foreach ($variants as $modisme => $variant) {
                 $equivalent = ct($v['EQUIVALENT']);
                 $idioma = $v['IDIOMA'] !== null ? get_idioma($v['IDIOMA']) : '';
                 if ($idioma !== '') {
-                    $iso_code = get_idioma_iso_code($idioma);
+                    $iso_code = get_idioma_iso_code($v['IDIOMA'] ?? '');
                     if ($iso_code !== '') {
                         $equivalent = "<span lang=\"{$iso_code}\">{$equivalent}</span>";
                     }
@@ -217,8 +215,8 @@ foreach ($variants as $modisme => $variant) {
     }
 
     $rendered_variants_array[] = [
-        'html' => $rendered_variant,
         'count' => $variant_sources,
+        'html' => $rendered_variant,
     ];
 }
 

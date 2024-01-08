@@ -10,8 +10,6 @@
  * source code in the file LICENSE.
  */
 
-declare(strict_types=1);
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 require __DIR__ . '/../../src/common.php';

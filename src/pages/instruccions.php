@@ -9,9 +9,6 @@
  * This source file is subject to the AGPL license that is bundled with this
  * source code in the file LICENSE.
  */
-
-declare(strict_types=1);
-
 set_page_title("Instruccions d'ús");
 set_meta_description("Instruccions d'ús de la Paremiologia catalana comparada digital.");
 ?>

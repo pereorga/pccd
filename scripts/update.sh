@@ -33,38 +33,10 @@ usage() {
     echo "      Updates the nixpkgs version in shell.nix to the latest commit"
     echo "    opcache-gui"
     echo "      Updates OPcache GUI to latest revision"
-    echo "    pecl"
-    echo "      Updates PECL packages in Docker files to latest version"
     echo "    phive"
     echo "      Updates all PHIVE (phar) packages and phive itself to latest releases"
     echo "    yarn"
     echo "      Updates all Yarn dev packages to latest release"
-}
-
-##############################################################################
-# Updates a pecl install command inside a Docker file with the latest release of a pecl package.
-# Arguments:
-#   A Docker file, a path (e.g. ".docker/Dockerfile")
-#   A pecl package (e.g. "apcu")
-##############################################################################
-update_pecl_package_dockerfile() {
-    local -r DOCKER_FILE="$1"
-    local -r PECL_PACKAGE="$2"
-    local latest_version
-
-    latest_version=$(pecl remote-info "${PECL_PACKAGE}" | grep -F Latest | cut -c13-)
-    if [[ -z ${latest_version} ]]; then
-        echo "Warning: Could not find latest version of ${PECL_PACKAGE} using pecl, trying it with curl..."
-        # Try to check https://pecl.php.net/rest/r/PECL_PACKAGE/allreleases.xml manually.
-        # We use sed to not add a new dependency (xmlstarlet/yq/xq/dasel), and because grep -P does not work in POSIX/macOS.
-        latest_version=$(curl --silent --fail "https://pecl.php.net/rest/r/${PECL_PACKAGE}/allreleases.xml" |
-            grep -F '<s>stable</s>' |
-            sed -n 's:.*<v>\(.*\)</v>.*:\1:p' |
-            sort --version-sort |
-            tail -n1)
-    fi
-    sed -i'.original' -e "s/pecl install ${PECL_PACKAGE}-[^ ]*/pecl install ${PECL_PACKAGE}-${latest_version}/" "${DOCKER_FILE}"
-    rm "${DOCKER_FILE}.original"
 }
 
 ##############################################################################
@@ -130,7 +102,7 @@ check_version_docker_file() {
         rm "${DOCKER_FILE}.original"
         exit 1
     else
-        echo "OK: ${IMAGE_NAME} Docker image is up to date."
+        echo "OK: ${IMAGE_NAME} Docker image is up to date in ${DOCKER_FILE}."
     fi
 }
 
@@ -153,7 +125,7 @@ check_version_docker_compose() {
         rm "${COMPOSE_FILE}.original"
         exit 1
     else
-        echo "OK: ${IMAGE_NAME} Docker image is up to date."
+        echo "OK: ${IMAGE_NAME} Docker image is up to date in ${COMPOSE_FILE}."
     fi
 }
 
@@ -272,12 +244,6 @@ if [[ $1 == "brew" ]]; then
     exit 0
 fi
 
-if [[ $1 == "pecl" ]]; then
-    update_pecl_package_dockerfile .docker/Dockerfile apcu
-    update_pecl_package_dockerfile .docker/Dockerfile xhprof
-    exit 0
-fi
-
 if [[ $1 == "composer" ]]; then
     update_composer
     exit 0
@@ -306,8 +272,9 @@ fi
 
 if [[ $1 == "docker" ]]; then
     check_version_docker_file .docker/Dockerfile php
+    check_version_docker_file .docker/alpine.Dockerfile alpine
     check_version_docker_compose docker-compose.yml mariadb
-    check_version_docker_compose docker-compose.yml varnish
+    check_version_docker_compose docker-compose-alpine.yml mariadb
     exit 0
 fi
 

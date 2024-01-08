@@ -13,8 +13,8 @@ and media files are not distributed with this repository.
 docker-compose up --build
 ```
 
-When the database has finished importing, the website should be available at both <http://localhost:8091> (Varnish) and
-<http://localhost:8092> (Apache), depending on your `.env` file.
+When the database has finished importing, the website should be available at <http://localhost:8092>, depending on your
+`.env` file.
 
 Note: If you don't have a database, you can copy `tmp/schema.sql` and `tmp/schema_init_sample.sql` files to
 `install/db/`. That will import an empty database and should allow you to browse the website locally.
