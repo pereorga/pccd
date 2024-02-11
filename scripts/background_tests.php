@@ -39,13 +39,17 @@ if ($argv[1] === 'fonts_urls') {
 }
 
 if ($argv[1] === 'imatges_urls') {
-    echo background_test_imatges_urls();
+    $start = isset($argv[2]) ? (int) $argv[2] : 0;
+    $end = isset($argv[3]) ? (int) $argv[3] : 0;
+    echo background_test_imatges_urls($start, $end);
 
     exit;
 }
 
 if ($argv[1] === 'imatges_links') {
-    echo background_test_imatges_links();
+    $start = isset($argv[2]) ? (int) $argv[2] : 0;
+    $end = isset($argv[3]) ? (int) $argv[3] : 0;
+    echo background_test_imatges_links($start, $end);
 
     exit;
 }

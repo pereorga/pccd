@@ -39,9 +39,10 @@ function handle_zip_file {
         mv "${zip_name}" "${target_dir}"
         chmod 644 "${target_dir}"/*
 
-        # Normalize UTF-8 characters in the filename, like we do with the database.
-        # TODO: Check whether this is necessary only on macOS.
-        # TODO: Check convmv, iconv and other alternatives
+        # Normalize UTF-8 characters in the filename, like we do with the database contents. Apparently this is
+        # necessary only on macOS filesystems. The may be related to unar (unzip command did bring other compatibility
+        # issues with the encoding in some uploads). TODO: we may want to test 7zz.
+        # TODO: Check convmv, iconv and other alternatives (or not, as using Bash does not add additional dependencies).
         if [[ ${os_name} == "Darwin" ]]; then
             # But not when using NIX.
             if [[ -z ${IN_NIX_SHELL} ]]; then

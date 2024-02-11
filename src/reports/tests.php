@@ -88,8 +88,6 @@ function get_test_functions(): array
 /**
  * Outputs cached searches.
  *
- * @suppress PhanUndeclaredClassMethod
- *
  * @psalm-suppress UndefinedClass, RawObjectIteration
  */
 function test_searches(): void
@@ -151,7 +149,7 @@ function test_imatges_paremiotipus(): void
 
     echo '<h3>Paremiotipus de la taula 00_IMATGES que no concorda amb cap registre de la taula 00_PAREMIOTIPUS</h3>';
     echo '<pre>';
-    $stmt = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_IMATGES WHERE PAREMIOTIPUS NOT IN (SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS)');
+    $stmt = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_IMATGES` WHERE `PAREMIOTIPUS` NOT IN (SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`)');
     $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($images as $image) {
         echo $image . "\n";
@@ -195,14 +193,14 @@ function test_imatges_no_reconegudes(): void
 
     echo '<h3>Imatges a la BD amb extensió no estàndard (no jpg/png/gif) o en majúscules</h3>';
     echo '<pre>';
-    $stmt = get_db()->query('SELECT Imatge FROM 00_FONTS');
+    $stmt = get_db()->query('SELECT `Imatge` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
         if ($i !== null && !str_ends_with($i, '.jpg') && !str_ends_with($i, '.png') && !str_ends_with($i, '.gif')) {
             echo 'cobertes/' . $i . "\n";
         }
     }
-    $stmt = get_db()->query('SELECT Identificador FROM 00_IMATGES');
+    $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
         if ($i !== null && !str_ends_with($i, '.jpg') && !str_ends_with($i, '.png') && !str_ends_with($i, '.gif')) {
@@ -213,14 +211,14 @@ function test_imatges_no_reconegudes(): void
 
     echo '<h3>Imatges que no s\'ha pogut detectar la seva mida</h3>';
     echo '<pre>';
-    $stmt = get_db()->query('SELECT Imatge, WIDTH, HEIGHT FROM 00_FONTS');
+    $stmt = get_db()->query('SELECT `Imatge`, `WIDTH`, `HEIGHT` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $i) {
         if ($i['Imatge'] !== null && ($i['WIDTH'] === 0 || $i['HEIGHT'] === 0)) {
             echo 'cobertes/' . $i['Imatge'] . "\n";
         }
     }
-    $stmt = get_db()->query('SELECT Identificador, WIDTH, HEIGHT FROM 00_IMATGES');
+    $stmt = get_db()->query('SELECT `Identificador`, `WIDTH`, `HEIGHT` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $imatge) {
         if ($imatge['Identificador'] !== null && ($imatge['WIDTH'] === 0 || $imatge['HEIGHT'] === 0)) {
@@ -236,7 +234,7 @@ function test_imatges_sense_paremiotipus(): void
 
     echo '<h3>Camp PAREMIOTIPUS buit a la taula 00_IMATGES</h3>';
     echo '<details><pre>';
-    $stmt = get_db()->query('SELECT Identificador, PAREMIOTIPUS FROM 00_IMATGES');
+    $stmt = get_db()->query('SELECT `Identificador`, `PAREMIOTIPUS` FROM `00_IMATGES`');
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($results as $result) {
         if (!is_string($result['PAREMIOTIPUS']) || strlen($result['PAREMIOTIPUS']) < 2) {
@@ -251,7 +249,7 @@ function test_imatges_buides(): void
     require_once __DIR__ . '/../common.php';
 
     echo '<h3>Fonts sense imatge</h3>';
-    $stmt = get_db()->query('SELECT Imatge, Identificador FROM 00_FONTS');
+    $stmt = get_db()->query('SELECT `Imatge`, `Identificador` FROM `00_FONTS`');
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $n = 0;
     $output = '';
@@ -268,7 +266,7 @@ function test_imatges_buides(): void
         echo '</pre>';
     }
 
-    $stmt = get_db()->query('SELECT Identificador FROM 00_IMATGES');
+    $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES`');
     $results = $stmt->fetchAll(PDO::FETCH_COLUMN);
     $n = 0;
     foreach ($results as $result) {
@@ -287,26 +285,26 @@ function test_imatges_camps_duplicats(): void
 
     echo '<h3>Paremiotipus de la taula 00_IMATGES amb els mateixos camps URL_ENLLAÇ, AUTOR, DIARI i ARTICLE:</h3>';
     $stmt = get_db()->query('SELECT
-        PAREMIOTIPUS,
-        URL_ENLLAÇ as URL,
-        AUTOR,
-        DIARI,
-        ARTICLE,
-        GROUP_CONCAT(Identificador) as Identificadors
+        `PAREMIOTIPUS`,
+        `URL_ENLLAÇ`,
+        `AUTOR`,
+        `DIARI`,
+        `ARTICLE`,
+        GROUP_CONCAT(`Identificador`)
     FROM
-        00_IMATGES
+        `00_IMATGES`
     WHERE
-        PAREMIOTIPUS IS NOT NULL AND PAREMIOTIPUS <> \'\'
-        AND URL_ENLLAÇ IS NOT NULL
-        AND AUTOR IS NOT NULL
-        AND DIARI IS NOT NULL
-        AND ARTICLE IS NOT NULL
+        `PAREMIOTIPUS` IS NOT NULL AND `PAREMIOTIPUS` <> \'\'
+        AND `URL_ENLLAÇ` IS NOT NULL
+        AND `AUTOR` IS NOT NULL
+        AND `DIARI` IS NOT NULL
+        AND `ARTICLE` IS NOT NULL
     GROUP BY
-        PAREMIOTIPUS,
-        URL_ENLLAÇ,
-        AUTOR,
-        DIARI,
-        ARTICLE
+        `PAREMIOTIPUS`,
+        `URL_ENLLAÇ`,
+        `AUTOR`,
+        `DIARI`,
+        `ARTICLE`
     HAVING
         COUNT(*) > 1');
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -352,7 +350,7 @@ function test_imatges_any_erroni(): void
 
     echo "<h3>Imatges amb l'any probablement incorrecte</h3>";
     echo '<pre>';
-    $stmt = get_db()->query('SELECT Identificador, `Any` FROM 00_IMATGES');
+    $stmt = get_db()->query('SELECT `Identificador`, `Any` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $imatge) {
         if (((int) $imatge['Any']) < 0 || ((int) $imatge['Any']) > (int) date('Y')) {
@@ -368,7 +366,7 @@ function test_imatges_repetides(): void
 
     echo '<h3>Identificador repetit a la taula 00_IMATGES</h3>';
     echo '<pre>';
-    $stmt = get_db()->query('SELECT Identificador FROM 00_IMATGES');
+    $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
     // See https://stackoverflow.com/a/5995153/1391963
@@ -380,7 +378,7 @@ function test_imatges_repetides(): void
 
     echo '<h3>Número repetit a la taula 00_IMATGES</h3>';
     echo '<pre>';
-    $stmt = get_db()->query('SELECT Identificador FROM 00_IMATGES ORDER BY Identificador');
+    $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES` ORDER BY `Identificador`');
     $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
     $prev = 0;
     $prev_image = '';
@@ -443,11 +441,15 @@ function test_llocs(): void
 
     $llocs = get_db()->query('
         SELECT
-            LLOC,
-            COUNT(LLOC) AS Repetitions
-        FROM 00_PAREMIOTIPUS
-        GROUP BY LLOC
-        ORDER BY Repetitions DESC, LLOC ASC;
+            `LLOC`,
+            COUNT(`LLOC`) AS `Repetitions`
+        FROM
+            `00_PAREMIOTIPUS`
+        GROUP BY
+            `LLOC`
+        ORDER BY
+            `Repetitions` DESC,
+            `LLOC` ASC;
     ')->fetchAll(PDO::FETCH_KEY_PAIR);
 
     echo '<h3>Llocs ordenats per freqüència</h3>';
@@ -465,7 +467,7 @@ function test_fonts_buides(): void
     require_once __DIR__ . '/../common.php';
 
     echo '<h3>Registres a la taula 00_FONTS amb el camp Títol buit.</h3>';
-    $records = get_db()->query('SELECT Identificador FROM 00_FONTS WHERE `Títol` IS NULL OR LENGTH(`Títol`) < 2')->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT `Identificador` FROM `00_FONTS` WHERE `Títol` IS NULL OR LENGTH(`Títol`) < 2')->fetchAll(PDO::FETCH_COLUMN);
     echo '<pre>';
     foreach ($records as $r) {
         echo "{$r}\n";
@@ -473,7 +475,7 @@ function test_fonts_buides(): void
     echo '</pre>';
 
     echo '<h3>Registres a la taula 00_FONTS amb el camp Autor buit.</h3>';
-    $records = get_db()->query('SELECT Identificador FROM 00_FONTS WHERE `Autor` IS NULL OR LENGTH(`Autor`) < 2')->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT `Identificador` FROM `00_FONTS` WHERE `Autor` IS NULL OR LENGTH(`Autor`) < 2')->fetchAll(PDO::FETCH_COLUMN);
     echo '<pre>';
     foreach ($records as $record) {
         echo "{$record}\n";
@@ -500,7 +502,7 @@ function test_fonts_sense_paremia(): void
     require_once __DIR__ . '/../common.php';
 
     $fonts = get_fonts();
-    $fonts_modismes = get_db()->query('SELECT DISTINCT ID_FONT, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $fonts_modismes = get_db()->query('SELECT DISTINCT `ID_FONT`, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
 
     echo '<h3>Obres de la taula 00_FONTS que no estan referenciades per cap parèmia</h3>';
     echo '<div style="font-size: 13px;">';
@@ -518,7 +520,7 @@ function test_fonts_any_erroni(): void
 
     echo "<h3>Obres amb l'any probablement incorrecte</h3>";
     echo '<pre>';
-    $stmt = get_db()->query('SELECT Identificador, `Any` FROM 00_FONTS');
+    $stmt = get_db()->query('SELECT `Identificador`, `Any` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $i) {
         if (((int) $i['Any']) < 0 || ((int) $i['Any']) > (int) date('Y')) {
@@ -529,7 +531,7 @@ function test_fonts_any_erroni(): void
 
     echo "<h3>Obres amb l'any d'edició probablement incorrecte</h3>";
     echo '<pre>';
-    $stmt = get_db()->query('SELECT Identificador, `Any_edició` FROM 00_FONTS');
+    $stmt = get_db()->query('SELECT `Identificador`, `Any_edició` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $imatge) {
         if (((int) $imatge['Any_edició']) < 0 || ((int) $imatge['Any_edició']) > (int) date('Y')) {
@@ -546,7 +548,7 @@ function test_sinonims(): void
     $pdo = get_db();
     $parem_stmt = $pdo->prepare('SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` = :paremiotipus');
     $mod_stmt = $pdo->prepare('SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` = :modisme');
-    $paremiotipus = $pdo->query('SELECT PAREMIOTIPUS, SINONIM FROM 00_PAREMIOTIPUS WHERE SINONIM IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
+    $paremiotipus = $pdo->query('SELECT `PAREMIOTIPUS`, `SINONIM` FROM `00_PAREMIOTIPUS` WHERE `SINONIM` IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
 
     $sinonims_array = [];
     foreach ($paremiotipus as $p) {
@@ -599,7 +601,7 @@ function test_paremies_sense_font_existent(): void
     require_once __DIR__ . '/../common.php';
 
     $fonts = get_fonts();
-    $paremies = get_db()->query('SELECT MODISME, ID_FONT FROM `00_PAREMIOTIPUS` ORDER BY ID_FONT')->fetchAll(PDO::FETCH_ASSOC);
+    $paremies = get_db()->query('SELECT `MODISME`, `ID_FONT` FROM `00_PAREMIOTIPUS` ORDER BY `ID_FONT`')->fetchAll(PDO::FETCH_ASSOC);
 
     echo '<h3>Parèmies que tenen obra, però que aquesta no es troba a la taula 00_FONTS</h3>';
     echo '<details><pre>';
@@ -622,7 +624,7 @@ function test_paremies_any_erroni(): void
 
     echo "<h3>Modismes amb l'any probablement incorrecte</h3>";
     echo '<pre>';
-    $stmt = get_db()->query('SELECT MODISME, `Any` FROM 00_PAREMIOTIPUS');
+    $stmt = get_db()->query('SELECT `MODISME`, `Any` FROM `00_PAREMIOTIPUS`');
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($results as $result) {
         if (((int) $result['Any']) < 0 || ((int) $result['Any']) > (int) date('Y')) {
@@ -641,7 +643,7 @@ function test_espais(): void
 
     echo '<h3>Paremiotipus que comencen o acaben amb espai en blanc</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(PAREMIOTIPUS) != CHAR_LENGTH(TRIM(PAREMIOTIPUS))')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE CHAR_LENGTH(`PAREMIOTIPUS`) != CHAR_LENGTH(TRIM(`PAREMIOTIPUS`))')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -649,7 +651,7 @@ function test_espais(): void
 
     echo '<h3>Paremiotipus que contenen 2 espais seguits</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS LIKE '%  %'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%  %'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -657,7 +659,7 @@ function test_espais(): void
 
     echo '<h3>Paremiotipus que contenen salts de línia</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS LIKE '%\\n%' OR PAREMIOTIPUS LIKE '%\\r%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%\\n%' OR `PAREMIOTIPUS` LIKE '%\\r%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -665,7 +667,7 @@ function test_espais(): void
 
     echo '<h3>Paremiotipus que contenen el caràcter tabulador</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS LIKE '%\\t%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%\\t%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -673,7 +675,7 @@ function test_espais(): void
 
     echo '<h3>Paremiotipus amb espais i parèntesis/claudàtors mal posats</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS LIKE '% )%' OR PAREMIOTIPUS LIKE '%( %' OR PAREMIOTIPUS LIKE '% ]%' OR PAREMIOTIPUS LIKE '%[ %'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '% )%' OR `PAREMIOTIPUS` LIKE '%( %' OR `PAREMIOTIPUS` LIKE '% ]%' OR `PAREMIOTIPUS` LIKE '%[ %'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -681,7 +683,7 @@ function test_espais(): void
 
     echo '<h3>Paremiotipus amb caràcters invisibles no segurs</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1)) {
             echo $m . "\n";
@@ -691,7 +693,7 @@ function test_espais(): void
 
     echo '<h3>Paremiotipus amb caràcters sospitosos</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && $checker->isSuspicious($m)) {
             echo $m . "\n";
@@ -701,7 +703,7 @@ function test_espais(): void
 
     echo '<h3>Modismes que comencen o acaben amb espai en blanc</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT MODISME FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(MODISME) != CHAR_LENGTH(TRIM(MODISME))')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE CHAR_LENGTH(`MODISME`) != CHAR_LENGTH(TRIM(`MODISME`))')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -709,7 +711,7 @@ function test_espais(): void
 
     echo '<h3>Modismes que contenen 2 espais seguits</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%  %'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%  %'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -717,7 +719,7 @@ function test_espais(): void
 
     echo '<h3>Modismes que contenen salts de línia</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%\\n%' OR MODISME LIKE '%\\r%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%\\n%' OR `MODISME` LIKE '%\\r%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -725,7 +727,7 @@ function test_espais(): void
 
     echo '<h3>Modismes que contenen el caràcter tabulador</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%\\t%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%\\t%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -733,7 +735,7 @@ function test_espais(): void
 
     echo '<h3>Modismes amb espais i parèntesis/claudàtors mal posats</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '% )%' OR MODISME LIKE '%( %' OR MODISME LIKE '% ]%' OR MODISME LIKE '%[ %'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '% )%' OR `MODISME` LIKE '%( %' OR `MODISME` LIKE '% ]%' OR `MODISME` LIKE '%[ %'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -741,7 +743,7 @@ function test_espais(): void
 
     echo '<h3>Modismes amb caràcters invisibles no segurs</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1)) {
             echo $m . "\n";
@@ -751,7 +753,7 @@ function test_espais(): void
 
     echo '<h3>Modismes amb caràcters sospitosos</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
         if (is_string($modisme) && $checker->isSuspicious($modisme)) {
             echo $modisme . "\n";
@@ -761,7 +763,7 @@ function test_espais(): void
 
     echo '<h3>Modismes que contenen salts de línia al camp EXPLICACIO</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE EXPLICACIO LIKE '%\\n%' OR EXPLICACIO LIKE '%\\r%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `EXPLICACIO` LIKE '%\\n%' OR `EXPLICACIO` LIKE '%\\r%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -776,7 +778,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb parèntesis o claudàtors no tancats</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE LENGTH(REPLACE(PAREMIOTIPUS, '(', '')) != LENGTH(REPLACE(PAREMIOTIPUS, ')', '')) OR LENGTH(REPLACE(PAREMIOTIPUS, '[', '')) != LENGTH(REPLACE(PAREMIOTIPUS, ']', ''))")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE LENGTH(REPLACE(`PAREMIOTIPUS`, '(', '')) != LENGTH(REPLACE(`PAREMIOTIPUS`, ')', '')) OR LENGTH(REPLACE(`PAREMIOTIPUS`, '[', '')) != LENGTH(REPLACE(`PAREMIOTIPUS`, ']', ''))")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -784,7 +786,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb cometes no tancades</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT Display FROM paremiotipus_display WHERE (LENGTH(Display) - LENGTH(REPLACE(Display, '\"', ''))) % 2 != 0 OR LENGTH(REPLACE(Display, '«', '')) != LENGTH(REPLACE(Display, '»', '')) OR LENGTH(REPLACE(Display, '“', '')) != LENGTH(REPLACE(Display, '”', ''))")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `Display` FROM `paremiotipus_display` WHERE (LENGTH(`Display`) - LENGTH(REPLACE(`Display`, '\"', ''))) % 2 != 0 OR LENGTH(REPLACE(`Display`, '«', '')) != LENGTH(REPLACE(`Display`, '»', '')) OR LENGTH(REPLACE(`Display`, '“', '')) != LENGTH(REPLACE(`Display`, '”', ''))")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -792,7 +794,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb cometa simple seguida del caràcter espai o signe de puntuació inusual.</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE (PAREMIOTIPUS LIKE '%\\' %' OR PAREMIOTIPUS LIKE '%\\'.%' OR PAREMIOTIPUS LIKE '%\\',%' OR PAREMIOTIPUS LIKE '%\\';%' OR PAREMIOTIPUS LIKE '%\\':%' OR PAREMIOTIPUS LIKE '%\\'-%') AND (LENGTH(PAREMIOTIPUS) - LENGTH(REPLACE(PAREMIOTIPUS, '\\'', ''))) = 1")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '%\\' %' OR `PAREMIOTIPUS` LIKE '%\\'.%' OR `PAREMIOTIPUS` LIKE '%\\',%' OR `PAREMIOTIPUS` LIKE '%\\';%' OR `PAREMIOTIPUS` LIKE '%\\':%' OR `PAREMIOTIPUS` LIKE '%\\'-%') AND (LENGTH(`PAREMIOTIPUS`) - LENGTH(REPLACE(`PAREMIOTIPUS`, '\\'', ''))) = 1")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -800,7 +802,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb el caràcter espai seguit de signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE (PAREMIOTIPUS LIKE '% .%' AND PAREMIOTIPUS NOT LIKE '% ...%') OR PAREMIOTIPUS LIKE '% ,%' OR PAREMIOTIPUS LIKE '% ;%' OR PAREMIOTIPUS LIKE '% :%' OR PAREMIOTIPUS LIKE '% !%' OR PAREMIOTIPUS LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '% .%' AND `PAREMIOTIPUS` NOT LIKE '% ...%') OR `PAREMIOTIPUS` LIKE '% ,%' OR `PAREMIOTIPUS` LIKE '% ;%' OR `PAREMIOTIPUS` LIKE '% :%' OR `PAREMIOTIPUS` LIKE '% !%' OR `PAREMIOTIPUS` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -808,7 +810,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus acabats amb signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS LIKE '%,' OR PAREMIOTIPUS LIKE '%;' OR PAREMIOTIPUS LIKE '%:'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%,' OR `PAREMIOTIPUS` LIKE '%;' OR `PAREMIOTIPUS` LIKE '%:'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -816,7 +818,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb signe de puntuació seguit de lletres</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE (PAREMIOTIPUS REGEXP BINARY ',[a-zA-Z]+') OR (PAREMIOTIPUS REGEXP BINARY '[.][a-zA-Z]+') OR (PAREMIOTIPUS REGEXP BINARY '[)][a-zA-Z]+') OR (PAREMIOTIPUS REGEXP BINARY '[?][a-zA-Z]+') OR (PAREMIOTIPUS REGEXP BINARY ':[a-zA-Z]+') OR (PAREMIOTIPUS REGEXP BINARY ';[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` REGEXP BINARY ',[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[.][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[)][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[?][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ':[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ';[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -824,7 +826,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb possible confusió del caràcter <code>l</code> amb <code>I</code></h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE BINARY '%I\\'%' OR MODISME REGEXP BINARY '[a-z]+I'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE BINARY '%I\\'%' OR `MODISME` REGEXP BINARY '[a-z]+I'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -832,7 +834,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb parèntesis o claudàtors no tancats</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE LENGTH(REPLACE(MODISME, '(', '')) != LENGTH(REPLACE(MODISME, ')', '')) OR LENGTH(REPLACE(MODISME, '[', '')) != LENGTH(REPLACE(MODISME, ']', ''))")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE LENGTH(REPLACE(`MODISME`, '(', '')) != LENGTH(REPLACE(`MODISME`, ')', '')) OR LENGTH(REPLACE(`MODISME`, '[', '')) != LENGTH(REPLACE(`MODISME`, ']', ''))")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -840,7 +842,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb cometes no tancades</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE (LENGTH(MODISME) - LENGTH(REPLACE(MODISME, '\"', ''))) % 2 != 0 OR LENGTH(REPLACE(MODISME, '«', '')) != LENGTH(REPLACE(MODISME, '»', '')) OR LENGTH(REPLACE(MODISME, '“', '')) != LENGTH(REPLACE(MODISME, '”', ''))")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE (LENGTH(`MODISME`) - LENGTH(REPLACE(`MODISME`, '\"', ''))) % 2 != 0 OR LENGTH(REPLACE(`MODISME`, '«', '')) != LENGTH(REPLACE(`MODISME`, '»', '')) OR LENGTH(REPLACE(`MODISME`, '“', '')) != LENGTH(REPLACE(`MODISME`, '”', ''))")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -848,7 +850,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb el caràcter espai seguit de signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE (MODISME LIKE '% .%' AND MODISME NOT LIKE '% ...%') OR MODISME LIKE '% ,%' OR MODISME LIKE '% ;%' OR MODISME LIKE '% :%' OR MODISME LIKE '% !%' OR MODISME LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE (`MODISME` LIKE '% .%' AND `MODISME` NOT LIKE '% ...%') OR `MODISME` LIKE '% ,%' OR `MODISME` LIKE '% ;%' OR `MODISME` LIKE '% :%' OR `MODISME` LIKE '% !%' OR `MODISME` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -856,7 +858,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes acabats amb signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%,' OR MODISME LIKE '%;' OR MODISME LIKE '%:'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%,' OR `MODISME` LIKE '%;' OR `MODISME` LIKE '%:'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -864,15 +866,15 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb una combinació de signes de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%?¿%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%?¿%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%,?%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%,?%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%,!'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%,!'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -880,7 +882,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb cometa simple seguida del caràcter espai o signe de puntuació inusual.</h3>';
     echo '<details><pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE (MODISME LIKE '%\\' %' OR MODISME LIKE '%\\'.%' OR MODISME LIKE '%\\',%' OR MODISME LIKE '%\\';%' OR MODISME LIKE '%\\':%' OR MODISME LIKE '%\\'-%') AND (LENGTH(MODISME) - LENGTH(REPLACE(MODISME, '\\'', ''))) = 1")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE (`MODISME` LIKE '%\\' %' OR `MODISME` LIKE '%\\'.%' OR `MODISME` LIKE '%\\',%' OR `MODISME` LIKE '%\\';%' OR `MODISME` LIKE '%\\':%' OR `MODISME` LIKE '%\\'-%') AND (LENGTH(`MODISME`) - LENGTH(REPLACE(`MODISME`, '\\'', ''))) = 1")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -888,7 +890,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb signe de puntuació seguit de lletres</h3>';
     echo '<details><pre>';
-    $modismes = $pdo->query("SELECT MODISME FROM 00_PAREMIOTIPUS WHERE (MODISME REGEXP BINARY ',[a-zA-Z]+') OR (MODISME REGEXP BINARY '[.][a-zA-Z]+') OR (MODISME REGEXP BINARY '[)][a-zA-Z]+') OR (MODISME REGEXP BINARY '[?][a-zA-Z]+') OR (MODISME REGEXP BINARY ':[a-zA-Z]+') OR (MODISME REGEXP BINARY ';[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE (`MODISME` REGEXP BINARY ',[a-zA-Z]+') OR (`MODISME` REGEXP BINARY '[.][a-zA-Z]+') OR (`MODISME` REGEXP BINARY '[)][a-zA-Z]+') OR (`MODISME` REGEXP BINARY '[?][a-zA-Z]+') OR (`MODISME` REGEXP BINARY ':[a-zA-Z]+') OR (`MODISME` REGEXP BINARY ';[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -902,7 +904,7 @@ function test_majuscules(): void
 
     echo '<h3>Paremiotipus que comencen amb lletra minúscula</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (mb_ucfirst($m) !== $m) {
             echo $m . "\n";
@@ -912,7 +914,7 @@ function test_majuscules(): void
 
     echo "<h3>Paremiotipus que tenen una lletra minúscula seguida d'una lletra majúscula</h3>";
     echo '<pre>';
-    $modismes = $pdo->query("SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -920,7 +922,7 @@ function test_majuscules(): void
 
     echo '<h3>Paremiotipus que tenen dues lletres majúscules seguides</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE PAREMIOTIPUS REGEXP BINARY '[A-Z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` REGEXP BINARY '[A-Z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -928,7 +930,7 @@ function test_majuscules(): void
 
     echo '<h3>Paremiotipus que acaben amb lletra majúscula</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE BINARY LOWER(SUBSTRING(PAREMIOTIPUS, -1)) != SUBSTRING(PAREMIOTIPUS, -1)')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE BINARY LOWER(SUBSTRING(`PAREMIOTIPUS`, -1)) != SUBSTRING(`PAREMIOTIPUS`, -1)')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -936,7 +938,7 @@ function test_majuscules(): void
 
     echo '<h3>Modismes que comencen amb lletra minúscula</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && mb_ucfirst($m) !== $m) {
             echo $m . "\n";
@@ -946,7 +948,7 @@ function test_majuscules(): void
 
     echo "<h3>Modismes que tenen una lletra minúscula seguida d'una lletra majúscula</h3>";
     echo '<pre>';
-    $modismes = $pdo->query("SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT DISTINCT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -954,7 +956,7 @@ function test_majuscules(): void
 
     echo '<h3>Modismes que acaben amb lletra majúscula</h3>';
     echo '<pre>';
-    $modismes = $pdo->query('SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS WHERE BINARY LOWER(SUBSTRING(MODISME, -1)) != SUBSTRING(MODISME, -1)')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query('SELECT DISTINCT `MODISME` FROM `00_PAREMIOTIPUS` WHERE BINARY LOWER(SUBSTRING(`MODISME`, -1)) != SUBSTRING(`MODISME`, -1)')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
         echo $modisme . "\n";
     }
@@ -967,7 +969,7 @@ function test_equivalents(): void
 
     echo "<h3>Modismes amb equivalents amb un codi d'idioma no detectat</h3>";
     echo '<pre>';
-    $modismes = get_db()->query('SELECT MODISME, EQUIVALENT, IDIOMA FROM 00_PAREMIOTIPUS WHERE EQUIVALENT IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
+    $modismes = get_db()->query('SELECT `MODISME`, `EQUIVALENT`, `IDIOMA` FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($modismes as $m) {
         if ($m['IDIOMA'] !== null && get_idioma($m['IDIOMA']) === '') {
             echo $m['MODISME'] . ' (codi idioma: ' . $m['IDIOMA'] . ', equivalent: ' . $m['EQUIVALENT'] . ")\n";
@@ -977,7 +979,7 @@ function test_equivalents(): void
 
     echo '<h3>Modismes amb equivalents amb el camp idioma buit</h3>';
     echo '<details><pre>';
-    $modismes = get_db()->query('SELECT MODISME, EQUIVALENT, IDIOMA FROM 00_PAREMIOTIPUS WHERE EQUIVALENT IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
+    $modismes = get_db()->query('SELECT `MODISME`, `EQUIVALENT`, `IDIOMA` FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($modismes as $modisme) {
         if ($modisme['IDIOMA'] === null && $modisme['MODISME'] !== null && $modisme['EQUIVALENT'] !== null) {
             echo $modisme['MODISME'] . ' (equivalent ' . $modisme['EQUIVALENT'] . ")\n";
@@ -992,7 +994,7 @@ function test_explicacio(): void
 
     echo '<h3>Modismes amb el camp EXPLICACIO molt llarg però amb el camp EXPLICACIO2 buit i el camp EXEMPLES no buit</h3>';
     echo '<pre>';
-    $modismes = get_db()->query('SELECT MODISME, EXPLICACIO, EXPLICACIO2, EXEMPLES FROM 00_PAREMIOTIPUS WHERE LENGTH(EXPLICACIO) > 250 AND (EXPLICACIO2 IS NULL OR LENGTH(EXPLICACIO) < 1) AND LENGTH(EXEMPLES) > 0')->fetchAll(PDO::FETCH_ASSOC);
+    $modismes = get_db()->query('SELECT `MODISME`, `EXPLICACIO`, `EXPLICACIO2`, `EXEMPLES` FROM `00_PAREMIOTIPUS` WHERE LENGTH(`EXPLICACIO`) > 250 AND (`EXPLICACIO2` IS NULL OR LENGTH(`EXPLICACIO`) < 1) AND LENGTH(`EXEMPLES`) > 0')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($modismes as $modisme) {
         echo 'MODISME:' . $modisme['MODISME'] . "\n";
         echo 'EXPLICACIO:' . $modisme['EXPLICACIO'] . "\n";
@@ -1009,14 +1011,14 @@ function test_paremiotipus_accents(): void
 
     echo '<h3>Paremiotipus amb diferències de majúscules o accents (o espais al principi/final)</h3>';
     $paremiotipus = get_db()->query('SELECT
-        DISTINCT BINARY a.PAREMIOTIPUS
+        DISTINCT BINARY `a`.`PAREMIOTIPUS`
     FROM
-        00_PAREMIOTIPUS a,
-        00_PAREMIOTIPUS b
+        `00_PAREMIOTIPUS` `a`,
+        `00_PAREMIOTIPUS` `b`
     WHERE
-        a.PAREMIOTIPUS = b.PAREMIOTIPUS
+        `a`.`PAREMIOTIPUS` = `b`.`PAREMIOTIPUS`
     AND
-        BINARY a.PAREMIOTIPUS != b.PAREMIOTIPUS
+        BINARY `a`.`PAREMIOTIPUS` != `b`.`PAREMIOTIPUS`
     ')->fetchAll(PDO::FETCH_COLUMN);
 
     echo '<pre>';
@@ -1034,17 +1036,17 @@ function test_paremiotipus_modismes_diferents(): void
     echo '<pre>';
     $accents = '';
     $paremiotipus = get_db()->query('SELECT
-            a.PAREMIOTIPUS as PAREMIOTIPUS_A,
-            a.MODISME as MODISME_A,
-            b.PAREMIOTIPUS as PAREMIOTIPUS_B,
-            b.MODISME as MODISME_B
+            `a`.`PAREMIOTIPUS` as `PAREMIOTIPUS_A`,
+            `a`.`MODISME` as `MODISME_A`,
+            `b`.`PAREMIOTIPUS` as `PAREMIOTIPUS_B`,
+            `b`.`MODISME` as `MODISME_B`
         FROM
-            00_PAREMIOTIPUS a,
-            00_PAREMIOTIPUS b
+            `00_PAREMIOTIPUS` `a`,
+            `00_PAREMIOTIPUS` `b`
         WHERE
-            a.MODISME = b.MODISME
+            `a`.`MODISME` = `b`.`MODISME`
         AND
-            a.PAREMIOTIPUS != b.PAREMIOTIPUS')->fetchAll(PDO::FETCH_ASSOC);
+            `a`.`PAREMIOTIPUS` != `b`.`PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
     $paremiotipus_unics = [];
     foreach ($paremiotipus as $m) {
         if (!isset($paremiotipus_unics[$m['PAREMIOTIPUS_A']]) && !isset($paremiotipus_unics[$m['PAREMIOTIPUS_B']])) {
@@ -1069,9 +1071,6 @@ function test_paremiotipus_modismes_diferents(): void
     echo '</pre>';
 }
 
-/**
- * @suppress PhanPluginUseReturnValueInternalKnown
- */
 function test_paremiotipus_repetits(): void
 {
     require_once __DIR__ . '/../common.php';
@@ -1079,7 +1078,7 @@ function test_paremiotipus_repetits(): void
     echo '<h3>Paremiotipus molt semblants (consecutius)</h3>';
     echo '<pre>';
     $prev = '';
-    $modismes = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         $string1 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($m, SIMILAR_TEXT_MAX_LENGTH)));
         $string2 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($prev, SIMILAR_TEXT_MAX_LENGTH)));
@@ -1096,7 +1095,7 @@ function test_paremiotipus_repetits(): void
     $checker = new Spoofchecker();
     echo '<pre>';
     $prev = '';
-    $modismes = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
         if ($checker->areConfusable($modisme, $prev)) {
             echo $prev . "\n" . $modisme . "\n\n";
@@ -1123,7 +1122,7 @@ function test_modismes_repetits(): void
     $checker = new Spoofchecker();
 
     echo '<h3>Modismes amb diferències de caràcters que es poden confondre visualment</h3>';
-    $results = get_db()->query('SELECT DISTINCT MODISME AS MODISME, PAREMIOTIPUS AS PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS, MODISME')->fetchAll(PDO::FETCH_ASSOC);
+    $results = get_db()->query('SELECT DISTINCT `MODISME`, `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`, `MODISME`')->fetchAll(PDO::FETCH_ASSOC);
     $groupedResults = [];
     foreach ($results as $row) {
         $groupedResults[$row['PAREMIOTIPUS']][] = $row['MODISME'];
@@ -1171,7 +1170,7 @@ function test_repeticio_caracters(): void
 
     echo '<h3>Paremiotipus amb una repetició de caràcters inusual</h3>';
     echo '<details><pre>';
-    $modismes = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && string_has_consecutive_repeated_chars($m)) {
             echo $m . "\n";
@@ -1181,7 +1180,7 @@ function test_repeticio_caracters(): void
 
     echo '<h3>Modismes amb una repetició de caràcters inusual</h3>';
     echo '<details><pre>';
-    $modismes = get_db()->query('SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query('SELECT DISTINCT `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
         if (is_string($modisme) && string_has_consecutive_repeated_chars($modisme)) {
             echo $modisme . "\n";
@@ -1196,7 +1195,7 @@ function test_paremiotipus_caracters_inusuals(): void
 
     echo '<h3>Paremiotipus amb caràcters inusuals en català</h3>';
     echo '<pre>';
-    $paremiotipus = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
         $t = str_replace(
             ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç', '«', '»', '·', '–', '‑', '—', '―', '─'],
@@ -1214,7 +1213,7 @@ function test_paremiotipus_caracters_inusuals(): void
 
     echo '<h3>Paremiotipus amb caràcters de guió o guionet no estàndards (ni — ni -)</h3>';
     echo '<pre>';
-    $paremiotipus = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     $guions = [
         // '-' => [],
         // '—' => [],
@@ -1246,7 +1245,7 @@ function test_paremiotipus_caracters_inusuals(): void
 
     echo '<h3>Modismes amb caràcters de guió o guionet no estàndards (ni — ni -)</h3>';
     echo '<pre>';
-    $paremiotipus = get_db()->query('SELECT MODISME FROM 00_PAREMIOTIPUS ORDER BY MODISME')->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = get_db()->query('SELECT `MODISME` FROM `00_PAREMIOTIPUS` ORDER BY `MODISME`')->fetchAll(PDO::FETCH_COLUMN);
     $guions = [
         // '-' => [],
         // '—' => [],
@@ -1283,7 +1282,7 @@ function test_paremiotipus_final(): void
 
     echo '<h3>Paremiotipus que acaben amb caràcters no alfabètics o amb signe de puntuació inusual</h3>';
     echo '<pre>';
-    $paremiotipus = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
         $t = str_replace(
             ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü'],
@@ -1311,7 +1310,7 @@ function test_paremiotipus_modismes_curts(): void
 
     echo '<h3>Paremiotipus de menys de 5 caràcters</h3>';
     echo '<details><pre>';
-    $paremiotipus = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(PAREMIOTIPUS) < 5 ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE CHAR_LENGTH(`PAREMIOTIPUS`) < 5 ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     $existing = [];
     foreach ($paremiotipus as $paremiotipu) {
         $existing[$paremiotipu] = true;
@@ -1321,7 +1320,7 @@ function test_paremiotipus_modismes_curts(): void
 
     echo '<h3>Modismes de menys de 5 caràcters (no repetits a la llista anterior)</h3>';
     echo '<details><pre>';
-    $modismes = get_db()->query('SELECT DISTINCT MODISME as MODISME FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(MODISME) < 5 ORDER BY MODISME')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query('SELECT DISTINCT `MODISME` as `MODISME` FROM `00_PAREMIOTIPUS` WHERE CHAR_LENGTH(`MODISME`) < 5 ORDER BY `MODISME`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
         if (!isset($existing[$modisme])) {
             echo $modisme . "\n";
@@ -1336,7 +1335,7 @@ function test_paremiotipus_llargs(): void
 
     echo '<h3>Paremiotipus de més de 250 caràcters</h3>';
     echo '<details><pre>';
-    $modismes = get_db()->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS WHERE CHAR_LENGTH(PAREMIOTIPUS) > 250 ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE CHAR_LENGTH(`PAREMIOTIPUS`) > 250 ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
         echo $modisme . "\n";
     }
@@ -1349,9 +1348,9 @@ function test_explicacions_curtes(): void
 
     echo '<h3>Registres de la taula 00_PAREMIOTIPUS amb menys de 4 caràcters al camp EXPLICACIO</h3>';
     echo '<details><pre>';
-    $modismes = get_db()->query('SELECT DISTINCT MODISME, EXPLICACIO FROM 00_PAREMIOTIPUS WHERE EXPLICACIO IS NOT NULL AND CHAR_LENGTH(EXPLICACIO) < 4 ORDER BY MODISME')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $modismes = get_db()->query('SELECT DISTINCT `MODISME`, `EXPLICACIO` FROM `00_PAREMIOTIPUS` WHERE `EXPLICACIO` IS NOT NULL AND CHAR_LENGTH(`EXPLICACIO`) < 4 ORDER BY `MODISME`')->fetchAll(PDO::FETCH_KEY_PAIR);
     foreach ($modismes as $key => $value) {
-        echo $value . " (modisme: {$key})\n";
+        echo $value . " (`MODISME`: {$key})\n";
     }
     echo '</pre></details>';
 }
@@ -1362,9 +1361,9 @@ function test_fonts_curtes(): void
 
     echo '<h3>Registres de la taula 00_PAREMIOTIPUS amb menys de 2 caràcters al camp FONT</h3>';
     echo '<details><pre>';
-    $modismes = get_db()->query('SELECT DISTINCT MODISME, FONT FROM 00_PAREMIOTIPUS WHERE FONT IS NOT NULL AND CHAR_LENGTH(FONT) < 2 ORDER BY MODISME')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $modismes = get_db()->query('SELECT DISTINCT `MODISME`, `FONT` FROM `00_PAREMIOTIPUS` WHERE `FONT` IS NOT NULL AND CHAR_LENGTH(`FONT`) < 2 ORDER BY `MODISME`')->fetchAll(PDO::FETCH_KEY_PAIR);
     foreach ($modismes as $key => $value) {
-        echo $value . " (modisme: {$key})\n";
+        echo $value . " (`MODISME`: {$key})\n";
     }
     echo '</pre></details>';
 }
@@ -1375,7 +1374,7 @@ function test_paremies_separar(): void
 
     echo '<h3>Parèmies que probablement es poden separar en dues</h3>';
 
-    $paremies = get_db()->query("SELECT DISTINCT MODISME FROM 00_PAREMIOTIPUS WHERE MODISME LIKE '%(o%' OR MODISME LIKE '%[o%' ORDER BY MODISME")->fetchAll(PDO::FETCH_COLUMN);
+    $paremies = get_db()->query("SELECT DISTINCT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%(o%' OR `MODISME` LIKE '%[o%' ORDER BY `MODISME`")->fetchAll(PDO::FETCH_COLUMN);
     $n = 0;
     $text = '';
     foreach ($paremies as $m) {
@@ -1393,7 +1392,7 @@ function test_editorials_no_referenciades(): void
     require_once __DIR__ . '/../common.php';
 
     $editorials = get_editorials();
-    $editorials_modismes = get_db()->query('SELECT DISTINCT EDITORIAL AS EDITORIAL, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $editorials_modismes = get_db()->query('SELECT DISTINCT `EDITORIAL`, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
 
     echo '<h3>Editorials de la taula 00_EDITORIA que no estan referenciades per cap paremiotipus</h3>';
     echo '<details><pre>';
@@ -1410,7 +1409,7 @@ function test_editorials_no_existents(): void
     require_once __DIR__ . '/../common.php';
 
     $editorials = get_editorials();
-    $editorials_paremiotipus = get_db()->query('SELECT MODISME, EDITORIAL FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
+    $editorials_paremiotipus = get_db()->query('SELECT `MODISME`, `EDITORIAL` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
 
     echo '<h3>Editorials que estan referenciades per parèmies, però que no existeixen a la taula 00_EDITORIA</h3>';
     echo '<pre>';
@@ -1428,7 +1427,7 @@ function test_buits(): void
 
     echo '<h3>Modismes amb el camp PAREMIOTIPUS buit</h3>';
     echo '<pre>';
-    $modismes = get_db()->query("SELECT MODISME FROM `00_PAREMIOTIPUS` where PAREMIOTIPUS = '' OR PAREMIOTIPUS IS NULL")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` where `PAREMIOTIPUS` = '' OR `PAREMIOTIPUS` IS NULL")->fetchAll(PDO::FETCH_COLUMN);
     if ($modismes === []) {
         echo '(cap resultat)';
     }
@@ -1439,7 +1438,7 @@ function test_buits(): void
 
     echo '<h3>Paremiotipus amb el camp MODISME buit</h3>';
     echo '<pre>';
-    $modismes = get_db()->query("SELECT PAREMIOTIPUS FROM `00_PAREMIOTIPUS` where MODISME = '' OR MODISME IS NULL")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` where `MODISME` = '' OR `MODISME` IS NULL")->fetchAll(PDO::FETCH_COLUMN);
     if ($modismes === []) {
         echo '(cap resultat)';
     }
@@ -1478,8 +1477,8 @@ function curl_get_response_code(string $url, bool $nobody = true): int
         $ch = curl_init();
         curl_setopt($ch, \CURLOPT_HEADER, true);
         curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, \CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, \CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, \CURLOPT_CONNECTTIMEOUT, 3);
+        curl_setopt($ch, \CURLOPT_TIMEOUT, 3);
         curl_setopt($ch, \CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36');
     }
 
@@ -1550,14 +1549,20 @@ function background_test_fonts_urls(): string
     return $output;
 }
 
-function background_test_imatges_urls(): string
+function background_test_imatges_urls(int $start = 0, int $end = 0): string
 {
     require_once __DIR__ . '/../common.php';
 
     $output = '';
     $urls = [];
     $fonts = get_db()->query('SELECT * FROM `00_IMATGES`')->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($fonts as $font) {
+    $total = count($fonts);
+    if ($end === 0) {
+        $end = $total;
+    }
+
+    for ($i = $start; $i < $end; $i++) {
+        $font = $fonts[$i];
         $url = is_string($font['URL_IMATGE']) ? trim($font['URL_IMATGE']) : '';
         if ($url !== '') {
             if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
@@ -1575,14 +1580,20 @@ function background_test_imatges_urls(): string
     return $output;
 }
 
-function background_test_imatges_links(): string
+function background_test_imatges_links(int $start = 0, int $end = 0): string
 {
     require_once __DIR__ . '/../common.php';
 
     $output = '';
     $urls = [];
     $fonts = get_db()->query('SELECT * FROM `00_IMATGES`')->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($fonts as $font) {
+    $total = count($fonts);
+    if ($end === 0) {
+        $end = $total;
+    }
+
+    for ($i = $start; $i < $end; $i++) {
+        $font = $fonts[$i];
         $url = $font['URL_ENLLAÇ'];
 
         if (!is_string($url) || $url === '') {
@@ -1620,7 +1631,7 @@ function background_test_paremiotipus_repetits(int $start = 0, int $end = 0): st
 {
     require_once __DIR__ . '/../common.php';
 
-    $modismes = get_db()->query('SELECT DISTINCT PAREMIOTIPUS AS PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     $total = count($modismes);
     if ($end === 0) {
         $end = $total;
@@ -1656,22 +1667,22 @@ function background_test_html_escape_and_link_urls(): string
 
     @unlink(__DIR__ . '/../../tmp/test_tmp_debug_html_escape_and_link_urls.txt');
 
-    $records = get_db()->query('SELECT DISTINCT Observacions FROM 00_FONTS WHERE Observacions IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT DISTINCT `Observacions` FROM `00_FONTS` WHERE `Observacions` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
         html_escape_and_link_urls($r, '', true);
     }
 
-    $records = get_db()->query('SELECT DISTINCT URL FROM 00_FONTS WHERE URL IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT DISTINCT `URL` FROM `00_FONTS` WHERE `URL` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
         html_escape_and_link_urls($r, '', true);
     }
 
-    $records = get_db()->query('SELECT DISTINCT `URL_ENLLAÇ` FROM 00_IMATGES WHERE `URL_ENLLAÇ` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT DISTINCT `URL_ENLLAÇ` FROM `00_IMATGES` WHERE `URL_ENLLAÇ` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
         html_escape_and_link_urls($r, '', true);
     }
 
-    $records = get_db()->query('SELECT DISTINCT ARTICLE FROM 00_PAREMIOTIPUS WHERE ARTICLE IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
+    $records = get_db()->query('SELECT DISTINCT `ARTICLE` FROM `00_PAREMIOTIPUS` WHERE `ARTICLE` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
         html_escape_and_link_urls($r, '', true);
     }
@@ -1687,14 +1698,14 @@ function background_test_imatges_no_existents(): string
     require_once __DIR__ . '/../common.php';
 
     $output = '';
-    $stmt = get_db()->query('SELECT Imatge FROM 00_FONTS');
+    $stmt = get_db()->query('SELECT `Imatge` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
         if ($i !== null && !is_file(__DIR__ . '/../images/cobertes/' . $i)) {
             $output .= 'cobertes/' . $i . "\n";
         }
     }
-    $stmt = get_db()->query('SELECT Identificador FROM 00_IMATGES');
+    $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $imatge) {
         if ($imatge !== null && !is_file(__DIR__ . '/../images/paremies/' . $imatge)) {
@@ -1741,7 +1752,7 @@ function background_test_imatges_no_referenciades(): string
     require_once __DIR__ . '/../common.php';
 
     $output = '';
-    $images = get_db()->query('SELECT Identificador, 1 FROM 00_IMATGES')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $images = get_db()->query('SELECT `Identificador`, 1 FROM `00_IMATGES`')->fetchAll(PDO::FETCH_KEY_PAIR);
     $dir = new DirectoryIterator(__DIR__ . '/../images/paremies/');
     foreach ($dir as $file_info) {
         $filename = $file_info->getFilename();
@@ -1753,8 +1764,8 @@ function background_test_imatges_no_referenciades(): string
         }
     }
 
-    $fonts = get_db()->query('SELECT Imatge, 1 FROM 00_FONTS')->fetchAll(PDO::FETCH_KEY_PAIR);
-    $llibres = get_db()->query('SELECT Imatge, 1 FROM 00_OBRESVPR')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $fonts = get_db()->query('SELECT `Imatge`, 1 FROM `00_FONTS`')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $llibres = get_db()->query('SELECT `Imatge`, 1 FROM `00_OBRESVPR`')->fetchAll(PDO::FETCH_KEY_PAIR);
     $dir = new DirectoryIterator(__DIR__ . '/../images/cobertes/');
     foreach ($dir as $file_info) {
         $filename = $file_info->getFilename();

@@ -1,8 +1,7 @@
-import { defineConfig } from "@playwright/test";
-
+const { defineConfig } = require("@playwright/test");
 require("dotenv").config();
 
-export default defineConfig({
+module.exports = defineConfig({
     use: {
         baseURL: process.env.BASE_URL,
     },

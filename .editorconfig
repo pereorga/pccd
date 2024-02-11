@@ -32,7 +32,7 @@ simplify = true
 space_redirects = true
 switch_case_indent = true
 
-[*.{yml,yaml,yamlfmt}]
+[*.{yml,yaml}]
 indent_size = 2
 
 [*.xml]

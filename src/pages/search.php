@@ -24,7 +24,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '')
     $trimmed_search = trim($_GET['cerca']);
     $raw_search_clean = htmlspecialchars($trimmed_search);
     $search_length = strlen($trimmed_search);
-    if ($search_length > 0 && $search_length < SEARCH_MAX_LENGTH) {
+    if ($search_length > 0 && $search_length < 255) {
         // Switch to internal search modes based on conditions.
         if ($search_mode === 'conté') {
             if (str_starts_with($trimmed_search, '"') && str_ends_with($trimmed_search, '"')) {
@@ -41,7 +41,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '')
 }
 ?>
 <form method="get" role="search">
-    <aside>
+    <div class="form-group">
         <div class="form-row">
             <div class="col-mode">
                 <select name="mode" aria-label="Mode de cerca">
@@ -78,7 +78,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '')
                 </div>
             </div>
         </div>
-    </aside>
+    </div>
 <?php
 
 // Build query.
@@ -103,11 +103,21 @@ if ($total > 0) {
             set_page_title('Cerca «' . $raw_search_clean . "», pàgina {$current_page}");
         }
         $output .= '<p class="text-break">';
-        $output .= build_search_summary($offset, $results_per_page, $total, $raw_search_clean);
+        $output .= build_search_summary(
+            offset: $offset,
+            results_per_page: $results_per_page,
+            total: $total,
+            search_string: $raw_search_clean
+        );
         $output .= '</p>';
     }
 
-    $paremiotipus = get_paremiotipus_search_results($where_clause, $arguments, $offset, $results_per_page);
+    $paremiotipus = get_paremiotipus_search_results(
+        where_clause: $where_clause,
+        arguments: $arguments,
+        limit: $results_per_page,
+        offset: $offset
+    );
     $output .= '<ol>';
     foreach ($paremiotipus as $p) {
         $output .= '<li><a href="' . get_paremiotipus_url($p) . '">' . get_paremiotipus_display($p) . '</a></li>';

@@ -23,9 +23,8 @@ final class DockerVersionTest extends TestCase
 {
     public function testDockerPhpVersionMatch(): void
     {
-        // Test that the PHP version matches in all Dockerfiles.
-        $dockerFileDev = file_get_contents(__DIR__ . '/../../.docker/Dockerfile');
-        $dockerFileProd = file_get_contents(__DIR__ . '/../../.docker/web.prod.Dockerfile');
+        $dockerFileDev = file_get_contents(__DIR__ . '/../../.docker/debian.dev.Dockerfile');
+        $dockerFileProd = file_get_contents(__DIR__ . '/../../.docker/web-debian.prod.Dockerfile');
 
         $dockerVersionDev = $this->getDockerPhpVersion($dockerFileDev);
         $dockerVersionProd = $this->getDockerPhpVersion($dockerFileProd);
@@ -35,7 +34,6 @@ final class DockerVersionTest extends TestCase
 
     public function testDockerMysqlVersionMatch(): void
     {
-        // Test that the PHP version matches in both sql.prod.Dockerfile and docker-compose.yml.
         $dockerComposeFile = file_get_contents(__DIR__ . '/../../docker-compose.yml');
         $dockerFile = file_get_contents(__DIR__ . '/../../.docker/sql.prod.Dockerfile');
 
@@ -45,12 +43,43 @@ final class DockerVersionTest extends TestCase
         self::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MySQL version');
     }
 
-    protected function getDockerPhpVersion(string $dockerFile): string
+    public function testAlpineDockerPhpVersionMatch(): void
+    {
+        $alpineFileDev = file_get_contents(__DIR__ . '/../../.docker/alpine.dev.Dockerfile');
+        $alpineFileProd = file_get_contents(__DIR__ . '/../../.docker/web-alpine.prod.Dockerfile');
+        $debianFile = file_get_contents(__DIR__ . '/../../.docker/debian.dev.Dockerfile');
+
+        $alpineVersionDev = $this->getAlpineDockerPhpVersion($alpineFileDev);
+        $alpineVersionProd = $this->getAlpineDockerPhpVersion($alpineFileProd);
+        $debianVersion = $this->getDockerPhpVersion($debianFile, patch: false);
+
+        self::assertSame($alpineVersionDev, $alpineVersionProd, 'Alpine dev and prod Dockerfiles should use the same PHP version');
+        self::assertSame($alpineVersionDev, $debianVersion, 'Alpine and Debian Dockerfiles should use the same PHP version');
+    }
+
+    protected function getAlpineDockerPhpVersion(string $dockerFile): string
     {
         $matches = [];
-        preg_match('/^FROM php:([0-9.]+(-rc|beta\d+)?)-apache/', $dockerFile, $matches);
+        preg_match('/php(\d{2})-apache2/', $dockerFile, $matches);
 
-        return $matches[1];
+        // Convert '83' to '8.3' for example.
+        return substr($matches[1], 0, 1) . '.' . substr($matches[1], 1);
+    }
+
+    protected function getDockerPhpVersion(string $dockerFile, bool $patch = true): string
+    {
+        $matches = [];
+
+        if ($patch) {
+            preg_match('/^FROM php:([0-9.]+(-rc|beta\d+)?)-apache/', $dockerFile, $matches);
+
+            return $matches[1];
+        }
+
+        preg_match('/^FROM php:(\d+)\.(\d+)(\.\d+)?(-rc|beta\d+)?-apache/', $dockerFile, $matches);
+
+        // Concatenate major and minor version parts.
+        return $matches[1] . '.' . $matches[2];
     }
 
     protected function getDockerMysqlVersion(string $dockerFile): string

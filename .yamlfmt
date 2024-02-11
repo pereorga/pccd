@@ -1,8 +1,0 @@
-include:
-  - .
-  # See https://github.com/google/yamlfmt/issues/122
-  - .yamlfmt
-exclude:
-  - node_modules
-  - tmp
-  - vendor

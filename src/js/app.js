@@ -9,25 +9,21 @@
 
 // Google Tag Manager code.
 window.dataLayer = window.dataLayer || [];
+// eslint-disable-next-line no-restricted-syntax
 const gtag = function () {
-    // eslint-disable-next-line no-undef
     dataLayer.push(arguments);
 };
 gtag("js", new Date());
 gtag("config", "G-CP42Y3NK1R");
 
-(function () {
-    const toggleAllSources = function () {
+(() => {
+    const toggleAllSources = () => {
         const toggleAllButton = document.querySelector("#toggle-all");
         const isExpanded = toggleAllButton.textContent.startsWith("Contrau");
         toggleAllButton.textContent = isExpanded ? "Desplega-ho tot" : "Contrau-ho tot";
         toggleAllButton.setAttribute("title", (isExpanded ? "Mostra" : "Amaga") + " els detalls de cada font");
         for (const element of document.querySelectorAll("details")) {
-            if (isExpanded) {
-                element.removeAttribute("open");
-            } else {
-                element.setAttribute("open", "true");
-            }
+            element.toggleAttribute("open", !isExpanded);
         }
     };
 
@@ -92,7 +88,7 @@ gtag("config", "G-CP42Y3NK1R");
             searchBox.value = searchQuery.trim();
 
             // On desktop, select the searched value, so it can be replaced by simply typing.
-            if (searchBox.value !== "" && !/iPhone|iPad|iPod|Android/.test(navigator.userAgent)) {
+            if (searchBox.value !== "" && !/Android|iPad|iPhone/.test(navigator.userAgent)) {
                 searchBox.select();
             }
         });
@@ -166,7 +162,7 @@ gtag("config", "G-CP42Y3NK1R");
     // Prefetch internal links on hover/touch.
     // Inspired by https://github.com/instantpage/instant.page/blob/master/instantpage.js
     const preloadedList = new Set();
-    const prefetchLink = function (event) {
+    const prefetchLink = (event) => {
         const a = event.currentTarget;
         if (!preloadedList.has(a.href)) {
             preloadedList.add(a.href);

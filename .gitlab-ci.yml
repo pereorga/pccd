@@ -35,7 +35,7 @@ build:
   stage: build
   script:
     - DOCKER_IMAGE=${CI_REGISTRY_IMAGE}/pccd-web
-    - docker build -f .docker/web.prod.Dockerfile --cache-from $DOCKER_IMAGE:latest --tag $DOCKER_IMAGE:$CI_COMMIT_SHA --tag $DOCKER_IMAGE:$DATETAG --tag $DOCKER_IMAGE:latest --build-arg ARG_MYSQL_DB=$MYSQL_DB --build-arg ARG_MYSQL_USER=$MYSQL_USER --build-arg ARG_MYSQL_PWD=$MYSQL_PWD --build-arg ARG_WEB_ADMIN_PWD=$WEB_ADMIN_PWD .
+    - docker build -f .docker/web-alpine.prod.Dockerfile --cache-from $DOCKER_IMAGE:latest --tag $DOCKER_IMAGE:$CI_COMMIT_SHA --tag $DOCKER_IMAGE:$DATETAG --tag $DOCKER_IMAGE:latest --build-arg ARG_MYSQL_DB=$MYSQL_DB --build-arg ARG_MYSQL_USER=$MYSQL_USER --build-arg ARG_MYSQL_PWD=$MYSQL_PWD --build-arg ARG_WEB_ADMIN_PWD=$WEB_ADMIN_PWD .
     - docker push $DOCKER_IMAGE:$CI_COMMIT_SHA
     - docker push $DOCKER_IMAGE:$DATETAG
     - docker push $DOCKER_IMAGE:latest

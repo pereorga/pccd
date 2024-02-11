@@ -1,6 +1,6 @@
 FROM mariadb:10.5.23-focal
-
 LABEL maintainer="Pere Orga pere@orga.cat"
+LABEL description="MariaDB image based on official image."
 
 ARG ARG_MYSQL_ROOT_PWD
 ARG ARG_MYSQL_DB

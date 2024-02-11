@@ -271,8 +271,8 @@ if [[ $1 == "yarn" ]]; then
 fi
 
 if [[ $1 == "docker" ]]; then
-    check_version_docker_file .docker/Dockerfile php
-    check_version_docker_file .docker/alpine.Dockerfile alpine
+    check_version_docker_file .docker/debian.dev.Dockerfile php
+    check_version_docker_file .docker/alpine.dev.Dockerfile alpine
     check_version_docker_compose docker-compose.yml mariadb
     check_version_docker_compose docker-compose-alpine.yml mariadb
     exit 0

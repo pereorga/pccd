@@ -44,7 +44,7 @@
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
-    "rector/rector": "^0.18.13",
+    "rector/rector": "^1.0",
     "slevomat/coding-standard": "^8.14"
   },
   "suggest": {
@@ -96,7 +96,6 @@
   "scripts": {
     "composer-normalize": "tools/composer-normalize.phar",
     "parallel-lint": "tools/parallel-lint.phar --exclude vendor --exclude node_modules --exclude tmp .",
-    "phan": "tools/phan.phar --allow-polyfill-parser",
     "php-cs-fixer": "tools/php-cs-fixer.phar fix --diff --verbose",
     "php-cs-fixer-lint": "tools/php-cs-fixer.phar fix --verbose --dry-run --stop-on-violation",
     "phpcbf": "tools/phpcbf.phar -p --standard=phpcs.xml .",

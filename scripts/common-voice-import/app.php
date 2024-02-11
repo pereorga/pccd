@@ -75,7 +75,7 @@ $sql = 'DROP TABLE IF EXISTS `commonvoice`;
             `file` varchar(200) NOT NULL,
             PRIMARY KEY (`paremiotipus`, `file`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;' . "\n";
-$sql .= 'INSERT IGNORE INTO commonvoice(paremiotipus, file) VALUES ' . "\n";
+$sql .= 'INSERT IGNORE INTO `commonvoice`(`paremiotipus`, `file`) VALUES ' . "\n";
 
 foreach ($sentences_array as $paremiotipus => $pronunciations) {
     // Sort by votes and keep the top 20.

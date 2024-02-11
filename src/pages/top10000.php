@@ -15,7 +15,7 @@ header('X-Robots-Tag: noindex');
 
 set_page_title('Les 10.000 parèmies més citades');
 
-$stmt = get_db()->query('SELECT Paremiotipus FROM common_paremiotipus ORDER BY Compt DESC');
+$stmt = get_db()->query('SELECT `Paremiotipus` FROM `common_paremiotipus` ORDER BY `Compt` DESC');
 $records = $stmt->fetchAll(PDO::FETCH_COLUMN);
 echo '<ol>';
 foreach ($records as $record) {

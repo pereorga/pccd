@@ -29,13 +29,13 @@ $urls .= $site . '/credits' . "\n";
 $urls .= $site . '/top100' . "\n";
 $urls .= $site . '/llibres' . "\n";
 
-$stmt = $pdo->query('SELECT DISTINCT PAREMIOTIPUS FROM 00_PAREMIOTIPUS ORDER BY PAREMIOTIPUS');
+$stmt = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`');
 $records = $stmt->fetchAll(PDO::FETCH_COLUMN);
 foreach ($records as $r) {
     $urls .= get_paremiotipus_url($r, true) . "\n";
 }
 
-$stmt = $pdo->query('SELECT DISTINCT Identificador FROM 00_FONTS');
+$stmt = $pdo->query('SELECT DISTINCT `Identificador` FROM `00_FONTS`');
 $records = $stmt->fetchAll(PDO::FETCH_COLUMN);
 foreach ($records as $record) {
     $urls .= get_obra_url($record, true) . "\n";

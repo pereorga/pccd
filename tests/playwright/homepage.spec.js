@@ -1,6 +1,6 @@
-import { test, expect } from "@playwright/test";
-import * as fs from "node:fs";
-import * as path from "node:path";
+const { test, expect } = require("@playwright/test");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const data = JSON.parse(fs.readFileSync(path.resolve(__dirname, "data/data.json"), "utf8"));
 

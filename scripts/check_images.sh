@@ -26,81 +26,52 @@ if [[ -n $1 ]]; then
     exit 1
 fi
 
-echo "Cobertes" > ../tmp/test_imatges_extensions.txt
-echo "=============================" >> ../tmp/test_imatges_extensions.txt
-for f in ../src/images/cobertes/*.jpg; do
-    filetype=$(file -0 "${f}" | cut -d ':' -f2 | cut -d" " -f2)
-    if [[ ${filetype} != "JPEG" ]]; then
-        if [[ ${filetype} == "RIFF" ]]; then
-            filetype="WEBP"
-        fi
-        filename=$(echo "${f}" | rev | cut -d '/' -f1 | rev)
-        echo "${filename} is ${filetype}" >> ../tmp/test_imatges_extensions.txt
-    fi
-done
-for f in ../src/images/cobertes/*.png; do
-    filetype=$(file -0 "${f}" | cut -d ':' -f2 | cut -d" " -f2)
-    if [[ ${filetype} != "PNG" ]]; then
-        if [[ ${filetype} == "RIFF" ]]; then
-            filetype="WEBP"
-        fi
-        filename=$(echo "${f}" | rev | cut -d '/' -f1 | rev)
-        echo "${filename} is ${filetype}" >> ../tmp/test_imatges_extensions.txt
-    fi
-done
-for f in ../src/images/cobertes/*.gif; do
-    filetype=$(file -0 "${f}" | cut -d ':' -f2 | cut -d" " -f2)
-    if [[ ${filetype} != "GIF" ]]; then
-        if [[ ${filetype} == "RIFF" ]]; then
-            filetype="WEBP"
-        fi
-        filename=$(echo "${f}" | rev | cut -d '/' -f1 | rev)
-        echo "${filename} is ${filetype}" >> ../tmp/test_imatges_extensions.txt
-    fi
-done
-echo "=============================" >> ../tmp/test_imatges_extensions.txt
-echo "" >> ../tmp/test_imatges_extensions.txt
-echo "" >> ../tmp/test_imatges_extensions.txt
+image_dir="../src/images"
+output_file="../tmp/test_imatges_extensions.txt"
 
-echo "Imatges" >> ../tmp/test_imatges_extensions.txt
-echo "=============================" >> ../tmp/test_imatges_extensions.txt
-for f in ../src/images/paremies/*.jpg; do
-    filetype=$(file -0 "${f}" | cut -d ':' -f2 | cut -d" " -f2)
-    if [[ ${filetype} != "JPEG" ]]; then
-        if [[ ${filetype} == "RIFF" ]]; then
-            filetype="WEBP"
-        fi
-        filename=$(echo "${f}" | rev | cut -d '/' -f1 | rev)
-        echo "${filename} is ${filetype}" >> ../tmp/test_imatges_extensions.txt
-    fi
-done
-for f in ../src/images/paremies/*.png; do
-    filetype=$(file -0 "${f}" | cut -d ':' -f2 | cut -d" " -f2)
-    if [[ ${filetype} != "PNG" ]]; then
-        if [[ ${filetype} == "RIFF" ]]; then
-            filetype="WEBP"
-        fi
-        filename=$(echo "${f}" | rev | cut -d '/' -f1 | rev)
-        echo "${filename} is ${filetype}" >> ../tmp/test_imatges_extensions.txt
-    fi
-done
-for f in ../src/images/paremies/*.gif; do
-    filetype=$(file -0 "${f}" | cut -d ':' -f2 | cut -d" " -f2)
-    if [[ ${filetype} != "GIF" ]]; then
-        if [[ ${filetype} == "RIFF" ]]; then
-            filetype="WEBP"
-        fi
-        filename=$(echo "${f}" | rev | cut -d '/' -f1 | rev)
-        echo "${filename} is ${filetype}" >> ../tmp/test_imatges_extensions.txt
-    fi
-done
-echo "=============================" >> ../tmp/test_imatges_extensions.txt
+check_image_extensions() {
+    local category=$1
+    local extensions=("jpg" "png" "gif" "avif" "webp")
+    echo "${category}" >> "${output_file}"
+    echo "=============================" >> "${output_file}"
+    for ext in "${extensions[@]}"; do
+        for f in "${image_dir}/${category}"/*."${ext}"; do
+            # Skip if no files are found for the pattern.
+            [[ -e "${f}" ]] || continue
 
-# Check image formats using jpeginfo, pngcheck and gifsicle.
-# We use set +e to ignore potential errors in these commands.
-set +e
-jpeginfo -c ../src/images/cobertes/*.jpg | grep -F 'ERROR' | grep -F -v 'OK' > ../tmp/test_imatges_format.txt
-jpeginfo -c ../src/images/paremies/*.jpg | grep -F 'ERROR' | grep -F -v 'OK' >> ../tmp/test_imatges_format.txt
-pngcheck ../src/images/cobertes/*.png ../src/images/paremies/*.png | grep -v 'OK:' >> ../tmp/test_imatges_format.txt
-gifsicle --info ../src/images/cobertes/*.gif ../src/images/paremies/*.gif 2>> ../tmp/test_imatges_format.txt
-set -e
+            local filetype
+            filetype=$(file -b --mime-type "${f}")
+            local expected_type=""
+
+            case ${ext} in
+                "jpg") expected_type="image/jpeg" ;;
+                "png") expected_type="image/png" ;;
+                "gif") expected_type="image/gif" ;;
+                "avif") expected_type="image/avif" ;;
+                "webp") expected_type="image/webp" ;;
+                *) expected_type="Unknown" ;;
+            esac
+
+            if [[ "${filetype}" != "${expected_type}" ]]; then
+                local filename
+                filename=$(basename "${f}")
+                echo "${filename} is ${filetype}, expected ${expected_type}" >> "${output_file}"
+            fi
+        done
+    done
+    echo "=============================" >> "${output_file}"
+    echo "" >> "${output_file}"
+}
+
+cat /dev/null > "${output_file}"
+cat /dev/null > ../tmp/test_imatges_format.txt
+categories=("cobertes" "paremies")
+for category in "${categories[@]}"; do
+    set -e
+    check_image_extensions "${category}"
+    # We use set +e to ignore potential errors in jpeginfo, pngcheck and gifsicle commands.
+    set +e
+    jpeginfo -c "${image_dir}"/"${category}"/*.jpg | grep -F 'ERROR' | grep -F -v 'OK' >> ../tmp/test_imatges_format.txt
+    pngcheck "${image_dir}"/"${category}"/*.png | grep -v 'OK:' >> ../tmp/test_imatges_format.txt
+    gifsicle --info "${image_dir}"/"${category}"/*.gif 2>> ../tmp/test_imatges_format.txt
+done

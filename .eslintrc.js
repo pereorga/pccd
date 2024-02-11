@@ -3,6 +3,9 @@ module.exports = {
         browser: true,
     },
     extends: ["eslint:recommended", "plugin:regexp/recommended", "plugin:unicorn/recommended", "prettier"],
+    globals: {
+        dataLayer: true,
+    },
     ignorePatterns: [".eslintrc.js"],
     parserOptions: {
         ecmaVersion: "latest",
@@ -51,6 +54,7 @@ module.exports = {
         "no-octal-escape": "error",
         "no-param-reassign": "error",
         "no-proto": "error",
+        "no-restricted-syntax": ["error", "FunctionDeclaration", "FunctionExpression", "WithStatement"],
         "no-return-assign": "error",
         "no-script-url": "error",
         "no-self-compare": "error",

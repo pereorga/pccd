@@ -10,6 +10,9 @@
  * source code in the file LICENSE.
  */
 
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
 $header = <<<'EOF'
     This file is part of PCCD.
 
@@ -20,7 +23,7 @@ $header = <<<'EOF'
     source code in the file LICENSE.
     EOF;
 
-$finder = PhpCsFixer\Finder::create()
+$finder = Finder::create()
     ->notPath('node_modules')
     ->notPath('src/third_party')
     ->notPath('tmp')
@@ -29,7 +32,7 @@ $finder = PhpCsFixer\Finder::create()
     ->ignoreDotFiles(false)
     ->in(__DIR__);
 
-$config = new PhpCsFixer\Config();
+$config = new Config();
 $config
     ->setRiskyAllowed(true)
     ->setRules([
@@ -43,7 +46,9 @@ $config
         'header_comment' => ['header' => $header, 'comment_type' => 'PHPDoc', 'location' => 'after_open'],
         'increment_style' => ['style' => 'post'],
         'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
-        // 'no_blank_lines_after_phpdoc' => false,
+        'nullable_type_declaration_for_default_null_value' => true,
+        'phpdoc_align' => false,
+        'phpdoc_annotation_without_dot' => false,
         'phpdoc_to_comment' => false,
         'random_api_migration' => false,
         'yoda_style' => false,

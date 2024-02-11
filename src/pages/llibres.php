@@ -13,7 +13,7 @@
 set_page_title('Llibres de Víctor Pàmies');
 set_meta_description("Llibres de l'autor de la Paremiologia catalana comparada digital (PCCD).");
 
-$stmt = get_db()->query('SELECT Imatge, `Títol`, URL, WIDTH, HEIGHT FROM `00_OBRESVPR`');
+$stmt = get_db()->query('SELECT `Imatge`, `Títol`, `URL`, `WIDTH`, `HEIGHT` FROM `00_OBRESVPR`');
 $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo '<div class="books">';
 foreach ($records as $record) {

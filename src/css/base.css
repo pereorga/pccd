@@ -258,7 +258,7 @@ header nav {
     margin: 10px 0;
 }
 
-.bloc footer {
+.bloc .footer {
     font-size: 0.875rem;
     font-style: italic;
     text-align: right;

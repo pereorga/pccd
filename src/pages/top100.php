@@ -13,7 +13,8 @@
 set_page_title('Les 100 parèmies més citades');
 set_meta_description('Llista de les frases més citades de la Paremiologia catalana comparada digital.');
 
-$records = get_top100_paremiotipus();
+$stmt = get_db()->query('SELECT `Paremiotipus` FROM `common_paremiotipus` ORDER BY `Compt` DESC LIMIT 100');
+$records = $stmt->fetchAll(PDO::FETCH_COLUMN);
 echo '<ol>';
 foreach ($records as $record) {
     echo '<li><a href="' . get_paremiotipus_url($record) . '">' . get_paremiotipus_display($record) . '</a></li>';

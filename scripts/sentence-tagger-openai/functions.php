@@ -18,8 +18,6 @@ use GuzzleHttp\Client;
  * @return list<string>
  *
  * @throws JsonException
- *
- * @suppress PhanUndeclaredClassMethod
  */
 function getSentenceTags(string $sentence): array
 {

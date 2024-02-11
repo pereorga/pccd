@@ -2,7 +2,6 @@
 .git
 .github
 .husky
-.phan
 .phive
 tests
 tools

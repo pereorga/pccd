@@ -31,7 +31,7 @@ foreach ($cv_res as $p) {
     $cv[mb_strtolower($p)] = true;
 }
 
-$paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY PAREMIOTIPUS')->fetchAll(PDO::FETCH_COLUMN);
+$paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
 foreach ($paremiotipus as $p) {
     // Omit sentences that already exist in Common Voice.
     $p_lowercase = mb_strtolower($p);
@@ -45,7 +45,7 @@ foreach ($paremiotipus as $p) {
         continue;
     }
 
-    $p_display = get_paremiotipus_display($p, htmlspecialchars: false);
+    $p_display = get_paremiotipus_display($p, escape_html: false);
     // End the sentence with a dot, to align with Common Voice corpus.
     if (preg_match('/[.!?,;:]$/', $p_display) === 0) {
         $p_display .= '.';

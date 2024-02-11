@@ -49,7 +49,6 @@ foreach ($variants as $modisme => $variant) {
         }
 
         set_canonical_url($canonical_url);
-
         set_page_title(get_paremiotipus_display($paremiotipus_db));
     }
 
@@ -174,7 +173,7 @@ foreach ($variants as $modisme => $variant) {
                     $paremia .= $body;
                 }
                 if ($work !== '') {
-                    $paremia .= "<footer>{$work}</footer>";
+                    $paremia .= '<div class="footer">' . $work . '</div>';
                 }
                 $paremia .= '</div>';
             }
@@ -249,9 +248,11 @@ foreach ($images as $image) {
         if ($is_first_image) {
             // Use it for the meta image.
             set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($image['Identificador']));
-        }
 
-        $images_output .= '<div class="bloc bloc-image text-break"><figure>';
+            // Preload it.
+            $image_url = get_image_tags(file_name: $image['Identificador'], path: '/img/imatges/', return_href_only: true);
+            header("Link: <{$image_url}>; rel=preload; as=image");
+        }
 
         $image_tag = get_image_tags(
             $image['Identificador'],
@@ -262,10 +263,12 @@ foreach ($images as $image) {
             !$is_first_image
         );
 
-        $image_url = get_clean_url($image['URL']);
-        if ($image_url !== '') {
-            $image_tag = '<a href="' . $image_url . '">' . $image_tag . '</a>';
+        $image_link = get_clean_url($image['URL_ENLLAÇ']);
+        if ($image_link !== '') {
+            $image_tag = '<a href="' . $image_link . '">' . $image_tag . '</a>';
         }
+
+        $images_output .= '<div class="bloc bloc-image text-break"><figure>';
         $images_output .= $image_tag;
 
         $image_caption = '';
@@ -285,8 +288,8 @@ foreach ($images as $image) {
 
             // If there is no ARTICLE, link DIARI to the content.
             $diari = htmlspecialchars($image['DIARI']);
-            if ($image_url !== '' && $image['ARTICLE'] === null) {
-                $diari = '<a href="' . $image_url . '" class="external" target="_blank" rel="noopener noreferrer">' . $diari . '</a>';
+            if ($image_link !== '' && $image['ARTICLE'] === null) {
+                $diari = '<a href="' . $image_link . '" class="external" target="_blank" rel="noopener noreferrer">' . $diari . '</a>';
             }
             $image_caption .= "<em>{$diari}</em>";
         }
@@ -302,8 +305,8 @@ foreach ($images as $image) {
             } else {
                 $article = htmlspecialchars($image['ARTICLE']);
                 // Reuse the link of the image, if there is one.
-                if ($image_url !== '') {
-                    $article = '<a href="' . $image_url . '" class="external" target="_blank" rel="noopener noreferrer">' . $article . '</a>';
+                if ($image_link !== '') {
+                    $article = '<a href="' . $image_link . '" class="external" target="_blank" rel="noopener noreferrer">' . $article . '</a>';
                 }
             }
             $image_caption .= "«{$article}»";

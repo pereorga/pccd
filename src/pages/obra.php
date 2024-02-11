@@ -44,7 +44,12 @@ if ($is_book) {
 
 if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
     set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']));
-    $output .= '<aside class="col-image">';
+
+    // Preload image.
+    $image_url = get_image_tags(file_name: $obra['Imatge'], path: '/img/obres/', return_href_only: true);
+    header("Link: <{$image_url}>; rel=preload; as=image");
+
+    $output .= '<aside class="col-image" aria-label="Coberta del llibre o imatge representativa de l\'obra">';
     $output .= get_image_tags(
         $obra['Imatge'],
         '/img/obres/',
@@ -93,6 +98,12 @@ if ($obra['Editorial'] !== null && $obra['Editorial'] !== 'Web') {
     $output .= '<dd property="publisher" typeof="Organization">';
     $output .= '<span property="name">' . htmlspecialchars($obra['Editorial']) . '</span>';
     $output .= '</dd>';
+    $output .= '</dl>';
+}
+if ($obra['Varietat_dialectal'] !== null) {
+    $output .= '<dl>';
+    $output .= '<dt>Varietat dialectal:</dt>';
+    $output .= '<dd>' . htmlspecialchars($obra['Varietat_dialectal']) . '</dd>';
     $output .= '</dl>';
 }
 if ($obra['Municipi'] !== null) {
@@ -175,7 +186,7 @@ if ($obra['Registres'] > 0) {
     $fitxes = format_nombre($obra['Registres']);
     $recollides = format_nombre(get_paremiotipus_count_by_font($obra['Identificador']));
     $registres = "Aquesta obra té {$fitxes} fitxes a la base de dades, de les quals {$recollides} estan recollides en aquest web.";
-    $output .= "<footer>{$registres}</footer>";
+    $output .= '<div class="footer">' . $registres . '</div>';
     set_meta_description_once($registres);
 }
 

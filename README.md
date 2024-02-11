@@ -10,7 +10,7 @@ and media files are not distributed with this repository.
 2. Build the container:
 
 ```bash
-docker-compose up --build
+docker-compose up
 ```
 
 When the database has finished importing, the website should be available at <http://localhost:8092>, depending on your
@@ -18,6 +18,14 @@ When the database has finished importing, the website should be available at <ht
 
 Note: If you don't have a database, you can copy `tmp/schema.sql` and `tmp/schema_init_sample.sql` files to
 `install/db/`. That will import an empty database and should allow you to browse the website locally.
+
+### Alpine-based image
+
+Alternatively, and Alpine image is also available:
+
+```bash
+docker-compose -f docker-compose-alpine.yml up
+```
 
 ## Updating the repository with a new release
 
@@ -124,6 +132,12 @@ yarn fix
 yarn test
 ```
 
+`BASE_URL` environment variable can be overridden in tests that target the web server (e.g. Playwright):
+
+```bash
+BASE_URL=https://pccd.dites.cat yarn test
+```
+
 You may need to run `yarn refresh:test-data` if the data has changed, in order to pass some e2e tests.
 
 For running some tests in **all** pages, run:
@@ -162,7 +176,6 @@ For details on contributing to this repository, see the contributing guidelines:
 - Infra: Consider migrating from MariaDB/MySQL to Postgres
 - Infra: Consider switching from mod_php to PHP-FPM, and maybe from Apache to Nginx
 - Build: Consider switching from Yarn Classic to pnpm, modern Yarn, npm, Bun, or Deno
-- UX: Consider adding search functionality on every page
 
 ## License
 

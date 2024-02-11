@@ -28,6 +28,7 @@ header('Cache-Control: public, s-maxage=31536000, max-age=900');
 // Build page content in advance.
 $page_name = get_page_name();
 $main_content = build_main_content($page_name);
+$side_blocks = get_side_blocks($page_name);
 
 ?><!DOCTYPE html>
 <html lang="ca">
@@ -60,7 +61,7 @@ require __DIR__ . '/css/base.min.css';
                 </svg>
             </button>
             <div class="d-none" id="menu">
-                <nav>
+                <nav aria-label="Menú principal">
                     <a href="/projecte">Projecte</a>
                     <a href="/" title="Cerca (premeu Ctrl + K)" rel="home">Cerca</a>
                     <a href="/instruccions">Instruccions d'ús</a>
@@ -77,8 +78,8 @@ require __DIR__ . '/css/base.min.css';
                     <?php echo $main_content; ?>
                 </article>
             </section>
-            <aside class="col-aside">
-                <?php echo get_side_blocks($page_name); ?>
+            <aside class="col-aside" aria-label="Informació addicional">
+                <?php echo $side_blocks; ?>
                 <div class="bloc bloc-contact bloc-white">
                     <p>Ajudeu-nos a millorar</p>
                     <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
