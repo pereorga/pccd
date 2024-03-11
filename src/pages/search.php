@@ -41,38 +41,34 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '')
 }
 ?>
 <form method="get" role="search">
-    <div class="form-group">
-        <div class="form-row">
-            <div class="col-mode">
+    <div class="filters">
+        <div class="row">
+            <div class="mode">
                 <select name="mode" aria-label="Mode de cerca">
                     <option value="">conté</option>
                     <option<?php echo $search_mode === 'comença' ? ' selected' : ''; ?> value="comença">comença per</option>
                     <option<?php echo $search_mode === 'acaba' ? ' selected' : ''; ?> value="acaba">acaba en</option>
                 </select>
             </div>
-            <div class="col-input">
-                <div class="input-group">
-                    <input type="search" name="cerca" autocapitalize="off" autocomplete="off" autofocus value="<?php echo $raw_search_clean; ?>" placeholder="Introduïu un o diversos termes" aria-label="Introduïu un o diversos termes" pattern=".*[a-zA-Z]+.*" required>
-                    <button type="submit" aria-label="Cerca">
-                        <svg aria-hidden="true" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                        </svg>
-                    </button>
-                </div>
+            <div class="input">
+                <input type="search" name="cerca" autocapitalize="off" autocomplete="off" autofocus value="<?php echo $raw_search_clean; ?>" placeholder="Introduïu un o diversos termes" aria-label="Introduïu un o diversos termes" pattern=".*[a-zA-Z]+.*" required>
+                <button type="submit" aria-label="Cerca">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"/></svg>
+                </button>
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-options-label">Inclou en la cerca:</div>
-            <div class="col-options">
-                <div class="form-check" title="Variants del paremiotipus">
+        <div class="row">
+            <div class="label">Inclou en la cerca:</div>
+            <div class="options">
+                <div title="Variants del paremiotipus">
                     <input type="checkbox" name="variant" id="variant" value=""<?php echo checkbox_checked('variant') ? ' checked' : ''; ?>>
                     <label for="variant">variants</label>
                 </div>
-                <div class="form-check" title="Expressions sinònimes">
+                <div title="Expressions sinònimes">
                     <input type="checkbox" name="sinonim" id="sinonim" value=""<?php echo checkbox_checked('sinonim') ? ' checked' : ''; ?>>
                     <label for="sinonim">sinònims</label>
                 </div>
-                <div class="form-check" title="Equivalents en altres llengües">
+                <div title="Equivalents en altres llengües">
                     <input type="checkbox" name="equivalent" id="equivalent" value=""<?php echo checkbox_checked('equivalent') ? ' checked' : ''; ?>>
                     <label for="equivalent">altres idiomes</label>
                 </div>

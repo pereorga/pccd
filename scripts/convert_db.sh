@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Converts the MS Access database to MySQL.
+# Converts the MS Access database to MariaDB.
 #
 # (c) Pere Orga Esteve <pere@orga.cat>
 #
@@ -58,15 +58,18 @@ mdb-schema --no-indexes --no-relations -T 00_EDITORIA ../"${DATABASE_FILE}" mysq
 mdb-schema --no-indexes --no-relations -T 00_OBRESVPR ../"${DATABASE_FILE}" mysql >> ../install/db/db.sql
 mdb-schema --no-indexes --no-relations -T 00_EQUIVALENTS ../"${DATABASE_FILE}" mysql >> ../install/db/db.sql
 
-# Add normalized (lowercase, without accents) search-specific columns. This may be unnecessary now, but we should
-# probably keep it unless we switch to full-text search only.
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD COLUMN PAREMIOTIPUS_LC_WA varchar (255);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD COLUMN MODISME_LC_WA varchar (255);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD COLUMN SINONIM_LC_WA varchar (255);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD COLUMN EQUIVALENT_LC_WA varchar (255);" >> ../install/db/db.sql
-
 # Add additional columns.
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD COLUMN ACCEPCIO varchar (2);" >> ../install/db/db.sql
+
+# Set an accent sensitive, case-insensitive collation.
+# Unnecessary when we can set collation-server = utf8mb4_uca1400_ai_ci on MariaDB settings.
+# See https://mariadb.org/post-mortem-php-and-mariadb-docker-issue/
+echo "ALTER TABLE 00_PAREMIOTIPUS CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_FONTS CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_IMATGES CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_EDITORIA CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_OBRESVPR CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_EQUIVALENTS CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
 
 # Dump data.
 mdb-export -I mysql ../"${DATABASE_FILE}" "00_PAREMIOTIPUS" >> ../install/db/db.sql
@@ -77,41 +80,47 @@ mdb-export -I mysql ../"${DATABASE_FILE}" "00_OBRESVPR" >> ../install/db/db.sql
 mdb-export -I mysql ../"${DATABASE_FILE}" "00_EQUIVALENTS" >> ../install/db/db.sql
 
 # Add image width and height columns for images.
-echo "ALTER TABLE 00_FONTS ADD COLUMN WIDTH INT NOT NULL DEFAULT 0;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_FONTS ADD COLUMN HEIGHT INT NOT NULL DEFAULT 0;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_IMATGES ADD COLUMN WIDTH INT NOT NULL DEFAULT 0;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_IMATGES ADD COLUMN HEIGHT INT NOT NULL DEFAULT 0;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_OBRESVPR ADD COLUMN WIDTH INT NOT NULL DEFAULT 0;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_OBRESVPR ADD COLUMN HEIGHT INT NOT NULL DEFAULT 0;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_FONTS ADD COLUMN WIDTH int NOT NULL DEFAULT 0;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_FONTS ADD COLUMN HEIGHT int NOT NULL DEFAULT 0;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_IMATGES ADD COLUMN WIDTH int NOT NULL DEFAULT 0;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_IMATGES ADD COLUMN HEIGHT int NOT NULL DEFAULT 0;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_OBRESVPR ADD COLUMN WIDTH int NOT NULL DEFAULT 0;" >> ../install/db/db.sql
+echo "ALTER TABLE 00_OBRESVPR ADD COLUMN HEIGHT int NOT NULL DEFAULT 0;" >> ../install/db/db.sql
 
 # Create indexes.
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD PRIMARY KEY (Id);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD INDEX (PAREMIOTIPUS);" >> ../install/db/db.sql
-# MODISME index is mostly useful in the "repetits" report.
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD INDEX (MODISME);" >> ../install/db/db.sql
 # ID_FONT index is useful for counting references in the "obra" page, and also in some reports.
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD INDEX (ID_FONT);" >> ../install/db/db.sql
 # Full-text indexes are required for the multiple search combinations.
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA, MODISME_LC_WA);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA, SINONIM_LC_WA);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA, EQUIVALENT_LC_WA);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA, MODISME_LC_WA, SINONIM_LC_WA);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA, MODISME_LC_WA, EQUIVALENT_LC_WA);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA, SINONIM_LC_WA, EQUIVALENT_LC_WA);" >> ../install/db/db.sql
-echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS_LC_WA, MODISME_LC_WA, SINONIM_LC_WA, EQUIVALENT_LC_WA);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, MODISME);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, SINONIM);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, EQUIVALENT);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, MODISME, SINONIM);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, MODISME, EQUIVALENT);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, SINONIM, EQUIVALENT);" >> ../install/db/db.sql
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, MODISME, SINONIM, EQUIVALENT);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_FONTS ADD INDEX (Identificador);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_IMATGES ADD INDEX (PAREMIOTIPUS);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_EDITORIA ADD INDEX (CODI);" >> ../install/db/db.sql
 
 # Create additional custom tables.
-echo "CREATE TABLE common_paremiotipus(Paremiotipus varchar (255), Compt int);" >> ../install/db/db.sql
+# Used for displaying top 10000 paremiotipus.
+echo "CREATE TABLE common_paremiotipus(Paremiotipus varchar (255), Compt int) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;" >> ../install/db/db.sql
 echo "ALTER TABLE common_paremiotipus ADD INDEX (Compt);" >> ../install/db/db.sql
-echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, Display varchar (255));" >> ../install/db/db.sql
+
+# This is used because the PAREMIOTIPUS column is preprocessed to optimize sorting, and we still want to display the
+# original value.
+echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, Display varchar (255)) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;" >> ../install/db/db.sql
 
 # Normalize UTF-8 combined characters.
-uconv -x nfkc ../install/db/db.sql > ../install/db/db_temp.sql
+uconv -x nfkc ../install/db/db.sql > ../tmp/db_temp1.sql
 
-# See https://github.com/mdbtools/mdbtools/issues/391.
-sed 's/varchar (255)/varchar (300)/g' ../install/db/db_temp.sql > ../install/db/db.sql
-rm ../install/db/db_temp.sql
+# See https://github.com/mdbtools/mdbtools/issues/391. This may be required because of the previous command, as now
+# character `…` becomes 3 different characters `...`).
+sed 's/varchar (255)/varchar (300)/g' ../tmp/db_temp1.sql > ../install/db/db.sql
+
+# Delete intermediate files.
+rm ../tmp/db_temp*.sql

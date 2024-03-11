@@ -42,19 +42,15 @@ echo date('[H:i:s]') . ' standarizing quotes...' . "\n";
 $pdo->exec("UPDATE `00_PAREMIOTIPUS` SET `MODISME` = REPLACE(REPLACE(REPLACE(REPLACE(`MODISME`, '´', '\\''), '`', '\\''), '’', '\\''), '‘', '\\''), `PAREMIOTIPUS` = REPLACE(REPLACE(REPLACE(REPLACE(`PAREMIOTIPUS`, '´', '\\''), '`', '\\''), '’', '\\''), '‘', '\\'')");
 $pdo->exec("UPDATE `00_IMATGES` SET `PAREMIOTIPUS` = REPLACE(REPLACE(REPLACE(REPLACE(`PAREMIOTIPUS`, '´', '\\''), '`', '\\''), '’', '\\''), '‘', '\\'')");
 
-echo date('[H:i:s]') . ' generating paremiotipus display value...' . "\n";
+echo date('[H:i:s]') . ' preprocessing columns for improved sorting and display...' . "\n";
 $insert_display_stmt = $pdo->prepare('INSERT IGNORE INTO `paremiotipus_display`(`Paremiotipus`, `Display`) VALUES(?, ?)');
 $paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
 foreach ($paremiotipus as $p) {
     $insert_display_stmt->execute([clean_paremiotipus_for_sorting($p), $p]);
 }
-
-echo date('[H:i:s]') . ' creating search tables...' . "\n";
 $add_accepcio_stmt = $pdo->prepare('UPDATE `00_PAREMIOTIPUS` SET `MODISME` = ?, `ACCEPCIO` = ? WHERE `Id` = ?');
-$normalize_stmt = $pdo->prepare('UPDATE `00_PAREMIOTIPUS` SET `PAREMIOTIPUS_LC_WA` = ?, `MODISME_LC_WA` = ?, `SINONIM_LC_WA` = ?, `EQUIVALENT_LC_WA` = ? WHERE `Id` = ?');
 $improve_sorting_stmt = $pdo->prepare('UPDATE `00_PAREMIOTIPUS` SET `PAREMIOTIPUS` = ? WHERE `Id` = ?');
-
-$paremies = $pdo->query('SELECT `Id`, `PAREMIOTIPUS`, `MODISME`, `SINONIM`, `EQUIVALENT` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
+$paremies = $pdo->query('SELECT `Id`, `PAREMIOTIPUS`, `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($paremies as $p) {
     // Try to clean names ending with numbers and fill ACCEPCIO field.
     if ($p['MODISME'] !== null) {
@@ -65,16 +61,6 @@ foreach ($paremies as $p) {
             $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
         }
     }
-
-    // Normalize strings for searching.
-    $args = [
-        normalize_search($p['PAREMIOTIPUS']),
-        normalize_search($p['MODISME']),
-        normalize_search($p['SINONIM']),
-        normalize_search($p['EQUIVALENT']),
-        $p['Id'],
-    ];
-    $normalize_stmt->execute($args);
 
     try {
         // Clean `—` and other characters from the beginning, to improve sorting.

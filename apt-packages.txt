@@ -15,10 +15,11 @@ libxml2-utils
 maven
 mdbtools
 nodejs
-optipng
+npm
 php-cli
 php-curl
 php-dev
+php-dom
 php-gd
 php-imagick
 php-intl

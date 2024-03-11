@@ -37,19 +37,17 @@ fi
 readonly BASE_URL
 
 ##############################################################################
-# Validates URL using curl, HTML Tidy, htmlhint, webhint, linkinator and html-validate.
+# Validates URL using curl, HTML Tidy, htmlhint, linkinator and html-validate.
 # Arguments:
 #   URL                  The URL to validate
 # Optional arguments:
 #   --skip-tidy          Skip HTML Tidy validation
 #   --skip-htmlhint      Skip htmlhint validation
-#   --skip-webhint       Skip webhint validation
 #   --skip-linkinator    Skip linkinator validation
 #   --skip-htmlvalidate  Skip html-validate validation
 # Globals:
 #   SKIP_TIDY            Whether to skip HTML Tidy
 #   SKIP_HTMLHINT        Whether to skip htmlhint
-#   SKIP_WEBHINT         Whether to skip webhint
 #   SKIP_LINKINATOR      Whether to skip linkinator
 #   SKIP_HTMLVALIDATE    Whether to skip html-validate
 ##############################################################################
@@ -61,7 +59,6 @@ validate_url() {
         case $1 in
             --skip-tidy) SKIP_TIDY=true ;;
             --skip-htmlhint) SKIP_HTMLHINT=true ;;
-            --skip-webhint) SKIP_WEBHINT=true ;;
             --skip-linkinator) SKIP_LINKINATOR=true ;;
             --skip-htmlvalidate) SKIP_HTMLVALIDATE=true ;;
             *)
@@ -122,15 +119,6 @@ validate_url() {
         echo "htmlhint"
         echo "=============="
         npx htmlhint --config ../.htmlhintrc.json "${OUTPUT_FILENAME}"
-    fi
-
-    # webhint is one of the most extensive testing suites. It uses Chromium or Edge under the hood. Unfortunately it is
-    # slow, and probably a bit unmaintained. See .hintrc settings file.
-    if [[ -z ${SKIP_WEBHINT} ]]; then
-        echo "=============="
-        echo "webhint"
-        echo "=============="
-        npx hint --config ../.hintrc "${URL}"
     fi
 
     # linkinator works well for checking that all local links work properly.
@@ -197,6 +185,6 @@ validate_url "${BASE_URL}/?pagina=5147"
 validate_url "${BASE_URL}/?mode=&cerca=ca%C3%A7a&variant=&mostra=10"
 validate_url "${BASE_URL}/p/A_Adra%C3%A9n%2C_tanys"
 validate_url "${BASE_URL}/p/A_Alaior%2C_mostren_la_panxa_per_un_guix%C3%B3_o_bot%C3%B3"
-validate_url "${BASE_URL}/?mostra=infinit" --skip-webhint --skip-linkinator --skip-htmlvalidate
+validate_url "${BASE_URL}/?mostra=infinit" --skip-linkinator --skip-htmlvalidate
 
 echo "All validation tests finished OK :)"

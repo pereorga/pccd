@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# Updates Composer/PHIVE/Yarn/PECL/apt-get/Homebrew/Maven dependencies and Docker images.
+# Updates Composer/PHIVE/NPM/PECL/apt-get/Homebrew/Maven dependencies and Docker images.
 #
-# This script is called by `yarn run update` script.
+# This script is called by npm update script.
 #
 # (c) Pere Orga Esteve <pere@orga.cat>
 #
@@ -29,14 +29,16 @@ usage() {
     echo "      Updates all Composer dependencies to latest release, including non-direct dependencies and repositories"
     echo "    docker"
     echo "      Updates Docker images in Docker files and docker-compose.yml to next release"
+    echo "    oxipng"
+    echo "      Updates oxipng cargo package in Docker files"
     echo "    nixpkgs"
     echo "      Updates the nixpkgs version in shell.nix to the latest commit"
     echo "    opcache-gui"
     echo "      Updates OPcache GUI to latest revision"
     echo "    phive"
     echo "      Updates all PHIVE (phar) packages and phive itself to latest releases"
-    echo "    yarn"
-    echo "      Updates all Yarn dev packages to latest release"
+    echo "    npm"
+    echo "      Updates all npm dev packages to latest release"
 }
 
 ##############################################################################
@@ -181,16 +183,47 @@ update_composer() {
 }
 
 ##############################################################################
-# Updates all Yarn dev dependencies.
+# Updates all npm dev dependencies to latest release.
 # Arguments:
 #   None
 ##############################################################################
-update_yarn() {
-    # See https://stackoverflow.com/a/75525951/1391963
-    jq '.devDependencies | keys | .[]' package.json | xargs yarn add --dev --silent
+update_npm() {
+    rm -rf node_modules package-lock.json
+    jq '.devDependencies | keys | .[]' package.json | xargs npm install --save-dev --ignore-scripts
+}
 
-    rm -rf node_modules yarn.lock
-    yarn install
+##############################################################################
+# Updates a cargo package to the latest version in a Dockerfile.
+# Arguments:
+#   A Docker file, a path (e.g. "Dockerfile")
+#   A cargo package name (e.g. "oxipng")
+##############################################################################
+update_cargo_dockerfile() {
+    local -r DOCKER_FILE="$1"
+    local -r PACKAGE_NAME="$2"
+
+    echo "Updating ${DOCKER_FILE} to use latest ${PACKAGE_NAME}..."
+
+    # Fetch the latest version from crates.io
+    local latest_version
+    latest_version=$(curl --silent "https://crates.io/api/v1/crates/${PACKAGE_NAME}" | jq -r '.crate.max_version')
+
+    if [[ -z ${latest_version} ]]; then
+        echo "Error: Could not fetch the latest version of ${PACKAGE_NAME}."
+        exit 1
+    fi
+
+    if grep -q -r -F -m 1 "${latest_version}" "${DOCKER_FILE}"; then
+        echo "Latest ${PACKAGE_NAME} version is already set (${latest_version})."
+    else
+        echo "Updating ${PACKAGE_NAME} version to ${latest_version}."
+        sed -i'.original' -e "s/RUN cargo install ${PACKAGE_NAME} --version .*/RUN cargo install ${PACKAGE_NAME} --version ${latest_version}/" "${DOCKER_FILE}" || {
+            echo "Failed to update ${PACKAGE_NAME} version in ${DOCKER_FILE}."
+            exit 1
+        }
+        echo "${PACKAGE_NAME} version updated in ${DOCKER_FILE}."
+        rm "${DOCKER_FILE}.original"
+    fi
 }
 
 ##############################################################################
@@ -250,8 +283,8 @@ if [[ $1 == "composer" ]]; then
 fi
 
 if [[ $1 == "phive" ]]; then
-    tools/phive selfupdate --trust-gpg-keys
-    yes | tools/phive update --force-accept-unsigned
+    php -d memory_limit=256M tools/phive selfupdate --trust-gpg-keys
+    yes | php -d memory_limit=256M tools/phive update --force-accept-unsigned
     exit 0
 fi
 
@@ -265,8 +298,8 @@ if [[ $1 == "opcache-gui" ]]; then
     exit 0
 fi
 
-if [[ $1 == "yarn" ]]; then
-    update_yarn
+if [[ $1 == "npm" ]]; then
+    update_npm
     exit 0
 fi
 
@@ -275,6 +308,11 @@ if [[ $1 == "docker" ]]; then
     check_version_docker_file .docker/alpine.dev.Dockerfile alpine
     check_version_docker_compose docker-compose.yml mariadb
     check_version_docker_compose docker-compose-alpine.yml mariadb
+    exit 0
+fi
+
+if [[ $1 == "oxipng" ]]; then
+    update_cargo_dockerfile .docker/ubuntu.build.Dockerfile oxipng
     exit 0
 fi
 

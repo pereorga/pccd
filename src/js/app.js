@@ -69,17 +69,6 @@ gtag("config", "G-CP42Y3NK1R");
             document.querySelector("form[role=search]").submit();
         });
 
-        // Search keyboard shortcuts.
-        document.addEventListener("keydown", (event) => {
-            if (event.ctrlKey) {
-                if (event.key === "ArrowRight" && nextButton) {
-                    location.assign(nextButton.getAttribute("href"));
-                } else if (event.key === "ArrowLeft" && previousButton) {
-                    location.assign(previousButton.getAttribute("href"));
-                }
-            }
-        });
-
         // Ensure the following is executed with browser back/forward navigation.
         window.addEventListener("pageshow", () => {
             // Ensure browser does not try to remember last form value, as it doesn't help.
@@ -152,13 +141,6 @@ gtag("config", "G-CP42Y3NK1R");
         document.querySelector("#menu").classList.toggle("d-none");
     });
 
-    // Add keyboard shortcut to go the homepage.
-    document.addEventListener("keydown", (event) => {
-        if ((event.ctrlKey || event.metaKey) && event.key === "k") {
-            location.assign("/");
-        }
-    });
-
     // Prefetch internal links on hover/touch.
     // Inspired by https://github.com/instantpage/instant.page/blob/master/instantpage.js
     const preloadedList = new Set();
@@ -176,22 +158,6 @@ gtag("config", "G-CP42Y3NK1R");
         if (a.href && a.origin === location.origin) {
             a.addEventListener("mouseenter", prefetchLink);
             a.addEventListener("touchstart", prefetchLink, { passive: true });
-        }
-    }
-
-    // Document Mac-specific shortcuts.
-    if (navigator.platform.startsWith("Mac")) {
-        const searchLink = document.querySelector('a[rel="home"]');
-        searchLink.title = "Cerca (premeu ⌘K)";
-
-        const nextLink = document.querySelector('a[rel="next"]');
-        if (nextLink) {
-            nextLink.title = "Pàgina següent (premeu ^⇧→)";
-        }
-
-        const previousLink = document.querySelector('a[rel="prev"]');
-        if (previousLink) {
-            previousLink.title = "Pàgina següent (premeu ^⇧←)";
         }
     }
 })();

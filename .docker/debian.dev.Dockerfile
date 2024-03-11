@@ -1,4 +1,4 @@
-FROM php:8.3.2-apache-bookworm
+FROM php:8.3.3-apache-bookworm
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Apache-based image with Apache and PHP."
 
@@ -11,14 +11,16 @@ WORKDIR /srv/app
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 # Remove some Apache default settings provided by Debian
+# Do not expose Apache version in header
 # Disable unnecessary Apache modules
 # Enable Apache modules
-# Use PHP default production settings
+# Use PHP default production settings, but do not expose PHP version
 # Install PHP extensions, ommitting OPCache to reduce Docker build times
 RUN rm -f /etc/apache2/mods-enabled/deflate.conf /etc/apache2/mods-enabled/alias.conf && \
+    sed -i 's/ServerTokens OS/ServerTokens Prod/g' /etc/apache2/conf-available/security.conf && \
     a2dismod -f access_compat auth_basic authn_core authn_file authz_host authz_user autoindex negotiation reqtimeout setenvif status && \
     a2enmod rewrite headers brotli && \
-    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    sed 's/expose_php = On/expose_php = Off/g' /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini && \
     chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions apcu intl pdo_mysql
 

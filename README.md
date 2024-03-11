@@ -29,13 +29,9 @@ docker-compose -f docker-compose-alpine.yml up
 
 ## Updating the repository with a new release
 
-### Installation using Nix (Linux, macOS) - WIP
+### Option 1: Native + Docker (Linux / macOS)
 
-```bash
-nix-shell
-```
-
-### Installation on Linux (Debian-based)
+#### Prerequisites: Linux (Debian-based)
 
 ```bash
 xargs sudo apt-get install -y < apt-packages.txt
@@ -49,44 +45,81 @@ Some additional packages can be installed using [Homebrew](https://brew.sh/):
 brew bundle install --file=ubuntu.Brewfile
 ```
 
-The rest of dependencies can be installed using [Yarn](https://yarnpkg.com/):
+The rest of dependencies can be installed using `npm`:
 
 ```bash
-npm install --global yarn && yarn install --frozen-lockfile
+npm ci
 ```
 
-### Installation on macOS (using Homebrew)
+#### Prerequisites: macOS (Homebrew)
 
 After installing [Homebrew](https://brew.sh/), run the following from the root directory to install all developer
 dependencies:
 
 ```bash
-brew bundle install && npm install --global yarn && yarn install --frozen-lockfile && pecl install imagick
+brew bundle install && npm ci && pecl install imagick
 ```
 
-### Procedure
-
-**Part 1**: Update files and build. Usually, new image files (Cobertes.zip, Imatges.zip, Obres-VPR.zip) and the database
-(database.accdb) are provided. Put them in the root directory before running the following:
+#### Prerequisites: Linux (Nix) / macOS (Nix) untested
 
 ```bash
-yarn decompress:images && yarn optimize:images && yarn convert:db && yarn build:docker
+nix-shell
+```
+
+#### Procedure
+
+**Part 1**: Update the database, add new images and build the container. Usually, new image files (Cobertes.zip,
+Imatges.zip, Obres-VPR.zip) are provided. Put them in the root directory alongside the MS Access database
+(database.accdb) before running the following (skip the first 2 commands if images have not been provided):
+
+```bash
+npm run decompress:images && npm run optimize:images && npm run convert:db && npm run build:docker
 ```
 
 **Part 2**: Install (in a separate shell, after the database has been initialized in **Part 1**)
 
 ```bash
-yarn install:db
+npm run install:db
 ```
 
 When this command finishes, the website should be available and run properly.
 
-**Part 3**: Export the database for future deployments, run tests and generate reports.
+**Part 3**: Export the database, run tests and generate reports.
 
 ```bash
-yarn prepare:deploy
+npm run prepare:deploy
+```
+
+The code can now be pushed to both private and public repositories for deployment:
+
+```bash
 git add . && git commit -m 'new release' && git push
-yarn export:code
+npm run export:code
+```
+
+### Option 2: Docker-based (Linux, macOS, Windows)
+
+The whole process of updating a release could be run 100% inside Docker, although this is not regularly tested.
+
+Example on Windows:
+
+```batch
+:: Disable .dockerignore to include everything in the build context
+ren .dockerignore .dockerignore.disabled
+:: Start the build-specific container
+docker-compose -f docker-compose-build.yml up
+:: Run the processing commands within the build container
+docker-compose -f docker-compose-build.yml run build /bin/bash -c "npm run decompress:images && npm run optimize:images && npm run convert:db"
+:: Restore .dockerignore
+ren .dockerignore.disabled .dockerignore
+:: Remove existing container, in case it was already created before
+docker-compose down --volumes
+:: Start the HTTP and MariaDB servers
+docker-compose up --build
+:: Execute the installation script inside the web container
+docker exec pccd-web scripts/install.sh
+:: Export the updated database
+docker exec pccd-mysql /usr/bin/mysqldump -uroot -pcontrasenyarootmysql --skip-dump-date --ignore-table=pccd.commonvoice pccd > install\db\db.sql
 ```
 
 ## Local development
@@ -95,21 +128,22 @@ yarn export:code
 
 - PHP: 8.2 or later is required.
 - Node.js: 18.16 or later is required.
+- Docker
 
 ### Assets
 
 CSS/JavaScript code resides in `src/js/` and `src/css/`. Assets are built and minified running:
 
 ```bash
-yarn build:assets
+npm run build:assets
 ```
 
 ### Image conversion and optimization
 
-To compress and convert already converted images, delete them before running `yarn optimize:images`:
+To compress and convert already converted images, delete them before running `npm run optimize:images`:
 
 ```bash
-yarn delete:images
+npm run delete:images
 ```
 
 ### Code linting, formatting and static code analysis
@@ -117,33 +151,33 @@ yarn delete:images
 Linting and static code analysis:
 
 ```bash
-yarn check:code
+npm run check:code
 ```
 
 Automatic fixing code and formatting:
 
 ```bash
-yarn fix
+npm run fix
 ```
 
 ### Automated tests
 
 ```bash
-yarn test
+npm test
 ```
 
 `BASE_URL` environment variable can be overridden in tests that target the web server (e.g. Playwright):
 
 ```bash
-BASE_URL=https://pccd.dites.cat yarn test
+BASE_URL=https://pccd.dites.cat npm test
 ```
 
-You may need to run `yarn refresh:test-data` if the data has changed, in order to pass some e2e tests.
+You may need to run `npm run refresh:test-data` if the data has changed, in order to pass some e2e tests.
 
 For running some tests in **all** pages, run:
 
 ```bash
-yarn check:sitemap
+npm run check:sitemap
 ```
 
 ### Profiling
@@ -151,11 +185,11 @@ yarn check:sitemap
 SPX and XHProf profilers are available:
 
 ```bash
-yarn build:docker:spx
+npm run build:docker:spx
 ```
 
 ```bash
-yarn build:docker:xhprof
+npm run build:docker:xhprof
 ```
 
 Profiler reports can be accessed in `/admin/`, alongside the other reports (web admin password is set in the `.env`
@@ -173,9 +207,6 @@ For details on contributing to this repository, see the contributing guidelines:
 - Compliance: consider start using GA conditionally when the cookie dialog has been accepted, or better, consider
   removing Google Tag Manager or switching to a lighter Google Analytics alternative (see
   <https://news.ycombinator.com/item?id=32068539>)
-- Infra: Consider migrating from MariaDB/MySQL to Postgres
-- Infra: Consider switching from mod_php to PHP-FPM, and maybe from Apache to Nginx
-- Build: Consider switching from Yarn Classic to pnpm, modern Yarn, npm, Bun, or Deno
 
 ## License
 

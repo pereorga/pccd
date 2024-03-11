@@ -7,16 +7,16 @@ test.describe("Homepage <picture> tag", () => {
         await page.goto("/");
     });
 
-    test("Homepage has a <picture> element", async ({ page }) => {
+    test("homepage has a <picture> element", async ({ page }) => {
         await expect(page.locator("picture")).toHaveCount(1);
     });
 
-    test("The picture includes an AVIF file", async ({ page }) => {
+    test("the picture includes an AVIF file", async ({ page }) => {
         const pictureSrcset = await page.locator("picture source").getAttribute("srcset");
         expect(pictureSrcset).toMatch(/\.avif/);
     });
 
-    test("The server sets the correct image/avif content type for the AVIF file", async ({ page }) => {
+    test("the server sets the correct image/avif content type for the AVIF file", async ({ page }) => {
         const avifUrl = await page.evaluate(() => {
             const sourceElement = document.querySelector("picture source[type='image/avif']");
             return sourceElement ? sourceElement.srcset : undefined;
@@ -26,7 +26,7 @@ test.describe("Homepage <picture> tag", () => {
         expect(response.headers()["content-type"]).toBe("image/avif");
     });
 
-    test("All files in the picture element have the correct Cache-Control header", async ({ page }) => {
+    test("all files in the picture element have the correct Cache-Control header", async ({ page }) => {
         const urls = await page.evaluate(() => {
             const sources = document.querySelectorAll("picture source");
             return [...sources].map((source) => source.srcset);
@@ -38,7 +38,7 @@ test.describe("Homepage <picture> tag", () => {
         }
     });
 
-    test("All files in the picture element have the correct Strict-Transport-Security header", async ({ page }) => {
+    test("all files in the picture element have the correct Strict-Transport-Security header", async ({ page }) => {
         const urls = await page.evaluate(() => {
             const sources = document.querySelectorAll("picture source");
             return [...sources].map((source) => source.srcset);
@@ -57,12 +57,12 @@ test.describe("SVG in <img> tags", () => {
         await page.goto("/");
     });
 
-    test("Homepage has <img> tags with SVG files", async ({ page }) => {
+    test("homepage has <img> tags with SVG files", async ({ page }) => {
         const svgImagesCount = await page.locator('img[src$=".svg"]').count();
         expect(svgImagesCount).toBeGreaterThan(0);
     });
 
-    test("The server sends correct type and sets Brotli compression for SVG files", async ({ page }) => {
+    test("the server sends correct type and sets Brotli compression for SVG files", async ({ page }) => {
         const svgUrls = await page.evaluate(() => {
             return [...document.querySelectorAll('img[src$=".svg"]')].map((img) => img.src);
         });

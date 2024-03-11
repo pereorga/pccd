@@ -14,7 +14,6 @@ tools
 node_modules
 scripts/SentenceSimilarityGroup
 scripts/image-convertor
-scripts/sinonims-export
 vendor
 # We use Composer to add git repositories as dev dependencies
 !vendor/noisebynorthwest/php-spx

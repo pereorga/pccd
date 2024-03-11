@@ -16,7 +16,7 @@ third_party/
 *Brewfile.lock.json
 /LICENSE
 composer.lock
-yarn.lock
+package-lock.json
 
 # Compiled assets and binaries
 *.min.*

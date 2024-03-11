@@ -13,7 +13,7 @@
 /*
  * Reports a list of small images.
  *
- * This script is called by yarn generate:reports script.
+ * This script is called by npm generate:reports script.
  */
 
 require __DIR__ . '/functions.php';

@@ -45,7 +45,7 @@
     "phpstan/phpstan-deprecation-rules": "^1.1",
     "phpstan/phpstan-strict-rules": "^1.5",
     "rector/rector": "^1.0",
-    "slevomat/coding-standard": "^8.14"
+    "slevomat/coding-standard": "^8.15"
   },
   "suggest": {
     "ext-apcu": "Used for caching SQL queries. Strongly encouraged in the web server",

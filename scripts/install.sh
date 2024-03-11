@@ -26,14 +26,31 @@ if [[ -n $1 ]]; then
     exit 1
 fi
 
+if [[ -f /.dockerenv ]]; then
+    echo "Detected running inside Docker..."
+    IS_DOCKER=1
+else
+    echo "Running outside Docker..."
+    IS_DOCKER=0
+fi
+
 echo "Running installation script..."
-docker exec pccd-web php scripts/install.php
+if [[ "${IS_DOCKER}" -eq 1 ]]; then
+    php install.php
+else
+    docker exec pccd-web php scripts/install.php
+fi
 
 echo "Building sitemaps and robots.txt..."
 echo "User-agent: *" > ../docroot/robots.txt
 echo "Disallow:" >> ../docroot/robots.txt
 
-docker exec pccd-web php scripts/build_sitemap.php > ../docroot/sitemap.txt
+if [[ "${IS_DOCKER}" -eq 1 ]]; then
+    php build_sitemap.php > ../docroot/sitemap.txt
+else
+    docker exec pccd-web php scripts/build_sitemap.php > ../docroot/sitemap.txt
+fi
+
 # Split the sitemap in multiple files, to overcome a Google limit.
 split -d -l 49999 ../docroot/sitemap.txt sitemap_
 for i in sitemap_*; do

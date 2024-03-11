@@ -13,7 +13,7 @@
 /*
  * Execute time-consuming tests.
  *
- * This file is called by yarn generate:reports script.
+ * This file is called by npm generate:reports script.
  */
 
 require __DIR__ . '/../src/reports/tests.php';

@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.5.23-MariaDB, for debian-linux-gnu (aarch64)
+-- MariaDB dump 10.19  Distrib 10.11.7-MariaDB, for debian-linux-gnu (aarch64)
 --
 -- Host: localhost    Database: pccd
 -- ------------------------------------------------------
--- Server version	10.5.23-MariaDB-1:10.5.23+maria~ubu2004
+-- Server version	10.11.7-MariaDB-1:10.11.7+maria~ubu2204
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,7 +37,7 @@ CREATE TABLE `00_EDITORIA` (
   `DARRER_CAT` datetime DEFAULT NULL,
   `OBSERVACIO` varchar(300) DEFAULT NULL,
   KEY `CODI` (`CODI`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `00_EQUIVALENTS`;
 CREATE TABLE `00_EQUIVALENTS` (
   `CODI` varchar(300) NOT NULL,
   `IDIOMA` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `00_FONTS` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `Identificador` (`Identificador`)
-) ENGINE=InnoDB AUTO_INCREMENT=560 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=571 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `00_IMATGES` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `PAREMIOTIPUS` (`PAREMIOTIPUS`)
-) ENGINE=InnoDB AUTO_INCREMENT=5079 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5301 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +155,7 @@ CREATE TABLE `00_OBRESVPR` (
   `URL` varchar(300) DEFAULT NULL,
   `WIDTH` int(11) NOT NULL DEFAULT 0,
   `HEIGHT` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,25 +188,21 @@ CREATE TABLE `00_PAREMIOTIPUS` (
   `PAGINA` varchar(10) DEFAULT NULL,
   `NUM_ORDRE` varchar(300) DEFAULT NULL,
   `DATA` date DEFAULT NULL,
-  `PAREMIOTIPUS_LC_WA` varchar(300) DEFAULT NULL,
-  `MODISME_LC_WA` varchar(300) DEFAULT NULL,
-  `SINONIM_LC_WA` varchar(300) DEFAULT NULL,
-  `EQUIVALENT_LC_WA` varchar(300) DEFAULT NULL,
   `ACCEPCIO` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id` (`Id`),
   KEY `PAREMIOTIPUS` (`PAREMIOTIPUS`),
   KEY `MODISME` (`MODISME`),
   KEY `ID_FONT` (`ID_FONT`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA` (`PAREMIOTIPUS_LC_WA`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA_2` (`PAREMIOTIPUS_LC_WA`,`MODISME_LC_WA`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA_3` (`PAREMIOTIPUS_LC_WA`,`SINONIM_LC_WA`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA_4` (`PAREMIOTIPUS_LC_WA`,`EQUIVALENT_LC_WA`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA_5` (`PAREMIOTIPUS_LC_WA`,`MODISME_LC_WA`,`SINONIM_LC_WA`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA_6` (`PAREMIOTIPUS_LC_WA`,`MODISME_LC_WA`,`EQUIVALENT_LC_WA`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA_7` (`PAREMIOTIPUS_LC_WA`,`SINONIM_LC_WA`,`EQUIVALENT_LC_WA`),
-  FULLTEXT KEY `PAREMIOTIPUS_LC_WA_8` (`PAREMIOTIPUS_LC_WA`,`MODISME_LC_WA`,`SINONIM_LC_WA`,`EQUIVALENT_LC_WA`)
-) ENGINE=InnoDB AUTO_INCREMENT=817492 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  FULLTEXT KEY `PAREMIOTIPUS_2` (`PAREMIOTIPUS`),
+  FULLTEXT KEY `PAREMIOTIPUS_3` (`PAREMIOTIPUS`,`MODISME`),
+  FULLTEXT KEY `PAREMIOTIPUS_4` (`PAREMIOTIPUS`,`SINONIM`),
+  FULLTEXT KEY `PAREMIOTIPUS_5` (`PAREMIOTIPUS`,`EQUIVALENT`),
+  FULLTEXT KEY `PAREMIOTIPUS_6` (`PAREMIOTIPUS`,`MODISME`,`SINONIM`),
+  FULLTEXT KEY `PAREMIOTIPUS_7` (`PAREMIOTIPUS`,`MODISME`,`EQUIVALENT`),
+  FULLTEXT KEY `PAREMIOTIPUS_8` (`PAREMIOTIPUS`,`SINONIM`,`EQUIVALENT`),
+  FULLTEXT KEY `PAREMIOTIPUS_9` (`PAREMIOTIPUS`,`MODISME`,`SINONIM`,`EQUIVALENT`)
+) ENGINE=InnoDB AUTO_INCREMENT=823794 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +216,7 @@ CREATE TABLE `common_paremiotipus` (
   `Paremiotipus` varchar(300) DEFAULT NULL,
   `Compt` int(11) DEFAULT NULL,
   KEY `Compt` (`Compt`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +230,7 @@ CREATE TABLE `commonvoice` (
   `paremiotipus` varchar(300) NOT NULL,
   `file` varchar(200) NOT NULL,
   PRIMARY KEY (`paremiotipus`,`file`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +244,7 @@ CREATE TABLE `paremiotipus_display` (
   `Paremiotipus` varchar(300) NOT NULL,
   `Display` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`Paremiotipus`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

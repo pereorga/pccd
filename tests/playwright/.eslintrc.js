@@ -6,5 +6,4 @@ module.exports = {
     rules: {
         "no-magic-numbers": "off",
     },
-    extends: ["plugin:playwright/playwright-test"],
 };

@@ -12,7 +12,7 @@ third_party
 .idea
 /tmp
 composer.lock
-yarn.lock
+package-lock.json
 *.sql
 
 # HTML pages

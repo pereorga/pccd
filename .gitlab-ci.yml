@@ -16,13 +16,12 @@ check_code:
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     - brew bundle install --file=ubuntu.Brewfile
-    - npm install --global yarn
-    - yarn install --frozen-lockfile --verbose
+    - npm ci
   script:
     - tools/composer.phar run parallel-lint
-    - yarn check:size
-    - yarn lint
-    - yarn analysis
+    - npm run check:size
+    - npm run lint
+    - npm run analysis
     - npx editorconfig-checker
   allow_failure: true
 build:

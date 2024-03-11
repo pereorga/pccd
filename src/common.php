@@ -696,7 +696,7 @@ function get_redirects(): array
         '/?obra=Revista+S%27Uni%C3%B3+de+S%27Arenal+(1988-1996)' => '/obra/S%27Unió_de_S%27Arenal_%281988-1996%29',
         '/?paremiotipus=%C3%A9s+dolent+que+la+carn+de+gos' => '/p/Dolent_com_la_carn_de_gos',
         '/?paremiotipus=A+Cabanes%2C+hi+ha+qui+en+t%C3%A9+ganes' => '/p/A_Cabanes%2C_hi_va_qui_en_té_ganes',
-        '/?paremiotipus=A+judici+i+pagar%C2%ABlo%C2%BB+judicat' => '/p/A_judici_i_pagar_«lo»_judicat',
+        '/?paremiotipus=A+judici+i+pagar%C2%ABlo%C2%BB+judicat' => '/p/A_judici_i_pagar_lo_judicat',
         '/?paremiotipus=A+l%27aire+llure' => '/p/A_l%27aire_lliure',
         '/?paremiotipus=A+l%27Ascensi%C3%B3+cireretes+abundo+A+Val%C3%A8ncia%E2%80%A6+que+aqu%C3%AD+no' => '/p/Per_l%27Ascensió%2C_cireretes_en_abundor',
         '/?paremiotipus=A+l%27Ascensió+cireretes+abundo+A+València…+que+aquí+no' => '/p/Per_l%27Ascensió%2C_cireretes_en_abundor',
@@ -737,7 +737,7 @@ function get_redirects(): array
         '/?paremiotipus=Fer-li+una+mala+jugada' => '/p/Mala_jugada',
         '/?paremiotipus=Ja+ports+xiular+si+l%27ase+no+vol+beure' => '/p/Ja_pots_xiular_si_l%27ase_no_vol_beure',
         '/?paremiotipus=Jugar-li+una+mala+passada' => '/p/Mala_passada',
-        '/?paremiotipus=Les+xiques+de+Vilella+%28o+del+Poretal+d%27Horta%2C+o+de+Guardamar%2C+o+de+Torrevella+o+del+Vilar%29%2C+a+la+llum+diuen+%C2%ABcandil%C2%BB%2C+a+la+finestra%2C+%C2%ABventana%C2%BB+i+al+julivert%2C+%C2%ABperegil%C2%BB' => '/p/Les_xiques_de_Vilella_o_del_Portal_d%27Horta%2C_o_de_Guardamar%2C_o_de_Torrevella%2C_o_del_Vilar%2C_a_la_llum_diuen_«candil»%2C_a_la_finestra%2C_«ventana»_i_al_julivert%2C_«peregil»',
+        '/?paremiotipus=Les+xiques+de+Vilella+%28o+del+Poretal+d%27Horta%2C+o+de+Guardamar%2C+o+de+Torrevella+o+del+Vilar%29%2C+a+la+llum+diuen+%C2%ABcandil%C2%BB%2C+a+la+finestra%2C+%C2%ABventana%C2%BB+i+al+julivert%2C+%C2%ABperegil%C2%BB' => '/p/Les_xiques_de_Vilella_o_del_Portal_d%27Horta%2C_o_de_Guardamar%2C_o_de_Torrevella%2C_o_del_Vilar%2C_a_la_llum_diuen_candil%2C_a_la_finestra%2C_ventana_i_al_julivert%2C_peregil',
         '/?paremiotipus=Les+xiques+de+Vilella+(o+del+Poretal+d%27Horta%2C+o+de+Guardamar%2C+o+de+Torrevella+o+del+Vilar)%2C+a+la+llum+diuen+%C2%ABcandil%C2%BB%2C+a+la+finestra%2C+%C2%ABventana%C2%BB+i+al+julivert%2C+%C2%ABperegil%C2%BB' => '/p/Sas%2C_Malp%C3%A0s%2C_Peranera_i_Castell%C3%A0s%2C_Sent%C3%ADs%2C_C%C3%A9rvoles_i_Naens%3A_els_set_pobles_m%C3%A9s_dolents._Si_n%27hi_voleu_m%C3%A9s%2C_poseu-hi_Ben%C3%A9s%2C_si_no_n%27hi_ha_prou%2C_poseu-hi_Castellnou._Si_n%27hi_voleu_una_bona_renglera%2C_poseu-hi_tota_la_vall_de_Cabdella',
         '/?paremiotipus=Les+xiques+de+Vilella+o+del+Poretal+d%27Horta%2C+o+de+Guardamar%2C+o+de+Torrevella+o+del+Vilar%2C+a+la+llum+diuen+%C2%ABcandil%C2%BB%2C+a+la+finestra%2C+%C2%ABventana%C2%BB+i+al+julivert%2C+%C2%ABperegil%C2%BB' => '/p/Sas%2C_Malp%C3%A0s%2C_Peranera_i_Castell%C3%A0s%2C_Sent%C3%ADs%2C_C%C3%A9rvoles_i_Naens%3A_els_set_pobles_m%C3%A9s_dolents._Si_n%27hi_voleu_m%C3%A9s%2C_poseu-hi_Ben%C3%A9s%2C_si_no_n%27hi_ha_prou%2C_poseu-hi_Castellnou._Si_n%27hi_voleu_una_bona_renglera%2C_poseu-hi_tota_la_vall_de_Cabdella',
         '/?paremiotipus=n+canyissos%2C+a+la+Torre+fan+sab%C3%B3+i+a+Garcia+fan+cabestres+per+a+tots+els+rucots+d%27Asc%C3%B3' => '/p/A_Vinebre_fan_canyissos%2C_a_la_Torre_fan_sab%C3%B3_i_a_Garcia_fan_cabestres_per_tots_els_rucots_d%27Asc%C3%B3',
@@ -806,7 +806,7 @@ function get_redirects(): array
         '/p/ata_ton_porc%2C_posa_les_olives_al_top%C3%AD%2C_destapa_la_b%C3%B3ta%2C_beu_ton_vi_i_convida_el_teu_ve%C3%AD' => '/p/Per_Sant_Martí_mata_ton_porc%2C_posa_les_olives_al_topí%2C_destapa_la_bóta%2C_beu_ton_vi_i_convida_el_teu_veí',
         '/p/A_Cabanes%2C_hi_ha_qui_en_t%C3%A9_ganes' => '/p/A_Cabanes%2C_hi_va_qui_en_té_ganes',
         '/p/A_cabsssos' => '/p/A_cabassos',
-        '/p/A_judici_i_pagar%C2%ABlo%C2%BB_judicat' => '/p/A_judici_i_pagar_«lo»_judicat',
+        '/p/A_judici_i_pagar%C2%ABlo%C2%BB_judicat' => '/p/A_judici_i_pagar_lo_judicat',
         '/p/A_l%27hortiz%C3%B3' => '/p/A_l%27horitzó',
         '/p/A_la_casa_dels_sastre_les_rates_roseguen_draps' => '/p/A_casa_del_sastre_les_rates_roseguen_draps',
         '/p/A_Muixent%2C_bona_terra_i_mala_gent' => '/p/Bona_terra_i_mala_gent',
@@ -816,7 +816,7 @@ function get_redirects(): array
         '/p/Cadasc%C3%BA_sap_el_que_bell_en_la_seva_olla%2C_com_aquell_que_hi_bullia_una_rajola' => '/p/Cadascú_sap_el_que_bull_en_la_seva_olla%2C_com_aquell_que_hi_bullia_una_rajola',
         '/p/Com_un_eix_a_l%27aigua' => '/p/Com_un_peix_a_l%27aigua',
         '/p/Deixar-li_el_camp_lliure' => '/p/Camp_lliure',
-        '/p/dintreAdeu-siau%2C_gent_de_Palau%3B_%C2%ABadi%C3%B3s%C2%BB%2C_gent_de_Palam%C3%B3s' => '/p/Adeu-siau%2C_gent_de_Palau%3B_«adiós»%2C_gent_de_Palamós',
+        '/p/dintreAdeu-siau%2C_gent_de_Palau%3B_%C2%ABadi%C3%B3s%C2%BB%2C_gent_de_Palam%C3%B3s' => '/p/Adeu-siau%2C_gent_de_Palau%3B_adiós%2C_gent_de_Palamós',
         '/p/Donar-li_carta_blanca' => '/p/Carta_blanca',
         '/p/El_llibres_dels_quaranta-vuit_fulls' => '/p/El_llibre_de_quaranta-vuit_fulls',
         '/p/En_filera_%C3%ADndia' => '/p/En_fila_índia',
@@ -980,7 +980,7 @@ function get_paremiotipus_best_match(string $modisme): string
         FROM
             `00_PAREMIOTIPUS`
         WHERE
-            MATCH(`PAREMIOTIPUS_LC_WA`, `MODISME_LC_WA`) AGAINST (? IN BOOLEAN MODE)
+            MATCH(`PAREMIOTIPUS`, `MODISME`) AGAINST (? IN BOOLEAN MODE)
         ORDER BY
             LENGTH(`PAREMIOTIPUS`)
         LIMIT
@@ -1003,7 +1003,7 @@ function get_paremiotipus_best_match(string $modisme): string
 /**
  * Gets an array of modisme arrays keyed by the modisme title.
  *
- * @phpstan-return list<array{
+ * @return list<array{
  *     MODISME: string,
  *     PAREMIOTIPUS: string,
  *     AUTOR: ?string,
@@ -1069,7 +1069,7 @@ function get_modismes(string $paremiotipus): array
     $stmt->execute();
 
     /**
-     * @phpstan-var list<array{
+     * @var list<array{
      *     MODISME: string,
      *     PAREMIOTIPUS: string,
      *     AUTOR: ?string,
@@ -1097,7 +1097,7 @@ function get_modismes(string $paremiotipus): array
 /**
  * Groups modismes by variant.
  *
- * @phpstan-param list<array{
+ * @param list<array{
  *     MODISME: string,
  *     PAREMIOTIPUS: string,
  *     AUTOR: ?string,
@@ -1119,7 +1119,7 @@ function get_modismes(string $paremiotipus): array
  *     ID_FONT: ?string,
  * }> $modismes
  *
- * @phpstan-return array<string, non-empty-list<array{
+ * @return array<string, non-empty-list<array{
  *     MODISME: string,
  *     PAREMIOTIPUS: string,
  *     AUTOR: ?string,
@@ -1157,7 +1157,7 @@ function group_modismes_by_variant(array $modismes): array
 /**
  * Gets a list of image arrays for a specific paremiotipus.
  *
- * @phpstan-return list<array{
+ * @return list<array{
  *     Identificador: string,
  *     URL_ENLLAÇ: ?string,
  *     AUTOR: ?string,
@@ -1190,7 +1190,7 @@ function get_images(string $paremiotipus): array
     $stmt->execute();
 
     /**
-     * @phpstan-var list<array{
+     * @var list<array{
      *     Identificador: string,
      *     URL_ENLLAÇ: ?string,
      *     AUTOR: ?string,
@@ -1223,7 +1223,7 @@ function get_cv_files(string $paremiotipus): array
 /**
  * Gets an obra array, or false.
  *
- * @phpstan-return false|array{
+ * @return false|array{
  *     Any: ?string,
  *     Any_edició: ?int,
  *     Autor: ?string,
@@ -1283,7 +1283,7 @@ function get_obra(string $obra_title): array|false
     $stmt->execute();
 
     /**
-     * @phpstan-var false|array{
+     * @var false|array{
      *     Any: ?string,
      *     Any_edició: ?int,
      *     Autor: ?string,
@@ -1337,8 +1337,6 @@ function get_paremiotipus_url(string $paremiotipus, bool $absolute = false): str
         $url = 'https://pccd.dites.cat';
     }
 
-    // TODO: On recent versions of MySQL, different UTF-8 characters are printed (… vs ...). Identify why that happens,
-    //       we may potentially want to pass it through normalizer_normalize($paremiotipus, Normalizer::NFKC)
     $url .= '/p/' . name_to_path($paremiotipus);
 
     return $url;
@@ -1449,9 +1447,9 @@ function render_pager_element(int $page_number, int|string $name, int|string $ti
         $rel = 'first';
     } elseif ($title === 'Última pàgina') {
         $rel = 'last';
-    } elseif ($title === 'Pàgina següent (premeu Ctrl →)') {
+    } elseif ($title === 'Pàgina següent') {
         $rel = 'next';
-    } elseif ($title === 'Pàgina anterior (premeu Ctrl ←)') {
+    } elseif ($title === 'Pàgina anterior') {
         $rel = 'prev';
     }
 
@@ -1481,8 +1479,8 @@ function render_pager(int $page_num, int $num_pages): string
         // Show previous link.
         $prev_links .= render_pager_element(
             $page_num - 1,
-            '<svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M15.535 3.515L7.05 12l8.485 8.485l1.415-1.414L9.878 12l7.072-7.071l-1.415-1.414Z"/></svg> Anterior',
-            'Pàgina anterior (premeu Ctrl ←)'
+            '<svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M15.535 3.515 7.05 12l8.485 8.485 1.415-1.414L9.878 12l7.072-7.071z"/></svg> Anterior',
+            'Pàgina anterior'
         );
 
         // Show first page link.
@@ -1521,12 +1519,21 @@ function render_pager(int $page_num, int $num_pages): string
         // Show the next link.
         $next_links .= render_pager_element(
             $page_num + 1,
-            'Següent <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M8.465 20.485L16.95 12L8.465 3.515L7.05 4.929L14.122 12L7.05 19.071l1.415 1.414Z"/></svg>',
-            'Pàgina següent (premeu Ctrl →)'
+            'Següent <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M8.465 20.485 16.95 12 8.465 3.515 7.05 4.929 14.122 12 7.05 19.071z"/></svg>',
+            'Pàgina següent'
         );
     }
 
     return '<nav aria-label="Paginació dels resultats"><ul>' . $prev_links . $page_links . $next_links . '</ul></nav>';
+}
+
+/**
+ * Returns whether the provided number needs an apostrophe.
+ */
+function number_needs_apostrophe(int $num): bool
+{
+    // We do not have records bigger or equal than 11.000.000, so this should be fine.
+    return $num === 1 || $num === 11 || ($num >= 11000 && $num < 12000);
 }
 
 /**
@@ -1541,19 +1548,11 @@ function build_search_summary(int $offset, int $results_per_page, int $total, st
     $output = 'S\'han trobat ' . format_nombre($total) . ' paremiotipus per a la cerca <span class="text-monospace">' . $search_string . '</span>.';
 
     if ($total > $results_per_page) {
-        $first_record_page = $offset + 1;
-        if ($first_record_page === 1 || $first_record_page === 11) {
-            $output .= " Registres de l'{$first_record_page}";
-        } else {
-            $output .= " Registres del {$first_record_page}";
-        }
+        $first_record = $offset + 1;
+        $output .= (number_needs_apostrophe($first_record) ? " Registres de l'" : ' Registres del ') . format_nombre($first_record);
 
-        $last_record_page = min($offset + $results_per_page, $total);
-        if ($last_record_page === 1 || $last_record_page === 11) {
-            $output .= " a l'{$last_record_page}.";
-        } else {
-            $output .= " al {$last_record_page}.";
-        }
+        $last_record = min($offset + $results_per_page, $total);
+        $output .= (number_needs_apostrophe($last_record) ? " a l'" : ' al ') . format_nombre($last_record) . '.';
     }
 
     return $output;
@@ -1660,37 +1659,24 @@ function get_page_number(): int
 function build_search_query(string $search, string $search_mode, string &$where_clause): array
 {
     $checkboxes = [
-        'equivalent' => '`EQUIVALENT_LC_WA`',
-        'sinonim' => '`SINONIM_LC_WA`',
-        'variant' => '`MODISME_LC_WA`',
+        'equivalent' => '`EQUIVALENT`',
+        'sinonim' => '`SINONIM`',
+        'variant' => '`MODISME`',
     ];
-
-    $WORD_BOUNDARY_BEGIN = "'[[:<:]]'";
-    $WORD_BOUNDARY_END = "'[[:>:]]'";
 
     $arguments = [$search];
     if ($search_mode === 'whole_sentence' || $search_mode === 'wildcard') {
-        $db_version = get_db()->getAttribute(PDO::ATTR_SERVER_VERSION);
-        assert(is_string($db_version));
-        $is_mysql = !str_contains($db_version, 'MariaDB');
-        $has_icu = $is_mysql && version_compare($db_version, '8.0.4') >= 0;
-        if ($has_icu) {
-            // This is needed in MySQL >= v8.0.4. See https://stackoverflow.com/a/59230861/1391963
-            $WORD_BOUNDARY_BEGIN = "'\\\\b'";
-            $WORD_BOUNDARY_END = "'\\\\b'";
-        }
-
-        $where_clause = " WHERE `PAREMIOTIPUS_LC_WA` REGEXP CONCAT({$WORD_BOUNDARY_BEGIN}, ?, {$WORD_BOUNDARY_END})";
+        $where_clause = " WHERE `PAREMIOTIPUS` REGEXP CONCAT('[[:<:]]', ?, '[[:>:]]')";
     } elseif ($search_mode === 'comença') {
-        $where_clause = " WHERE `PAREMIOTIPUS_LC_WA` LIKE CONCAT(?, '%')";
+        $where_clause = " WHERE `PAREMIOTIPUS` LIKE CONCAT(?, '%')";
     } elseif ($search_mode === 'acaba') {
-        $where_clause = " WHERE `PAREMIOTIPUS_LC_WA` LIKE CONCAT('%', ?)";
+        $where_clause = " WHERE `PAREMIOTIPUS` LIKE CONCAT('%', ?)";
     } elseif (isset($_GET['font']) && is_string($_GET['font']) && $_GET['font'] !== '') {
         $arguments = [path_to_name($_GET['font'])];
         $where_clause = ' WHERE `ID_FONT` = ?';
     } else {
         // 'conté' (default) search mode uses full-text.
-        $columns = '`PAREMIOTIPUS_LC_WA`';
+        $columns = '`PAREMIOTIPUS`';
 
         foreach ($checkboxes as $checkbox => $column) {
             if (isset($_GET[$checkbox])) {
@@ -1704,7 +1690,7 @@ function build_search_query(string $search, string $search_mode, string &$where_
     foreach ($checkboxes as $checkbox => $column) {
         if (isset($_GET[$checkbox])) {
             if ($search_mode === 'whole_sentence' || $search_mode === 'wildcard') {
-                $where_clause .= " OR {$column} REGEXP CONCAT({$WORD_BOUNDARY_BEGIN}, ?, {$WORD_BOUNDARY_END})";
+                $where_clause .= " OR {$column} REGEXP CONCAT('[[:<:]]', ?, '[[:>:]]')";
                 $arguments[] = $search;
             } elseif ($search_mode === 'comença') {
                 $where_clause .= " OR {$column} LIKE CONCAT(?, '%')";
@@ -1784,13 +1770,6 @@ function normalize_search(?string $string, string $search_mode = ''): string
             ['"', '+', '.', '%', '--', '_', '(', ')', '[', ']', '{', '}', '^', '>', '<', '~', '@', '$', '|', '/', '\\'],
             '',
             $string
-        );
-
-        // Normalize to lowercase, standardize simple quotes and remove accents.
-        $string = str_replace(
-            ['’', 'à', 'á', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü'],
-            ["'", 'a', 'a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u'],
-            mb_strtolower($string)
         );
 
         // Remove double spaces.
@@ -1925,14 +1904,14 @@ function get_image_tags(
     $optimized_file_url = '';
     // Image files may have been provided in WEBP/AVIF format already.
     if (!str_ends_with($file_name, '.webp') && !str_ends_with($file_name, '.avif')) {
-        // We currently provide AVIF as an alternative for JPEG images, and WEBP for GIF/PNG images.
-        $avif_file = str_ireplace('.jpg', '.avif', $file_name);
+        // We currently provide AVIF as an alternative for JPEG/PNG images, and WEBP for GIF.
+        $avif_file = str_ireplace(['.jpg', '.png'], '.avif', $file_name);
         $avif_exists = str_ends_with($avif_file, '.avif') && is_file(__DIR__ . "/../docroot{$path}{$avif_file}");
         if ($avif_exists) {
             $optimized_type = 'avif';
             $optimized_file_url = $path . rawurlencode($avif_file);
         } else {
-            $webp_file = str_ireplace(['.png', '.gif'], '.webp', $file_name);
+            $webp_file = str_ireplace('.gif', '.avif', $file_name);
             $webp_exists = str_ends_with($webp_file, '.webp') && is_file(__DIR__ . "/../docroot{$path}{$webp_file}");
             if ($webp_exists) {
                 $optimized_type = 'webp';
@@ -2059,12 +2038,12 @@ function get_random_top_paremiotipus(int $max = 10000): string
 function get_random_book(): array
 {
     // As this query has a limited number of results but runs many times, cache it in memory.
-    /** @phpstan-var false|list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
+    /** @var false|list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
     $books = function_exists('apcu_fetch') ? apcu_fetch('obresvpr') : false;
     if ($books === false) {
         $stmt = get_db()->query('SELECT `Imatge`, `Títol`, `URL`, `WIDTH`, `HEIGHT` FROM `00_OBRESVPR`');
 
-        /** @phpstan-var list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
+        /** @var list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
         $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (function_exists('apcu_store')) {
             apcu_store('obresvpr', $books);

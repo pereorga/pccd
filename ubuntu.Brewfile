@@ -8,6 +8,7 @@ brew "unzip", link: false  # Required by nodejs/npm and hadolint
 brew "xz", link: false  # Required by nodejs/npm and hadolint
 
 brew "dotenv-linter"
+# See https://github.com/hadolint/hadolint/issues/1005
 brew "hadolint"
 # TODO: remove nodejs/npm in Ubuntu 24.04.
 brew "nodejs"
@@ -15,5 +16,4 @@ brew "npm"
 # See https://github.com/shssoichiro/oxipng/issues/69
 brew "oxipng"
 brew "statix"
-# TODO: potentially migrate to https://snapcraft.io/install/yamlfmt/ubuntu
 brew "yamlfmt"

@@ -29,18 +29,21 @@ final class DockerVersionTest extends TestCase
         $dockerVersionDev = $this->getDockerPhpVersion($dockerFileDev);
         $dockerVersionProd = $this->getDockerPhpVersion($dockerFileProd);
 
-        self::assertSame($dockerVersionDev, $dockerVersionProd, 'Dockerfile and web.prod.Dockerfile should use the same PHP version');
+        self::assertSame($dockerVersionDev, $dockerVersionProd, 'Debian dev and prod Docker files should use the same PHP version');
     }
 
     public function testDockerMysqlVersionMatch(): void
     {
         $dockerComposeFile = file_get_contents(__DIR__ . '/../../docker-compose.yml');
+        $dockerComposeAlpineFile = file_get_contents(__DIR__ . '/../../docker-compose-alpine.yml');
         $dockerFile = file_get_contents(__DIR__ . '/../../.docker/sql.prod.Dockerfile');
 
         $dockerVersionDev = $this->getDockerComposeMysqlVersion($dockerComposeFile);
+        $dockerVersionAlpineDev = $this->getDockerComposeMysqlVersion($dockerComposeAlpineFile);
         $dockerVersionProd = $this->getDockerMysqlVersion($dockerFile);
 
-        self::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MySQL version');
+        self::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MariaDB version');
+        self::assertSame($dockerVersionDev, $dockerVersionAlpineDev, 'docker-compose.yml and docker-compose-alpine.yml should use the same MariaDB version');
     }
 
     public function testAlpineDockerPhpVersionMatch(): void
@@ -53,8 +56,8 @@ final class DockerVersionTest extends TestCase
         $alpineVersionProd = $this->getAlpineDockerPhpVersion($alpineFileProd);
         $debianVersion = $this->getDockerPhpVersion($debianFile, patch: false);
 
-        self::assertSame($alpineVersionDev, $alpineVersionProd, 'Alpine dev and prod Dockerfiles should use the same PHP version');
-        self::assertSame($alpineVersionDev, $debianVersion, 'Alpine and Debian Dockerfiles should use the same PHP version');
+        self::assertSame($alpineVersionDev, $alpineVersionProd, 'Alpine dev and prod Docker files should use the same PHP version');
+        self::assertSame($alpineVersionDev, $debianVersion, 'Alpine and Debian Docker files should use the same PHP version');
     }
 
     protected function getAlpineDockerPhpVersion(string $dockerFile): string

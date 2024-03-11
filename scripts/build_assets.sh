@@ -37,4 +37,4 @@ for file in src/css/pages/*.css; do
     npx cleancss -O2 "${file}" > "docroot/css/$(basename "${file}" .css).min.css"
 done
 
-yarn export:asset-sizes
+npm run export:asset-sizes

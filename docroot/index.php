@@ -53,32 +53,28 @@ require __DIR__ . '/css/base.min.css';
 </head>
 <body>
     <header>
-        <div class="container-md">
+        <div>
             <a href="/" class="brand"><span class="brand-text">Paremiologia catalana comparada digital</span><span class="brand-text-xs">PCCD</span></a>
             <button type="button" aria-label="Desplega el menú">
-                <svg aria-hidden="true" viewBox="0 0 16 16">
-                    <path fill="#fff" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/>
-                </svg>
+                <svg aria-hidden="true" viewBox="0 0 16 16"><path fill="#fff" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/></svg>
             </button>
-            <div class="d-none" id="menu">
+            <div id="menu" class="d-none">
                 <nav aria-label="Menú principal">
                     <a href="/projecte">Projecte</a>
-                    <a href="/" title="Cerca (premeu Ctrl + K)" rel="home">Cerca</a>
+                    <a href="/">Cerca</a>
                     <a href="/instruccions">Instruccions d'ús</a>
                     <a href="/credits">Crèdits</a>
                 </nav>
             </div>
         </div>
     </header>
-    <main class="container-md">
+    <main>
         <div class="row">
-            <section class="col-main"<?php echo $page_name === 'search' ? ' data-nosnippet' : ''; ?>>
-                <article>
-                    <h1><?php echo get_page_title(); ?></h1>
-                    <?php echo $main_content; ?>
-                </article>
-            </section>
-            <aside class="col-aside" aria-label="Informació addicional">
+            <article<?php echo $page_name === 'search' ? ' data-nosnippet' : ''; ?>>
+                <h1><?php echo get_page_title(); ?></h1>
+                <?php echo $main_content; ?>
+            </article>
+            <aside aria-label="Informació addicional">
                 <?php echo $side_blocks; ?>
                 <div class="bloc bloc-contact bloc-white">
                     <p>Ajudeu-nos a millorar</p>
@@ -97,7 +93,7 @@ require __DIR__ . '/css/base.min.css';
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=7"></script>
+    <script async src="/js/script.min.js?v=8"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

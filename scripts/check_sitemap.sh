@@ -77,7 +77,7 @@ LC_TIME='ca_ES' date | cut -d"," -f2 | sed "s/de o/d'o/" | sed "s/de a/d'a/" >> 
 # Validates URL using curl, htmlhint, html-validate, Tidy HTML and grep.
 #
 # This is similar to the function available in scripts/validate_website.sh, but is simpler (e.g. it does not use
-# webhint, linkinator or lighthouse). See that file for more details.
+# linkinator or lighthouse). See that file for more details.
 #
 # Arguments:
 #   The URL to validate

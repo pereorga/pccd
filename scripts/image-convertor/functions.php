@@ -78,11 +78,9 @@ function background_test_unsupported_extensions(string $source_directory): strin
  * Resizes and optimizes images in bulk.
  *
  * TODO:
- *  Review default options used in https://github.com/spatie/image-optimizer.
  *  Monitor jpegli development
- *  Consider https://github.com/imagemin/imagemin-cli and https://www.npmjs.com/search?q=keywords:imageminplugin,
- *      Squoosh (although the cli is currently abandoned), and https://github.com/lovell/sharp, especially to reduce the
- *      number of apt-get / brew dev dependencies and to be able to use MozJPEG and good defaults.
+ *  Consider https://github.com/lovell/sharp, especially to reduce the number system dev dependencies, and to be able to
+ *  use MozJPEG, potentially with good defaults.
  */
 function resize_and_optimize_images_bulk(string $source_directory, string $target_directory, int $width): void
 {
@@ -117,7 +115,6 @@ function resize_and_optimize_images_bulk(string $source_directory, string $targe
                 break;
 
             case 'jpg':
-            case 'jpeg':
                 process_jpg($source_file, $target_file, $width);
 
                 break;
@@ -141,9 +138,9 @@ function files_have_similar_sizes(string $bigger_file, string $smaller_file): bo
 }
 
 /**
- * Optimizes a GIF image.
+ * Optimizes a GIF image and creates a WEBP version.
  *
- * TODO: consider compressing GIFs to AVIF.
+ * TODO: consider converting GIF images to AVIF, although support for animated AVIF images is not great yet.
  */
 function process_gif(string $source_file, string $target_file): void
 {
@@ -165,14 +162,14 @@ function process_gif(string $source_file, string $target_file): void
     }
 
     // Apply lossless compression.
-    exec("gif2webp -quiet \"{$target_file}\" -o \"{$webp_file}\"");
+    exec("gif2webp -q 100 -mt -m 6 -quiet \"{$target_file}\" -o \"{$webp_file}\"");
 
-    // Delete WEBP file if original file is not bigger.
+    // Delete WEBP file if it's not significantly smaller than the original file.
     if (files_have_similar_sizes($target_file, $webp_file)) {
         unlink($webp_file);
 
-        // Try with lossy compression.
-        exec("gif2webp -quiet -lossy \"{$target_file}\" -o \"{$webp_file}\"");
+        // Try again with lossy compression.
+        exec("gif2webp -mt -m 6 -quiet -lossy \"{$target_file}\" -o \"{$webp_file}\"");
         if (files_have_similar_sizes($target_file, $webp_file)) {
             unlink($webp_file);
         }
@@ -188,6 +185,8 @@ function resize_image(string $source_file, string $target_file, int $width): voi
     try {
         $imagick = new Imagick();
         $imagick->readImage($source_file);
+
+        // Resize the image if it's wider than the specified width.
         if ($imagick->getImageWidth() > $width) {
             $imagick->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
             $imagick->writeImage($target_file);
@@ -196,16 +195,14 @@ function resize_image(string $source_file, string $target_file, int $width): voi
         echo "Error while trying to resize {$source_file}: {$exception->getMessage()}";
     }
 
-    // Restore original file if its size is smaller or equal than the generated file, or if the file was not written.
-    if (!is_file($target_file) || filesize($source_file) <= filesize($target_file)) {
+    // Restore original file if it is not significantly bigger, or if the file was not written.
+    if (!is_file($target_file) || files_have_similar_sizes($source_file, $target_file)) {
         copy($source_file, $target_file);
     }
 }
 
 /**
- * Optimizes a PNG image and creates a WEBP version.
- *
- * TODO: consider compressing PNG images to AVIF.
+ * Optimizes a PNG image and creates an AVIF version.
  */
 function process_png(string $source_file, string $target_file, int $width): void
 {
@@ -215,37 +212,11 @@ function process_png(string $source_file, string $target_file, int $width): void
     // Apply lossy compression to PNGs.
     exec('pngquant --skip-if-larger --quality=' . PNG_MIN_QUALITY . '-' . PNG_MAX_QUALITY . " --ext .png --force \"{$target_file}\"");
 
-    // Optimize PNG with lossless compression using optipng.
-    exec("optipng -quiet \"{$target_file}\"");
-
-    // Optimize PNG with extreme lossless compression using oxipng. This is currently very slow.
+    // Optimize PNG with extreme lossless compression using Oxipng and Zopfli. This is currently very slow.
     exec("oxipng --quiet -o3 --strip safe --zopfli \"{$target_file}\"");
 
-    // PNG -> WEBP conversion.
-    // Rather than base it in the original file like it is done in the JPG -> AVIF conversion, we use the optimized PNG
-    // instead. This is because pngquant lossy degradation is small, may be beneficial to webp, and we prefer using cweb
-    // rather than imagemagick to create the webp images. The fact that here the images have been resized previously
-    // should not impact the image quality considerably.
-    $webp_file = str_ireplace('.png', '.webp', $target_file);
-
-    // Only process the file once.
-    if (is_file($webp_file)) {
-        return;
-    }
-
-    // Create WEBP with lossless compression.
-    exec("cwebp -quiet \"{$target_file}\" -o \"{$webp_file}\"");
-
-    // Delete WEBP file if original file is not bigger.
-    if (files_have_similar_sizes($target_file, $webp_file)) {
-        unlink($webp_file);
-
-        // Try with lossy compression.
-        exec("cwebp -quiet -q 60 \"{$target_file}\" -o \"{$webp_file}\"");
-        if (files_have_similar_sizes($target_file, $webp_file)) {
-            unlink($webp_file);
-        }
-    }
+    // PNG -> AVIF conversion.
+    create_avif_image($source_file, str_ireplace('.png', '.avif', $target_file), $width);
 }
 
 /**
@@ -257,32 +228,39 @@ function process_jpg(string $source_file, string $target_file, int $width): void
     resize_image($source_file, $target_file, $width);
 
     // Optimize JPG with lossless compression.
-    exec("jpegoptim --quiet \"{$target_file}\"");
+    exec("jpegoptim --strip-all --quiet \"{$target_file}\"");
 
     // JPEG -> AVIF conversion.
-    $avif_file = str_ireplace('.jpg', '.avif', $target_file);
+    create_avif_image($source_file, str_ireplace('.jpg', '.avif', $target_file), $width);
+}
 
+/**
+ * Creates an AVIF image, resizing it down to a specific width.
+ */
+function create_avif_image(string $source_file, string $target_file, int $width): void
+{
     // Only process the file once.
-    if (is_file($avif_file)) {
+    if (is_file($target_file)) {
         return;
     }
 
-    // Create AVIF image.
-    // Use the original file as source rather than the resized one, as JPEG is lossy.
     try {
         $imagick = new Imagick();
         $imagick->readImage($source_file);
         $imagick->setImageFormat('avif');
+
+        // Resize the image if it's wider than the specified width.
         if ($imagick->getImageWidth() > $width) {
             $imagick->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
         }
-        $imagick->writeImage($avif_file);
 
-        // Delete AVIF file if original file is not bigger.
-        if (files_have_similar_sizes($target_file, $avif_file)) {
-            unlink($avif_file);
+        $imagick->writeImage($target_file);
+
+        // Delete AVIF file if it's not significantly smaller than the original file.
+        if (files_have_similar_sizes($source_file, $target_file)) {
+            unlink($target_file);
         }
     } catch (Exception $exception) {
-        echo "Error while trying to process {$target_file}: {$exception->getMessage()}";
+        echo "Error while trying to process {$source_file}: {$exception->getMessage()}";
     }
 }

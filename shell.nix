@@ -42,7 +42,6 @@ let
       maven
       mdbtools
       nodejs
-      optipng
       oxipng
       pngcheck
       pngquant
@@ -58,7 +57,7 @@ let
     shellHook = ''
       if [ ! -d "./node_modules" ]; then
         echo "Installing dependencies..."
-        yarn install --frozen-lockfile
+        npm ci
       else
         echo "Dependencies already installed. Delete node_modules directory to reinstall or update them."
       fi

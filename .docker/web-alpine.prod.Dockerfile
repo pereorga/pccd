@@ -30,10 +30,13 @@ RUN apk --no-cache --update add \
     php83-session
 
 # Remove some Apache default settings
+# Do not expose Apache version in header
 # Add AVIF type to Apache
 # Disable unnecessary Apache modules
 # Enable Apache modules
+# Do not expose PHP
 RUN sed -i '/^DocumentRoot/d' /etc/apache2/httpd.conf \
+    && echo 'ServerTokens Prod' >> /etc/apache2/httpd.conf \
     && echo 'image/avif avif' >> /etc/apache2/mime.types \
     && sed -i 's/LoadModule access_compat_module/#LoadModule access_compat_module/' /etc/apache2/httpd.conf \
     && sed -i 's/LoadModule alias_module/#LoadModule alias_module/' /etc/apache2/httpd.conf \
@@ -52,7 +55,8 @@ RUN sed -i '/^DocumentRoot/d' /etc/apache2/httpd.conf \
     && sed -i 's/LoadModule version_module/#LoadModule version_module/' /etc/apache2/httpd.conf \
     && sed -i 's/#LoadModule\ deflate_module/LoadModule\ deflate_module/' /etc/apache2/httpd.conf \
     && sed -i 's/#LoadModule\ headers_module/LoadModule\ headers_module/' /etc/apache2/httpd.conf \
-    && sed -i 's/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/' /etc/apache2/httpd.conf
+    && sed -i 's/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/' /etc/apache2/httpd.conf \
+    && echo 'expose_php = Off' > /etc/php83/conf.d/security.ini
 
 # Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/conf.d/vhost.conf

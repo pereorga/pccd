@@ -153,7 +153,7 @@ if (function_exists('apcu_cache_info')) {
 }
 ?>
     <br><?php echo 'PHP ' . PHP_VERSION . ', ' . apache_get_version() . ' (' . PHP_OS . '), ' . get_db()->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
-    <br><?php echo 'MySQL ' . get_db()->getAttribute(PDO::ATTR_SERVER_INFO); ?>
+    <br><?php echo 'MariaDB ' . get_db()->getAttribute(PDO::ATTR_SERVER_INFO); ?>
 </small>
 </body>
 </html>
