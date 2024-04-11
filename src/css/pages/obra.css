@@ -10,30 +10,29 @@
 dl,
 dt,
 dd {
-    padding: 0;
     margin: 0;
 }
 
-dl,
-.col-work > div {
-    margin-bottom: 0.5rem;
+dt {
+    display: inline-block;
 }
 
-dt,
 dd {
     display: inline;
 }
 
-dd {
+dt:not(.d-none) + dd {
     margin-left: 0.4rem;
 }
 
-.col-work {
-    margin-bottom: 1rem;
+dd::after {
+    display: block;
+    margin-bottom: 0.5rem;
+    content: "";
 }
 
 .col-work .footer {
-    margin: 1rem 0;
+    margin: 1rem 0 2rem;
 }
 
 .col-image {

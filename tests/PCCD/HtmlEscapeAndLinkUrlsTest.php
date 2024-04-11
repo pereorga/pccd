@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class HtmlEscapeAndLinkUrlsTest extends TestCase
 {
     public function testConvertsUrlsToLinks(): void

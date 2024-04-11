@@ -19,14 +19,14 @@ const SIMILAR_TEXT_MIN_LENGTH = 15;
 const SIMILAR_TEXT_MAX_LENGTH = 32;
 
 /**
- * Get the list of current test functions grouped by group.
+ * Gets an array of all available test functions grouped by category.
  *
- * @return non-empty-array<non-empty-string, non-empty-array<callable>>
+ * @return array<string, list<callable>>
  */
 function get_test_functions(): array
 {
     return [
-        'cerques' => ['test_searches'],
+        'cerques' => ['stats_searches'],
         'commonvoice_languagetool' => ['test_commonvoice_languagetool'],
         'compostos' => ['test_paremies_separar'],
         'dates' => [
@@ -40,7 +40,6 @@ function get_test_functions(): array
         ],
         'equivalents' => ['test_equivalents'],
         'espais' => ['test_espais'],
-        'explicacions' => ['test_explicacio'],
         'fonts' => [
             'test_fonts_buides',
             'test_fonts_sense_paremia',
@@ -59,7 +58,6 @@ function get_test_functions(): array
             'test_imatges_sense_paremiotipus',
             'test_imatges_format',
         ],
-        'llocs' => ['test_llocs'],
         'longitud' => [
             'test_buits',
             'test_paremiotipus_llargs',
@@ -81,8 +79,55 @@ function get_test_functions(): array
             'test_paremiotipus_repetits',
         ],
         'sinonims' => ['test_sinonims'],
+        'stats_editorials' => ['stats_editorials'],
+        'stats_equivalents' => ['stats_equivalents'],
+        'stats_llocs' => ['stats_llocs'],
+        'stats_obres' => ['stats_obres'],
+        'stats_paremiotipus' => ['stats_paremiotipus'],
         'urls' => ['test_urls'],
     ];
+}
+
+/**
+ * Print a chart using Chart.js.
+ *
+ * @param array<int|string, int> $data An associative array where keys are strings (labels) and values are integers (data points).
+ */
+function getChart(string $chartId, string $type, array $data, string $label = '', string $x_title = '', string $y_title = '', string $style = ''): string
+{
+    $jsonLabels = json_encode(array_keys($data));
+    $jsonValues = json_encode(array_values($data));
+    $output = "<div style='position:relative;{$style}'><canvas id='{$chartId}' style='margin-bottom:3rem;'></canvas></div>";
+
+    // Initialize scales options dynamically based on x_title and y_title
+    $scalesOptions = '';
+    if ($x_title !== '' || $y_title !== '') {
+        $scalesOptions = 'scales: {';
+        if ($x_title !== '') {
+            $scalesOptions .= "x: {title: {display: true, text: '{$x_title}'}},";
+        }
+        if ($y_title !== '') {
+            $scalesOptions .= "y: {title: {display: true, text: '{$y_title}'}},";
+        }
+        $scalesOptions .= '}';
+    }
+
+    return $output . "<script>
+        Chart.defaults.color = '#fff';
+        new Chart(document.getElementById('{$chartId}'), {
+            type: '{$type}',
+            data: {
+                labels: {$jsonLabels},
+                datasets: [{
+                    label: '{$label}',
+                    data: {$jsonValues},
+                }]
+            },
+            options: {
+                {$scalesOptions}
+            }
+        });
+        </script>";
 }
 
 /**
@@ -90,11 +135,12 @@ function get_test_functions(): array
  *
  * @psalm-suppress UndefinedClass, RawObjectIteration
  */
-function test_searches(): void
+function stats_searches(): void
 {
     if (function_exists('apcu_enabled') && apcu_enabled()) {
-        echo "<h3>Cerques úniques (des de l'últim desplegament)</h3>";
+        echo "<h3>Cerques i nombre de resultats (des de l'últim desplegament)</h3>";
         $records = [];
+        $records_assoc = [];
         foreach (new APCUIterator() as $entry) {
             if (
                 is_array($entry)
@@ -115,12 +161,12 @@ function test_searches(): void
 
                 if (!isset($records[$key])) {
                     $records[$key] = $entry['value'];
+                    $records_assoc[$key] = [
+                        'results' => $entry['value'],
+                    ];
                 }
             }
         }
-
-        echo 'Total: ' . count($records);
-        echo '<pre>';
 
         // Sort by number of records.
         asort($records, \SORT_NUMERIC);
@@ -134,10 +180,19 @@ function test_searches(): void
             return 0;
         });
 
-        foreach ($records as $key => $value) {
-            echo "{$key} ({$value} resultats)\n";
+        echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
+        $grouped_data = group_data_stats($records_assoc, 'results');
+        echo getChart('myChart1', 'bar', $grouped_data, 'Cerques', x_title: 'Nombre de resultats', y_title: 'Nombre de cerques úniques', style: 'width:1000px;');
+
+        echo 'Total de cerques úniques: ' . count($records);
+        echo '<details><summary>Mostra la llista</summary>';
+        echo "<table style='width:1000px;'>";
+        echo '<tr><th>Cerca</th><th>Resultats</th></tr>';
+        foreach ($records as $cerca => $resultats) {
+            echo "<tr><td>{$cerca}</td><td>" . format_nombre($resultats) . '</td></tr>';
         }
-        echo '</pre>';
+        echo '</table>';
+        echo '</details>';
     } else {
         echo '<strong>Error: APCu is not enabled</strong>';
     }
@@ -150,16 +205,16 @@ function test_imatges_paremiotipus(): void
     echo '<h3>Paremiotipus de la taula 00_IMATGES que no concorda amb cap registre de la taula 00_PAREMIOTIPUS</h3>';
     echo '<pre>';
     $stmt = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_IMATGES` WHERE `PAREMIOTIPUS` NOT IN (SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`)');
-    $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($images as $image) {
-        echo $image . "\n";
+    $paremiotipus = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo $p . "\n";
     }
     echo '</pre>';
 }
 
 function test_imatges_extensions(): void
 {
-    echo "<h3>Fitxers d'imatge amb una extensió incorrecta</h3>";
+    echo "<h3>Fitxers d'imatge amb extensió o format inconsistents</h3>";
     echo '<pre>';
     readfile(__DIR__ . '/../../tmp/test_imatges_extensions.txt');
     echo '</pre>';
@@ -311,9 +366,9 @@ function test_imatges_camps_duplicats(): void
     echo '<ul>';
     $prev = '';
     foreach ($results as $r) {
-        $paremiotipus = get_paremiotipus_display($r['PAREMIOTIPUS']);
+        $paremiotipus = $r['PAREMIOTIPUS'];
         if ($prev !== $paremiotipus) {
-            echo '<li><a href="' . get_paremiotipus_url($r['PAREMIOTIPUS']) . '">' . get_paremiotipus_display($paremiotipus) . '</a></li>';
+            echo '<li><a href="' . get_paremiotipus_url($paremiotipus) . '">' . get_paremiotipus_display($paremiotipus) . '</a></li>';
         }
         $prev = $paremiotipus;
     }
@@ -412,6 +467,397 @@ function test_imatges_repetides(): void
     echo '</pre></details>';
 }
 
+/**
+ * Group data for stats.
+ *
+ * @param array<string, array<string, int>> $data
+ *
+ * @return array<int|string, int>
+ */
+function group_data_stats(array $data, string $key): array
+{
+    $groups = [];
+    foreach ($data as $item) {
+        $count = $item[$key];
+        if ($count <= 10) {
+            $groupKey = (string) $count;
+        } elseif ($count <= 14) {
+            $groupKey = '11-14';
+        } elseif ($count <= 20) {
+            $groupKey = '15-20';
+        } elseif ($count <= 30) {
+            $groupKey = '21-30';
+        } elseif ($count <= 50) {
+            $groupKey = '31-50';
+        } elseif ($count <= 100) {
+            $groupKey = '51-100';
+        } else {
+            $groupKey = '100+';
+        }
+        if (!isset($groups[$groupKey])) {
+            $groups[$groupKey] = 0;
+        }
+        $groups[$groupKey]++;
+    }
+    ksort($groups, \SORT_NATURAL);
+
+    return $groups;
+}
+
+function stats_paremiotipus(): void
+{
+    // phpcs:disable SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys
+    require_once __DIR__ . '/../common.php';
+
+    $n_paremiotipus = get_n_paremiotipus();
+    $n_modismes = get_n_modismes();
+    echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
+    echo '<h3>Paremiotipus per nombre de recurrències</h3>';
+    $stmt = get_db()->query('SELECT `PAREMIOTIPUS`, COUNT(1) AS `MODISME_COUNT` FROM `00_PAREMIOTIPUS` GROUP BY `PAREMIOTIPUS`');
+    $grouped_data = group_data_stats($stmt->fetchAll(PDO::FETCH_ASSOC), 'MODISME_COUNT');
+    echo getChart('myChart1', 'bar', $grouped_data, 'Paremiotipus', x_title: 'Nombre de recurrències', y_title: 'Paremiotipus', style: 'width:1000px;');
+
+    echo '<h3>Paremiotipus per nombre de variants</h3>';
+    $stmt = get_db()->query('SELECT `PAREMIOTIPUS`, COUNT(DISTINCT `MODISME`) AS `DISTINCT_MODISME_COUNT` FROM `00_PAREMIOTIPUS` GROUP BY `PAREMIOTIPUS`');
+    $grouped_data = group_data_stats($stmt->fetchAll(PDO::FETCH_ASSOC), 'DISTINCT_MODISME_COUNT');
+    echo getChart('myChart2', 'bar', $grouped_data, 'Paremiotipus', x_title: 'Nombre de variants', y_title: 'Paremiotipus', style: 'width:1000px;');
+
+    echo '<div style="display: flex; flex-wrap: wrap; gap: 3rem;">';
+    echo '<article>';
+    echo '<h3>Paremiotipus amb equivalents</h3>';
+    $stmt = get_db()->query('SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb equivalents' => $total,
+        'Sense equivalents' => $n_paremiotipus - $total,
+    ];
+    echo getChart('myChart3', 'pie', $data, 'Paremiotipus', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Paremiotipus amb sinònims</h3>';
+    $stmt = get_db()->query('SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS` WHERE `SINONIM` IS NOT NULL');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb sinònims' => $total,
+        'Sense sinònims' => $n_paremiotipus - $total,
+    ];
+    echo getChart('myChart4', 'pie', $data, 'Paremiotipus', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Paremiotipus amb imatges</h3>';
+    $stmt = get_db()->query('SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_IMATGES`');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb imatges' => $total,
+        'Sense imatges' => $n_paremiotipus - $total,
+    ];
+    echo getChart('myChart5', 'pie', $data, 'Paremiotipus', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Paremiotipus / Common Voice</h3>';
+    $stmt = get_db()->query('SELECT COUNT(DISTINCT `paremiotipus`) FROM `commonvoice`');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb veus' => $total,
+        'Sense veus' => $n_paremiotipus - $total,
+    ];
+    echo getChart('myChart6', 'pie', $data, 'Paremiotipus', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Paremiotipus / LanguageTool</h3>';
+    $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded.txt');
+    if ($text !== false) {
+        $total = substr_count($text, "\n");
+        $data = [
+            'Sense errors' => $n_paremiotipus - $total,
+            'Amb errors' => $total,
+        ];
+        echo getChart('myChart7', 'pie', $data, 'Paremiotipus', style: 'width:330px;');
+    }
+    echo '</article>';
+    echo '</div>';
+
+    echo '<div style="display: flex; flex-wrap: wrap; gap: 3rem;">';
+    echo '<article>';
+    echo '<h3>Fitxes amb equivalents</h3>';
+    $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb equivalents' => $total,
+        'Sense equivalents' => $n_modismes - $total,
+    ];
+    echo getChart('myChart8', 'pie', $data, 'Fitxes', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Fitxes amb sinònims</h3>';
+    $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `SINONIM` IS NOT NULL');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb sinònims' => $total,
+        'Sense sinònims' => $n_modismes - $total,
+    ];
+    echo getChart('myChart9', 'pie', $data, 'Fitxes', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Fitxes amb explicacions</h3>';
+    $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `EXPLICACIO` IS NOT NULL');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb explicacions' => $total,
+        'Sense explicacions' => $n_modismes - $total,
+    ];
+    echo getChart('myChart10', 'pie', $data, 'Fitxes', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Fitxes amb exemples</h3>';
+    $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `EXEMPLES` IS NOT NULL');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb exemples' => $total,
+        'Sense exemples' => $n_modismes - $total,
+    ];
+    echo getChart('myChart11', 'pie', $data, 'Fitxes', style: 'width:330px;');
+    echo '</article>';
+
+    echo '<article>';
+    echo '<h3>Fitxes amb llocs</h3>';
+    $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `LLOC` IS NOT NULL');
+    $total = $stmt->fetchColumn();
+    assert(is_int($total));
+    $data = [
+        'Amb llocs' => $total,
+        'Sense llocs' => $n_modismes - $total,
+    ];
+    echo getChart('myChart12', 'pie', $data, 'Fitxes', style: 'width:330px;');
+    echo '</article>';
+    echo '</div>';
+
+    echo '<article>';
+    echo '<h3>Paremiotipus que no coincideixen amb cap dels seus modismes</h3>';
+    $records = get_db()->query('
+        SELECT
+            `Display`
+        FROM
+            `paremiotipus_display`
+        LEFT JOIN
+            `00_PAREMIOTIPUS`
+        ON
+            `paremiotipus_display`.`Paremiotipus` = `00_PAREMIOTIPUS`.`MODISME`
+        WHERE
+            `MODISME` IS NULL
+    ')->fetchAll(PDO::FETCH_COLUMN);
+
+    $list = '';
+    $total = 0;
+    foreach ($records as $r) {
+        $list .= $r . "\n";
+        $total++;
+    }
+    $data = [
+        'Amb coincidència' => $n_paremiotipus - $total,
+        'Sense coincidència' => $total,
+    ];
+    echo "<details><summary>Mostra la llista</summary><pre>{$list}</pre></details>";
+    echo getChart('myChart13', 'pie', $data, 'Paremiotipus', style: 'width:330px;');
+    echo '</article>';
+}
+
+function stats_equivalents(): void
+{
+    require_once __DIR__ . '/../common.php';
+
+    echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
+    echo "<h3>Nombre d'equivalents dels principals idiomes</h3>";
+    $modismes = get_db()->query("SELECT
+            COUNT(`EQUIVALENT`) AS `EQUIVALENTS`,
+            IFNULL(`IDIOMA`, '(buit)') AS `IDIOMA`
+        FROM
+            `00_PAREMIOTIPUS`
+        WHERE
+            `EQUIVALENT` IS NOT NULL
+        GROUP BY
+            `IDIOMA`
+    ")->fetchAll(PDO::FETCH_ASSOC);
+    $data = [
+        '(altres)' => 0,
+    ];
+    $data_table = [];
+    foreach ($modismes as $modisme) {
+        $language = $modisme['IDIOMA'] === '(buit)' ? '(buit)' : mb_ucfirst(get_idioma($modisme['IDIOMA']));
+        if ($language === '') {
+            $data_table['(desconegut)'] = $modisme['EQUIVALENTS'];
+        } elseif ($modisme['EQUIVALENTS'] < 1000) {
+            $data['(altres)'] += $modisme['EQUIVALENTS'];
+            $data_table[$language] = $modisme['EQUIVALENTS'];
+        } else {
+            $data[$language] = $modisme['EQUIVALENTS'];
+            $data_table[$language] = $modisme['EQUIVALENTS'];
+        }
+    }
+    echo getChart('myChart1', 'bar', $data, 'Equivalents', style: 'width:600px;');
+
+    echo "<h3>Idiomes ordenats pel nombre d'equivalents</h3>";
+    echo "<table style='width:300px;'>";
+    echo '<tr><th>Idioma</th><th>Equivalents</th></tr>';
+    arsort($data_table);
+    foreach ($data_table as $language => $count) {
+        echo "<tr><td>{$language}</td><td>" . format_nombre($count) . '</td></tr>';
+    }
+    echo '</table>';
+}
+
+function stats_editorials(): void
+{
+    require_once __DIR__ . '/../common.php';
+
+    $editorials = get_editorials();
+    echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
+
+    echo '<h3>Principals editorials pel nombre de paremiotipus</h3>';
+    $records = get_db()->query('SELECT
+            `EDITORIAL`,
+            COUNT(DISTINCT `PAREMIOTIPUS`) AS `Repetitions`
+        FROM
+            `00_PAREMIOTIPUS`
+        WHERE
+            `EDITORIAL` IS NOT NULL
+        GROUP BY
+            `EDITORIAL`
+        ORDER BY
+            `Repetitions` DESC
+    ')->fetchAll(PDO::FETCH_KEY_PAIR);
+    $data = [];
+    $data_table_paremiotipus = [];
+    foreach ($records as $ed_key => $count) {
+        if (isset($editorials[$ed_key])) {
+            if (count($data) <= 25) {
+                $data[$editorials[$ed_key]] = $count;
+            }
+            $data_table_paremiotipus[$editorials[$ed_key]] = $count;
+        }
+    }
+    echo getChart('myChart1', 'doughnut', $data, 'Paremiotipus', style: 'width:600px;');
+
+    echo '<details><summary>Mostra la llista completa</summary>';
+    echo "<table style='width:600px;'>";
+    echo '<tr><th>Editorial</th><th>Paremiotipus</th></tr>';
+    foreach ($data_table_paremiotipus as $editorial => $count) {
+        echo "<tr><td>{$editorial}</td><td>" . format_nombre($count) . '</td></tr>';
+    }
+    echo '</table>';
+    echo '</details>';
+
+    echo '<h3>Principals editorials pel nombre de fitxes</h3>';
+    $records = get_db()->query('SELECT
+            `EDITORIAL`,
+            COUNT(1) AS `Repetitions`
+        FROM
+            `00_PAREMIOTIPUS`
+        WHERE
+            `EDITORIAL` IS NOT NULL
+        GROUP BY
+            `EDITORIAL`
+        ORDER BY
+            `Repetitions` DESC
+    ')->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    $data = [];
+    $data_table = [];
+    foreach ($records as $ed_key => $count) {
+        if (isset($editorials[$ed_key])) {
+            if (count($data) <= 25) {
+                $data[$editorials[$ed_key]] = $count;
+            }
+            $data_table[$editorials[$ed_key]] = $count;
+        }
+    }
+    echo getChart('myChart2', 'doughnut', $data, 'Fitxes', style: 'width:600px;');
+
+    echo '<details><summary>Mostra la llista completa</summary>';
+    echo "<table style='width:600px;'>";
+    echo '<tr><th>Editorial</th><th>Fitxes</th></tr>';
+    foreach ($data_table as $editorial => $count) {
+        echo "<tr><td>{$editorial}</td><td>" . format_nombre($count) . '</td></tr>';
+    }
+    echo '</table>';
+    echo '</details>';
+}
+
+function stats_obres(): void
+{
+    require_once __DIR__ . '/../common.php';
+
+    echo "<h3>Obres ordenades pel nombre d'entrades a la base de dades</h3>";
+    $records = get_db()->query('SELECT
+            00_FONTS.`Identificador` as Font,
+            00_FONTS.`Registres` as Registres,
+            COUNT(00_PAREMIOTIPUS.`ID_FONT`) AS NumberOfReferences
+        FROM
+            00_FONTS
+        LEFT JOIN
+            00_PAREMIOTIPUS ON 00_FONTS.`Identificador` = 00_PAREMIOTIPUS.`ID_FONT`
+        GROUP BY
+            00_FONTS.`Identificador`,
+            00_FONTS.`Registres`
+        ORDER BY
+            NumberOfReferences DESC
+    ')->fetchAll(PDO::FETCH_ASSOC);
+    echo "<table style='width:1200px;'>";
+    echo '<tr><th>Obra</th><th>Total</th><th>Recollides</th><th>Falten</th></tr>';
+    foreach ($records as $r) {
+        echo '<tr>';
+        echo '<td><a href="' . get_obra_url($r['Font']) . '">' . htmlspecialchars($r['Font']) . '</a></td>';
+        echo '<td>' . format_nombre($r['Registres']) . '</td>';
+        echo '<td>' . format_nombre($r['NumberOfReferences']) . '</td>';
+        echo '<td>' . format_nombre($r['Registres'] - $r['NumberOfReferences']) . '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+}
+
+function stats_llocs(): void
+{
+    require_once __DIR__ . '/../common.php';
+
+    $records = get_db()->query('
+        SELECT
+            `LLOC`,
+            COUNT(`LLOC`) AS `Repetitions`
+        FROM
+            `00_PAREMIOTIPUS`
+        GROUP BY
+            `LLOC`
+        ORDER BY
+            `Repetitions` DESC,
+            `LLOC` ASC;
+    ')->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    echo '<h3>Llocs ordenats per freqüència</h3>';
+    echo "<table style='width:600px;'>";
+    echo '<tr><th>Lloc</th><th>Entrades</th></tr>';
+    foreach ($records as $lloc => $count) {
+        if ($count > 0) {
+            echo "<tr><td>{$lloc}</td><td>" . format_nombre($count) . '</td></tr>';
+        }
+    }
+    echo '</table>';
+}
+
 function test_urls(): void
 {
     echo '<h3>Valors de 00_OBRESVPR.URL que responen diferent de HTTP 200/301/302/307</h3>';
@@ -433,33 +879,6 @@ function test_urls(): void
     echo '<details><pre>';
     readfile(__DIR__ . '/../../tmp/test_imatges_URL_ENLLAC.txt');
     echo '</pre></details>';
-}
-
-function test_llocs(): void
-{
-    require_once __DIR__ . '/../common.php';
-
-    $llocs = get_db()->query('
-        SELECT
-            `LLOC`,
-            COUNT(`LLOC`) AS `Repetitions`
-        FROM
-            `00_PAREMIOTIPUS`
-        GROUP BY
-            `LLOC`
-        ORDER BY
-            `Repetitions` DESC,
-            `LLOC` ASC;
-    ')->fetchAll(PDO::FETCH_KEY_PAIR);
-
-    echo '<h3>Llocs ordenats per freqüència</h3>';
-    echo '<pre>';
-    foreach ($llocs as $lloc => $count) {
-        if ($count > 0) {
-            echo "{$lloc} ({$count})\n";
-        }
-    }
-    echo '</pre>';
 }
 
 function test_fonts_buides(): void
@@ -645,7 +1064,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%  %'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre>';
 
@@ -653,7 +1072,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%\\n%' OR `PAREMIOTIPUS` LIKE '%\\r%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo trim(get_paremiotipus_display($m)) . "\n";
+        echo trim(get_paremiotipus_display($m, escape_html: false)) . "\n";
     }
     echo '</pre>';
 
@@ -661,7 +1080,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%\\t%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre>';
 
@@ -669,7 +1088,7 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '% )%' OR `PAREMIOTIPUS` LIKE '%( %' OR `PAREMIOTIPUS` LIKE '% ]%' OR `PAREMIOTIPUS` LIKE '%[ %'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre>';
 
@@ -678,7 +1097,7 @@ function test_espais(): void
     $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1)) {
-            echo get_paremiotipus_display($m) . "\n";
+            echo get_paremiotipus_display($m, escape_html: false) . "\n";
         }
     }
     echo '</pre>';
@@ -688,7 +1107,7 @@ function test_espais(): void
     $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && $checker->isSuspicious($m)) {
-            echo get_paremiotipus_display($m) . "\n";
+            echo get_paremiotipus_display($m, escape_html: false) . "\n";
         }
     }
     echo '</pre>';
@@ -770,73 +1189,73 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb parèntesis o claudàtors no tancats</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE LENGTH(REPLACE(`PAREMIOTIPUS`, '(', '')) != LENGTH(REPLACE(`PAREMIOTIPUS`, ')', '')) OR LENGTH(REPLACE(`PAREMIOTIPUS`, '[', '')) != LENGTH(REPLACE(`PAREMIOTIPUS`, ']', ''))")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE LENGTH(REPLACE(`PAREMIOTIPUS`, '(', '')) != LENGTH(REPLACE(`PAREMIOTIPUS`, ')', '')) OR LENGTH(REPLACE(`PAREMIOTIPUS`, '[', '')) != LENGTH(REPLACE(`PAREMIOTIPUS`, ']', ''))")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus amb cometes no tancades</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `Display` FROM `paremiotipus_display` WHERE (LENGTH(`Display`) - LENGTH(REPLACE(`Display`, '\"', ''))) % 2 != 0 OR LENGTH(REPLACE(`Display`, '«', '')) != LENGTH(REPLACE(`Display`, '»', '')) OR LENGTH(REPLACE(`Display`, '“', '')) != LENGTH(REPLACE(`Display`, '”', ''))")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `Display` FROM `paremiotipus_display` WHERE (LENGTH(`Display`) - LENGTH(REPLACE(`Display`, '\"', ''))) % 2 != 0 OR LENGTH(REPLACE(`Display`, '«', '')) != LENGTH(REPLACE(`Display`, '»', '')) OR LENGTH(REPLACE(`Display`, '“', '')) != LENGTH(REPLACE(`Display`, '”', ''))")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo $p . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus amb cometa simple seguida del caràcter espai o signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '%\\' %' OR `PAREMIOTIPUS` LIKE '%\\'.%' OR `PAREMIOTIPUS` LIKE '%\\',%' OR `PAREMIOTIPUS` LIKE '%\\';%' OR `PAREMIOTIPUS` LIKE '%\\':%' OR `PAREMIOTIPUS` LIKE '%\\'-%') AND (LENGTH(`PAREMIOTIPUS`) - LENGTH(REPLACE(`PAREMIOTIPUS`, '\\'', ''))) = 1")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '%\\' %' OR `PAREMIOTIPUS` LIKE '%\\'.%' OR `PAREMIOTIPUS` LIKE '%\\',%' OR `PAREMIOTIPUS` LIKE '%\\';%' OR `PAREMIOTIPUS` LIKE '%\\':%' OR `PAREMIOTIPUS` LIKE '%\\'-%') AND (LENGTH(`PAREMIOTIPUS`) - LENGTH(REPLACE(`PAREMIOTIPUS`, '\\'', ''))) = 1")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus amb el caràcter espai seguit de signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '% .%' AND `PAREMIOTIPUS` NOT LIKE '% ...%') OR `PAREMIOTIPUS` LIKE '% ,%' OR `PAREMIOTIPUS` LIKE '% ;%' OR `PAREMIOTIPUS` LIKE '% :%' OR `PAREMIOTIPUS` LIKE '% !%' OR `PAREMIOTIPUS` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '% .%' AND `PAREMIOTIPUS` NOT LIKE '% ...%') OR `PAREMIOTIPUS` LIKE '% ,%' OR `PAREMIOTIPUS` LIKE '% ;%' OR `PAREMIOTIPUS` LIKE '% :%' OR `PAREMIOTIPUS` LIKE '% !%' OR `PAREMIOTIPUS` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus amb 2 punts seguits</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%..%' AND `PAREMIOTIPUS` NOT LIKE '%...%'")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%..%' AND `PAREMIOTIPUS` NOT LIKE '%...%'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus amb 4 punts seguits</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%....%'")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%....%'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus amb signes de puntuació repetits</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%::%' OR `PAREMIOTIPUS` LIKE '%;;%' OR `PAREMIOTIPUS` LIKE '%,,%' OR `PAREMIOTIPUS` LIKE '%--%' OR `PAREMIOTIPUS` LIKE '%;;%'")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%::%' OR `PAREMIOTIPUS` LIKE '%;;%' OR `PAREMIOTIPUS` LIKE '%,,%' OR `PAREMIOTIPUS` LIKE '%--%' OR `PAREMIOTIPUS` LIKE '%;;%'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus acabats amb signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%,' OR `PAREMIOTIPUS` LIKE '%;' OR `PAREMIOTIPUS` LIKE '%:'")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%,' OR `PAREMIOTIPUS` LIKE '%;' OR `PAREMIOTIPUS` LIKE '%:'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
     echo '<h3>Paremiotipus amb signe de puntuació seguit de lletres</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` REGEXP BINARY ',[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[.][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[)][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[?][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ':[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ';[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $m) {
-        echo $m . "\n";
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` REGEXP BINARY ',[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[.][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[)][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[?][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ':[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ';[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 
@@ -946,8 +1365,8 @@ function test_majuscules(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (mb_ucfirst($m) !== $m && mb_ucfirst(get_paremiotipus_display($m)) !== get_paremiotipus_display($m)) {
-            echo get_paremiotipus_display($m) . "\n";
+        if (mb_ucfirst($m) !== $m && mb_ucfirst(get_paremiotipus_display($m, escape_html: false)) !== get_paremiotipus_display($m, escape_html: false)) {
+            echo get_paremiotipus_display($m, escape_html: false) . "\n";
         }
     }
     echo '</pre>';
@@ -956,7 +1375,7 @@ function test_majuscules(): void
     echo '<pre>';
     $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` REGEXP BINARY '[a-z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre>';
 
@@ -964,7 +1383,7 @@ function test_majuscules(): void
     echo '<pre>';
     $modismes = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` REGEXP BINARY '[A-Z]+[A-Z]+'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre>';
 
@@ -972,7 +1391,7 @@ function test_majuscules(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE BINARY LOWER(SUBSTRING(`PAREMIOTIPUS`, -1)) != SUBSTRING(`PAREMIOTIPUS`, -1)')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre>';
 
@@ -1028,23 +1447,6 @@ function test_equivalents(): void
     echo '</pre></details>';
 }
 
-function test_explicacio(): void
-{
-    require_once __DIR__ . '/../common.php';
-
-    echo '<h3>Modismes amb el camp EXPLICACIO molt llarg però amb el camp EXPLICACIO2 buit i el camp EXEMPLES no buit</h3>';
-    echo '<details><pre>';
-    $modismes = get_db()->query('SELECT `MODISME`, `EXPLICACIO`, `EXPLICACIO2`, `EXEMPLES` FROM `00_PAREMIOTIPUS` WHERE LENGTH(`EXPLICACIO`) > 250 AND (`EXPLICACIO2` IS NULL OR LENGTH(`EXPLICACIO`) < 1) AND LENGTH(`EXEMPLES`) > 0')->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($modismes as $modisme) {
-        echo 'MODISME:' . $modisme['MODISME'] . "\n";
-        echo 'EXPLICACIO:' . $modisme['EXPLICACIO'] . "\n";
-        echo 'EXPLICACIO2:' . $modisme['EXPLICACIO2'] . "\n";
-        echo 'EXEMPLES:' . $modisme['EXEMPLES'] . "\n";
-        echo "\n";
-    }
-    echo '</pre></details>';
-}
-
 function test_paremiotipus_accents(): void
 {
     require_once __DIR__ . '/../common.php';
@@ -1063,7 +1465,7 @@ function test_paremiotipus_accents(): void
 
     echo '<pre>';
     foreach ($paremiotipus as $p) {
-        echo $p . "\n";
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
     echo '</pre>';
 }
@@ -1091,12 +1493,12 @@ function test_paremiotipus_modismes_diferents(): void
     foreach ($paremiotipus as $m) {
         if (!isset($paremiotipus_unics[$m['PAREMIOTIPUS_A']]) && !isset($paremiotipus_unics[$m['PAREMIOTIPUS_B']])) {
             if ($m['MODISME_A'] === $m['MODISME_B']) {
-                echo $m['PAREMIOTIPUS_A'] . ' (modisme: ' . $m['MODISME_A'] . ")\n";
-                echo $m['PAREMIOTIPUS_B'] . ' (modisme: ' . $m['MODISME_B'] . ")\n";
+                echo get_paremiotipus_display($m['PAREMIOTIPUS_A'], escape_html: false) . ' (modisme: ' . $m['MODISME_A'] . ")\n";
+                echo get_paremiotipus_display($m['PAREMIOTIPUS_B'], escape_html: false) . ' (modisme: ' . $m['MODISME_B'] . ")\n";
                 echo "\n";
             } else {
-                $accents .= $m['PAREMIOTIPUS_A'] . ' (modisme: ' . $m['MODISME_A'] . ")\n";
-                $accents .= $m['PAREMIOTIPUS_B'] . ' (modisme: ' . $m['MODISME_B'] . ")\n";
+                $accents .= get_paremiotipus_display($m['PAREMIOTIPUS_A'], escape_html: false) . ' (modisme: ' . $m['MODISME_A'] . ")\n";
+                $accents .= get_paremiotipus_display($m['PAREMIOTIPUS_B'], escape_html: false) . ' (modisme: ' . $m['MODISME_B'] . ")\n";
                 $accents .= "\n";
             }
         }
@@ -1125,7 +1527,7 @@ function test_paremiotipus_repetits(): void
 
         similar_text($string1, $string2, $percent);
         if ($percent > SIMILAR_TEXT_THRESHOLD_1 || ($percent > SIMILAR_TEXT_THRESHOLD_2 && strlen($string1) > SIMILAR_TEXT_MIN_LENGTH)) {
-            echo $prev . "\n" . $m . "\n\n";
+            echo get_paremiotipus_display($prev, escape_html: false) . "\n" . get_paremiotipus_display($m, escape_html: false) . "\n\n";
         }
         $prev = $m;
     }
@@ -1135,12 +1537,12 @@ function test_paremiotipus_repetits(): void
     $checker = new Spoofchecker();
     echo '<pre>';
     $prev = '';
-    $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $modisme) {
-        if ($checker->areConfusable($modisme, $prev)) {
-            echo $prev . "\n" . $modisme . "\n\n";
+    $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        if ($checker->areConfusable($p, $prev)) {
+            echo $prev . "\n" . get_paremiotipus_display($p, escape_html: false) . "\n\n";
         }
-        $prev = $modisme;
+        $prev = $p;
     }
     echo '</pre>';
 
@@ -1213,7 +1615,7 @@ function test_repeticio_caracters(): void
     $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         if (is_string($m) && string_has_consecutive_repeated_chars($m)) {
-            echo get_paremiotipus_display($m) . "\n";
+            echo get_paremiotipus_display($m, escape_html: false) . "\n";
         }
     }
     echo '</pre></details>';
@@ -1246,7 +1648,7 @@ function test_paremiotipus_caracters_inusuals(): void
             // If it contains any non-ASCII character
             preg_match('/[^\x00-\x7F]/', $t) > 0
         ) {
-            echo get_paremiotipus_display($p) . "\n";
+            echo get_paremiotipus_display($p, escape_html: false) . "\n";
         }
     }
     echo '</pre>';
@@ -1277,7 +1679,7 @@ function test_paremiotipus_caracters_inusuals(): void
         }
         echo "<i>Caràcter {$guio}</i>\n";
         foreach ($guio_array as $p) {
-            echo get_paremiotipus_display($p) . "\n";
+            echo get_paremiotipus_display($p, escape_html: false) . "\n";
         }
         echo "\n\n";
     }
@@ -1337,7 +1739,7 @@ function test_paremiotipus_final(): void
             && !str_ends_with($t, '"')
             && !str_ends_with($t, '...')
         ) {
-            echo get_paremiotipus_display($p) . "\n";
+            echo get_paremiotipus_display($p, escape_html: false) . "\n";
         }
     }
     echo '</pre>';
@@ -1353,7 +1755,7 @@ function test_paremiotipus_modismes_curts(): void
     $existing = [];
     foreach ($paremiotipus as $m) {
         $existing[$m] = true;
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre></details>';
 
@@ -1376,7 +1778,7 @@ function test_paremiotipus_llargs(): void
     echo '<details><pre>';
     $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE CHAR_LENGTH(`PAREMIOTIPUS`) > 250 ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre></details>';
 }
@@ -1482,7 +1884,7 @@ function test_buits(): void
         echo '(cap resultat)';
     }
     foreach ($modismes as $m) {
-        echo get_paremiotipus_display($m) . "\n";
+        echo get_paremiotipus_display($m, escape_html: false) . "\n";
     }
     echo '</pre>';
 }
@@ -1689,7 +2091,7 @@ function background_test_paremiotipus_repetits(int $start = 0, int $end = 0): st
                 $similarity = 1 - (levenshtein($value1, $value2) / max($length1, $length2));
 
                 if ($similarity >= LEVENSHTEIN_SIMILARITY_THRESHOLD) {
-                    $output .= get_paremiotipus_display($value1) . "\n" . get_paremiotipus_display($value2) . "\n\n";
+                    $output .= get_paremiotipus_display($value1, escape_html: false) . "\n" . get_paremiotipus_display($value2, escape_html: false) . "\n\n";
                 }
             }
         }
@@ -1763,9 +2165,7 @@ function background_test_imatges_duplicades(): string
     foreach ($dir as $file_info) {
         if (!$file_info->isDot()) {
             $filename = $file_info->getFilename();
-            if (!str_ends_with($filename, '.webp') && !str_ends_with($filename, '.avif')) {
-                $files[$filename] = hash_file('xxh3', $file_info->getPathname());
-            }
+            $files[$filename] = hash_file('xxh3', $file_info->getPathname());
         }
     }
     // See https://stackoverflow.com/a/5995153/1391963

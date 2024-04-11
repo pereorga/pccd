@@ -30,12 +30,6 @@
 body {
     font:
         1rem/1.5 system-ui,
-        "Segoe UI",
-        Roboto,
-        "Helvetica Neue",
-        "Noto Sans",
-        "Liberation Sans",
-        Arial,
         sans-serif;
     -webkit-tap-highlight-color: transparent;
     -webkit-text-size-adjust: 100%;
@@ -145,10 +139,6 @@ footer {
     border-top: 1px solid #dee2e6;
 }
 
-#menu {
-    flex-basis: 100%;
-}
-
 header button {
     padding: 0.25rem 0.75rem;
     font-size: 1.5rem;
@@ -212,6 +202,7 @@ header {
 
 header nav {
     display: flex;
+    flex-basis: 100%;
     flex-direction: column;
 }
 
@@ -340,12 +331,6 @@ header nav {
 
 /* Large devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-    #menu {
-        display: flex;
-        flex-basis: auto;
-        justify-content: flex-end;
-    }
-
     header button {
         display: none;
     }
@@ -369,7 +354,12 @@ header nav {
     }
 
     header nav {
+        flex-basis: auto;
         flex-direction: row;
+    }
+
+    header nav.d-none {
+        display: flex;
     }
 
     header nav a {
@@ -387,7 +377,7 @@ header nav {
 
 /* Extra large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-    .brand {
+    .brand-text {
         font-size: 1.25rem;
     }
 

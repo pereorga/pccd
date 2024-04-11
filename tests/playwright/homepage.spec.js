@@ -70,7 +70,7 @@ test.describe("Homepage", () => {
     test(`has ${data.paremiotipusNumber} paremiotipus`, async ({ page }) => {
         const footerText = await page.locator("body > footer p").first().textContent();
 
-        [, extractedNumber] = /([\d.]+) paremiotipus/.exec(footerText);
+        [, extractedNumber] = /([\d.]+)\sparemiotipus/.exec(footerText);
         const nParemiotipus = Number(extractedNumber.replace(".", ""));
 
         expect(nParemiotipus).toBe(data.paremiotipusNumber);
@@ -79,7 +79,7 @@ test.describe("Homepage", () => {
     test(`has ${data.fitxesNumber} fitxes`, async ({ page }) => {
         const footerText = await page.locator("body > footer p").first().textContent();
 
-        [, extractedNumber] = /([\d.]+) fitxes/.exec(footerText);
+        [, extractedNumber] = /([\d.]+)\sfitxes/.exec(footerText);
         const nFitxes = Number(extractedNumber.replace(".", ""));
 
         expect(nFitxes).toBe(data.fitxesNumber);
@@ -88,9 +88,18 @@ test.describe("Homepage", () => {
     test(`has ${data.fontsNumber} fonts`, async ({ page }) => {
         const footerText = await page.locator("body > footer p").first().textContent();
 
-        [, extractedNumber] = /([\d.]+) fonts/.exec(footerText);
+        [, extractedNumber] = /([\d.]+)\sfonts/.exec(footerText);
         const nFonts = Number(extractedNumber.replace(".", ""));
 
         expect(nFonts).toBe(data.fontsNumber);
+    });
+
+    test(`has ${data.informantsNumber} informants`, async ({ page }) => {
+        const footerText = await page.locator("body > footer p").first().textContent();
+
+        [, extractedNumber] = /([\d.]+)\sinformants/.exec(footerText);
+        const nInformants = Number(extractedNumber.replace(".", ""));
+
+        expect(nInformants).toBe(data.informantsNumber);
     });
 });

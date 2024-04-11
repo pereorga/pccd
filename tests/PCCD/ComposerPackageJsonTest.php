@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ComposerPackageJsonTest extends TestCase
 {
     private array $package;

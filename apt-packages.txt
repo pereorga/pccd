@@ -1,4 +1,4 @@
-7zip
+7zip-standalone
 build-essential
 curl
 docker-compose
@@ -31,7 +31,6 @@ pngquant
 shellcheck
 shfmt
 tidy
-unar
 unzip
 webp
 yamllint

@@ -16,11 +16,6 @@ use PHPUnit\Framework\TestCase;
 
 const HTTP_STATUS_OK = 200;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class RedirectsTest extends TestCase
 {
     public function testRedirectSourceAndTargetDiffers(): void

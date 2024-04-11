@@ -37,7 +37,7 @@ $config
     ->setRiskyAllowed(true)
     ->setRules([
         '@PHP80Migration:risky' => true,
-        '@PHP83Migration' => true,
+        '@PHP84Migration' => true,
         '@PhpCsFixer' => true,
         '@PhpCsFixer:risky' => true,
         '@PHPUnit100Migration:risky' => true,
@@ -46,10 +46,12 @@ $config
         'header_comment' => ['header' => $header, 'comment_type' => 'PHPDoc', 'location' => 'after_open'],
         'increment_style' => ['style' => 'post'],
         'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
-        'nullable_type_declaration_for_default_null_value' => true,
         'phpdoc_align' => false,
         'phpdoc_annotation_without_dot' => false,
+        'phpdoc_list_type' => true,
         'phpdoc_to_comment' => false,
+        'php_unit_internal_class' => false,
+        'php_unit_test_class_requires_covers' => false,
         'random_api_migration' => false,
         'yoda_style' => false,
     ])

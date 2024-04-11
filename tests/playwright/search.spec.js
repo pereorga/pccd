@@ -10,7 +10,7 @@ test.describe("Search", () => {
         await page.goto("/");
         const footerText = await page.locator("body > footer p").first().textContent();
 
-        [, extractedNumber] = /([\d.]+) paremiotipus/.exec(footerText);
+        [, extractedNumber] = /([\d.]+)\sparemiotipus/.exec(footerText);
         const nParemiotipus = Number(extractedNumber.replace(".", ""));
 
         await page.goto("/?mode=&cerca=*&variant=&mostra=10");

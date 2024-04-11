@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class DeploymentYearTest extends TestCase
 {
     public function testPageHasCorrectDeploymentDateYear(): void

@@ -9,7 +9,6 @@
 
 // Google Tag Manager code.
 window.dataLayer = window.dataLayer || [];
-// eslint-disable-next-line no-restricted-syntax
 const gtag = function () {
     dataLayer.push(arguments);
 };
@@ -138,7 +137,7 @@ gtag("config", "G-CP42Y3NK1R");
 
     // Toggle hamburger menu on click.
     document.querySelector("header button").addEventListener("click", () => {
-        document.querySelector("#menu").classList.toggle("d-none");
+        document.querySelector("header nav").classList.toggle("d-none");
     });
 
     // Prefetch internal links on hover/touch.

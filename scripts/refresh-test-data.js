@@ -21,9 +21,10 @@ const extractNumber = (text, regex) => {
     data.homepageFirstParemiotipus = await page.locator("form[role=search] ol li").first().textContent();
 
     const footerText = await page.locator("body > footer p").first().textContent();
-    data.paremiotipusNumber = extractNumber(footerText, /([\d.]+) paremiotipus/);
-    data.fitxesNumber = extractNumber(footerText, /([\d.]+) fitxes/);
-    data.fontsNumber = extractNumber(footerText, /([\d.]+) fonts/);
+    data.paremiotipusNumber = extractNumber(footerText, /([\d.]+)\sparemiotipus/);
+    data.fitxesNumber = extractNumber(footerText, /([\d.]+)\sfitxes/);
+    data.fontsNumber = extractNumber(footerText, /([\d.]+)\sfonts/);
+    data.informantsNumber = extractNumber(footerText, /([\d.]+)\sinformants/);
 
     await page.goto(`${process.env.BASE_URL}/?mode=&cerca=fera&mostra=10`);
     let content = await page.locator("form[role=search] > p").first().textContent();

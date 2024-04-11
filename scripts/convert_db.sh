@@ -91,6 +91,8 @@ echo "ALTER TABLE 00_OBRESVPR ADD COLUMN HEIGHT int NOT NULL DEFAULT 0;" >> ../i
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD PRIMARY KEY (Id);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD INDEX (PAREMIOTIPUS);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD INDEX (MODISME);" >> ../install/db/db.sql
+# AUTOR index is useful for counting "informants" on every page (although this is cached by APCu).
+echo "ALTER TABLE 00_PAREMIOTIPUS ADD INDEX (AUTOR);" >> ../install/db/db.sql
 # ID_FONT index is useful for counting references in the "obra" page, and also in some reports.
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD INDEX (ID_FONT);" >> ../install/db/db.sql
 # Full-text indexes are required for the multiple search combinations.
@@ -102,24 +104,24 @@ echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, MODISME, SINONIM);
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, MODISME, EQUIVALENT);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, SINONIM, EQUIVALENT);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD FULLTEXT (PAREMIOTIPUS, MODISME, SINONIM, EQUIVALENT);" >> ../install/db/db.sql
+
+# The rest of the tables are small, so their indexes should not impact size significantly.
 echo "ALTER TABLE 00_FONTS ADD INDEX (Identificador);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_IMATGES ADD INDEX (PAREMIOTIPUS);" >> ../install/db/db.sql
 echo "ALTER TABLE 00_EDITORIA ADD INDEX (CODI);" >> ../install/db/db.sql
 
 # Create additional custom tables.
 # Used for displaying top 10000 paremiotipus.
-echo "CREATE TABLE common_paremiotipus(Paremiotipus varchar (255), Compt int) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;" >> ../install/db/db.sql
-echo "ALTER TABLE common_paremiotipus ADD INDEX (Compt);" >> ../install/db/db.sql
-
+echo "CREATE TABLE common_paremiotipus(Paremiotipus varchar (255), Compt int, INDEX (Compt)) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;" >> ../install/db/db.sql
 # This is used because the PAREMIOTIPUS column is preprocessed to optimize sorting, and we still want to display the
-# original value.
+# original value. It is also used to perform a faster count in get_n_paremiotipus() PHP function.
 echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, Display varchar (255)) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;" >> ../install/db/db.sql
 
 # Normalize UTF-8 combined characters.
 uconv -x nfkc ../install/db/db.sql > ../tmp/db_temp1.sql
 
 # See https://github.com/mdbtools/mdbtools/issues/391. This may be required because of the previous command, as now
-# character `…` becomes 3 different characters `...`).
+# character `…` becomes 3 different characters `...`), which is not ideal.
 sed 's/varchar (255)/varchar (300)/g' ../tmp/db_temp1.sql > ../install/db/db.sql
 
 # Delete intermediate files.

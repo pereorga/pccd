@@ -41,8 +41,8 @@ check_image_extensions() {
 
             local filetype
             filetype=$(file -b --mime-type "${f}")
-            local expected_type=""
 
+            local expected_type=""
             case ${ext} in
                 "jpg") expected_type="image/jpeg" ;;
                 "png") expected_type="image/png" ;;
@@ -55,7 +55,7 @@ check_image_extensions() {
             if [[ "${filetype}" != "${expected_type}" ]]; then
                 local filename
                 filename=$(basename "${f}")
-                echo "${filename} is ${filetype}, expected ${expected_type}" >> "${output_file}"
+                echo "${filename} is '${filetype}'" >> "${output_file}"
             fi
         done
     done

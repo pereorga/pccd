@@ -68,8 +68,9 @@ COPY scripts ./scripts
 COPY src ./src
 COPY tmp ./tmp
 
-# Remove default Apache error log and create symbolic link to stderr
-RUN ln -sf /dev/stderr /var/log/apache2/error.log
+# Remove default Apache logs and create symbolic links to stdout and stderr
+RUN ln -sf /dev/stdout /var/log/apache2/access.log \
+    && ln -sf /dev/stderr /var/log/apache2/error.log
 
 # Start Apache
 CMD ["httpd", "-D", "FOREGROUND"]

@@ -58,14 +58,12 @@ require __DIR__ . '/css/base.min.css';
             <button type="button" aria-label="Desplega el menú">
                 <svg aria-hidden="true" viewBox="0 0 16 16"><path fill="#fff" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/></svg>
             </button>
-            <div id="menu" class="d-none">
-                <nav aria-label="Menú principal">
-                    <a href="/projecte">Projecte</a>
-                    <a href="/">Cerca</a>
-                    <a href="/instruccions">Instruccions d'ús</a>
-                    <a href="/credits">Crèdits</a>
-                </nav>
-            </div>
+            <nav aria-label="Menú principal" class="d-none">
+                <a href="/projecte">Projecte</a>
+                <a href="/">Cerca</a>
+                <a href="/instruccions">Instruccions d'ús</a>
+                <a href="/credits">Crèdits</a>
+            </nav>
         </div>
     </header>
     <main>
@@ -84,7 +82,7 @@ require __DIR__ . '/css/base.min.css';
         </div>
     </main>
     <footer>
-        <p><?php echo format_nombre(get_n_modismes()); ?> fitxes, corresponents a <?php echo format_nombre(get_n_paremiotipus()); ?> paremiotipus, de <?php echo format_nombre(get_n_fonts()); ?> fonts. Última actualització: <?php require __DIR__ . '/../tmp/db_date.txt'; ?></p>
+        <p><?php echo format_nombre(get_n_modismes()); ?>&nbsp;fitxes, corresponents a <?php echo format_nombre(get_n_paremiotipus()); ?>&nbsp;paremiotipus, recollides de <?php echo format_nombre(get_n_fonts()); ?>&nbsp;fonts i <?php echo format_nombre(get_n_informants()); ?>&nbsp;informants. Última actualització: <?php require __DIR__ . '/../tmp/db_date.txt'; ?></p>
         <p>© Víctor Pàmies i Riudor, 2020-2024.</p>
     </footer>
     <div id="cookie-banner" class="d-none">
@@ -93,7 +91,7 @@ require __DIR__ . '/css/base.min.css';
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=8"></script>
+    <script async src="/js/script.min.js?v=9"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

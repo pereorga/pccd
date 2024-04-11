@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class TitleLengthTest extends TestCase
 {
     public function testTitleCanNotBeTooLong(): void

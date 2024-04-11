@@ -48,7 +48,6 @@ let
       shellcheck
       shfmt
       statix
-      unar
       unzip
       yamlfmt
       yamllint

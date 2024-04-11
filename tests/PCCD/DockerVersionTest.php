@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class DockerVersionTest extends TestCase
 {
     public function testDockerPhpVersionMatch(): void

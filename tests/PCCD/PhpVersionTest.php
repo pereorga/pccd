@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class PhpVersionTest extends TestCase
 {
     public function testShellNixHasAtLeastComposerJsonPhpVersion(): void

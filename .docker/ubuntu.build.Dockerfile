@@ -4,7 +4,7 @@ FROM rust:1-bookworm as oxipng-builder
 # Install oxipng
 RUN cargo install oxipng --version 9.0.0
 
-FROM ubuntu:23.10
+FROM ubuntu:24.04
 
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Ubuntu image for building a new release."

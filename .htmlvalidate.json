@@ -5,6 +5,7 @@
     "attr-pattern": "error",
     "class-pattern": "error",
     "id-pattern": "error",
+    "name-pattern": "error",
     "prefer-native-element": "off",
     "require-sri": "off"
   }

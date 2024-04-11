@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class DocumentationTest extends TestCase
 {
     public function testReadmeHasCorrectPhpMinimumVersion(): void

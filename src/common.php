@@ -1317,7 +1317,7 @@ function get_obra(string $obra_title): array|false
  */
 function get_paremiotipus_count_by_font(string $font_id): int
 {
-    $stmt = get_db()->prepare('SELECT COUNT(*) FROM `00_PAREMIOTIPUS` WHERE `ID_FONT` = :id');
+    $stmt = get_db()->prepare('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `ID_FONT` = :id');
     $stmt->bindParam(':id', $font_id);
     $stmt->execute();
 
@@ -1624,6 +1624,8 @@ function get_idioma_iso_code(string $code): string
         // `bs` is the ISO code for Bosnian, but in the database it is used for Serbocroata.
         'bs' => 'sh',
         'll' => 'la',
+        // `ne` is the ISO code Official Nepali Native, but in the database may be used for Dutch.
+        // 'ne' => 'nl',
         'po' => 'pl',
         // ISO code for Provençal is missing. "pro" is for Old Provençal, and "prv" is no longer recognised. In the
         // database we have "pr", which is not assigned by ISO.
@@ -1772,6 +1774,9 @@ function normalize_search(?string $string, string $search_mode = ''): string
             $string
         );
 
+        // Standardize simple quotes.
+        $string = str_replace('’', "'", $string);
+
         // Remove double spaces.
         $string = preg_replace('/\s+/', ' ', $string);
         assert(is_string($string));
@@ -1911,7 +1916,7 @@ function get_image_tags(
             $optimized_type = 'avif';
             $optimized_file_url = $path . rawurlencode($avif_file);
         } else {
-            $webp_file = str_ireplace('.gif', '.avif', $file_name);
+            $webp_file = str_ireplace('.gif', '.webp', $file_name);
             $webp_exists = str_ends_with($webp_file, '.webp') && is_file(__DIR__ . "/../docroot{$path}{$webp_file}");
             if ($webp_exists) {
                 $optimized_type = 'webp';
@@ -1953,7 +1958,7 @@ function get_n_modismes(): int
 {
     $n_modismes = function_exists('apcu_fetch') ? apcu_fetch('n_modismes') : false;
     if ($n_modismes === false) {
-        $stmt = get_db()->query('SELECT COUNT(*) FROM `00_PAREMIOTIPUS`');
+        $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS`');
         $n_modismes = $stmt->fetchColumn();
         if (function_exists('apcu_store')) {
             apcu_store('n_modismes', $n_modismes);
@@ -1972,7 +1977,7 @@ function get_n_paremiotipus(): int
 {
     $n_paremiotipus = function_exists('apcu_fetch') ? apcu_fetch('n_paremiotipus') : false;
     if ($n_paremiotipus === false) {
-        $stmt = get_db()->query('SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS`');
+        $stmt = get_db()->query('SELECT COUNT(1) FROM `paremiotipus_display`');
         $n_paremiotipus = $stmt->fetchColumn();
         if (function_exists('apcu_store')) {
             apcu_store('n_paremiotipus', $n_paremiotipus);
@@ -1985,15 +1990,32 @@ function get_n_paremiotipus(): int
 }
 
 /**
+ * Returns the total number of individual authors (informants).
+ */
+function get_n_informants(): int
+{
+    $n_fonts = function_exists('apcu_fetch') ? apcu_fetch('n_informants') : false;
+    if ($n_fonts === false) {
+        $stmt = get_db()->query('SELECT COUNT(DISTINCT `AUTOR`) FROM `00_PAREMIOTIPUS`');
+        $n_fonts = $stmt->fetchColumn();
+        if (function_exists('apcu_store')) {
+            apcu_store('n_informants', $n_fonts);
+        }
+    }
+
+    assert(is_int($n_fonts));
+
+    return $n_fonts;
+}
+
+/**
  * Returns the total number of sources (fonts).
- *
- * TODO: consider indexing these columns, as the query is slow and is executed on every page if APCu is not available.
  */
 function get_n_fonts(): int
 {
     $n_fonts = function_exists('apcu_fetch') ? apcu_fetch('n_fonts') : false;
     if ($n_fonts === false) {
-        $stmt = get_db()->query('SELECT COUNT(DISTINCT `AUTOR`, `ANY`, `EDITORIAL`) FROM `00_PAREMIOTIPUS`');
+        $stmt = get_db()->query('SELECT COUNT(1) FROM `00_FONTS`');
         $n_fonts = $stmt->fetchColumn();
         if (function_exists('apcu_store')) {
             apcu_store('n_fonts', $n_fonts);

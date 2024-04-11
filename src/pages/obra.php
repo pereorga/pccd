@@ -62,23 +62,19 @@ if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
 }
 
 $output .= '<div class="col-work text-break">';
+$output .= '<dl>';
 if ($obra['Autor'] !== null) {
-    $output .= '<dl>';
     $output .= '<dt>Autor:</dt>';
     $output .= '<dd property="author" typeof="Person">';
     $output .= '<span property="name">' . htmlspecialchars($obra['Autor']) . '</span>';
     $output .= '</dd>';
-    $output .= '</dl>';
 }
 if ($obra['Any'] !== null) {
-    $output .= '<dl>';
     $output .= '<dt>Any de publicació:</dt>';
     $output .= '<dd property="datePublished">' . htmlspecialchars($obra['Any']) . '</dd>';
-    $output .= '</dl>';
 }
 if ($obra['ISBN'] !== null) {
     $isbn = htmlspecialchars($obra['ISBN']);
-    $output .= '<dl>';
     $output .= '<dt>ISBN:</dt>';
     $output .= '<dd>';
     if (isbn_is_valid($isbn)) {
@@ -90,98 +86,73 @@ if ($obra['ISBN'] !== null) {
         $output .= $isbn;
     }
     $output .= '</dd>';
-    $output .= '</dl>';
 }
 if ($obra['Editorial'] !== null && $obra['Editorial'] !== 'Web') {
-    $output .= '<dl>';
     $output .= '<dt>Editorial:</dt>';
     $output .= '<dd property="publisher" typeof="Organization">';
     $output .= '<span property="name">' . htmlspecialchars($obra['Editorial']) . '</span>';
     $output .= '</dd>';
-    $output .= '</dl>';
 }
-if ($obra['Varietat_dialectal'] !== null) {
-    $output .= '<dl>';
-    $output .= '<dt>Varietat dialectal:</dt>';
-    $output .= '<dd>' . htmlspecialchars($obra['Varietat_dialectal']) . '</dd>';
-    $output .= '</dl>';
+if ($obra['Edició'] !== null) {
+    $output .= '<dt>Edició:</dt>';
+    $output .= '<dd property="bookEdition">' . htmlspecialchars($obra['Edició']) . '</dd>';
+}
+if ($obra['Any_edició'] > 0) {
+    $output .= "<dt>Any de l'edició:</dt>";
+    $output .= '<dd property="copyrightYear">' . $obra['Any_edició'] . '</dd>';
 }
 if ($obra['Municipi'] !== null) {
-    $output .= '<dl>';
     $output .= '<dt>Municipi:</dt>';
     $output .= '<dd property="locationCreated" typeof="Place">';
     $output .= '<span property="name">' . htmlspecialchars($obra['Municipi']) . '</span>';
     $output .= '</dd>';
-    $output .= '</dl>';
-}
-if ($obra['Edició'] !== null) {
-    $output .= '<dl>';
-    $output .= '<dt>Edició:</dt>';
-    $output .= '<dd property="bookEdition">' . htmlspecialchars($obra['Edició']) . '</dd>';
-    $output .= '</dl>';
-}
-if ($obra['Any_edició'] > 0) {
-    $output .= '<dl>';
-    $output .= "<dt>Any de l'edició:</dt>";
-    $output .= '<dd property="copyrightYear">' . $obra['Any_edició'] . '</dd>';
-    $output .= '</dl>';
 }
 if ($obra['Collecció'] !== null) {
-    $output .= '<dl>';
     $output .= '<dt>Col·lecció:</dt>';
     $output .= '<dd>' . htmlspecialchars($obra['Collecció']) . '</dd>';
-    $output .= '</dl>';
 }
 if ($obra['Núm_collecció'] !== null) {
-    $output .= '<dl>';
     $output .= '<dt>Núm. de la col·lecció:</dt>';
     $output .= '<dd>' . htmlspecialchars($obra['Núm_collecció']) . '</dd>';
-    $output .= '</dl>';
-}
-if ($obra['Pàgines'] > 0) {
-    $output .= '<dl>';
-    $output .= '<dt>Núm. de pàgines:</dt>';
-    $output .= '<dd property="numberOfPages">' . format_nombre($obra['Pàgines']) . '</dd>';
-    $output .= '</dl>';
 }
 if ($obra['Idioma'] !== null) {
-    $output .= '<dl>';
     $output .= '<dt>Idioma:</dt>';
     $output .= '<dd property="inLanguage">' . htmlspecialchars($obra['Idioma']) . '</dd>';
-    $output .= '</dl>';
 }
-if ($obra['Preu'] > 0) {
-    $output .= '<dl>';
-    $output .= '<dt>Preu de compra:</dt>';
-    $output .= '<dd>' . round($obra['Preu']) . ' €</dd>';
-    $output .= '</dl>';
+if ($obra['Varietat_dialectal'] !== null) {
+    $output .= '<dt>Varietat dialectal:</dt>';
+    $output .= '<dd>' . htmlspecialchars($obra['Varietat_dialectal']) . '</dd>';
+}
+if ($obra['Pàgines'] > 0) {
+    $output .= '<dt>Núm. de pàgines:</dt>';
+    $output .= '<dd property="numberOfPages">' . format_nombre($obra['Pàgines']) . '</dd>';
 }
 if ($obra['Data_compra'] !== null) {
     $date = DateTime::createFromFormat('Y-m-d', $obra['Data_compra']);
-    $output .= '<dl>';
     $output .= '<dt>Data de compra:</dt>';
     $output .= '<dd>';
     $output .= $date !== false ? $date->format('d/m/Y') : htmlspecialchars($obra['Data_compra']);
     $output .= '</dd>';
-    $output .= '</dl>';
 }
 if ($obra['Lloc_compra'] !== null) {
-    $output .= '<dl>';
     $output .= '<dt>Lloc de compra:</dt>';
     $output .= '<dd>' . htmlspecialchars($obra['Lloc_compra']) . '</dd>';
-    $output .= '</dl>';
+}
+if ($obra['Preu'] > 0) {
+    $output .= '<dt>Preu de compra:</dt>';
+    $output .= '<dd>' . round($obra['Preu']) . '&nbsp;€</dd>';
 }
 if ($obra['URL'] !== null) {
-    $output .= '<div>' . html_escape_and_link_urls($obra['URL'], 'url') . '</div>';
+    $output .= '<dt class="d-none">Enllaç:</dt>';
+    $output .= '<dd>' . html_escape_and_link_urls($obra['URL'], 'url') . '</dd>';
 }
 if ($obra['Observacions'] !== null) {
     $comment = html_escape_and_link_urls(ct($obra['Observacions'], escape_html: false));
-    $output .= '<dl>';
     $output .= '<dt>Observacions:</dt>';
     $output .= '<dd property="description">' . $comment . '</dd>';
-    $output .= '</dl>';
     set_meta_description_once(ct($obra['Observacions']));
 }
+$output .= '</dl>';
 if ($obra['Registres'] > 0) {
     $fitxes = format_nombre($obra['Registres']);
     $recollides = format_nombre(get_paremiotipus_count_by_font($obra['Identificador']));
@@ -189,6 +160,5 @@ if ($obra['Registres'] > 0) {
     $output .= '<div class="footer">' . $registres . '</div>';
     set_meta_description_once($registres);
 }
-
 $output .= '</div></div>';
 echo $output;

@@ -14,11 +14,6 @@ namespace PCCD;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 final class CopyrightYearTest extends TestCase
 {
     public function testCreditsPageHasCorrectCopyrightYear(): void

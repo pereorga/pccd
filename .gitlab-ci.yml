@@ -9,7 +9,7 @@ stages:
 check_code:
   stage: build
   when: always
-  image: ubuntu:23.10
+  image: ubuntu:24.04
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update && apt-get upgrade -y && xargs apt-get install -y < apt-packages.txt

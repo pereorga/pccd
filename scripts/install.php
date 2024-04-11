@@ -52,7 +52,7 @@ $add_accepcio_stmt = $pdo->prepare('UPDATE `00_PAREMIOTIPUS` SET `MODISME` = ?, 
 $improve_sorting_stmt = $pdo->prepare('UPDATE `00_PAREMIOTIPUS` SET `PAREMIOTIPUS` = ? WHERE `Id` = ?');
 $paremies = $pdo->query('SELECT `Id`, `PAREMIOTIPUS`, `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($paremies as $p) {
-    // Try to clean names ending with numbers and fill ACCEPCIO field.
+    // Try to clean phrases ending with numbers and fill ACCEPCIO field instead.
     if ($p['MODISME'] !== null) {
         $modisme = trim($p['MODISME']);
         if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
@@ -62,15 +62,8 @@ foreach ($paremies as $p) {
         }
     }
 
-    try {
-        // Clean `—` and other characters from the beginning, to improve sorting.
-        $improve_sorting_stmt->execute([clean_paremiotipus_for_sorting($p['PAREMIOTIPUS']), $p['Id']]);
-    } catch (Exception $e) {
-        echo 'Paremiotipus: ' . $p['PAREMIOTIPUS'] . "\n";
-        echo 'Paremiotipus processat: ' . clean_paremiotipus_for_sorting($p['PAREMIOTIPUS']) . "\n";
-        echo 'Id: ' . $p['Id'] . "\n";
-        error_log('Error: ' . $e->getMessage());
-    }
+    // Clean `—` and other characters from the beginning, to improve sorting.
+    $improve_sorting_stmt->execute([clean_paremiotipus_for_sorting($p['PAREMIOTIPUS']), $p['Id']]);
 }
 
 echo date('[H:i:s]') . ' normalizing paremiotipus in images table...' . "\n";
@@ -84,7 +77,7 @@ echo date('[H:i:s]') . ' importing top 10000 paremiotipus...' . "\n";
 $insert_stmt = $pdo->prepare('INSERT INTO `common_paremiotipus`(`Paremiotipus`, `Compt`) VALUES(?, ?)');
 $records = $pdo->query('SELECT
         `PAREMIOTIPUS`,
-        COUNT(*) AS `POPULAR`
+        COUNT(1) AS `POPULAR`
     FROM
         `00_PAREMIOTIPUS`
     GROUP BY

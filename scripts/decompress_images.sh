@@ -21,39 +21,20 @@ usage() {
 }
 
 ##############################################################################
-# Handles the extraction, and file name normalization for a given .zip file.
+# Handles the extraction for a given .zip file.
 # Arguments:
 #   $1: Name of the zip file (without the .zip extension).
-#   $2: Target directory to move the extracted files.
+#   $2: Target directory to move the extracted files. It will be deleted.
 ##############################################################################
-function handle_zip_file {
+function unzip_file {
     local -r zip_name="$1"
     local -r target_dir="$2"
-    local normalized_name
-    local os_name
-    os_name="$(uname -s)"
 
     if [[ -f "${zip_name}.zip" ]]; then
         [[ -d ${target_dir} ]] && rm -r "${target_dir}"
-        unar -f -e IBM-850 "${zip_name}.zip"
+        7zz x "${zip_name}.zip"
         mv "${zip_name}" "${target_dir}"
-        chmod 644 "${target_dir}"/*
-
-        # Normalize UTF-8 characters in the filename, like we do with the database contents. Apparently this is
-        # necessary only on macOS filesystems. The may be related to unar (unzip command did bring other compatibility
-        # issues with the encoding in some uploads). TODO: we may want to test 7zz.
-        # TODO: Check convmv, iconv and other alternatives (or not, as using Bash does not add additional dependencies).
-        if [[ ${os_name} == "Darwin" ]]; then
-            # But not when using NIX.
-            if [[ -z ${IN_NIX_SHELL} ]]; then
-                find "${target_dir}" -type f | while read -r file; do
-                    normalized_name=$(echo "${file}" | uconv -x nfkc)
-                    if [[ ${file} != "${normalized_name}" ]]; then
-                        mv -v "${file}" "${normalized_name}"
-                    fi
-                done
-            fi
-        fi
+        find "${target_dir}" -type f -print0 | xargs -0 chmod 644
     else
         echo "Warning: ${zip_name}.zip not found"
     fi
@@ -64,12 +45,12 @@ if [[ -n $1 ]]; then
     exit 1
 fi
 
-handle_zip_file "Cobertes" "src/images/cobertes"
-handle_zip_file "Imatges" "src/images/paremies"
+unzip_file "Cobertes" "src/images/cobertes"
+unzip_file "Imatges" "src/images/paremies"
 
-# Merge author books with the cobertes.
+# Merge author books with other works.
 if [[ -f Obres-VPR.zip ]]; then
-    unar -f -e IBM-850 Obres-VPR.zip
+    7zz x Obres-VPR.zip
     chmod 644 Obres-VPR/*
     mv -f Obres-VPR/* src/images/cobertes
     rm -r Obres-VPR
