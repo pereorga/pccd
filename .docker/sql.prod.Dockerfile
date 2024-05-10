@@ -1,6 +1,6 @@
 FROM mariadb:10.11.7-jammy
 LABEL maintainer="Pere Orga pere@orga.cat"
-LABEL description="MariaDB image based on official image."
+LABEL description="MariaDB image used in production."
 
 ARG ARG_MYSQL_ROOT_PWD
 ARG ARG_MYSQL_DB

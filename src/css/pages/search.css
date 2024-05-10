@@ -120,7 +120,7 @@ input[type="search"]:focus {
 }
 
 .options input {
-    margin-right: 5px;
+    margin: 0 5px 0 0;
 }
 
 .filters .row {
@@ -209,7 +209,7 @@ input[type="search"]:focus + button {
     padding: 10px 30px;
 }
 
-/* Medium devices (large phones, 576px and up) */
+/* Medium devices */
 @media (min-width: 576px) {
     .pager ul a,
     .label {
@@ -231,7 +231,7 @@ input[type="search"]:focus + button {
     }
 }
 
-/* Large devices (tablets, 768px and up) */
+/* Large devices */
 @media (min-width: 768px) {
     .filters {
         margin-bottom: 1rem;

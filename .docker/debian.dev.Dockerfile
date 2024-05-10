@@ -1,6 +1,6 @@
-FROM php:8.3.4-apache-bookworm
+FROM php:8.3.6-apache-bookworm
 LABEL maintainer="Pere Orga pere@orga.cat"
-LABEL description="Apache-based image with Apache and PHP."
+LABEL description="Debian-based image with Apache and mod_php. Used for development."
 
 ARG profiler
 

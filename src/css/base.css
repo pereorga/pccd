@@ -37,17 +37,19 @@ body {
 /* stylelint-enable property-no-vendor-prefix */
 
 body,
-p,
-ul,
 figure,
-button,
-input,
-select {
+ul {
     margin: 0;
 }
 
 p {
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
+}
+
+header nav {
+    display: flex;
+    gap: 1em;
+    font-size: 4vw;
 }
 
 a {
@@ -57,8 +59,7 @@ a {
 }
 
 header nav a {
-    display: block;
-    padding: 0.5rem 0;
+    margin: 0.5em 0;
     color: #fff;
 }
 
@@ -74,14 +75,15 @@ a.external {
     background-size: 0.857em;
 }
 
-a.brand {
+.brand {
+    display: block;
+    margin: 0.5rem 0;
+    font-size: 4.5vw;
     color: #fff;
     touch-action: manipulation;
 }
 
-a.brand:focus,
-a.brand:hover,
-header nav a:focus,
+.brand:hover,
 header nav a:hover {
     color: #dee2e7;
     text-decoration: none;
@@ -139,32 +141,13 @@ footer {
     border-top: 1px solid #dee2e6;
 }
 
-header button {
-    padding: 0.25rem 0.75rem;
-    font-size: 1.5rem;
-    line-height: 1;
-    background-color: transparent;
-    border: 0;
-}
-
 button:focus {
     outline: #cbd5e7 solid 3px;
 }
 
-header button:focus,
-header button:hover {
-    opacity: 0.8;
-}
-
-header button svg {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.125em;
-}
-
 main,
 header > div {
+    max-width: 1140px;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
@@ -200,14 +183,7 @@ header {
     background-color: #2b5797;
 }
 
-header nav {
-    display: flex;
-    flex-basis: 100%;
-    flex-direction: column;
-}
-
-.d-none,
-.brand-text {
+.d-none {
     display: none;
 }
 
@@ -229,10 +205,6 @@ header nav {
 
 .text-nowrap {
     white-space: nowrap;
-}
-
-.brand-text-xs {
-    font-size: 1.25rem;
 }
 
 .bloc {
@@ -301,18 +273,29 @@ header nav {
     font-size: 0.875rem;
 }
 
-/* Small devices (landscape phones, 400px and up) */
-@media (min-width: 400px) {
-    .brand-text {
-        display: inline;
+/* Very (not extreme) small devices */
+@media (min-width: 330px) {
+    header nav {
+        font-size: 0.875rem;
     }
 
-    .brand-text-xs {
-        display: none;
+    .brand {
+        font-size: 1rem;
     }
 }
 
-/* Medium devices (large phones, 576px and up) */
+/* Small devices */
+@media (min-width: 400px) {
+    header nav {
+        font-size: 1rem;
+    }
+
+    .brand {
+        font-size: 1.25rem;
+    }
+}
+
+/* Medium devices */
 @media (min-width: 576px) {
     #cookie-banner {
         margin-right: 15px;
@@ -327,12 +310,20 @@ header nav {
     #cookie-banner > div > div {
         padding: 1.5rem;
     }
+
+    .brand {
+        margin-right: 1rem;
+    }
 }
 
-/* Large devices (tablets, 768px and up) */
+/* Large devices */
 @media (min-width: 768px) {
-    header button {
-        display: none;
+    aside {
+        flex: 0 0 15rem;
+    }
+
+    article {
+        flex: 1;
     }
 
     main {
@@ -353,48 +344,13 @@ header nav {
         margin-top: 0;
     }
 
-    header nav {
-        flex-basis: auto;
-        flex-direction: row;
-    }
-
-    header nav.d-none {
-        display: flex;
-    }
-
-    header nav a {
-        padding: 1rem 0.5rem;
-    }
-
-    aside {
-        flex: 0 0 13rem;
-    }
-
-    article {
-        flex: 1;
+    .brand {
+        margin: 1rem 0;
     }
 }
 
-/* Extra large devices (desktops, 992px and up) */
+/* XL devices */
 @media (min-width: 992px) {
-    .brand-text {
-        font-size: 1.25rem;
-    }
-
-    aside {
-        flex: 0 0 15rem;
-    }
-}
-
-/* XXL devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-    main,
-    header > div {
-        max-width: 1140px;
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
     aside {
         flex: 0 0 18rem;
     }
@@ -405,10 +361,6 @@ header nav {
 }
 
 @media print {
-    a {
-        text-decoration: underline;
-    }
-
     footer,
     img,
     .bloc,
@@ -420,10 +372,6 @@ header nav {
     h3,
     summary {
         page-break-after: avoid;
-    }
-
-    body {
-        min-width: 992px;
     }
 
     #cookie-banner {

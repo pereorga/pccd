@@ -29,6 +29,7 @@ vendor/
 *.report.html
 .php-cs-fixer.cache
 .phpunit.result.cache
+/test-results/
 /tmp/*.html
 /tmp/*.json
 !/tmp/assets-sizes.json

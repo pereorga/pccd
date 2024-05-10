@@ -59,5 +59,4 @@ for i in sitemap_*; do
 done
 
 # Store last updated date.
-# sed is necessary on macOS to add apostrophes to the date.
-LC_TIME='ca_ES' date | cut -d"," -f2 | sed "s/de o/d'o/" | sed "s/de a/d'a/" > ../tmp/db_date.txt
+node -e "console.log(new Intl.DateTimeFormat('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date()));" | sed "s/’/'/" | sed "s/ del / de /" > ../tmp/db_date.txt

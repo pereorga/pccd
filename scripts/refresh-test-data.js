@@ -4,13 +4,21 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const dataPath = `${__dirname}/../tests/playwright/data/data.json`;
-const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-
 const extractNumber = (text, regex) => {
     const [, extractedNumber] = regex.exec(text);
     return Number(extractedNumber.replace(".", ""));
 };
+
+const getCurrentYearMonth = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    return `${year}${month < 10 ? "0" + month : month}`;
+};
+
+const dataPath = `${__dirname}/../tests/playwright/data/data.json`;
+const historicPath = `${__dirname}/../tests/playwright/data/historic/data-${getCurrentYearMonth()}.json`;
+const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
 
 (async () => {
     const browser = await chromium.launch();
@@ -48,8 +56,9 @@ const extractNumber = (text, regex) => {
         /Aquesta obra té ([\d.]+) fitxes a la base de dades/,
     );
     data.obraFolkloreCatalunyaNumberOfEntriesCollected = extractNumber(obra, /de les quals ([\d.]+) estan recollides/);
-
-    fs.writeFileSync(dataPath, JSON.stringify(data, undefined, 2) + "\n", "utf8");
+    const dataString = JSON.stringify(data, undefined, 2) + "\n";
+    fs.writeFileSync(dataPath, dataString, "utf8");
+    fs.writeFileSync(historicPath, dataString, "utf8");
 
     await browser.close();
 })();

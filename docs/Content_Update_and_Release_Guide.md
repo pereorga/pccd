@@ -13,7 +13,7 @@ You may want to set up Docker to be used with a non-root user.
 Some additional packages can be installed using [Homebrew](https://brew.sh/):
 
 ```bash
-brew bundle install --file=ubuntu.Brewfile
+brew bundle install --file=apt-missing.Brewfile
 ```
 
 The rest of dependencies can be installed using `npm`:

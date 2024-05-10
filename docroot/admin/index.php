@@ -92,10 +92,12 @@ if (isset($_GET['logout'])) {
 session_write_close();
 
 if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
-    require __DIR__ . '/../../src/reports/tests.php';
+    require __DIR__ . '/../../src/reports_common.php';
 
     $test_functions = get_test_functions();
     if (isset($test_functions[$_GET['test']])) {
+        /** @psalm-suppress UnresolvableInclude */
+        require __DIR__ . '/../../src/reports/' . $_GET['test'] . '.php';
         foreach ($test_functions[$_GET['test']] as $function_name) {
             $function_name();
         }
@@ -120,8 +122,8 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
         <li><a href="?test=imatges">Imatges</a></li>
         <li><a href="?test=commonvoice_languagetool">LanguageTool</a></li>
         <li><a href="?test=longitud">Longitud</a></li>
-        <li><a href="?test=majúscules">Majúscules</a></li>
-        <li><a href="?test=puntuació">Puntuació</a></li>
+        <li><a href="?test=majuscules">Majúscules</a></li>
+        <li><a href="?test=puntuacio">Puntuació</a></li>
         <li><a href="?test=repeticions_caracters">Repeticions de caràcters</a></li>
         <li><a href="?test=repeticions_modismes">Repeticions de modismes</a></li>
         <li><a href="?test=repeticions_paremiotipus">Repeticions de paremiotipus</a></li>
@@ -133,6 +135,7 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
     <h3>Estadístiques</h3>
     <ul>
         <li><a href="?test=cerques">Cerques</a></li>
+        <li><a href="?test=stats_autors">Autors</a></li>
         <li><a href="?test=stats_editorials">Editorials</a></li>
         <li><a href="?test=stats_equivalents">Equivalents</a></li>
         <li><a href="?test=stats_llocs">Llocs</a></li>

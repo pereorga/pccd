@@ -135,11 +135,6 @@ gtag("config", "G-CP42Y3NK1R");
         });
     }
 
-    // Toggle hamburger menu on click.
-    document.querySelector("header button").addEventListener("click", () => {
-        document.querySelector("header nav").classList.toggle("d-none");
-    });
-
     // Prefetch internal links on hover/touch.
     // Inspired by https://github.com/instantpage/instant.page/blob/master/instantpage.js
     const preloadedList = new Set();

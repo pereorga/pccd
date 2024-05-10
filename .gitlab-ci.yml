@@ -1,21 +1,23 @@
 include:
   - project: "docker/process-webhooks"
     file: "/gitlab/deploy.yml"
+
 variables:
   PROJECT_TO_BE_DEPLOYED: "docker/pccd"
+
 stages:
   - build
   - deploy
-check_code:
+
+.check_code_template: &check_code_base
   stage: build
   when: always
-  image: ubuntu:24.04
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get upgrade -y && xargs apt-get install -y < apt-packages.txt
+    - apt-get update && apt-get upgrade -y && xargs apt-get install --no-install-recommends -y < apt-packages.txt
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    - brew bundle install --file=ubuntu.Brewfile
+    - brew bundle install --file=apt-missing.Brewfile
     - npm ci
   script:
     - tools/composer.phar run parallel-lint
@@ -24,6 +26,15 @@ check_code:
     - npm run analysis
     - npx editorconfig-checker
   allow_failure: true
+
+check_code_ubuntu:
+  <<: *check_code_base
+  image: ubuntu:devel
+
+check_code_debian:
+  <<: *check_code_base
+  image: debian:testing
+
 build:
   image: docker:latest
   services:
@@ -43,11 +54,13 @@ build:
     - docker push $DOCKER_IMAGE:$CI_COMMIT_SHA
     - docker push $DOCKER_IMAGE:$DATETAG
     - docker push $DOCKER_IMAGE:latest
+
 deploy:
   stage: deploy
   when: manual
   extends:
     - .default-deploy
+
 reset:
   stage: deploy
   when: manual

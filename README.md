@@ -53,14 +53,6 @@ CSS/JavaScript code resides in `src/js/` and `src/css/`. Assets are built and mi
 npm run build:assets
 ```
 
-### Image conversion and optimization
-
-To compress and convert already converted images, delete them before running `npm run optimize:images`:
-
-```bash
-npm run delete:images
-```
-
 ### Code linting, formatting and static code analysis
 
 Linting and static code analysis:

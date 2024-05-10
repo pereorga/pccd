@@ -98,7 +98,7 @@ final class RedirectsTest extends TestCase
     {
         require_once __DIR__ . '/../../src/common.php';
 
-        require_once __DIR__ . '/../../src/reports/tests.php';
+        require_once __DIR__ . '/../../src/reports_common.php';
 
         $host = getenv('BASE_URL');
         \assert(\is_string($host));
@@ -117,7 +117,7 @@ final class RedirectsTest extends TestCase
     {
         require_once __DIR__ . '/../../src/common.php';
 
-        require_once __DIR__ . '/../../src/reports/tests.php';
+        require_once __DIR__ . '/../../src/reports_common.php';
 
         $host = getenv('BASE_URL');
         \assert(\is_string($host));

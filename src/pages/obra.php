@@ -45,18 +45,20 @@ if ($is_book) {
 if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
     set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']));
 
-    // Preload image.
-    $image_url = get_image_tags(file_name: $obra['Imatge'], path: '/img/obres/', return_href_only: true);
-    header("Link: <{$image_url}>; rel=preload; as=image");
+    // Preload above the fold image.
+    if (!is_mobile()) {
+        $image_url = get_image_tags(file_name: $obra['Imatge'], path: '/img/obres/', return_href_only: true);
+        header("Link: <{$image_url}>; rel=preload; as=image");
+    }
 
     $output .= '<aside class="col-image" aria-label="Coberta del llibre o imatge representativa de l\'obra">';
     $output .= get_image_tags(
-        $obra['Imatge'],
-        '/img/obres/',
-        $is_book ? 'Coberta' : $obra['Títol'],
-        $obra['WIDTH'],
-        $obra['HEIGHT'],
-        false
+        file_name: $obra['Imatge'],
+        path: '/img/obres/',
+        alt_text: $is_book ? 'Coberta' : $obra['Títol'],
+        width: $obra['WIDTH'],
+        height: $obra['HEIGHT'],
+        lazy_loading: is_mobile()
     );
     $output .= '</aside>';
 }

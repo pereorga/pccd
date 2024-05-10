@@ -1,6 +1,6 @@
 FROM alpine:3.19
 LABEL maintainer="Pere Orga pere@orga.cat"
-LABEL description="Alpine-based image with Apache and PHP."
+LABEL description="Alpine-based image with Apache and mod_php that mimics production."
 
 # Set working directory
 WORKDIR /srv/app
@@ -13,7 +13,6 @@ RUN apk --no-cache --update add \
     php83-apache2 \
     php83-apcu \
     php83-common \
-    php83-intl \
     php83-mbstring \
     php83-opcache \
     php83-pdo_mysql \

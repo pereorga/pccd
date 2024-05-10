@@ -38,6 +38,21 @@ if (!function_exists('mb_ucfirst')) {
 }
 
 /**
+ * Gets whether the device sends a mobile user agent.
+ *
+ * This is not reliable if CDN/Varnish are in place (which is not the case). Currently only used for preloading images.
+ *
+ * @psalm-suppress PossiblyUndefinedArrayOffset, RedundantCondition
+ */
+function is_mobile(): bool
+{
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    assert(is_string($user_agent));
+
+    return stripos($user_agent, 'mobile') !== false;
+}
+
+/**
  * Transforms plain text into valid HTML turning URLs into links.
  *
  * Originally based on urlLinker by Søren Løvborg.
@@ -377,17 +392,19 @@ function get_side_blocks(string $page_name): string
             $side_blocks .= '<a href="' . $random_book['URL'] . '">';
         }
 
-        // Preload book cover.
-        $image_url = get_image_tags(file_name: $random_book['Imatge'], path: '/img/obres/', return_href_only: true);
-        header("Link: <{$image_url}>; rel=preload; as=image");
+        // Preload above the fold image.
+        if (!is_mobile()) {
+            $image_url = get_image_tags(file_name: $random_book['Imatge'], path: '/img/obres/', return_href_only: true);
+            header("Link: <{$image_url}>; rel=preload; as=image");
+        }
 
         $side_blocks .= get_image_tags(
-            $random_book['Imatge'],
-            '/img/obres/',
-            $random_book['Títol'],
-            $random_book['WIDTH'],
-            $random_book['HEIGHT'],
-            false
+            file_name: $random_book['Imatge'],
+            path: '/img/obres/',
+            alt_text: $random_book['Títol'],
+            width: $random_book['WIDTH'],
+            height: $random_book['HEIGHT'],
+            lazy_loading: is_mobile()
         );
         if ($random_book['URL'] !== null) {
             $side_blocks .= '</a>';

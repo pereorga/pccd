@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Updates Composer/PHIVE/NPM/PECL/apt-get/Homebrew/Maven dependencies and Docker images.
+# Updates Composer/PHIVE/NPM/PECL/apt-get/Maven dependencies and Docker images.
 #
 # This script is called by npm update script.
 #
@@ -23,16 +23,12 @@ usage() {
     echo ""
     echo "    apc-gui"
     echo "      Updates apc.php file to latest revision"
-    echo "    brew"
-    echo "      Updates Homebrew packages"
     echo "    composer"
     echo "      Updates all Composer dependencies to latest release, including non-direct dependencies and repositories"
     echo "    docker"
     echo "      Updates Docker images in Docker files and docker-compose.yml to next release"
     echo "    oxipng"
     echo "      Updates oxipng cargo package in Docker files"
-    echo "    nixpkgs"
-    echo "      Updates the nixpkgs version in shell.nix to the latest commit"
     echo "    opcache-gui"
     echo "      Updates OPcache GUI to latest revision"
     echo "    phive"
@@ -84,7 +80,7 @@ increment_version() {
 export -f increment_version
 
 ##############################################################################
-# Checks for a newer version of a hub.docker.com image specified in a Docker file, and updates it.
+# Tries to check for a newer version of a hub.docker.com image specified in a Docker file, and updates it.
 # Arguments:
 #   A Docker file, a path (e.g. ".docker/Dockerfile")
 #   An image name (e.g. "php")
@@ -109,7 +105,7 @@ check_version_docker_file() {
 }
 
 ##############################################################################
-# Checks for a newer version of a hub.docker.com image specified in a Docker Compose file, and updates it.
+# Tries to check for a newer version of a hub.docker.com image specified in a Docker Compose file, and updates it.
 # Arguments:
 #   A Docker Compose file, a path (e.g. "docker-compose.yml")
 #   An image name (e.g. "mariadb")
@@ -128,31 +124,6 @@ check_version_docker_compose() {
         exit 1
     else
         echo "OK: ${IMAGE_NAME} Docker image is up to date in ${COMPOSE_FILE}."
-    fi
-}
-
-##############################################################################
-# Updates Homebrew packages.
-# Arguments:
-#   None
-##############################################################################
-update_brew_packages() {
-    if [[ -x "$(command -v apt-get)" ]]; then
-        # We consider this to be Debian-based.
-        if [[ -x "$(command -v brew)" ]]; then
-            echo "Installing/updating brew packages for systems that have apt-get..."
-            brew update && brew bundle install --file=ubuntu.Brewfile
-        else
-            echo "Note: brew command is not available"
-        fi
-    else
-        # This is likely macOS, a non-Debian Linux distribution (untested) or another POSIX system (untested).
-        if [[ -x "$(command -v brew)" ]]; then
-            echo "Installing/updating brew packages..."
-            brew update && brew bundle install
-        else
-            echo "Note: brew command is not available"
-        fi
     fi
 }
 
@@ -226,42 +197,6 @@ update_cargo_dockerfile() {
     fi
 }
 
-##############################################################################
-# Updates the nixpkgs version in shell.nix to the latest commit.
-# Arguments:
-#   None
-##############################################################################
-update_nixpkgs_version() {
-    echo "Updating nixpkgs version in shell.nix..."
-
-    # Fetch the latest commit hash from the NixOS/nixpkgs repository
-    local latest_commit
-    latest_commit=$(curl --silent "https://api.github.com/repos/NixOS/nixpkgs/commits/master" | jq -r '.sha')
-
-    if [[ -z ${latest_commit} ]]; then
-        echo "Error: Could not fetch the latest commit hash of nixpkgs."
-        exit 1
-    fi
-
-    local new_url="https://github.com/NixOS/nixpkgs/archive/${latest_commit}.tar.gz"
-    local new_sha256
-    new_sha256=$(nix-prefetch-url --unpack "${new_url}")
-
-    if [[ -z ${new_sha256} ]]; then
-        echo "Error: Could not fetch the new sha256 for the latest commit."
-        exit 1
-    fi
-
-    # Update shell.nix with the new URL and sha256
-    local shell_nix_backup="shell.nix.bak"
-    cp shell.nix "${shell_nix_backup}"
-    sed -e "s|url = \".*\";|url = \"${new_url}\";|" "${shell_nix_backup}" > shell.nix
-    sed -e "s|sha256 = \".*\";|sha256 = \"${new_sha256}\";|" shell.nix > "${shell_nix_backup}"
-    mv "${shell_nix_backup}" shell.nix
-
-    echo "nixpkgs version updated in shell.nix."
-}
-
 if [[ $# != 1 ]]; then
     usage
     exit 1
@@ -269,11 +204,6 @@ fi
 
 if [[ $1 == "help" ]]; then
     usage
-    exit 0
-fi
-
-if [[ $1 == "brew" ]]; then
-    update_brew_packages
     exit 0
 fi
 
@@ -313,11 +243,6 @@ fi
 
 if [[ $1 == "oxipng" ]]; then
     update_cargo_dockerfile .docker/ubuntu.build.Dockerfile oxipng
-    exit 0
-fi
-
-if [[ $1 == "nixpkgs" ]]; then
-    update_nixpkgs_version
     exit 0
 fi
 

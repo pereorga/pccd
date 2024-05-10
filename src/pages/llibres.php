@@ -25,7 +25,14 @@ foreach ($records as $record) {
     if ($record['URL'] !== null) {
         echo '<a href="' . $record['URL'] . '" title="' . htmlspecialchars($record['Títol']) . '">';
     }
-    echo get_image_tags($record['Imatge'], '/img/obres/', $record['Títol'], $record['WIDTH'], $record['HEIGHT'], false);
+    echo get_image_tags(
+        file_name: $record['Imatge'],
+        path: '/img/obres/',
+        alt_text: $record['Títol'],
+        width: $record['WIDTH'],
+        height: $record['HEIGHT'],
+        lazy_loading: false
+    );
     if ($record['URL'] !== null) {
         echo '</a>';
     }

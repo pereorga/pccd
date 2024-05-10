@@ -44,7 +44,7 @@ dd::after {
     order: 1;
 }
 
-/* Medium devices (large phones, 576px and up) */
+/* Medium devices */
 @media (min-width: 576px) {
     .col-image {
         flex: 0 0 41.6667%;

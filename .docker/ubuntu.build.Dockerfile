@@ -1,13 +1,15 @@
-# Use an official Rust image to compile oxipng.
-FROM rust:1-bookworm as oxipng-builder
+# Use the official Rust image to compile oxipng.
+# hadolint ignore=DL3007
+FROM rust:latest as oxipng-builder
 
 # Install oxipng
-RUN cargo install oxipng --version 9.0.0
+RUN cargo install oxipng --version 9.1.1
 
-FROM ubuntu:24.04
+# hadolint ignore=DL3007
+FROM ubuntu:latest
 
 LABEL maintainer="Pere Orga pere@orga.cat"
-LABEL description="Ubuntu image for building a new release."
+LABEL description="Ubuntu-based image for building a new release."
 
 ENV DEBIAN_FRONTEND=noninteractive
 

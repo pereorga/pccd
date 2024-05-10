@@ -249,18 +249,20 @@ foreach ($images as $image) {
             // Use it for the meta image.
             set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($image['Identificador']));
 
-            // Preload it.
-            $image_url = get_image_tags(file_name: $image['Identificador'], path: '/img/imatges/', return_href_only: true);
-            header("Link: <{$image_url}>; rel=preload; as=image");
+            // Preload above the fold image.
+            if (!is_mobile()) {
+                $image_url = get_image_tags(file_name: $image['Identificador'], path: '/img/imatges/', return_href_only: true);
+                header("Link: <{$image_url}>; rel=preload; as=image");
+            }
         }
 
         $image_tag = get_image_tags(
-            $image['Identificador'],
-            '/img/imatges/',
-            $paremiotipus,
-            $image['WIDTH'],
-            $image['HEIGHT'],
-            !$is_first_image
+            file_name: $image['Identificador'],
+            path: '/img/imatges/',
+            alt_text: $paremiotipus,
+            width: $image['WIDTH'],
+            height: $image['HEIGHT'],
+            lazy_loading: is_mobile() || !$is_first_image
         );
 
         $image_link = get_clean_url($image['URL_ENLLAÇ']);

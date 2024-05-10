@@ -28,7 +28,6 @@ let
       _7zz
       curl
       docker-compose
-      dotenv-linter
       file
       gifsicle
       gnupg
@@ -47,9 +46,7 @@ let
       pngquant
       shellcheck
       shfmt
-      statix
       unzip
-      yamlfmt
       yamllint
     ];
 

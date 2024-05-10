@@ -52,7 +52,7 @@
     "ext-curl": "Dev: Used for tests after install",
     "ext-gd": "Dev: Required for image size detection during install",
     "ext-imagick": "Dev: Required for image optimization during install",
-    "ext-intl": "Required in the web server for some tests",
+    "ext-intl": "Dev: Required for some tests",
     "ext-pdo-mysql": "Required in the web server",
     "ext-zend-opcache": "Encouraged in the web server",
     "guzzlehttp/guzzle": "Dev: Used by sentence-tagger-openai dev script",
