@@ -3,7 +3,6 @@
 .github
 .husky
 .phive
-tests
 tools
 
 # The database files and provided zip files

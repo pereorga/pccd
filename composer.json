@@ -41,10 +41,10 @@
     "guzzlehttp/guzzle": "^7.8",
     "noisebynorthwest/php-spx": "dev-master",
     "pereorga/pccd-lt-filter": "dev-master",
-    "phpstan/phpstan": "^1.10",
-    "phpstan/phpstan-deprecation-rules": "^1.1",
-    "phpstan/phpstan-strict-rules": "^1.5",
-    "rector/rector": "^1.0",
+    "phpstan/phpstan": "^1.11",
+    "phpstan/phpstan-deprecation-rules": "^1.2",
+    "phpstan/phpstan-strict-rules": "^1.6",
+    "rector/rector": "^1.1",
     "slevomat/coding-standard": "^8.15"
   },
   "suggest": {

@@ -27,10 +27,11 @@ An Alpine-based image is used in production, and is also available locally:
 docker-compose -f docker-compose-alpine.yml up
 ```
 
-or, for development:
+Or:
 
 ```bash
-docker-compose -f docker-compose-alpine.yml -f docker-compose-alpine.override.sample.yml up
+docker system prune -f
+docker-compose -f docker-compose-alpine.yml -f docker-compose-alpine.override.sample.yml up --build
 ```
 
 ## Updating the content and creating a new release

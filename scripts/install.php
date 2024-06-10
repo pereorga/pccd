@@ -56,9 +56,12 @@ foreach ($paremies as $p) {
     if ($p['MODISME'] !== null) {
         $modisme = trim($p['MODISME']);
         if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
-            $last_number = trim(end($matches[0]));
-            $modisme = rtrim($modisme, "{$last_number} \n\r\t\v\x00");
-            $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
+            $last = end($matches[0]);
+            if (is_string($last)) {
+                $last_number = trim($last);
+                $modisme = rtrim($modisme, "{$last_number} \n\r\t\v\x00");
+                $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
+            }
         }
     }
 

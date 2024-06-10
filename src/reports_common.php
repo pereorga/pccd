@@ -169,7 +169,7 @@ function group_data_stats(array $data, string $key): array
  *
  * @return array<string, int>
  */
-function getDataFromFiles(array $files, string $directoryPath, string $attribute): array
+function get_data_from_files(array $files, string $directoryPath, string $attribute): array
 {
     $data = [];
     foreach ($files as $file) {

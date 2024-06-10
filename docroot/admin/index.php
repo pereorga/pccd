@@ -94,11 +94,12 @@ session_write_close();
 if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
     require __DIR__ . '/../../src/reports_common.php';
 
+    $test_file = $_GET['test'];
     $test_functions = get_test_functions();
-    if (isset($test_functions[$_GET['test']])) {
+    if (isset($test_functions[$test_file])) {
         /** @psalm-suppress UnresolvableInclude */
-        require __DIR__ . '/../../src/reports/' . $_GET['test'] . '.php';
-        foreach ($test_functions[$_GET['test']] as $function_name) {
+        require __DIR__ . '/../../src/reports/' . $test_file . '.php';
+        foreach ($test_functions[$test_file] as $function_name) {
             $function_name();
         }
     }

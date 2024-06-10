@@ -1,8 +1,5 @@
 A Abella, abellots.
 A Àger, qui no hi tingui feina, que no hi vagi.
-A Ainet, corsecs.
-A Ainet, els serafins.
-A Alberola, guineuetes.
 A Albocàsser, llops i a Tírig, rabosetes.
 A Alboraia, xufes.
 A Alcalalí beuen aigua i pixen vi.
@@ -21,10 +18,14 @@ A Argelers, encara més.
 A Ariany es viu bé tot l'any i, a Maria, tot el dia.
 A Artà hi arriba qui hi va...
 A Banyuls, piquen sal.
+A Barcelona tenim tanta gràcia, que n'hi cap dintre les muralles.
 A barra catxa.
+A bell comptant.
+A bell trinc.
 A Belltall... pa amb all.
 A Bellvís, quan no fa bo, fa gris.
 A Bellvís, qui no en fa una en fa sis.
+A ben menjar, ben beure.
 A Benante, la guineu hi canta.
 A Beniarrés, tot ho fan al revés.
 A Beniatjar, els fadrins porten trabuc i pistola.
@@ -51,6 +52,7 @@ A bon corral, bon marrà.
 A bon fadrí, bon padrí.
 A bon fred, bona manta.
 A bon jutge, millor testimoni.
+A bon ritme.
 A bon seny no hi val engany.
 A bona hora lladra el gos.
 A bones campanes, el millor campaner que les toque.
@@ -93,7 +95,6 @@ A Can Revella, prop d'Ordal!
 A can Tapí.
 A can Teca.
 A cantar mal, no val; cantar bé entreté.
-A Canturri, guineuetes.
 A Capellades, pocs i lladres.
 A caragol i a caragolí, res d'aigua: vi!
 A Carcaixent, taronges.
@@ -106,16 +107,21 @@ A cas Concos, concarrins.
 A casa del teu veí, no hi vagis a demanar; ves-hi primer a servir.
 A Casa la Ciutat, posa-hi el cap.
 A casa seva el coneixen.
+A casa treballem poc, brut, car i mal fet.
+A casa, a l'hort i a l'església, no s'hi acaba mai la feina.
 A casa, porta-hi sempre.
 A Casserres són boniques, a Gironella, gentils, a Olvan són llagrimoses, burladores de fadrins.
 A Casserres, les guerres.
 A Castell de Castells, ni elles ni ells.
+A Castellvell, vés amb ell i no et fiïs d'ell.
+A Catllar, fan vi de Bordeus.
 A cavall corredor (o menjador), cabestre curt.
 A cavall del burro.
 A cavaller pintat, príncep ventós.
 A cel obert.
 A Cerdanyola no tenen titola.
 A Ceret, cullen cireres... amb la cua.
+A Cervelló, pota-rojos.
 A Ciutadella el cul no els cap dins la barcella.
 A Ciutadilla no li donaven vida.
 A Claverol, cornuts.
@@ -180,14 +186,16 @@ A fals escaire.
 A falta de rella, xerri d'ovella.
 A Farena, caragols.
 A feixos i garbells.
+A fer el que pot, qualsevol ase hi va.
 A fer gàrgares!
 A fer piles!
 A ferrar i xapar.
+A Fígols, rateres.
 A fil de roda.
+A fil per pua.
 A final de juny deixa de cantar el cuc.
 A flor de llavis.
 A foc i a ferro.
-A fora vila vas? o t'enganyen o t'enganyaràs.
 A força de cops i d'ultratges, les pedres es tornen imatges.
 A fregir ous de lloca!
 A galop estès.
@@ -242,8 +250,6 @@ A l'olla, si no s'hi afegia, es cremaria.
 A l'últim preu.
 A la banda.
 A la barba del boig tothom aprèn a rapar.
-A la barbolla.
-A la barcada.
 A la Barceloneta, la sal hi vessa.
 A la Barceloneta, moneda falsa.
 A la Barceloneta, olles sense nanses.
@@ -254,7 +260,6 @@ A la barra dels ocells n'hi pengen de joves i de vells.
 A la base.
 A la bèstia en bàmbol.
 A la Bisbal, gent com cal!
-A la blanca.
 A la boca del llop.
 A la braça.
 A la Cabanassa, treballen pas massa.
@@ -264,7 +269,7 @@ A la claror de.
 A la companyia de Jesús n'hi ha de tots.
 A la comunió ves-hi amb gran devoció.
 A la contrada.
-A la cullera.
+A la corda.
 A la curra.
 A la defensiva.
 A la desfeta.
@@ -279,6 +284,7 @@ A la Fuliola rosten la cassola.
 A la galiota.
 A la gana.
 A la gana no li vagis amb cançons.
+A la geganteta.
 A la gent, quan és feliç, tot se li escapa per la boca.
 A la Ginebrosa, raboses.
 A la gola, mel; a l'estómac, fel.
@@ -300,17 +306,24 @@ A la lluneta estic, que me'n ric.
 A la mà de Déu.
 A la mà del llop sempre hi ha foc.
 A la manera de.
+A la mar vas? Allò que portes menjaràs.
 A la mar, per un peix no s'hi coneix.
 A la mar!
+A la mateixa hora de sempre.
 A la matinada.
+A la mercè.
 A la mercè de.
 A la Mercè, crema-la.
 A la merda el ventall, que l'estiu s'acaba.
+A la mèu-mèu.
+A la meva manera.
 A la mida del sant són les cortines.
+A la mínima.
 A la mona.
 A la Morera, gralles.
 A la mort no faltarem.
 A la muntanya de Fitor, a l'estiu hi fa calor.
+A la nata.
 A la neu no aneu, que si aneu, no tornareu.
 A la nit tot el món al llit!
 A la nona.
@@ -320,14 +333,18 @@ A la part.
 A la pau.
 A la pau de Déu!
 A la pau de l'àngel.
+A la perdiguera.
 A la pífia.
 A la plaça, el millor fadrí de casa.
-A la Pobla de Cérvoles, mosquits.
+A la plana.
 A la Pobla de Massaluca, cullerots.
+A la Pobla de Massaluca, qui no treballa, no manduca.
 A la Pobla, botifarres.
+A la Pobla, mosquits.
 A la porta.
 A la porta de la seu, es fa el judici més breu.
 A la prima.
+A la primavera d'hivern tremola el malalt.
 A la primera aigua d'octubre, el gra llançaràs i cobriràs.
 A la puja.
 A la punta.
@@ -397,6 +414,7 @@ A les Peces, senallons.
 A les penes, costelles.
 A les Planes, no te'n vinguin ganes.
 A les poques.
+A les postres.
 A les primeries.
 A les puces.
 A les sis tot temps és dia.
@@ -434,6 +452,7 @@ A maça martell.
 A Maçanet, morts de fred.
 A mal bestiar, mal pastor i mal ca.
 A mal joc, bona cara.
+A mala nit, no lladra na Verdala.
 A Mallolís, serafins.
 A Mallorca falta gent!
 A manades desfetes.
@@ -454,11 +473,14 @@ A mestre d'arpa, aprenent de sambuca.
 A mestre d'espasa, aprenent de pistola.
 A mi ni em va ni em ve.
 A mi, petonets!
+A mida de «la Botelleta».
+A mig dinar, qui no tingui pa, que se'n talli.
 A mig dir.
 A Millà, afamats.
 A Millars, el campanar de sorra.
 A miques i bocins.
 A Mirambell, cogullades.
+A missa donen galetes.
 A mitja dent.
 A mitja llengua.
 A mitja màquina.
@@ -473,6 +495,7 @@ A Monistrol, napicols.
 A Montalbà, tot just el sol hi arriba, que ja se'n va.
 A Montblanc, sabuts.
 A Montbrió, molta gàbia i poc moixó.
+A Montesquiu, ratats.
 A Moraira, senyorets i morts de fam.
 A Moror, llops.
 A Murla, el dimoni li furga.
@@ -551,6 +574,7 @@ A ple estiu.
 A ple sol.
 A plena fosca.
 A plena nit.
+A plet bo i a plet dolent, ten per amic l'escrivent.
 A poc vi, molt ull.
 A pocs passos.
 A poquet a poquet.
@@ -579,6 +603,7 @@ A qui el joc ama, el joc el mata.
 A qui el porti.
 A qui es mor, l'enterren.
 A qui et proporcioni el gall, no li escatimis el tall.
+A qui et renti la gibrelleta, dóna-li la panereta.
 A qui hagis de manar no t'hi posis a jugar.
 A qui l'ha mossegat una serp, la soga li fa por.
 A qui la serp ha mossegat, la corda li fa por.
@@ -611,7 +636,7 @@ A Rocafort són del morro fort.
 A Rocafort, el llop s'hi ha mort.
 A Rocafort, safraners.
 A Roda, un pont sobre un pont i una església a cada cap.
-A Rodès són Salta-roques.
+A Rodès són salta-roques.
 A Roma de tot dispensen.
 A Roses són gent de rei, que tiren pompes i gales.
 A Roses són gent de vi i a la punta s'emborratxen.
@@ -642,18 +667,20 @@ A Sant Joan s'hi va fer gran.
 A Sant Joan, orelluts.
 A Sant Josep, el cep descobert.
 A Sant Just Desvern, estiu i hivern.
+A Sant Martí es va morir i a Vinaixa li van fer la caixa.
 A Sant Miquel tot va a repel.
+A Sant Pere, teixidors i indianaires.
+A Sant Sadurní, en tenen més que no n'hi ha aquí.
 A Sant Silvestre, la llargària d'un cabestre.
 A Santa Clara fan funció amb un ciri a cada cantó.
 A Santa Coloma de Farners, nenes maques i res més.
+A Santa Maria, l'aixau.
 A Santa Pau, fesols.
-A Santa Perpètua, «ora pro nobis».
 A Sau, els fumats.
 A Sedó, el forat de la pudor.
 A Sella, beu aigua i fuig d'ella.
 A semblança de.
 A Senija, raboses.
-A Senterada, paelletes.
 A Simat de la Valldigna, raboses.
 A Sisteró passa la rata pel porró.
 A Sitges, sol i calitges.
@@ -662,10 +689,10 @@ A so de què?
 A sol baix.
 A sol i a vent.
 A sol ponent.
-A Solans, guineus i guineuetes.
 A soleta de mitja.
 A Sóller, molts de tarongers, i oliveres amb excés.
 A Solsona, ganivets.
+A son d'ocell.
 A Son Sardina, qui no hi du pa, no hi dina.
 A Sort, mata-rucs.
 A Soses, les rabosetes.
@@ -681,6 +708,7 @@ A Tarragona no hi ha pujades.
 A Tarragona, les aigües, d'on surten les llimonades.
 A Tarragona, les parets parlen llatí.
 A Tarroja, la mula roja.
+A taula alçada.
 A taula franca.
 A Teià són saltamarges.
 A Terrelló, cadascú va pel seu cantó; a Ullastrell, cadascú va per ell.
@@ -691,6 +719,7 @@ A tiri i baldiri.
 A Tírig, raboses i rabosetes.
 A toc de xiulet.
 A toc i coça.
+A toca ditet.
 A Toluges, cebes.
 A tomba oberta.
 A Tor, els perfumats.
@@ -706,10 +735,12 @@ A tot cost.
 A tot i a totes.
 A tot i ple.
 A tot rostoll.
+A tot tren.
 A tota eucaristia.
 A tota llesca.
 A tota potència.
 A tota vela.
+A Tots Sants, vi novell.
 A tots vents.
 A treballar, allà, Berta.
 A trenc de.
@@ -720,15 +751,29 @@ A tro i a través.
 A trompa i cordell.
 A trompa i taleca.
 A trossos i bocins.
+A ull de llebre.
 A ull nu.
 A ull, pel cul.
 A un de Bescaran no li ensenyis aritmètica, que li va gran.
+A un dit.
+A un gat mort, pessiga-li fort.
+A un mal pas, enviar-hi un frare.
+A un pam de.
+A un pèl.
+A un penjat li donen tres dies.
+A un penjat no li ve d'una estirada.
+A un temps.
+A un tret de bala.
+A un tret de pedra.
+A una cantalada.
 A una casa oberta, fa molt mal entrar.
 A Urús, els de la terra roja.
 A ús i costum.
+A usades i bugades.
+A València entràrem, que al Cabanyal no poguérem.
 A València tinc un piano i ací no el puc tocar.
 A Vallbona els pengen a la trona.
-A Vallclara, guineuetes.
+A Vallcebre: Xic, Curt i Rodó, Marxa Corrent i Lleuger.
 A Valldellou, caragoles.
 A Vallfogona tenia la gola.
 A Valveralla tot es perd per la canalla.
@@ -769,6 +814,7 @@ A voltes el trellat està al Montgó.
 A voltes els sabuts són burros.
 A voltes es treu més del cru que del sec.
 A Xaló, a cada porta un cagalló (o un bombó).
+A Xeraco, a plantar un «taco».
 A Xerta, besa el cul del matxo.
 A xollar bous, a Menàrguens!
 A, e, i, o, u, el burret sap més que tu.
@@ -791,12 +837,29 @@ Abans dels «anta» res no espanta, però quan arriba als «anta» ja es decanta
 Abans que cabres, tingues corral.
 Abans que res.
 Abans venceràs espasa i ganivet que no fort coratge.
+Abeurar la tita.
+Abrasar-se de set.
 Abril i maig són dos mesos tots els anys.
 Abril (o gener) fa el pecat i el març és acusat.
 Abril, un de bo de cada mil.
+Abstinència és consell d'home savi.
+Acabar a Burjó.
+Acabar a Canor.
+Acabar a la vinya de Ferreres.
+Acabar a Son Quint.
+Acabar a Sonella.
+Acabar al Cabeçol.
+Acabar al camí de Paterna.
+Acabar al camí de Salem.
+Acabar al camí de Sant Joanet.
+Acabar al Garroferal del Mut.
+Acabar al Pla de Corbera.
 Acabar amb sol.
+Acabar com la fira de Ràfels.
 Acabar com la processó de la Moixeta.
+Acabar d'encendre el foc.
 Acabar el ble.
+Acabar els dies.
 Acabar la vida.
 Acabar-se la palla, morir-se el burro, assolar-se el pessebre, tot fou un.
 Acabar-se les vaques grasses.
@@ -804,6 +867,7 @@ Ací em pica, ací em cou i ací et trenque l'ou.
 Ací i allà.
 Ací la mate, ací la pele.
 Aclarir (o esclarir) la roba.
+Aclarir-li la son.
 Aclarir-se (o esclarir-se) el dia.
 Açò és església o melonar?
 Adiu, Feliu! Si tornes pas, escriu!
@@ -848,11 +912,13 @@ Agafar la verba.
 Agafar les armes.
 Agafar les tercianes.
 Agafar pel seu compte.
+Agafar per la cua.
 Agafar ses dreceres de na Poua.
 Agafar un bacallà.
 Agafar un bon frare.
 Agafar un bon nord.
 Agafar una enrabiada.
+Agafar una moixa.
 Agafar una pulmonia.
 Agafar una sól·lera.
 Agafar una turca.
@@ -872,6 +938,7 @@ Agre com el ferro.
 Aguantar el joc.
 Aguantar el tafetà.
 Aguantar el temporal.
+Aguantar-li la mirada.
 Aguantar-se per la pela.
 Aguantar-se per un pèl.
 Àguila vella, terra novella.
@@ -885,6 +952,7 @@ Ai, bon Déu de Mataró!, soc a l'ombra i tinc calor.
 Ai, Déu meu, quina cara que feu!
 Ai, poble, que de mi eres!
 Ai, quin dolor!
+Ai, tu vila de Ceret, que tens un pont fet d'una sola arcada!
 —Ai! —Cebes amb tall!
 Ai! Foc a la còfia...!
 Aigua de llunetes, aigua de bassetes.
@@ -903,18 +971,23 @@ Aigua sense moldre, com al Mas de Barberans.
 Aigua tronada, aigua pollada.
 Aigua, fems i arades, blat a carretades.
 Aiguader del vi dolent.
-Ainet, el senyoriu.
 Aire de Pina omple la bacina.
 Aire (o boira) de Baciver, aigua (o la neu) al darrer.
 Aixafar-li el cap.
 Aixafar-li els talons.
 Aixeca't quan surt el sol i colgat sense gresol.
 Aixecar-se primer que sa màrfega.
+Així com aflaqueix el cor, aflaqueix el senyor.
+Així et grillessis!
 Així se'n va la carn de la carnisseria.
+Això és a part.
 Això és ele, ala, botifarra.
 Això és pa i això és peix.
 Això és una altra música!
+Això no em pertoca.
+Això no fila!
 Això no mola, panerola.
+Això no toca.
 Això no xuta.
 —Això què és? —Una peralta. —Una peralta? —Una merda així d'alta!
 Ajudar a caure.
@@ -951,12 +1024,15 @@ Al darrer ral, el darrer badall.
 Al darrer, tot o res.
 Al davall de.
 Al davant del bisturí, els valents són paper fi.
+Al davant del sacerdot, estar dret i parlar poc.
 Al davant, bona cara, i, per darrere, punyalada.
 Al desganat, doneu-li alls.
 Al dinar, menja poc; i al sopar, menys.
 Al dissortat, tot se li compta com a pecat.
 Al dropo i al pobre tot li costa el doble.
 Al febrer ja ix l'herba pel recer; al març, per tot el ribàs.
+Al febrer, l'home poda l'arbrer.
+Al febrer, posa't la bufanda, que fa fred.
 Al ferrer en barbes i a la lletra en baves.
 Al fi, al fi.
 Al fil del dia.
@@ -998,6 +1074,7 @@ Al pap i al sac.
 Al parer de.
 Al pas, al pas, ja aplegaràs.
 Al peresós, el sol se'l menja.
+Al peresós, li vénen les ganes de treballar quan s'acaba la feina.
 Al pla i a la muntanya, amb diners tot s'apanya.
 Al pobre honrat, fes-li sempre costat.
 Al pobre, ningú l'escolta.
@@ -1005,14 +1082,22 @@ Al que et frega el cul dona-li les claus del baül.
 Al que no et vol, set sinades.
 Al Quer, el forat tothom se'l té.
 Al Quer, macaleus.
+Al qui donen a triar, li donen a cavil·lar.
 Al qui et pega, pega-li.
 Al qui no vol pa, dona-li coques.
 Al qui pasta la farina mai li falta pa.
+Al qui té diners, mai ningú li pregunta com els ha fet.
+Al qui té salut i diners no li falta de res.
 Al Racó del Buc, contraban i trabuc.
+Al rei, a l'aigua i al foc, fer-los lloc.
+Al revés, com as Mercadal.
 Al ric no li deguis, i al pobre no li prometis.
+Al ric, pel ramal; la campana, pel capçal.
 Al sa i al pla.
 Al sant de son propi nom deu venerar-lo tothom.
+Al senyor i al bacó, tot els està bé.
 Al seu aire.
+Al Vallès, les branques de canyots.
 Al Voló, taps de suro.
 Alabem primerament a Déu Pare Omnipotent.
 Alba de prima.
@@ -1039,7 +1124,9 @@ Allargar el coll.
 Allargar la cançó.
 Allargar la rondalla.
 Allí l'àrab, alabarà l'illa.
+Allí on hi ha pèl hi ha el diable.
 Allí on posava l'ull posava la bala.
+Allí on s'acaba l'interès, s'acaba la memòria.
 Allí on sia que vagis, no vulguis ser diferent dels altres.
 Allioli, menjar del dimoni.
 Allisar els cabells.
@@ -1047,9 +1134,12 @@ Allisar les parets.
 Allisar-li el pèl.
 Allò que dos volen, es fa.
 Allò que fa mal, ensenya.
+Allò que ve per natura és el que dura.
 Almassorí, lladre i fi.
 Alp, Das, Olopte, Cortàs.
 Als antípodes de.
+Als ases traginers, si no els peguen, no van drets.
+Als capellans, besa'ls les mans.
 Als collons de Déu.
 Als de Cortàs, ni se'n fa cas.
 Als de Favara, gira'ls la cara.
@@ -1074,6 +1164,7 @@ Als volts de.
 Alt i flac.
 Alt per alt.
 Alta i esvelta em faci Déu, que morena o rossa ja m'hi faré jo.
+Altron, les pomes flairoses i les fadrines formoses.
 Amagar les espardenyes.
 Amagar les ungles, com els moixos.
 Amagar-se com els conills.
@@ -1122,6 +1213,7 @@ Amb el dit d'en Pere, remena la caldera.
 Amb el dogal al coll.
 Amb el foc, a poc a poc.
 Amb el gra d'un any bo, se'n remeien tres de dolents.
+Amb el meló, vi a discreció.
 Amb el menjar de l'hort la Quaresma no hi pot.
 Amb el moc penjant.
 Amb el pap buit.
@@ -1142,6 +1234,11 @@ Amb els ulls fora de si.
 Amb falsa modèstia.
 Amb gola seca i panxa buida, no es balla ni es crida.
 Amb gran pompa.
+Amb l'aire de la falç es coneix el segador.
+Amb l'esquella es coneix la bèstia.
+Amb l'estómac buit.
+Amb l'excepció de.
+Amb l'excusa de.
 Amb l'objectiu de.
 Amb l'objectiu que.
 Amb l'ull al cul.
@@ -1150,6 +1247,7 @@ Amb la bragueta fumant.
 Amb la cua feta.
 Amb la llengua.
 Amb la mel als llavis.
+Amb la ment en blanc.
 Amb la paraula a la boca.
 Amb la pipa enlaire.
 Amb la popa primera.
@@ -1158,24 +1256,38 @@ Amb la roba que porta.
 Amb la soga al coll.
 Amb la vara alta.
 Amb les armes a les mans.
+Amb les mans a la pasta.
 Amb les mans al foc.
+Amb les reserves acostumades.
 Amb les veles al vent.
+Amb mà ferma.
 Amb mala cara.
 Amb mala folla.
+Amb mala idea.
+Amb mala intenció.
 Amb males intencions.
+Amb malves tots els mals salves.
 Amb més veres!
+Amb mi no hi comptis.
 Amb mil ulls.
+Amb mitja cana de terra al cim, tant li fan figues, nous com raïm.
 Amb mitja de seda i lligacama de jonc.
 Amb mitja veu.
 Amb narcís, amor d'encís.
+Amb nenes trobareu nens.
+Amb nocturnitat i traïdoria.
 Amb noves i comproves.
 Amb oli a les gerres no hi ha casa pobra.
 Amb ordre i activitat s'obté la prosperitat.
+Amb ous i colomins.
+Amb pa no es mor ningú de gana.
 Amb palmes d'or.
 Amb panxa buida, un bou no pot fer feina.
+Amb pas decidit.
 Amb pas ferm.
 Amb pebre i sal adobada, pot passar la carn passada.
 Amb pell d'ovella.
+Amb permís de l'auditori.
 Amb poc foc.
 Amb qui vaig, vaig.
 Amb raó o sense.
@@ -1193,6 +1305,7 @@ Amb un mal cuc s'agafa el millor peix.
 Amb un pam de boca.
 Amb un peu fora.
 Amb un salt.
+Amb un sou vol obtenir un bou.
 Amb un xic més.
 Amb una grapada.
 Amb una mà a cada ou.
@@ -1217,9 +1330,11 @@ Amor de Carnaval és el que més val.
 Amor de festes de carrer, el millor no val un dobler.
 Amor i fred no se sap on es met.
 Amor sense diners poc durador és.
+Anant a la babalà li han esqueixat la bufanda.
 Anar a apagar foc.
 Anar a arreplegar guatlles terreres.
 Anar a Baiona.
+Anar a Banyoles.
 Anar a besar la cuixa de l'abadessa.
 Anar a bol.
 Anar a bufetades amb sant Pere.
@@ -1229,15 +1344,24 @@ Anar a buscar l'escaire de quatre puntes.
 Anar a ca Badia.
 Anar a ca Garcia.
 Anar a cal metge.
+Anar a cal Ronc.
+Anar a can Pixa de Masarac.
+Anar a Can Xumi.
 Anar a cap sord.
 Anar a cavall de les espardenyes.
 Anar a cercar el motlle dels bunyols.
 Anar a cercar l'agulla de punyir les botifarres.
 Anar a cercar pebre.
 Anar a cinc i a tres.
+Anar a clapar.
+Anar a cobrar a ca l'Amàlia.
+Anar a cobrar a casa Planta de Morella.
+Anar a cobrar al rec.
 Anar a cobrar la contribució.
+Anar a conferència.
 Anar a Cotes.
 Anar a covar.
+Anar a descansar al riu.
 Anar a emblanquinar el trespol de l'Albufera.
 Anar a encalçar xibeques.
 Anar a encendre.
@@ -1246,7 +1370,9 @@ Anar a estudi amb en Roure.
 Anar a fer de peix.
 Anar a fer el soldat.
 Anar a fer estacions.
+Anar a fer llaurar el bou negre.
 Anar a fer marges.
+Anar a fer novel·les.
 Anar a fer pelagrí.
 Anar a fer ses feines.
 Anar a fer una safranada.
@@ -1317,15 +1443,19 @@ Anar amb ham.
 Anar amb precs.
 Anar amb retòriques.
 Anar amb romanços.
+Anar arran d'embornals.
 Anar barret alt.
 Anar ben vestit no fa el metge.
 Anar cagant tomates.
 Anar caixa cobri.
 Anar cap al Clot.
 Anar com el pas dels ferrers.
+Anar com sant Jaume de barrets.
 Anar com un bruixot.
 Anar com una barca sense timó.
 Anar com una bitlla.
+Anar com una castanya calenta.
+Anar com una miloca.
 Anar com unes tenebres.
 Anar contra corrent no és cosa prudent.
 Anar cosit d'or.
@@ -1334,6 +1464,9 @@ Anar d'Anàs a Caifàs.
 Anar d'esquena al sol, com els de Navata.
 Anar darrere el peix mort.
 Anar de cal Tendre a cal Tomàs.
+Anar de càmping.
+Anar de cara a can Boix.
+Anar de catracòlica.
 Anar de racó.
 Anar en gran.
 Anar en roïna.
@@ -1365,8 +1498,21 @@ Anar prim de roba.
 Anar que ni pintat.
 Anar sense cabestre ni cabeçó.
 Anar tort de barró.
+Anar xot a xot.
 Anar-li amb cançons.
+Anar-li el diable prop.
+Anar-li la pell.
 Anar-li tots els telers.
+Anar-se'n a can Carraca.
+Anar-se'n a can Torrella.
+Anar-se'n a can trompeta.
+Anar-se'n a Cotes.
+Anar-se'n a la fossa.
+Anar-se'n al Burjó.
+Anar-se'n al garrofer de la Tella.
+Anar-se'n al ginjoler.
+Anar-se'n amb Nostre Senyor.
+Anar-se'n cap a Agres.
 Anar-se'n com l'aigua al rec.
 Anar-se'n encés en flames.
 Anar-se'n la taca.
@@ -1375,8 +1521,10 @@ Anar-se'n pel camí de Beseit.
 Anar-se'n per l'escota del floc.
 Ànec mort sense haver-hi hagut espeternec.
 Anem al cas.
+Aneu a missa i al rosari i als peus del pare vicari.
 Anfós? No en menjareu vós!
 Ànima de cavall.
+Ànima de purgatori.
 Ànima de suro!
 Ànima del mal repòs.
 Ànima del purgatori!
@@ -1384,11 +1532,15 @@ Animal de «pic» no fa a l'amo ric.
 Animal de quatre potes.
 Animal de séquia.
 Animal fermat mai s'ha engreixat.
+Animal moí, fuit o fi.
+Ànimes del purgatori!
 Annauir, per on entres has d'eixir.
 Ans no et casaràs, mira el que fas.
+Anunciar la rebuda.
 Any amarat, o molta herba o molt de sembrat.
 Any bixest, any de bessons.
 Any bixest, any de faves.
+Any bixest, any funest.
 Any d'ametlles, any de blat.
 Any d'en Marràs.
 Any de corc, any de gorg.
@@ -1427,13 +1579,17 @@ Aparta't, ànima, que el dimoni baixa.
 Apartar els ulls.
 Àpats llargs i misses curtes.
 Apedaçant i sargint, el pobre va vivint.
+Apedaçar les pells.
 Apegar-se a roda.
 Aplanar el bastó.
 Aplanar-li el camí.
+Aplegar i envasar.
+Aplegar i envasar, no pot ser.
 Aplegar i pouar.
 Aplegar sempre a la benedicció.
 Aplegats, baralles; separats, martiri.
 Aportar el seu gra de sorra.
+Apotecari brut, per què no et pentines, que encomanes polls a les medicines.
 Aprèn de mestre i esdevindràs destre.
 Aprendre a mandronades.
 Aprendre a mocar-se.
@@ -1445,6 +1601,7 @@ Aquí està qui canta.
 Aquí fou s'era d'Escorca.
 Aquí fou Troia.
 Aquí i a Tossa.
+Aquí m'agenollo, Senyor, per tocar-vos el pixador.
 Aquí n'hi ha un tros!
 Aquí sobre hi ha sobre sobrer que s'obre.
 Aquí teniu l'Agnès, preneu-la com és.
@@ -1455,6 +1612,7 @@ Ara comença l'ofici.
 Ara ho bullen.
 Ara li ve l'amor, a la núvia!
 Ara m'has dit Bernat!
+Ara sí que m'has tocat... el nas.
 Ara va bé, que la mare pega al pare.
 Aranyeta, aranyeta, ix del forat, que Nostre Senyor ha ressuscitat.
 Arc de sant Martí a la vesprada, pluja a la matinada.
@@ -1476,10 +1634,17 @@ Armar-se un palangre.
 Armat com sant Ferriol.
 Armes de cavaller no fan mal a donzella.
 Aroma i força en la poma!
+Arranjar el sarró.
 Arre, gos! Que tens tos?
 Arre, somera, que ta mare també ho era!
+Arrencada de bou.
 Arreplegar palla i llençar el gra.
+Arri, gos, que portes puces!
+Arri, gos, que tens tos!
 Arriar en banda.
+Arriba la birra!
+Arribar a cap.
+Arribar a l'estamenya.
 Arribar a la darrera hora.
 Arribar i pouar.
 Arribar la Magra.
@@ -1518,18 +1683,20 @@ Avant i avant, com diuen a Castelló.
 Avant va la caixa, que el mort encara belluga.
 Avant, avant i no us atureu, que aviat i sereu.
 Avareu i anem-hi.
-Ave Maria Puríssima!
 Avesat, com els gossos, a anar a peu.
 Avi vell, calces de burell.
+Avivar el llum.
 Avortament del dimoni.
 Avui és el dia que no venem ni una granera.
 Avui és el primer dia de la resta de la nostra vida.
+Avui és més a prop que demà.
 Avui febrer, demà Candeler i Sant Blai el darrer.
 Avui fos, i demà festa!
 Avui hi ha sopar Ikea: te'n vas a la cuina i t'ho fas.
 Avui rojor, demà calor.
 Avui un i demà dos, així diuen els rectors.
 Bac de burra, a la sepultura.
+Bada i no badis.
 Bada-badoc, que cau el soc!
 Badallar més que el rector de les Jerònimes.
 Badalona, bressol del basquetbol.
@@ -1547,6 +1714,7 @@ Ballar el canari.
 Ballar sense so.
 Ballar sense so, o és gran força o molta afició.
 Ballar-li el cap.
+Ballmanetes, toca les tetes, toca-les bé que són petitetes.
 Bancs i caixes, tot són de fusta.
 Banyada de caragol, a la casa porta dol.
 Banyes i senyals, qui les posa les sap.
@@ -1574,7 +1742,13 @@ Batejat en la parròquia dels pillos.
 Batre-li les taules.
 Bé balla a qui la fortuna canta i encara millor si malament canta.
 Bé cantes, mussol, si vas tot sol.
+Bé comencem la setmana. I el penjaven dilluns.
+Bé és orb qui per garbell no es veu.
+Bé és presoner qui presoners guarda.
+Bé ho pots dir!
+Bé pot ser.
 Bé sap el que demana el pa el que vol.
+Bé sé d'on li ve al gat la tos.
 Bé sé el que em faig quan a menjar pa me'n vaig.
 Bé va; i ell rodolava.
 Bé!... bé!... bé!... Calla cabreta, que no et faré res.
@@ -1583,9 +1757,12 @@ Beguem i aclarim-nos!
 Begur és un racó de món.
 Bella Candelera, lletja primavera.
 Bella com una fada.
+Bella parença és començament de bon astre.
 Bellesa i bestiesa solen anar plegades.
 Bellesa i castedat no sol anar plegat.
 Bellreguard, fart, fart. Fart i fartera, totes les xiques van a Palmera.
+Bellugar la cua.
+Bellvei, gorres de cop.
 Bellver i Prullans, nuvis i amants.
 Bellvís, Londres, París.
 Ben pentinada i ben rentada, noia endreçada.
@@ -1638,11 +1815,13 @@ Blat segat, blat segat!
 Bo està el sant per a fer un miracle!
 Bo i barat s'han barallat.
 Bo per a les escombraries.
+Boc cabrit i mardà podrit.
 Boca de cigró.
 Boca de morena.
 Boca de plata.
 Boca de serp.
 Boca fada, o riu o bada.
+Boca nècia, ximpleries mastega.
 Boca per avall.
 Boca xica l'amor crida.
 Bocairent (o Crevillent), mala terra i pitjor gent.
@@ -1652,9 +1831,11 @@ Bodes porten bodes.
 Boig com el març.
 Boig de content.
 Boig de lligar.
+Boig és el febrer, però l'abril també.
 Boig i ric, bastó sobredaurat.
 Boira a can Castellà, pluja abans de demà.
 Boira a la Ferradura, aigua segura.
+Boira a la Tossa, cau aigua grossa.
 Boira a les muntanyes, aigua al pla.
 Boira a Passerell, pluja a l'Urgell.
 Boira a Pení, bon temps per venir.
@@ -1662,7 +1843,11 @@ Boira a Sant Roc, temporal abans de poc.
 Boira a Sora, pluja alhora.
 Boira a Vinaixa, pluja a la faixa.
 Boira al coll de la Biga, plou, o no triga.
+Boira al Mont Pla, pluja no pot trigar.
+Boira al Montagut, no tinguis por d'eixut.
 Boira al puig d'en Pla, aigua avui o demà.
+Boira al Puig de Son Ric, pluja segur.
+Boira al Tordera, la pluja li va al darrere.
 Boira al turó d'en Torres, aigua a mar.
 Boira als Tres Turons, aigua segura.
 Boira baixa per l'Albera, entra l'herba a la pallera.
@@ -1701,6 +1886,7 @@ Bon tracte i millor pitança desterren l'enyorança.
 Bon veïnat fa tenir a l'hom descuidat.
 Bon vespre, cara de nespla!
 Bon vi i bon pa, curta la jornada.
+Bon vi que bé va, va bé de la bóta el bon vi.
 Bona cara i poc amor no costa gaire de mostrar.
 Bona en fora que...
 Bona és la correcció si ha servit de lliçó.
@@ -1713,14 +1899,19 @@ Bona nit, sopar i al llit.
 Bona olla cada dia ens arruïnaria.
 Bona rella en lluna vella.
 Bona terra i mala gent.
+Bona vida, bona mort i sa feina carregada.
 Bones obres jo faré quan tinga menester.
 Bonic com l'esternut de Judes.
+Bonic com un maig.
+Bonica i amb diners, què vols més?
 Borró que neix per l'abril no té temps de fer bon vi.
+Botar com un pinyol d'oliva.
 Botat com una sípia.
 Botifarra i pa calent!
 Bou de cinc i torero de vint-i-cinc.
 Bou feréstec, canvia'l de terra i no serà silvestre.
 Bregues d'enamorats, amors doblats.
+Broma a la serra, poc pa al civader.
 Bromes pesades, sols qui les fa li agraden.
 Brut com una soll.
 Bufant, bufant, la flauta va tocant.
@@ -1757,11 +1948,20 @@ Buscar matxets a les fosques.
 Buscar tanys als joncs.
 Buscar-li la manta.
 Buscar-li palla a l'orella.
+Busqui, compari, i si troba alguna cosa millor, compri-la.
 Ca la Quica.
+Ca la Tita.
+Ca petit, cua llarga.
+Ca que no ensuma l'ovella, carnisser segur.
+—Ca! / —Cussa per anar a caçar.
+Cabell rissat, home estimat.
+Cabellera blanca, correu de la mort.
 Cabells blancs enganyen, arrugues veritat canten.
+Cabells blancs són un bon senyal per a la casa on es troben.
 Cabra i collar.
 Cabrelles de matinada, engega la ramada.
 Cabres que en mal temps esternuden, bon temps anuncien.
+Cabut que cabut.
 Caçador de gos i fura, fam segura.
 Cacera de furó i gaiato poc fa.
 Cacera i pesquera, perdiguera.
@@ -1789,6 +1989,7 @@ Cada pardal té el seu cau.
 Cada peu té el seu preu.
 Cada refrany té la seva veritat.
 Cada sant té els seus devots.
+Cada u el que li toca.
 Cadaqués és un racó que, si hi doneu algunes voltes, el trobareu senyor.
 Cadascú a casa seva.
 Cadascú a sa casa que s'acaba la carabassa.
@@ -1797,19 +1998,25 @@ Cadascú parla la seva llengua.
 Cadascú sap més en son mester i el cavall coneix millor son cavaller.
 Cadascú sap quin pa l'assadolla.
 Cadascú té el seu mirar i la seva forma de pensar.
+Cadascú té un perol i el regira quan vol.
 Cafè de proa i cafè de popa, parents llunyans.
 Cafè per a tothom.
 Café, puro i xica de duro.
+Caga, porc, que la mar renta.
 Cagallons de rata bullits donen llet a les parteres.
 Cagar-li les calces.
 Cagar-se en els pantalons.
 Cagar-se en la Mare de Déu.
+—Cagarrines. —De les fines.
+Cagarros gruixuts o cagarros fins, poseu-los a dins.
 Cal no abandonar mai ni la tasca ni l'esperança.
 Cal saber conèixer quan n'hi ha prou.
 Cal si en queda.
 Calafell, prop del Vendrell, i tan poc bonic com ell.
 Calar la bota.
 Calçat i vestit.
+Calent com pixat (de vella).
+Calent com un forn.
 Calla, que ve el Butoni.
 Callant ho diuen tot.
 Callar i menjar morena.
@@ -1830,12 +2037,16 @@ Campana per gaita i vicaris per balladors.
 Campana que es toca no pot estar quieta.
 Can no t'hi fixis.
 Can Pensa-t'hi bé.
+Can pixa de Masarac.
 Can Vayreda, casa freda. Per alegria, Can Trinxeria.
 Canareu? Pela'n deu!
 Cans per caçar, més costen que no porten.
+Cansar-se el cap.
+Cansar-se la vista.
 Cansat com un gos.
 Cansat com una xufa.
 Cansat de dur avarques.
+Cant de cigala bon temps assenyala.
 Canta a l'alba la perdiu i més li haguera valgut dormir.
 Canta al vespre el sebel·lí: «Farà vent d'allà o d'aquí».
 Canta el qui té por.
@@ -1892,6 +2103,7 @@ Cap de grills.
 Cap de llúpia.
 Cap de maça.
 Cap de marrà.
+Cap de màstic.
 Cap de matxo.
 Cap de melsa.
 Cap de moixeta.
@@ -1932,6 +2144,8 @@ Cara d'espardenya vella.
 Cara de baqueta.
 Cara de Barrabàs.
 Cara de ciment.
+Cara de codony.
+Cara de fam.
 Cara de forrellat.
 Cara de forrellat de porcaters.
 Cara de gnom.
@@ -1954,6 +2168,8 @@ Cara picona, ni sàvia, ni noble ni bufona.
 Carabassa, la mel porta bullint.
 Carai que et fot!
 —Carai! —Conill, que hi ha més tai!
+Carall de merda.
+Caram, que et toc!
 Caramel o fel.
 Carboneres a la vall, seguirà pluja.
 Cardar com les gallines.
@@ -1962,6 +2178,8 @@ Caritat és castell de lleialtat.
 Caritat, Senyora, caritat si us plau.
 Carlet no té un poquet.
 Carme clara, més calor prepara.
+Carn de convent, bona i barata; carn de teatre, cara i dolenta.
+Carn ociosa tostemps és luxuriosa.
 Càrrega i mal temps pel camí s'adoben.
 Carregar el forn.
 Carregar les calces a la mula.
@@ -1981,6 +2199,7 @@ Casa hipotecada, venuda o subhastada.
 Casa meva és casa vostra si és que hi ha cases d'algú.
 Casa nova, i plena la cova.
 Casa (o hisenda) arrendada, aviat acabada.
+Casa, gran o petita, nova o vella; però que sigui teva.
 Casa, per habitar; terres, quantes puguis mirar.
 Casada endreçada treu el marit de casa d'altri.
 Casament de carnaval, casament que res val.
@@ -2012,6 +2231,7 @@ Caure de les mans.
 Caure de nassos.
 Caure de sa post.
 Caure de son.
+Caure dins l'enfilat.
 Caure dins la sopa, com les mosques.
 Caure dins les ungles.
 Caure en grat.
@@ -2051,16 +2271,20 @@ Cercar els adreços.
 Cercar qui té ous d'avui.
 Cert com l'Evangeli.
 Cert com la mort.
+Ciència sense consciència és la desfeta de l'ànima.
+Cinc i cinc fan deu, aquí i a tot arreu.
 —Cinc i cinc? —Deu. —Ensuma el cul de la guineu!
 —Cinc i cinc? —Deu. —On trobes merda fica el peu.
 Cistella vella, carabassa novella.
 Cistella venuda, cistella beguda.
+Cita'l a l'àtic.
 Clar com aigua de fregar.
 Clar com les capelles de sant Jordi.
 Clar com un mirall.
 Clarejar-li les orelles.
 —Claret. —Claret, claret, com el pare Claret.
 Clavar en la dansa.
+Clavar la gafa.
 Clavar (o fotre) un pal.
 Clavar (o posar) l'estaca.
 Clavar (o posar) una banderilla.
@@ -2079,6 +2303,7 @@ Colgar-se amb un mateix llum.
 Colgar-se com les gallines.
 Colgar-se el sol.
 Coll a terra.
+Coll de cigonya.
 Colla de pirates.
 Collir l'herba de Maçanet.
 Collir la figa.
@@ -2113,6 +2338,7 @@ Com el gos d'en Bora, que tot ho devora.
 Com el joc de Verdú: tres per a mi i dos per a tu.
 Com el manxol de Llívia, que menjava sopes amb el braç.
 Com el milà, que amb quatre buscalls fa niu.
+Com el molí d'en Cacaracac, que quan hi ha aigua no hi ha blat.
 Com el pardal de Sant Joan.
 Com el pare Bastard, que mentre tocaven hores mai no se li feia tard.
 Com el patró Aranya, que embarcava els altres i ell es quedava en terra.
@@ -2156,14 +2382,18 @@ Com es menja això?
 —Com et sents? —Sense dents!
 —Com et trobes? —Calces noves!
 —Com et trobes? —Per les coves!
+Com gat a la sella.
 Com ha de ser!
 Com l'abella que porta la mel a la boca, i el fibló al darrere.
 Com l'alcoià del tren: ja els ha dit tots vostè.
 Com l'anada del fum, que se'n va i no torna.
 Com l'àncora: que no sap nedar i sempre és a l'aigua.
+Com l'ase d'Algemesí, sempre bramant i sempre fadrí.
 Com l'ase de Rialla, carregava garrofes i menjava palla.
 Com l'ase del carritxer, que du la llenya i no s'escalfa.
+Com l'ase del pla, que quan veu la costa es posa a suar.
 Com l'avi Jai, que va morir amb la boca oberta.
+Com l'ermità dels Dolors, un per tu i per mi dos.
 Com la balena de Monfort, que era una albarda.
 Com la bota de sant Grau, que mai no s'acaba.
 Com la formiga, que posa el gra sota la biga.
@@ -2182,8 +2412,10 @@ Com les noies de Guardiola, amb els ganivets oberts.
 Com menys aigua, més set.
 Com menys càrrega, vida més llarga.
 Com menys honra, més pa.
+Com més alt un està, més petita veu la gent.
 Com més costa, més val.
 Com més diners, més maldat.
+Com més espardenyes, més m'espenyes.
 Com més festes, més pestes.
 Com més forts sonen els timbals més agrada a l'orella del fester.
 Com més gros és el clau, més forat fa.
@@ -2205,16 +2437,15 @@ Com s'ha casat el fill del rei, enguany plantarem carxofes.
 Com sant Joan, que predicava el dejuni i s'atipava de carn.
 Com se'n riuria en Martí, si tingués amb qui!
 Com si hagués caigut dins un pou.
-Com si hagués hagut un tro al mig d'un cel blau.
 Com sonarà, així ballaràs!
 Com tres en una sabata.
-Com un burro calçat i vestit.
 Com un camell.
 Com un canari en una mina de carbó.
 Com un cavall.
 Com un cup.
 Com un dimoni.
 Com un drap brut.
+Com un escarabat entre borres.
 Com un ferrer sense carbó.
 Com un gall.
 Com un gat de revenedora.
@@ -2235,6 +2466,7 @@ Com un picat d'aranya.
 Com un poll.
 Com un pom d'or.
 Com un pom de flors.
+Com un sac de gats.
 Com un Salomó.
 Com un sant.
 Com un somni d'or.
@@ -2280,6 +2512,7 @@ Compte amb el gos.
 Compte pagat, compte oblidat.
 Comptes clars i a cadascú el que sigui seu.
 Comptes són comptes.
+Concordar un plet.
 Condemnar a mort.
 Condició sine qua non.
 Conduir a l'altar.
@@ -2293,6 +2526,7 @@ Coneixeràs qui et vol bé, per les obres i la fe.
 Confessió de la guineu, hi va amb nou i torna amb deu.
 Confondre (o barrejar, o mesclar) ous (o cols) amb caragols.
 Conill de cambra.
+Consciència tindràs i pobre moriràs.
 Content com un all.
 Content com un fluorescent.
 Content i enganyat.
@@ -2315,6 +2549,7 @@ Cops i repics.
 Cor de gralles.
 Corb, corb, a la teua caseta.
 Cordar-se els pantalons.
+Corders i carnissers, nos amb nos.
 Cordó de Sant Francesc, maror a la mar.
 Corrent de garbí, lleva't de matí i pesca a l'estesa.
 Córrer bons (o mals) aires.
@@ -2335,9 +2570,7 @@ Córrer que se les pela.
 Córrer-la a «palo» sec.
 Correu, correu, correu!
 Corri pel camp l'arada i per casa la filada (o fillada).
-Corridos de Polinyà, tres per ací, quatre per allà.
 Corriol de formigues, senyal de pluja.
-Corsecs d'Ainet de Cardós.
 Cos en calma, si no dorm descansa.
 Cosa complida, en l'altra vida.
 Cosa de bruixes.
@@ -2351,8 +2584,15 @@ Cosidora real, que cus sense didal.
 Costa amunt, no carregues.
 Costa més criar un arbre que un fill.
 Costar més de fer que la farmàcia Ferreres.
+Costar més de trobar que un cabell a la mar.
+Costar una fortuna.
+Costar una fotracada.
+Costar una milionada.
+Costar una morterada.
+Costar una ronyonada.
 Coste i valga!
 Coure com un caliu.
+Coure-li la ceba a la gola.
 Covar el foc.
 Creieu en Déu i feu el que vulgueu.
 Créixer com una bola de neu.
@@ -2360,16 +2600,19 @@ Créixer la saliva.
 Creixeu i multipliqueu-vos.
 Cremar per a les ànimes.
 Cresta per ballesta.
+Creure's que amb un dit toca el cel.
 Criar-se com els arbres de la Devesa.
 Criar-se en bons bolquers.
 Criatura de bolquers.
 Cridar a comptes.
+Cridar com un condemnat.
 Crit o confit.
 Crits al pecat, no al pecador, fa el bon pastor.
 Cruixir de dents.
 Cudols com a tabals.
 Cuida't de tu.
 Cul batut, tot el dia té salut.
+Cul de cadira.
 Cul de sabater.
 Cuqueta, cuqueta, surt del forat, que Nostre Senyor ha ressuscitat.
 Curt d'un cap.
@@ -2378,6 +2621,7 @@ Curt febrer és i gens cortés.
 Curtes passes, pocs viatges.
 Cusa cus a casa de Cuso i es casa.
 D'ací en vull, d'allà no en vull.
+D'ací i d'allí.
 D'advocat, ni un ni cap.
 D'agost les acaballes, ametlles a les borrasses.
 D'aigua blanca, fuig.
@@ -2387,7 +2631,10 @@ D'allò que no hi ha.
 —D'allò... —D'allò en fan taps!
 D'ample a ample.
 D'anada i tornada.
+D'anar amb els nuvis a l'òmnibus gairebé l'àvia sua.
 D'any en any ens fem vells.
+D'aquell dia ençà.
+D'aquella oradura no trobarà metzina cell qui tots els hòmens posa en una guisa.
 D'aquesta, podem fer el bolic.
 D'aquí cap allà.
 D'art i assaig.
@@ -2411,6 +2658,7 @@ D'un a un.
 D'un arbre dolent, ni l'ombra.
 D'un estiu surt un hivern, s'ennigula, plou i trona.
 D'un home ben cuidat n'hi ha per a molts anys.
+D'un home pec, de vegades bon consell.
 D'un mal dos, més val catarro que tos.
 D'un mànec de granera en van sortir set bales.
 D'un mateix fus.
@@ -2424,7 +2672,9 @@ D'una altra fusta.
 D'una altra galàxia.
 D'una forma breu...
 D'una i bona.
+D'una mà a l'altra.
 D'una manera o altra.
+D'una part a l'altra.
 D'una petita guspira s'abranda gran foguera.
 D'una punta a l'altra.
 Dades i tomades.
@@ -2444,19 +2694,23 @@ De bon encuny.
 De bon humor.
 De bon llenyam.
 De bon temperament.
+De bon tremp.
 De bon tros.
 De bona família.
 De bona jeia.
 De bona mà.
+De bona (o mala) estampa.
 De bona (o mala) mena.
 De bona planta.
 De bona solfa.
 De bones a bones.
 De cal Rocamora.
 De Calabuig, tothom en fuig.
+De cama xanca.
 De can Claret.
 De can Clariana.
 De can Poc.
+De can Tita.
 De cap d'anca.
 De cap per avall.
 De capa caiguda.
@@ -2482,19 +2736,26 @@ De cosa d'altre, hom mal se n'honra.
 De cosa que es veu perduda, salvar d'ella el que es puga.
 De Cotes, ni pardals ni granotes.
 De Crevillent a Albatera igual s'hi va a peu que amb somera.
+De cul de madrona.
 De desagraïts, l'infern n'és ple.
+De Déu en avall.
 De Déu ve tot el bé.
 De diferents sons canten.
+De dimarts, n'hi ha hagut algun de bo, que de divendres, no.
+De dret a dret.
 De dues cases pobres se'n fa una de miserable.
 De fa temps.
+De fer com els altres hi ha pas primor.
 De festa en festa.
 De gall, bon tall.
 De ganes, ni poques ni males.
 De ganivet i forquilla.
 De garrot a forca, tria.
 De generació en generació.
+De geni fort.
 De gent, n'hi ha molta; de persones, poques.
 De glorificat a matines.
+De got i navalla.
 De gra en gra s'omple la taleca.
 De graciós a truà, poc se'n va.
 De gran matí.
@@ -2507,7 +2768,6 @@ De l'any de la pruna.
 De l'any de la Quitèria.
 De l'any de la tos.
 De l'any del cuc.
-De l'any del rei Pepet.
 De l'any quinze.
 De l'Ascensió a Pentecosta, un dijous li costa.
 De l'enemic reconciliat has de viure desconfiat.
@@ -2516,6 +2776,7 @@ De l'espina surt la rosa.
 De l'home amargat no esperis res de grat.
 De l'home farsant, procura-te'n allunyar.
 De l'hort a l'olla.
+De l'un a l'altre.
 De la bota del racó ningú no en toqui un goteró.
 De la cabotada.
 De la Cava, i au.
@@ -2530,6 +2791,7 @@ De la desgràcia de Judes sant Macià en tingué ventura.
 De la discussió en neix la claror, si no s'apaga el llum...
 De la feixa de baix.
 De la fornada de Judes.
+De la gent de tro.
 De la gent del Mas, no en facis cas.
 De la llavor pelada.
 De la lluna de febrer no n'esperis res de bé.
@@ -2548,6 +2810,7 @@ De la pobresa tothom en fuig.
 De la punyeta.
 De la ronda de l'espígol.
 De la taula travessera.
+De la terra del xe.
 De la terra venim i a la terra tornem.
 De la Verge del Puny.
 De la vinya plantada per Sant Martí en surt el millor vi.
@@ -2565,6 +2828,7 @@ De llàgrimes, hi ha qui en té una font.
 De llarg i de través.
 De llavis enfora.
 De llepar ningú es fa gros.
+De llevant o de ponent.
 De llinatges antics, pobres i rics.
 De llits i calaixeres.
 De lloc de persianes, no te'n vinguin ganes.
@@ -2580,12 +2844,14 @@ De mal reu.
 De mal rompre.
 De mala data.
 De mala ullera.
+De matí de manyana.
 De mec a mec.
 De mel de magraneta.
 De merda d'oca.
 De més amunt, major bac.
 De missers i procuradors, de cada un fer-ne dos.
 De mitges soles i talons.
+De mitja gala.
 De mitja hora passar.
 De Nadal i de Sant Joan només n'hi ha un cada any.
 De naps a cols.
@@ -2622,13 +2888,15 @@ De poetes, cantants i enamorats, la meitat de la meitat.
 De poques mires.
 De por que.
 De portes endins.
+De portes enfora és una cosa, i per dins n'és tota una altra.
+De primer cop.
+De primera fila.
 De Puigpardines, de noies, les més fines.
 De punta en blanc.
 De què farem mànigues?
 De què vas.
 —De què vas, bordegàs!
 De qui és fort sa voluntat, és feble son seny i son consell.
-De quilla a perilla.
 De ràbia que tenia, matà la lloca.
 De Rallui, el diable en fuig.
 De ras en ras.
@@ -2659,11 +2927,12 @@ De tot mal tenim novena.
 De tot punt.
 De tot raïm fa vi.
 De tot sap, i lletra, cap.
-De tres pets Llucifer feu els sastres: xec! un; xec! dos; i xec! tres.
+De trista memòria.
 De tronc o de bronc.
 De tu vaig!
 De vegades els capellans fan albades.
 De vella galana, no te'n fiïs.
+De vent de boca, no fer-ne cas.
 De vida alegre.
 De vida lleugera.
 De vida o mort.
@@ -2679,6 +2948,7 @@ Dedicar-se a Déu.
 Defectes que no desapareixen, pel temps creixen.
 Degollar a sagnies.
 Deia el savi Sadurní: —Terra d'alls, terra de vi.
+Deixa de nit llarga via, pren dejorn albergueria.
 Deixa de nit llonga vida; pren del jorn albergueria.
 Deixa'l, deixa'l, que de Gata ve.
 Deixa'm l'ànima quieta.
@@ -2730,6 +3000,7 @@ Del no-res no pot néixer res.
 Del pa que l'anyell enveja, qui més en menja, més ganeja.
 Del pa, la crosta.
 Del Perelló, gos i fartó.
+Del proïsme digues sols el bé; de tu, res.
 Del Puig es veu la vela.
 Del Puig, nassuts.
 Del que Déu ens té destinat, cap sant ens n'allibera.
@@ -2739,6 +3010,8 @@ Del que ha de venir, no te'n cal alegrar ni penedir.
 Del que no mengen els gossos i els gats, pocs plats.
 Del que pago no me n'amago.
 Del qui té diners, tothom en vol ser parent.
+Del quinze de novembre enrere, llenya del bosc a terra.
+Del raïm, també es fa vi.
 Del ram de la farina.
 Del ram de la tòria.
 Del riu beuen els lleons.
@@ -2766,11 +3039,15 @@ Demà dejunarà Jeroni.
 Demà hi haurà pops a plaça.
 Demà ja ho portarà el diari.
 Demanar de noves.
+Demanar més que el clero.
+Demanar més que un frare.
+Dents de piano.
 Deposar les armes.
 Des que naixem, la creu portem.
 Desastre i pobresa, tot en una peça.
 Descabdella que descabdellaràs, que al fons no hi arribaràs.
 Descansar? En morir-me.
+Desconfia d'aquell que no caga ni pixa.
 Desembre fina, que el gener es pentina.
 Desembre florit? Quan hi ha neu a la terra.
 Desfer el casament.
@@ -2783,16 +3060,18 @@ Desigs maten el peresós.
 Desinflar el bot.
 Desitja el teu enemic la hisenda amb diners o amb vi.
 Desitjant fortuna, darrere d'ella anem.
-Despatxar la sardineta.
+Desitjar-li la pau dels gegants.
 Despatxar un afer.
 Despertar a qui dorm.
 Despertar-se al cant de l'alosa.
 Després d'una de llarga, una de curta.
 Després de festa major, arròs amb espinacs.
+Després de furtats els melons, prenen precaucions.
 Després de l'Ascensió, ni sermó ni salmó.
 Després de l'escudella i la carn d'olla hi ha els entrants.
 Després de la malaltia ve la picardia.
 Després de la nit ve el dia, i després del núvol el bell sol.
+Després de Madrid, Tiana.
 Després de mi el diluvi.
 Després del treball ve el descans.
 Després que els cavalls són fora, tanqueu bé l'estable.
@@ -2822,6 +3101,7 @@ Déu no vol la mort del pecador.
 Déu nos en guard d'ovella pigarda.
 Déu pot molt.
 Déu s'ha tornat pagès.
+Déu t'ha castigat.
 Déu t'ha fet florir, Déu t'ha fet granar, Déu et faci multiplicar.
 Déu te'l torni.
 Déu us empari!
@@ -2830,6 +3110,7 @@ Deute reial es cobra tard i mal.
 Devessall de paraules.
 Devot de santa Clara.
 Dia de basca, perill de borrasca.
+Dia de bou, tot és bou; dia de porc, tot és xulla.
 Dia de feina.
 Dia de festa.
 Dia de missa.
@@ -2847,6 +3128,7 @@ Digues, digues, que menjaràs figues.
 Dijous arribat, setmana passada.
 Dijous, sant Cabdell bisbe i confessor.
 Dilluns de Cinquagesma de l'any noranta-set anem a Santa Llúcia sols per veure l'aplec.
+Dilluns estem i bona feina que tinguem.
 Dilluns i dimarts, la festa dels gats.
 Dilluns, dia malfeiner.
 Dilluns, dimarts, dimecres...
@@ -2866,12 +3148,16 @@ Diners, magres fan tornar gords i tornen lledesmes els bords.
 Dins els pots petits s'hi fan bones olors.
 Dir cada mentida que canta un credo.
 Dir d'aquella boca.
+Dir el joc.
 Dir el primer que li ve a la boca.
 Dir i fer són dos.
 Dir matraques i col·loquis d'allò més florejat.
 Dir misses baixes.
+Dir una pardalada.
 Dir-ho el cor.
+Dir-li els salms d'en Banasta.
 Dir-li peus de porc.
+Dir-li poc i ben dit.
 Dir-ne de caragolats.
 Dir-se de tot.
 Dir, diu qualsevol; fer, sols qui sàpia, puga i vulga.
@@ -2891,11 +3177,13 @@ Dits, dits, senyor rector, i eren els porcs que grunyien.
 Diu el card a l'argelaga: Per què tens la punxa tan llarga?
 Diu el malalt al sa: Déu et doni salut, germà.
 Diu l'ombra al noguer: fes-me mal o te'n faré.
+—Diuen que a Sant Francesc n'hi ha tants... —De què? —De cagarros blancs!
 Diuen que els sants no tenen budells.
 Diuen, diuen, diuen...
 Diuen, que diuen, que han dit.
 Diumenge de pinyata.
 Divendres Sant, ni festa, ni ball, ni carn.
+Divendres, com matina, vespertina.
 Dolçaina pagada, mal tocada.
 Dolent com el dimoni.
 Dolent com el gram.
@@ -2903,6 +3191,7 @@ Dolent com el mal lladre.
 Dolenta és la collita que no deixa gra al tros.
 Dolors passats, si no se senten, oblidats.
 Dominar la paraula.
+Dóna-li un peix, menjarà un dia; ensenya-li a pescar, menjarà sempre.
 Donació fas, tu la pagaràs.
 Donant i prenent no cap engany.
 Donar a la premsa.
@@ -2926,6 +3215,7 @@ Donar per soldat.
 Donar que dir.
 Donar remei al mal fet.
 Donar (un) mal.
+Donar una clatellada.
 Donar una culada.
 Donar una ensabonada.
 Donar una esclatarada.
@@ -2970,7 +3260,6 @@ Dos dits de front.
 Dos Joans i un Pere, bogeria entera.
 Dos per tres i el catre.
 Dos que dormen a la mateixa habitació es tornen de la mateixa opinió.
-—Dotze i dotze? —Vint-i-quatre. —Ensuma el cul de la Cleopatra!
 Dotze porques ben llaurades en fan vint d'esgarrapades.
 Dotze senyoretes en un mirador, totes tenen mitges i sabates no.
 Dreçar les orelles.
@@ -3018,16 +3307,20 @@ Durar vida de cristians.
 Durarà o no durarà, però allò que està fet, fet està.
 —Ecs, un pèl! —Senyor Miquel!
 Edat de la poca-solta.
+Educar és formar l'esperit.
+Ego sum barret de fum.
 —Eh? —Entra i seràs ase.
 Eixa haca, avant!
 Eixamplar la base.
 Eixe bancalet, que et siga més alt que el campanar.
 —Eixe d'on és? —D'Are. —D'Are? —De la figa sa mare.
 Eixe entropessa fins amb un pinyol de tàpera.
+Eixir amb els bonics.
 Eixir amb les vint-i-nou de Golondro.
 Eixir el sol.
 Eixir en fora.
 Eixir una moda.
+Eixir-ne en rosa.
 Eixir-se de lloc.
 Eixir-se del text.
 Eixugar un deute.
@@ -3065,6 +3358,7 @@ El cant del corb porta la mort.
 El cant del gall desperta al cavall.
 El cant del grill allunya a les bruixes.
 El cant del tambor, de lluny.
+El cap li toca minuets.
 El carbó es passa.
 El carrer de Ponent, bon carrer i mala gent.
 El carro d'en Dalmau.
@@ -3076,6 +3370,7 @@ El cel de les cabretes, que els àngels duen banyetes.
 El cel de Rubió, que no és cel sinó infern.
 El cel no és fet per posar-hi palla.
 El cerdà que és bon català, pels seus fills no es deixarà governar.
+El cigró millor, el més rodó.
 El cinc és per al rei.
 El coll t'hi va.
 El coll te'n sabrà.
@@ -3085,6 +3380,7 @@ El conte de la lletera.
 El convingut és llei.
 El cop avisa.
 El cop de la paella, si no fereix, emmascara.
+El cor em diu que.
 El cor m'ho diu.
 El cor ningú el governa.
 El cor no parla, però endevina.
@@ -3137,14 +3433,18 @@ El fill que els seus pares bat, ja té l'infern guanyat.
 El foc amb foc s'apaga.
 El foc comença per poc.
 El foc posa l'or a prova, i la dissort, els homes forts.
+El foc pot fer de contrafoc.
 El foc s'apaga amb aigua.
 El foc tot ho purifica.
 El foc, com més clar ha brillat, més aviat s'apaga.
 El fonoll porta soroll.
 El fonoll té mil virtuts.
+El fons de l'ànima.
+El fons del cor.
 El foraster fa nosa en casa aliena i falla a la seva.
 El forat de baix.
 El forat secret.
+El frare més savi és el que ha estat prior.
 El frare no canta.
 El fum anomena brut el sutge.
 El fumador, la paret arrapa quan se li buida la petaca.
@@ -3165,7 +3465,6 @@ El lladre, naturalment, té peresa i no és valent.
 El llavi gros duu ràbia al cos.
 El llebeig és home de capvespre.
 El llevant no és xaloc.
-El llevant ve caminant i el ponent, corrent.
 El llibre de quaranta-vuit fulls.
 El llop va dir a la rabosa: «Soc d'Albocàsser».
 El llop, a la serra.
@@ -3181,12 +3480,15 @@ El mal, encara que sigui obligat, no és perdonat.
 El mar és com un mirall.
 El març li demanà uns dies al febrer per enganyar sa mare.
 El març pren quinze dies al febrer i quinze a l'abril.
+El menjar és mitja vida; l'altra és vestir i calçar.
 El menjar fa el bestiar.
 El menjar tot ho treu.
+El mercader nou compra a ral i ven a sou.
 El més adient.
 El més alt i fort és fum.
 El més alt i fort és fum, i el temps tot ho consum.
 El més amic és qui més grossa te la fa.
+El més barat és donar consells.
 El mes de febrer, deixa'l fer.
 El més important de l'escrit és on diu honra i profit.
 El més pesat són els anys.
@@ -3241,6 +3543,7 @@ El perill i la por no escolten raons.
 El però que no madura.
 El «perquè sí» i el «perquè no» no són cap raó.
 El petit, si no és ardit, no val un xic.
+El piano, Sara, ara sona i ple.
 El pitjor diable és el que resa.
 El pitjor enemic és el que adula.
 El pitjor mal és el que no se li veu el final.
@@ -3255,21 +3558,27 @@ El pobre no té autoritat, encara que digui la veritat.
 El pobre que s'ha fet ric no coneix el vell amic.
 El pobre, per més que vagi bonic, no sortirà de pobre i serà ric.
 El poc i el molt cadascú l'entén com vol.
+El pollastre, novell, i l'ànec, vell.
+El pont dels ases.
+El pont dels sospirs.
 El porc del senyor rector tenia llavis.
 El porc i el mosso, un any a casa.
 El porc, sigui xic o gros, vuit llonganisses duu al cos.
 El porró fa el vi millor.
 El «potser» no es posa en acta ni en paper.
+El pou de Pilat.
 El premi estimula l'enginy.
 El pres sempre pena.
 El preu, vagi com vagi; la mesura, que vagi plena.
 El primer casament el fa Déu i, el segon, el fa el dimoni.
 El primer de maig és festa i en faig.
+El primer entre iguals.
 El primer i principal, anar a missa i esmorzar.
 El primer lladre va sortir d'Argentona.
 El primer (o el darrer) tot ho té.
 El prou temps no fa mai casa.
 El punt mata el rei.
+El que al cel no volen, a l'infern ho arrepleguen.
 El que arrossega, honra.
 El que Déu ha unit, que l'home no ho separi.
 El que Déu té promès, mai falta.
@@ -3380,6 +3689,7 @@ El temps no passa debades.
 El temps no perdona.
 El temps no pot mentir.
 El temps posa cadascú al seu lloc.
+El temps que fa el dijous domina vuit dies.
 El temps que fa el vint-i-set, fa el mes següent.
 El temps que manxen no toquen l'orgue.
 El temps se'n va per no tornar.
@@ -3426,6 +3736,7 @@ El viladrauenc és sec, fort, ferm i rústic com el terreny.
 El zero és el no-res.
 Ell és el pinzell i ella, la granera.
 Ell es pasta el pa i ell se'l cou.
+Els adagis vénen després dels evangelis.
 Els anys bons, per l'abril trons.
 Els anys fugen (o passen) com el fum.
 Els anys no cal amagar-los, perquè ningú no els pren.
@@ -3530,6 +3841,7 @@ Els de Cretes, burletes.
 Els de Dénia, emmidonats.
 Els de Fet, quan feien Fet deien: «Fet ja està fet!».
 Els de Fornells, esparralls.
+Els de Fulleda, puputs o fullaraca.
 Els de Gerri, salats.
 Els de Godall, assassins.
 Els de l'Alcúdia, morralla, i els de Canals, canalla.
@@ -3541,10 +3853,13 @@ Els de Llíria diuen: «Bou».
 Els de Llíria són fartons, els beterans, senyorets, els naquerans, lleganyosos, Casinos, banderillers.
 Els de Malgrat tenen el cul pelat.
 Els de Manises, els del «puro» apagat.
+Els de Masnou sempre van amb paraigua per si mai plou.
 Els de Menàrguens, indiots.
 Els de Mollet porten merda al gec.
+Els de Morvedre són pixavins.
 Els de Músser, llaminers.
 Els de Planes són malcarats.
+Els de Polinyà es caguen en la mà.
 Els de Porrera, per on passen, fan carrera.
 Els de Puiforniu, saltabarrancs.
 Els de Purroi buscaven el jou i el duien al coll.
@@ -3591,6 +3906,7 @@ Els manaments de la botella.
 Els morts no tornen al món.
 Els músics venen, toquen i se'n van.
 Els números canten!
+Els ossos dels óssos són més grossos que els ossos dels gossos.
 Els ous covant neixen.
 Els pagesos sempre són de l'any que ve.
 Els pastors seran brutals mentre les ovelles siguin estúpides.
@@ -3615,6 +3931,7 @@ Els refiats són els penjats.
 Els reis són senyors de la gent i, els savis, senyors dels reis.
 Els renecs dels grans van a la boca dels infants.
 Els revells tornen ullastres.
+Els rocs sempre rodolen cap als tarters.
 Els roders, ni amics ni contraris.
 Els sants barbuts sempre porten dies freds.
 Els sants sempre viuen al cel.
@@ -3656,6 +3973,7 @@ Emprovar-se el dol és, de les viudes, el primer consol.
 En aldees miserables, quatre casetes i vuit dansetes.
 En aquest món, no sabem a qui tenim que menester.
 En boca de tothom.
+En bon (o mal) concepte.
 En bones mans està el pandero!
 En bones (o males) condicions.
 En breus dies.
@@ -3663,14 +3981,19 @@ En caixa sense clau no hi ha res guardat.
 En cap de boigs per fer riure els savis.
 En cas contrari.
 En cas de compromís, foc al pis.
+En cas de necessitat.
 En casa petita i llarg camí, coneix hom l'amic.
 En colomer ben governat mai falten coloms.
+En compensació de.
 En conformitat de.
 En confrontació amb.
 En contraposició amb.
 En crida i cerca.
+En defensa de.
 En desembre gelades, miques i esmorzades.
 En desembre, gels i neus.
+En detriment de.
+En diners siga el cabal d'aquell a qui vols mal.
 En dir-la, dir-la grossa.
 En Divendres Sant, ni balls, ni festa, ni carn.
 En eixa fusta no entra el corc.
@@ -3695,6 +4018,7 @@ En Garrigosa, carregat de garrons, rosega «cigarros» rebregats, regalats pels 
 En gran mal, Déu ajuda.
 En guerra i en pau, tu, amo de la clau.
 En haver de ser desgraciat, tot és fallat.
+En Joan de l'ós.
 En Joan de Narbona.
 En Joanet dels ventalls.
 En juliol, agafa el cabàs i ves al mallol.
@@ -3706,7 +4030,6 @@ En la casa de molts caps, mai hi falten disbarats.
 En la confiança està el perill.
 En la llaurança, el primer és tindre un bon femer.
 En la mort sols colliràs el que en vida sembraràs.
-En la primavera d'hivern tremola el malalt.
 En les bodes i convits procura ser llarg de dits.
 En les fortunes apar qui és bon mariner.
 En mal arbre fa la llenya.
@@ -3736,6 +4059,7 @@ En premi a.
 En prendre no hi ha engany.
 En previsió de.
 En pugna amb.
+En qualsevol cas.
 En què pararan aquestes misses?
 En què vindrà a parar aquest ball?
 En quin llibre ho has trobat?
@@ -3781,16 +4105,23 @@ Encara que et sembli estranyot, creu, val més la meitat que el tot.
 Encara que facin la boca gran, els diners la taparan.
 Encara que sia home de rabassa, mentre la vida em faça!
 Encara si fos com dius... pecador, misericòrdia!
+Encendre el borinot.
+Encendre el televisor.
+Encendre els fogons.
 Encendre la llàntia.
 Encendre un ciri a Déu i un altre al dimoni.
+Encendre's com una teia.
 Encomanar-se a la misericòrdia de Déu.
+Encomanar-se al diable.
 Encontrar-se el trampós i el cobdiciós.
 Encular-se en un negoci.
 Endarrerir el rellotge.
+Endevina endevinalla: quin és el cuc que pica a la panxa?
 Endur-se-la al llit.
 Enemic encobert, perill cert.
 Enemic humiliat, guarda-te'n.
 Enfilar-se a la parra.
+Enfilar-se com una cabra.
 Enfurit com un lleó.
 Enganxar-se-li la cadira al cul.
 Engegar a fer pessigolles als gegants.
@@ -3839,6 +4170,7 @@ Entre seixanta i setanta, la matança.
 Entre tots componem l'auca.
 Entre treball i saber, les collites s'han de fer.
 Entre un i l'altre, la paciència passa.
+Entregar el llençol.
 Entrenador nou, victòria segura.
 Envà de canyes.
 Enveja i conhort estan en desacord.
@@ -3871,15 +4203,18 @@ Es guareixen les ganivetades, però no pas les males paraules.
 Es menjaria un bou amb banyes.
 És més barat evitar que obrar.
 És més dolç dues mels que una mel.
+És millor dir el que penses que no pensar el que dius.
+És millor perdre un dit que la mà.
 És millor que diguin: «per aquí corregué», que no pas «aquí es quedà».
 És millor ser llepafils que llepaculs.
 Es miri com es miri.
 És molt bon xic... quan dorm.
 És neci dir: «No hi havia pensat».
 És permès d'embogir una vegada a l'any.
+Es pot exemplificar.
+És propi de l'estupidesa veure els defectes dels altres i oblidar-se dels propis.
 És ric aquell que està bé amb Déu.
 És rodó com una poma i llarg d'aquí a Barcelona.
-És tot estam.
 És un crit de no moure el rei.
 És un dir.
 Esbravar-se com els pollins.
@@ -3896,13 +4231,17 @@ Esclatat de closca.
 Escolta amb calma i contestaràs a temps.
 Escolta Espanya la veu d'un fill que et parla en llengua no castellana.
 Escolta i calla.
+—Escolta. —Un escolta val un sou.
 Escoltar amb atenció.
 Escoltar amb orelles d'ase.
 Escoltar el clarinet quan veiem tocar els violins.
+Escolteu atents amb un cagarro a les dents.
+Escolteu germans amb un cagarro a les mans.
 Escopetada de lladre.
 Escorpins i esmolets, plourà.
 Escorxar el bot.
 Escurar la cisterna.
+Escurar la rossellona.
 Escurar-li el ventre.
 Escurar-li la cassola.
 Escurar-se el coll.
@@ -3913,6 +4252,7 @@ Esmolet, tisora i ganivet, navalla i trempaplomes.
 Esmussar-se-li les dents.
 Espantós com la pesta.
 Espanya està espanyada.
+Esparreguera emboirada, dins de tres dies mullada.
 Espatllar-li la festa.
 Espavil, que passen quintos!
 Espera que llampi!
@@ -3936,6 +4276,8 @@ Esport xixonenc: plaça cap amunt, plaça cap avall.
 Esquilada dura un any sencer.
 Esquilar un ou.
 Estalvia els xavos, que les unces s'estalvien soles.
+Estam, estam i no llana.
+Estam, estam... i filava estopa.
 Estar a la balança.
 Estar a les calces.
 Estar a mata que et mataré.
@@ -3965,9 +4307,11 @@ Estar com una baldufa.
 Estar com una campana.
 Estar com una carabassa.
 Estar com una col.
+Estar com una foca.
 Estar com una nit de trons.
 Estar com una sèpia.
 Estar com una taronja.
+Estar com una xota.
 Estar cosit de.
 Estar de bon (o de mal) aire.
 Estar de Déu.
@@ -3992,6 +4336,7 @@ Estar fent creuetes.
 Estar fet un bon pardal.
 Estar fet un filadís en corfa.
 Estar la lluna al ple.
+Estar mal filat.
 Estar malament del cap (o del terrat).
 Estar malament del tupí.
 Estar marcat a foc.
@@ -4012,6 +4357,7 @@ Estar per jocs.
 Estar per la feina.
 Estar per tancar-lo.
 Estar que clareja.
+Estar que el dimoni se l'endú.
 Estar que mossega.
 Estar que no caga.
 Estar sobre les armes.
@@ -4019,7 +4365,6 @@ Estar tin-te i no caigues.
 Estar tocant com si acompanyaren en processó a sant Josep.
 Estar-ne fins als ovaris.
 Estar-ne més que el Met de la burra.
-Estem millor que volem.
 Estendre la batuda.
 Estic cansat, pernil salat!
 Estic fet pols, pernil dolç!
@@ -4039,6 +4384,7 @@ Estrènyer el pas de la salivera.
 Estrènyer-se el cap.
 Estret com un budell.
 Estudiant de tot, sabedor de res.
+Et demano estam i em surts amb corda.
 Et pegaré una nespla que pareixerà que el món t'empeny.
 Et trauré del món i et duré a Albelda!
 Ets un desastre, pollastre!
@@ -4047,13 +4393,13 @@ Excuseu-me, som d'Arles!
 Exhalar el darrer sospir.
 Explicar-se com un Ciceró.
 Explorar el cau.
+Expressar la condolença.
 Expressions sense cistella passen per sota l'aixella.
 Fa bon profit llegir de nit.
 Fa de bon xiular quan les bèsties beuen.
 Fa més fressa un arbre que cau que un bosc que creix.
 Fa més llinatge la riquesa que la noblesa.
 Fa més mal una llengua de destral, que una destral en les mans.
-Fa més un cop de ploma que un cop d'espasa.
 Fa un sol que fa grinyolar els cans.
 Faci bé, faci mal, que entri aigua al bancal.
 Fadrines folles, allí on va una, van totes.
@@ -4075,6 +4421,7 @@ Faràs bondat, Pau? Com sempre!
 Farina d'un altre sac.
 Fart com un rènec.
 Fart de pa, fart de ximple.
+Fart i refotut.
 Fava, munta i calla.
 Faves sembrades el dia dels morts, bajoques llargues i bessons forts.
 Fe i veritat, al cel se sabrà.
@@ -4093,6 +4440,7 @@ Felip, tanca l'aigua!
 Fema i entrecava i colliràs bona parva.
 Fembra és cap de pecat i arma del diable malvat.
 Fems de fàbrica per a l'horta Duran.
+Fent compliments, acaba per menjar-se les estovalles.
 Fer aigua pels alts.
 Fer algun mal (o malifeta).
 Fer allò allà.
@@ -4107,6 +4455,7 @@ Fer anar (o portar) l'aigua al seu molí.
 Fer arrencar a córrer.
 Fer arròs amb gegants i «nanos».
 Fer baixar la tapa.
+Fer ballar l'ós.
 Fer bé sempre convé.
 Fer bigotets a les nines.
 Fer bon efecte.
@@ -4120,6 +4469,8 @@ Fer cara de conill cabut.
 Fer cara de ruc sense mare.
 Fer cara de sípia estantissa.
 Fer carbó de palla.
+Fer cent nuus a un dobler.
+Fer com el gat de pallissa.
 Fer com qui no hi sent.
 Fer com qui no ho veu.
 Fer córrer (o anar) les tisores.
@@ -4129,6 +4480,7 @@ Fer de carabina.
 Fer de dimoni.
 Fer de majors.
 Fer de mal veure.
+Fer de mal...
 Fer de mestre.
 Fer de mirall.
 Fer de pagès.
@@ -4137,6 +4489,8 @@ Fer de resposta.
 Fer del cel garbell.
 Fer del mal néixer el bé, no pot ser.
 Fer diables sense motlles.
+Fer dilluns de sabater.
+Fer disgustat algun menjar.
 Fer donar el peix a sou.
 Fer eixir el suc de la taronja.
 Fer el boca a boca.
@@ -4153,7 +4507,6 @@ Fer el gegant indi.
 Fer el geperut.
 Fer el llit.
 Fer el lloro.
-Fer el merda.
 Fer el mocador.
 Fer el monot.
 Fer el mussol.
@@ -4200,11 +4553,14 @@ Fer la boteta.
 Fer la broma.
 Fer la bruixa.
 Fer la bufanda.
+Fer la bugada.
 Fer la cadireta de la reina.
 Fer la cambra.
 Fer la campana.
 Fer la candeleta.
+Fer la castanyeta.
 Fer la castanyola.
+Fer la catxamona.
 Fer la clau del lloro.
 Fer la comparança.
 Fer la cuca-amaga.
@@ -4274,6 +4630,7 @@ Fer nyam, caca i nones.
 Fer (o causar) harmonia.
 Fer obres santes.
 Fer oi al rei Porc.
+Fer ou, ou.
 Fer paper d'estrassa.
 Fer passar amb draps calents.
 Fer passar el bou amb banyes.
@@ -4304,6 +4661,7 @@ Fer tancar portes.
 Fer tant de paper com la granera.
 Fer tanta calor que li suen les dents.
 Fer tenir peu a rotllo.
+Fer tornar tarumba.
 Fer (un) bon (o mal) paper.
 Fer un braç i un cor.
 Fer un brindis.
@@ -4322,23 +4680,46 @@ Fer un estar d'àngels.
 Fer un forat.
 Fer un fred que arronsa la tita.
 Fer un fred que el dimoni es peteja.
+Fer un gargot.
 Fer un gir.
 Fer un mal cuinat.
 Fer un mateix pensament.
 Fer un menjuc.
 Fer un merder.
 Fer un Miravet.
+Fer un molí i no saber l'aigua d'on ha de venir.
 Fer un mom.
+Fer un morret.
 Fer un no sé què.
+Fer un pas endavant.
+Fer un pell a pell.
+Fer un poder.
 Fer un rebuf.
 Fer un ruc.
 Fer un sanat.
+Fer un sermó.
+Fer un sol que bofega.
+Fer un sol que encén.
+Fer un son curt.
+Fer un son de conill.
+Fer un tap.
+Fer un tiberi.
+Fer un tiroliro.
+Fer un trago.
 Fer un vent que aixeca la cua als gossos.
 Fer un vent que aixeca les teules.
 Fer un vent que no deixa sentir res.
 Fer un vent que refreda tot el que és calent.
+Fer un vestit de saliva.
+Fer un xàfec.
+Fer un xisclet.
 Fer un, dos, tres.
+Fer una abraçada.
 Fer una alcaldada.
+Fer una allisada.
+Fer una animalada.
+Fer una bona parella.
+Fer una carnisseria.
 Fer una criaturada.
 Fer una desgràcia.
 Fer una dormida.
@@ -4346,6 +4727,7 @@ Fer una emblanquinada.
 Fer una entremaliadura.
 Fer una esquellotada.
 Fer una estamenya.
+Fer una fila.
 Fer una fosca que la poden tallar.
 Fer una fumada.
 Fer una horeta.
@@ -4421,6 +4803,7 @@ Fer-li la clenxa.
 Fer-li la feina.
 Fer-li la festa.
 Fer-li la pell a tiretes.
+Fer-li la permanent.
 Fer-li les cames.
 Fer-li llum al dimoni.
 Fer-li menjar pols.
@@ -4447,6 +4830,7 @@ Fer-lo carn picada.
 Fer-ne cent i errar-ne una.
 Fer-ne com una cabra cagallons.
 Fer-ne deu amb un trau.
+Fer-ne peces menudes.
 Fer-ne un gran massa.
 Fer-s'ho amb el dit.
 Fer-se a les armes.
@@ -4456,13 +4840,15 @@ Fer-se dir «sí, senyor».
 Fer-se el graciós.
 Fer-se el minso.
 Fer-se el pobret.
-Fer-se l'amo de les ametlles.
 Fer-se la clenxa.
 Fer-se la palleta.
+Fer-se la part.
 Fer-se la víctima.
 Fer-se les piules.
 Fer-se les tantes.
 Fer-se negra nit.
+Fer-se pagues de.
+Fer-se palles mentals.
 Fer-se portar respecte.
 Fer-se (tot) ulls.
 Fer-se trampes al solitari.
@@ -4518,17 +4904,24 @@ Ficar-s'hi de quatre potes.
 Ficar-se a la butxaca.
 Ficar-se al llit.
 Ficar-se dins d'un ventre de peix.
+Ficar-se en camisa d'onze vares.
 Ficar-se en històries.
+Ficar-se les calces.
 Ficar-se pel cos d'una agulla.
 Figa de flor, visita de doctor.
 Figa de Papiol, vermella per dintre i peluda pel volt.
 Figues d'un altre paner.
 Fil per fil.
+Fila, fila, Maria, que com més filaràs més pobra seràs.
+Filar més que les aranyes.
+Filar sense cànem ni llana.
+Filar-li el dau.
 Fill de gossa.
 Fill de meuca.
 Fill de papà.
 Fill de pare desconegut.
 Fill de pare vell.
+Fill de quaranta pares.
 Fill de Satanàs.
 Fill de set pares!
 Fill del mal.
@@ -4553,7 +4946,6 @@ Fins al dotze de maig l'hivern no diu: «me'n vaig».
 Fins al punt.
 Fins als cabells.
 Fins als colzes.
-Fins quan, Catilina, abusaràs de la nostra paciència?
 Flac de cames.
 Flac de rems.
 Flauta o flauteta?
@@ -4590,6 +4982,7 @@ Forques, el país de les bruixes.
 Fort com un turc.
 Forta aigualada, parenta de la nevada.
 Fortuna amunt, d'un a un; fortuna avall, devessall.
+Fosc com el pecat.
 Fosc com una nit sense lluna.
 Fot-li mà que és sorda.
 Fot-li que és d'Ordis.
@@ -4597,20 +4990,24 @@ Fotre foc a l'Atlàntic.
 Fotre un cacauet.
 Fotre una castanya.
 Fotre una nespla.
+Fotre-li al rotllo.
 Fotre-li una cleca.
 Fotre-li una nespla.
+Fotre, quin tocat!
 Fotre's de potes a l'arna.
+Fotre's el bacallà.
+Fotre's fins al cul.
 Fotuda la gràcia!
 Fra Modest mai no va arribar a prior.
 Franc i planer.
 Francès de la França xica.
-Francisca! prega a Déu que jo visca!
 Frare que demana per Déu demana per dos.
 Frec a frec.
 Fred cordial, un mes abans i altre després de Nadal.
 Fred i vent, la setmana dels barbuts.
 Fredors de desembre, a molts fan estendre.
 Fregar l'all amb la torrada.
+Fregar la llàntia.
 Fregar-li l'esquena amb palla d'ordi.
 Fregar-li la sardina.
 Fregar-li pels morros.
@@ -4651,7 +5048,9 @@ Gat i gata sotgen la rata.
 Gat negre a casa, la noia no es casa.
 Gat negre a casa, la sort hi passa.
 Gat que no surt de casa, mai no sap què passa.
+Gatets i gossets.
 Gelades de març afavoreixen els sembrats.
+Gelar-se el moc.
 Gener clar i gelada, gener fred i sec.
 Gener herber, any trapasser.
 Gens no és res.
@@ -4702,7 +5101,10 @@ Gràcia és el sostremort de Barcelona.
 —Gràcies! —Tu les tens totes!
 —Gràcies! —Un ca se'n va morir de gràcies.
 Gran amistat, interès o pecat.
+Gran ciència és el coneixement i menyspreu de si mateix.
 Gran fortuna, gran perill.
+Gran hora de dia.
+Gran hora de la nit.
 Gran injúria és feta al donador quan el do és recusat.
 Gran saviesa és estalviar per a la vellesa.
 Gran senyor, gran barretada.
@@ -4720,6 +5122,7 @@ Grollers i malagraïts, ni per fills ni per marits.
 Gros com la torratxa de la torre Pardalera.
 Gros com un bacó.
 Gros de cara.
+Gros, gros i només té un os.
 Gruixut de filassa.
 Grunyint el porc, en la porquera mor.
 Guaita, qui hi ha aquí!
@@ -4737,6 +5140,7 @@ Guanyi qui guanyi i perdi qui perdi, rega Paterna.
 Guapa i garrida, o molt desgraciada o molt perseguida.
 Guapa i honrada, poques vegades trobada.
 Guapa, com el cul de l'haca!
+Guarda tu mateix els secrets: mai no els donis a guardar.
 Guarda't de mala llengua.
 Guarda't del diable quan resa.
 Guardar-se'n com de caure al riu.
@@ -4747,12 +5151,12 @@ Ha, ha, ha.
 Habitant de la lluna.
 Hala, baliga-balaga, ves a cabdellar fil fi!
 Haques ixen de Montcada!
-Has flipat, escarabat!
 —Has trobat la caixa? —Quina caixa? —La que puja i baixa.
 Haver begut aigua de la font de Canaletes.
 Haver de menester les herbes de Sant Joan.
 Haver de menester més temps que un caragol per anar a lluc.
 Haver de menjar moltes sopes.
+Haver menjat llengües de canari.
 Haver nascut en divendres.
 Haver voltat les set parts del món.
 Haver-hi algun diable entremig.
@@ -4764,20 +5168,32 @@ Haver-hi més lladres que a Soneixa.
 Haver-hi més refranys que pans.
 Haver-hi molts ases del mateix pèl.
 Haver-hi molts de gats i poc formatge.
+Haver-hi persones i persones.
+Haver-hi plors i centurió.
 Haver-hi ram i troca per aclarir.
 Haver-hi un tros.
 Haver-hi una penca.
 Haver-la feta bona.
 Haver-li tallat moltes lliurades en el mercat.
 Haver-n'hi de clares i d'espesses.
+Haver-n'hi de tot i molt.
 Haver-n'hi per a guapos i valents.
+Haver-n'hi per a set ciutats.
+Haver-n'hi per escriure una auca.
+Haver-n'hi set deus.
+Haver-n'hi tan poc com mosques blanques.
+Haver-n'hi tants com cavalls verds.
 Haver-n'hi ulls mireu.
+Haver-n'hi un cafís.
 Haver-n'hi un fart.
+Haver-n'hi un fotimer.
 Haver-n'hi un fum.
+Haver-n'hi un munt.
 Haver-n'hi un niu.
 Haver-n'hi un xinxer.
 Haver-n'hi una carretada.
 Haver-n'hi una flor de fava.
+Haver-n'hi una garba.
 Haver-n'hi una tracalada.
 Hem arribat al maig amb gran desconsol; en comptes de ploure, marinada o sol.
 Hem viscut per salvar-vos els mots, per retornar-vos el nom de cada cosa.
@@ -4849,13 +5265,12 @@ Honra perduda i aigua vessada, mai retornada.
 Honra ton pare tant com pots; dona-li del teu, si tindràs dots.
 Honrat i exacte seràs quan compres i quan vendràs.
 Hora de pagès.
-... i altres galindaines.
+I al remat, a tocar com sempre.
 I ara calla, carai!
 I ara què fem del caldo?
 I el darrer mot diu butxaca.
 I el que et rondaré morena, si la guitarra no es trenca.
 I encara hi és...
-... i home de bé, no pot ser.
 I l'aigua que ve!
 I més n'hi hagi.
 I para de contar.
@@ -4864,10 +5279,10 @@ I un be negre amb potes rosses!
 Idees de bomber.
 Igualment, germà pudent!
 In illo tempore.
-In vino veritas.
 Indicació del rei, té força de llei.
 Infant i pasta a l'estiu es gasta.
 Inflar el bot.
+Inflar-li el barret de guixes.
 Inflar-se-li els nassos.
 Inflat com un tambor.
 Infringir la llei.
@@ -4881,11 +5296,18 @@ Ja bufa la truja de les Salines!
 Ja bufa la vella.
 Ja crema del verd.
 Ja el món ha introduït que tothom sia mosquit.
+Ja és hora de.
 Ja és morta l'abella que la mel feia.
+Ja és quina hora.
 Ja et conec, fraret!
+Ja et dic jo!
+Ja et fot!
+Ja et fum!
+Ja ha arribat la tropa.
 Ja han fugit els pardals.
 Ja hi ha gra!
 Ja hi van ser!
+Ja ho contaràs a la tia!
 Ja ho dirà qui serà viu.
 Ja ho pot dir!
 Ja ho pots tirar al rec.
@@ -4896,11 +5318,14 @@ Ja plou, ja neva, ja pixa l'ovella.
 Ja plou, tapa, sol, la mula i el bou.
 Ja que has fet el poc, fes el molt.
 Ja que parlem d'escopetes...
+Ja t'he filat!
 Ja vindrà Sant Roc, que farem festa al nostre lloc.
 Jamai vingui Sant Joan que no ens porti son pa.
+Jesús! Com fila el fus!
 Jeure ben alt un tresor val.
 Jo ja m'entenc!
 Jo sé una cançó de fil i cotó...
+Joc nou, cada u un sou.
 Jocs honestos usaràs i dels daus et guardaràs.
 Jove guapa i rica, bona xica.
 Joventut descansada, vellesa necessitada.
@@ -4935,23 +5360,27 @@ Jugar-se les ferradures.
 Juliola, peix de cassola.
 Juny eixut, bon vi al cup.
 Juny mullader arruïna al moliner.
+Juny, juliol i agost, per a navegar, són els millors.
 Juny, juliol, agost i Maó són els millors ports del Mediterrani.
 Jurament contra la moral no pot obligar mai.
+Jurar per Déu.
 Just com unes calces estretes.
 Just és en Malva.
 Just i quadrat com una flauta.
 Justícia extremada, injustícia provada.
+Justícia molla fa la gent folla.
 Jutge que admet regals, farà molt de mal.
 Jutge que mal condemna, mereix pena.
 L'abella i la vaca en març estiren la pota.
 L'abundància d'adagis és prova manifesta de la riquesa d'una llengua.
 L'abús no priva l'ús.
+L'acordió és el piano del pobre.
 L'adulació prepara petició.
 L'aigua fa cucs.
 L'aigua fa llimacs.
+L'aigua fa rases.
 L'aigua i l'oli mai poden barrejar-se.
 L'aigua, per a les granotes.
-L'aiguardent, de primer es beu amb aigua, després sense aigua i després com aigua.
 L'aire corrent mata la gent.
 L'alabança pròpia envileix.
 L'alegria del conill.
@@ -5009,14 +5438,19 @@ L'edat no hi és.
 L'eina fa la feina.
 L'Eliana, gent de campana.
 L'empelt és prodigiós: l'arbre bord fa fructuós.
+L'encantat de Begues.
 L'enclusa i el mall sempre forgen junts.
 L'engany del rap.
 L'enveja és una declaració d'inferioritat.
 L'escarabat no és porc i fa una pilota.
 L'escolà no vol dir missa.
 L'escudella a taula, santa paraula.
+L'escudella fa el frare.
 L'espanyol viu de panxa al sol.
+L'espart es pica amb la maça.
 L'espasa valenciana, el broquer barceloní, la p... castellana i el mariner mallorquí.
+L'espavilat mira a les tallades i al plat.
+L'esperança és el pa de la misèria.
 L'esperança és el somni de l'home despert.
 L'esperit bufa allà on vol.
 L'esquella salva l'ovella.
@@ -5082,6 +5516,7 @@ L'últim queixal costa d'arrencar.
 L'última figura que va cagar Isop.
 L'un any arner i l'altre llenyer.
 L'un baixa, l'altre pesca, l'altre porta l'aigua fresca.
+L'un fila, l'altre li té, l'altre li mira si li va bé.
 L'un i l'altre.
 L'un no es pot burlar de l'altre.
 L'un tossut, l'altre més, qui de Déu els entén res?
@@ -5151,7 +5586,6 @@ La Cellera, el campanar i la figuera.
 La ciència ensenya, l'art recrea, la política mareja.
 La ciència és tresor, més que la plata i or.
 La ciutat és un encant si la borsa va rajant.
-La Clara viu a la cala d'Alacant.
 La cobla de Tortellà, dos músics i un marrà.
 La companyia, Déu la volia.
 La consciència, si no és amiga, castiga.
@@ -5161,6 +5595,7 @@ La cosa és que.
 La creu en pits, front i llavis als catòlics fa molt savis.
 La cuina gran fa la casa petita.
 La culpa pesa més que el plom.
+La cura del verí mata a qui la toca.
 La curiositat causa pecat.
 La defensa no és bona si és massa llonga.
 La dignitat del vell són «les canes».
@@ -5185,6 +5620,7 @@ La fila dels figuers.
 La filadora de Vistabella, velló nou, filosa vella.
 La finor mata el peix.
 La fira d'Osca, que anant, anant, s'acosta.
+La flauta no la toca qui vol.
 La flor a l'ametller i la sardina a l'alguer.
 La flor de més amarga arrel és la que porta més fel.
 La flor de safrà alegra el cor.
@@ -5204,6 +5640,7 @@ La intenció és el que compta.
 La Jana, la capitana.
 La joventut fa fer coses.
 La joventut tot ho treu.
+La jugada ja és feta.
 La llavor del meló, que nedi no és bo.
 La llei de Déu no vol trampa.
 La llei del més fort.
@@ -5213,6 +5650,9 @@ La llei és dura, però és la llei.
 La llei més santa i més eterna la trampa l'engalaverna.
 La llengua és el més dolç i el més agre.
 La llengua és el millor i el pitjor del món.
+La llengua no és tisora, però és més talladora.
+La llenya seca prompte s'encén.
+La llet ben bullida ha de pujar tres vegades.
 La lletgesa guarda l'honra.
 La lletra entra per orgull o amb bateculs.
 La llum no serveix als orbs.
@@ -5257,6 +5697,7 @@ La millor sort dels daus és no jugar-los.
 La misèria quan no surt per la porta, surt per la finestra.
 La morella és la mare de la tramuntana.
 La mort, amb sa dalla, tot ho avassalla.
+La mula que sella no vol, Déu li dóna bastó.
 La muntanya afarta i enganya.
 La música és l'aritmètica dels sons.
 La música, per a qui l'entenga.
@@ -5269,9 +5710,12 @@ La neu de gener quasi dura un mes sencer.
 La neu de l'Advent té queixal i dent.
 La nit de Sant Llorenç els estels cauen del cel.
 La nit del sopar, la lluna plena ha d'estar.
+La nit es feu per a dormir i el dia per a descansar.
 La nit per descansar, el dia per treballar.
 La nit tot ho arreplega.
 La noia, com el mirall, amb l'alè s'entela.
+La núvia, al comptat, i el dot, promès.
+La núvia, segura, i el dot, en paraules.
 La paciència és ben amarga, però el seu fruit és molt dolç.
 La paciència falta quan la raó sobra.
 La paella emmascarada n'emmascara una altra.
@@ -5283,7 +5727,6 @@ La passió tot ho fa veure de color de rosa.
 La patata més cruixent de la bossa.
 La pau, Déu la vol.
 La pedra per u sols i la neula per tots.
-La pega vora el foc s'escalfa.
 La pell ja és del llop.
 La pena és malaltia de l'ànima i l'alegria és sanitat.
 La perdiu vella no es recorda de quan era novella.
@@ -5298,6 +5741,7 @@ La pluja petita guanya el gran vent.
 La Pobla, terra de cançons.
 La pobresa és tan negra que fa por a tothom.
 La por m'ho fa dir.
+La por s'ha de tocar amb les mans.
 La porta falsa tira a terra la casa.
 La porta i la bossa oberta són bones si s'encerten.
 La porta sempre diu: porta!
@@ -5336,7 +5780,9 @@ La roba bruta fa pudor.
 La roda de Santa Caterina tota la mar terbolina.
 La rosa, brava cosa!
 La salut i la fortuna fugen del que abusa.
+La sang és molt escandalosa.
 La sang fa tres tombs.
+La sang sempre és vermella.
 La sang tira.
 La setmana dels barbuts.
 La seva arriada a cada traginer agrada.
@@ -5369,6 +5815,7 @@ La teva esquena put a motxilla.
 La tia Basília, que sempre té un poll que no piula.
 La tia Maria.
 La tisi es cura bevent sang de bou negre.
+La titola, més val xica i eixerida que d'un pam i consumida.
 La trompa, sap?, mortal!
 La truita d'en Mallol, un mesuró de farina i un ou.
 La truita, poc cuita.
@@ -5404,6 +5851,7 @@ La virtut fuig dels extrems.
 La virtut guarda la salut.
 La virtut no té preu.
 Lats a lats.
+Les altres coses.
 Les armes porten la pau.
 Les arts que adulen el vici no són arts, són vil ofici.
 Les baralles i la mar, de lluny les has de mirar.
@@ -5412,7 +5860,7 @@ Les bledes, del diable són fetes.
 Les boires del diumenge, el dilluns surten a llum.
 Les bones paraules curen els cors.
 Les bruixes són a les botes del vi.
-Les calderes d'en Pere Botero.
+Les cametes li diuen anem.
 Les campanes diuen si i no, segons el gust de l'escoltador.
 Les carabasses en popa redolen.
 Les carreteres de les Garrigues estan fetes amb setrill.
@@ -5470,9 +5918,13 @@ Les paraules dolces multipliquen els amics.
 Les patates fan tornar sord.
 Les prunes són dels sastres.
 Les surres són pels sastres.
+Les tempestes, com més força tenen, menys duren.
 Les torrentades sempre van per avall.
+Les tres coses que tothom sap fer són: menjar, dormir i cagar.
+Les tres desgràcies del vi: florit, ferreny i verdenc.
 Les tres desventures: ser cornut, ser geperut i dir-se Pere.
 Les tres gràcies d'un home són: ser ros, tenir bona barba i tenir diners.
+Les tres pagues del mal pagador; tard, malament i mai.
 Les trumfes són vives, reguem-les amb aigua; les trumfes són mortes, reguem-les amb vi.
 Les velles a les bodes sempre parlen de quan van ser núvies.
 Les vinyes toves, pel novembre les podes.
@@ -5481,13 +5933,13 @@ Li va dir el sol a Sant Bernabé, més ja no m'alçaré.
 Lladres per dins, lladres per fora i lladres per la vora.
 Llàgrimes de cocodril.
 Llaminadura o entremaliadura.
+Llamp et ferís!
 Llampa per Toix, aigua segura.
 Llampec a Sant Ferriol, senyal d'aigua, si Déu vol.
 Llampecs a Ull de Ter, pluja o serè.
 Llançar la capa.
 Llarg, llarg com un budell i rodó com un garbell.
 Llàstima de fam de quinze dies.
-Llàstima de mare! tres fills, quatre gats!
 Llàstima és morir-se i no anar al cel.
 Llaura bé poc tros i colliràs bon mos.
 Llaura endins i donaràs guerra, a ugons i cards de terra.
@@ -5534,14 +5986,19 @@ Llevar-se una arruga.
 Lliga ton dit sencer, car sencer el trobaràs.
 Lligar-se bé les espardenyes.
 Lligar-se la manta al cap.
+Llis i ras.
+Llit de morts.
 Llo, poble de bruixes.
 Lloador de si mateix té mals veïns.
+Lloc, que la bade!
 Llop amb pell d'ovella.
 Llop dormidor, roí caçador.
 Llop és sempre llop.
+Llop no menja carn de llop.
 Llop, riu i gran camí, cap dels tres no és bon veí.
 Lloro de repetició.
 Llubí és prop d'allà i lluny d'ací.
+Lluc, Joan, Marc, Mateu, quatre evangelistes del bon Déu.
 Lluent com un setrill.
 Llum de gas.
 Lluna clara, el mariner descansa.
@@ -5592,14 +6049,15 @@ Mal que fa corfa no és tan real.
 Mal qui fa mal i pitjor qui el pren.
 Mal va qui no es coneix a si mateix.
 Mal va qui va amb crosses.
+Mala baralla i bon cronista.
 Mala companyia, mal porta algun dia.
 Mala fi faci!
 Mala vella que es pentina de nit.
 Malaguanyats nínxols que vaguen.
 Malalt que s'alça a la nit, no el tingues per ben guarit.
 Malalt que sua, malalt que cura.
-Malament qui ho troba tot dolent; però pitjor qui ho troba tot massa bo.
 Malaventurat qui es casa i ho ensopega: què deu ser el que erra?
+Maleït és home que confia en home.
 Maleït sia el cap que t'aguanta!
 Malhaja el joc i el nom i tot.
 Malifeta o piruleta.
@@ -5630,9 +6088,11 @@ Mare de Déu de Puigcerver, doneu-nos aigua, que ens convé.
 Mare de Déu de Requesens, advocada dels mongets.
 Mare que cria sempre s'atipa.
 Mare que pega, mare no és ella.
+Mare vella i camisa vella no deshonren.
 Mare, em vull casar, que ja sé menjar pa.
 Mare, i ara!
 —Mare, què hi ha per dinar? —Un plat d'aigua amb forquilla.
+Marí espanyol, la pluja al coll.
 Maria... jo t'ho faria deu vegades cada dia!
 Mariner d'aigua dolça.
 Maror de dijous tota la mar remou.
@@ -5663,6 +6123,8 @@ Menja, beu i fes-te «gord», i si et criden, fes el sord.
 Menjant no facis remor.
 Menjar amb cullera i forquilla.
 Menjar amb poca sal fa més bé que mal.
+Menjar com les gallines.
+Menjar com un capellà.
 Menjar com un drac.
 Menjar com un general.
 Menjar com una tremuja.
@@ -5695,7 +6157,6 @@ Mentre el llençol s'apega, ni poc ni molt s'arreplega.
 Mentre fas ombra, fas por.
 Mentre l'arbre fulla té, no el trasplanta qui el vol bé.
 Mentre me'n recordi, no me n'oblidaré.
-Mentre ores, molt atresores.
 Mentre parla amb tu aparca la moto.
 Mentre tens temps, afanya't.
 Mentre uns piulen, altres xiulen.
@@ -5746,6 +6207,7 @@ Més diu una acció que un sermó.
 Més dolent que allò que llencen.
 Més dolent que el fel.
 Més dolent que la llana de ca.
+Més dolent que les borres mal filades.
 Més embolicat que una madeixa.
 Més embullat que un escarabat entre borres.
 Més embullós que una colla d'escrivans.
@@ -5759,12 +6221,13 @@ Més fa el llop callant, que el gos bordant.
 Més fa un bon cel que d'un pagès l'anhel.
 Més fa una lletra que moltes paraules.
 Més fals que les pessetes de Negrín.
+Més fals que un euro de fusta.
 Més fi que un pensament.
 Més flac que sant Valent.
+Més gallines, més pocs ous.
 Més gana que coneixement.
 Més gran que la «o» de sant Joan.
 Més groc que un pet.
-Més guanya hom per escoltar que per parlar.
 Més lladre que en Becaina.
 Més llarg que el terme de Culla.
 Més llarg que la processó del Corpus.
@@ -5780,11 +6243,13 @@ Més net que Capa.
 Més net que un pes de xufer.
 Més net que un sorell.
 Més papista que el papa.
+Més peca de boig que de maliciós.
 Més penjat que un forc d'alls.
 Més penjat que un fuet.
 Més pesat que córrer és saltar.
 Més pesat que els deutes.
 Més pesat que la maça del bombo.
+Més pesat que un piano de cua.
 Més petit és l'ocell, més bada.
 Més «pillo» que en Banasta.
 Més ple que un bombo.
@@ -5795,8 +6260,10 @@ Més ric que Benet.
 Més ric que el Noguer de S'Agaró.
 Més rosega l'enveja que la tinya.
 Més ruc que la tova.
+Més salat que la mar.
 Més sap un vell que cent joves.
 Més sec que els peus d'un sant.
+Més tort que una parra.
 Més tossut que la figuera negra.
 Més tossut que un tronc de figuera.
 Més val aixecar-se a to de campana que a so de trompeta.
@@ -5853,6 +6320,7 @@ Meus o dels altres, a casa diners hi hagi.
 Mica d'aquí, mica d'allí, soc prenyada i no sé de qui.
 Mico de repetició.
 Mig cuit, mig cru, menja-t'ho tu.
+Mig figa, mig raïm.
 Mig per mig.
 Migdiada de Sant Magí emborratxa més que el vi.
 Migjorn brut i tramuntana neta, prest tindrem aigüeta.
@@ -5883,17 +6351,22 @@ Mirar molt i veure poc.
 Mirar per sobre.
 Mirar-se a si mateix.
 Mistos de pet i de flam, que s'encenen com un llamp.
+Mitja enlaire fa drapaire.
 Modèstia extremada i talent amagat és un pecat.
+Moixó matiner troba el cuc primer.
 Moliner i no lladre és una cosa admirable.
 Molins de Rei, la flor del rei.
+Moll com un gat.
 Moll com un xop.
 Molt bé diu!
 Molt bé va.
+—Molt bé! —Molt bé diu, senyor Feliu!
 Molt caldo i pocs trossos.
 Molt cec camina al vici, el qui no tem el judici.
 Molt de complit sol ser ardit.
 Molt de mut que el pare (o la mare) dorm.
 Molt dir i poc fets.
+Molt es llagrimeja d'hipocresia i d'enveja.
 Molt et vull, gosset, però pa, poquet.
 Molt i bé no pot ser.
 Molt i bé no van pel mateix carrer.
@@ -5904,6 +6377,7 @@ Molt serà que...
 Molta fatxada i la butxaca foradada!
 Molta gent i poques persones!
 Molta gent per al rei és bona.
+Molta gent petita, en llocs petits, fent coses petites, pot canviar el món.
 Molta lletgesa, castedat forçosa.
 Molta orella té l'ase i no sap de lletra.
 Molta panxa i poc melic.
@@ -5933,6 +6407,7 @@ Mori qui fila i qui no fila.
 Morir com un griu.
 Morir com xinxes.
 Morir-se de por.
+Morir-se de set.
 Morir-se de vergonya.
 Morros de porc.
 Mort al diumenge un altre en penja.
@@ -5947,11 +6422,16 @@ Mort per mil, mort per mil i cinc-cents.
 Mort, pelat i al sac.
 Morts i ferits, una sabata plena.
 Morts i pactes trenquen tractes.
+Mosca hi ha en l'arròs!
 Mosquit de celler.
+Mosquits al riu, ja som a l'estiu.
 Mossa de faldada n'és la més cara.
+Mossa, els collons em fan bossa!
+Mosso de corda.
 Mosso que del treball va al foc, no el tinga sinó un badoc.
 Mosso, criada i gall, no més d'un any.
 Mostra de febrer ompli el celler.
+Mostra-li la porta.
 Mostrar la filassa.
 Motlle de fer caretes (o carotes).
 Moure els dits.
@@ -5992,25 +6472,29 @@ Nedar com un plom.
 Nedar com un suro.
 Nedar de gos.
 Nedar més que Galindo.
+Negar-li la salutació.
 Negoci de neu, era gran i es desfeu.
 Negre com el betum.
 Negre com el cul de la paella.
-Negre com la pega.
 Negre de barba.
 Negre de cara.
 Neix a bosc, creix a bosc i busca els racons de la casa.
+Neix cantant i mor sense ossos a l'instant.
 Néixer amb una creu al paladar.
 Néixer en divendres.
+Néixer mestre no pot ser.
 Néixer nuet i nuet trobar-se.
 Nen que no té polls no està bé.
 Net com un anell.
 Net de pols i palla.
+Net i ben cuit, tot és bo.
 Net i polit.
 Neu gelada al mes de març, pluja o gelada de maig.
 Neus de gener i sols de febrer.
 Neva a Madrid, neva a la plana de Vic.
 Nevar com si caigueren tovallons.
 Ni a dret de bufetada.
+Ni amb cola.
 Ni amb rodes.
 Ni bes de monja, ni rotllo de llauradora.
 Ni buscat amb canaleta.
@@ -6049,11 +6533,19 @@ Ni suc ni sabó.
 Ni tot donat ni tot pagat.
 Ni tripa ni moca.
 Ni tros ni mos.
+Ni tros ni tisora.
 Ni un borrall.
+Ni un pas enrere!
 Ni un pensament.
+Ni una cosa ni l'altra.
+Ni una palla fa llum ni un cas no fa costum.
+Ni xai ni xaia.
 Niar els pardals a la barretina.
 Niciesa és de jovent.
+Ningú coneix els treballs com qui els passa.
+Ningú és imprescindible.
 Ningú és millor que u.
+Ningú es mor fins que li toca.
 Ningú està sense creu.
 Ningú fa les gloses més avingudes que l'enamorat.
 Ningú no és obligat a coses impossibles.
@@ -6068,6 +6560,7 @@ No aguantar puces.
 No alçar ni pols ni remolí.
 No amb qui neixes, sinó amb qui peixes.
 No anar pas com ça.
+No arribar al capellà.
 No bastar llengües.
 No bastar pa ni pasta.
 No bastar per fer coure l'olla.
@@ -6089,7 +6582,8 @@ No corre tant un cavall com una mala nova.
 No deixar d'ull.
 No deixar ficar basa.
 No demanes a qui empra, ni empres a qui demana.
-No dir ni mu.
+No diguis res que no sigui per res.
+No dir pas que no.
 No dir-hi res.
 No donar ni un duro.
 No donar un dit de vela.
@@ -6139,19 +6633,27 @@ No es pot conrear cap cama-rojar.
 No es pot estar per tot, fer migdiada i guardar l'hort.
 No es pot fer el cuinat amb una olla foradada.
 No es pot llençar res que no pudi.
+No es recorda el capellà que va ser escolà.
 No és soldat com cal qui es rebel·la contra el general.
 No és tot u això que allò.
+No és tot u, estar ple o estar dejú.
+No esperis bé de qui no en té.
+No esperis fruits a l'estiu, deixant l'aigua en el riu.
+No estar acabat de coure.
 No estar gaire catòlic.
 No estar pagat amb diners.
+No estar per a balls.
 No estar per figues.
 No estar per músiques.
-No estar per orgues.
+No estar sencer.
 No estar tocat de mans.
 No et banyaràs mai dues vegades al mateix riu.
+No et barallis amb la gent fins a comptar fins a cent.
 No et clavis en camisa d'onze vares ni carrer que no treu cap.
 No et cuidessis de ningú, Déu vindria més amb tu.
 No et diguis polida que de la pigota no siguis eixida.
 No et fiïs d'amor de senyor, si et vol mal el majordom.
+No et fiquis en el que no et toca.
 No et refiïs del «ja ho farem».
 No fa muntó un gra de blat, però ajuda al del costat.
 No fa seny qui massa tost reprèn.
@@ -6198,10 +6700,10 @@ No haver-se'n vist mai de més fresques (o verdes).
 No hi ha cap setmana que tingui tres dijous.
 No hi ha escarabat que no es pensi ser rei.
 No hi ha foc ni llum ni cendra calenta.
+No hi ha hostes sense costes.
 No hi ha joc més divertit que aquell que es juga al llit.
 No hi ha llinatge que no tingui el seu bagatge.
 No hi ha llinatge que no tingui pa i formatge.
-No hi ha llit sense coixí, ni sermó sense Ave Maria.
 No hi ha mal per a un que no sigui bé per a altres.
 No hi ha mal pitjor que un metge parlador.
 No hi ha mal que duri cent anys.
@@ -6242,14 +6744,20 @@ No manis regla que faci mala llei a la terra.
 No mengis cansat, ni beguis suat.
 No menjar-s'ho les rates.
 No mossega ni lladra, però la casa guarda.
+No n'hi ha de tallats!
+No n'hi ha més que Déu n'hi ha posat.
 No ofenguis mai a ningú, ni t'ofenguis a tu.
 No pagar el pa.
 No parar-se en palles.
+No pas poc!
 No passar-li pel pensament.
 No passar-li una agulla pel forat del cul.
 No patir del cor.
+No pegar res en terrer.
+No perdonar ni a son pare.
 No ploris, Boris!
 No poder-s'ho treure del cap.
+No poder-se retenir els pets.
 No pot ser més negre el corb del que ho són ses ales.
 No prendre el blanc per negre, ni el negre per blanc.
 No prenguis l'espasa per la punta.
@@ -6273,7 +6781,11 @@ No saber ni senyar-se.
 No saber on anar a fer vores.
 No saber on es penja el cresol.
 No saber on girar veles.
+No saber on toca.
+No saber per on pixa.
 No saber per on tirar vores.
+No saber què es diu.
+No saber què es fa.
 No saber quin dia havia berenat.
 No saber quin gust té.
 No saber-ne brot.
@@ -6294,6 +6806,7 @@ No solament... sinó.
 No t'agradi el cant del griu, ni a l'hivern ni a l'estiu.
 No t'alabis fins que no acabis.
 No t'emboliquis, Gutiérrez!
+No t'emboliquis, Vidal, que volent-te adobar et faràs mal.
 No t'espantis mentre no et vegis el cap a quatre passes.
 No t'excitis, cel·lulitis!
 No t'hi fixis.
@@ -6314,6 +6827,7 @@ No tenir cera en les orelles.
 No tenir cervell ni lloc per a ell.
 No tenir clovella.
 No tenir collons.
+No tenir comparació amb.
 No tenir coneixement.
 No tenir consciència.
 No tenir consol.
@@ -6331,10 +6845,15 @@ No tenir la llengua arrendada.
 No tenir la llengua travada.
 No tenir llengua.
 No tenir mai l'arròs triat.
+No tenir més que els cinc dits de la mà.
+No tenir més que la camisa de l'esquena.
 No tenir més que la capa al muscle.
 No tenir més que llengua.
+No tenir ni gra ni palla.
 No tenir ni un pam de terra.
+No tenir ningú que el governi.
 No tenir padrins.
+No tenir panxa ni ventre.
 No tenir per on agafar.
 No tenir perdó de Déu.
 No tenir por de frares ni de grameneres.
@@ -6362,7 +6881,6 @@ No tindràs massa fred!
 No tingues por al sereno, que és un home.
 No tingues por, que sense por vindrà.
 No tiris al foc sal, que eixiràs mal.
-No tocar ni quarts ni hores.
 No tocar ni una coma.
 No tota ovella fa igual parella.
 No totes cauen a la borrassa.
@@ -6391,6 +6909,7 @@ No valdre-hi ni cera del Corpus.
 No valer ni la punta d'un cigarro.
 No valer ni un ral.
 No valer un ardit.
+No valer un botó.
 No valer un gafet boleiat a les fosques.
 No valer un sisó.
 No valer una bleda.
@@ -6424,12 +6943,15 @@ Obrar conforme a dret.
 Obrir-li el cor.
 Obrir-li la casa.
 Obriülls porten a vendre.
+Observa, escolta, calla, jutja poc i pregunta molt.
 Ocasió que s'escapa, poques voltes s'atrapa.
 Ocell de bosc.
 Ocell i flor, a l'abril busquen el seu amor.
 Oci, per alguns, negoci.
+Octubre, el vi al celler.
 Ofegar-se en un got d'aigua.
 Oferir és cortesia; acceptar, pocavergonya.
+Oferir molt i donar poc.
 Ofici de botxí no el vull per a mi.
 Oir, veure i callar.
 Oli novell, posa'l al tinell.
@@ -6458,6 +6980,7 @@ On no hi ha ordre, se'n posa.
 On no hi ha pa, tot és renou.
 On no hi ha soques, no hi ha bajoques.
 On no hi ha vergonya, no hi ha virtut bona.
+On penses que hi ha un bou hi ha un sou.
 On tens el nas, que tot són galtes?
 On tres s'ajunten, un fa de Judes.
 On va el mal? On n'hi ha més.
@@ -6502,6 +7025,7 @@ Pa per pa i vi per vi i no enganyaràs el teu veí.
 Pa sense segó, digues-li midó.
 Pa torrat, pa torrat, que Cap d'Any és arribat.
 Paciència, burro, que la civada va cara.
+Pacient com un bou.
 Paco guarda les poques copes que, a poc a poc, Paca toca i taca.
 Paco, Paco, a poc a poc; tu no saps, jo tampoc.
 Paga de frare.
@@ -6528,6 +7052,7 @@ Pagès que té diners procura fer-se'ls valer.
 Pagès que té diners, prest és cavaller.
 Pagès sense horta, la fam a la porta.
 Pagès, sembra quan voldràs, que, per Sant Joan, segaràs.
+País d'estalviada, mata el bestiar de gana.
 Palau de fades.
 Palau, país de faves... Pesillà, país de naps.
 Pàl·lid com un mort.
@@ -6540,13 +7065,14 @@ Pantalons que riuen.
 Panxa de granota.
 Panxa llisa, no cal camisa.
 Panxa plena i llençol net.
-Papà, posa pa per a en Pepet.
 Par ma part.
 Para el carro, cagarro!
 Para el carro, llobarro!
 Parar la cameta.
 Parar un llaç.
 Parar-se en cametes de mosca.
+Paraula de notari.
+Paraula suau porta la pau.
 Paraules captiven i tractes fan bodes.
 Paraules de mel, obres de fel.
 Paraules honrades no troben portes tancades.
@@ -6557,11 +7083,15 @@ Pare i padrí.
 Pare Nostre qui va al bosc a cavall amb una post.
 Pareix que vingues de Massamagrell.
 Parèixer de Búger.
+Parèixer el capellà de les roques.
+Parèixer el diable de les beceroles.
 Paréixer el fava de Ramonet.
 Parèixer l'emmidonat de Dénia.
 Parèixer la caragolada de Ximo.
 Parèixer la comare de Foios.
 Parèixer les falles del Micalet.
+Parèixer que la mar l'ha tret.
+Parèixer que no ho gasta i ho porta cada dia.
 Paréixer una sargantana.
 Parla a temps, i sols d'allò que entens.
 Parlar amb el rei no és parlar amb sa gerra.
@@ -6649,6 +7179,7 @@ Passejar-se-li l'ànima pel cos.
 Passi-ho bé, que cauen gotes.
 Pastar la Mare de Déu.
 Pastor no es deu tornar a ses ovelles.
+—Pastoret, d'on véns? —De la muntanya, de la muntanya...
 Pasturar el peix.
 Pasturar-se el gran verd.
 Patates del Papiol: rosades de dins i peludes al volt.
@@ -6670,17 +7201,22 @@ Pegar-li un batecul.
 Pegar-li una bescollada.
 Pegar-li una solfa.
 Pegolins, alts i prims.
+Peix de nit.
 Peix de prima.
 Peix de rodella.
 Pel cap dels dits.
+Pel desembre, pluja, boira o gran solera.
+Pel Dijous Sant, bunyols.
 Pel febrer busca l'ombra el llebrer, però no tot el mes sencer.
 Pel febrer has de llaurar el que el març vulguis sembrar.
+Pel febrer, dos de mal i un de bé.
 Pel gener el guaret començaré.
 Pel gener, casat, companyó i vigila el nieró.
 Pel gener, fred al carrer.
 Pel gener, tanca la cisterna, que l'aigua del cel és dolenta.
 Pel gust no es té dret de perdre l'honra.
 Pel juliol sega amb bon sol.
+Pel juliol, la titola em dol.
 Pel maig, a escabellar vaig.
 Pel maig, faves a raig.
 Pel maig, formatge i brossat.
@@ -6711,6 +7247,7 @@ Pels seus passos comptats.
 Pels ulls entra l'amor.
 Pels voltants de.
 Pelut com un ruc.
+Pelut com un senglar.
 Penàguila, poble sense vergonya.
 Penjar el telèfon.
 Penjar les botes.
@@ -6734,10 +7271,12 @@ Per a o per b.
 Per a patir, fugir.
 Per a tot arriba un dia.
 Per al bon febrer la meva llenya guardaré.
+Per al qui pixa al llit, ratolí frit.
 Per art del dimoni.
 Per bogeria, Can Trinxeria; per ànima freda, Can Vayreda; per estalviar, Can Pau Vilà.
 Per cada calcida que es trenca a l'abril, després n'hi ha mil.
 Per Cap d'Any comença l'any.
+Per cap pretext.
 Per causa de.
 Per Cinquagesma, l'ametlla plena.
 Per compte de.
@@ -6745,10 +7284,12 @@ Per conèixer el bé s'ha de conèixer el mal primer.
 Per Corpus, coca amb cireres.
 Per damunt els núvols.
 Per dir veritat no pengen.
+Per fer les coses ben fetes, cal fer-les dos cops.
 Per innocent, paga la patent!
 Per l'abril, busca-li el niu a la perdiu.
 Per l'Advent, raïm i sarment.
 Per l'albarda coneixeràs l'ase.
+Per l'art de la farigola.
 Per l'Ascensió, civada en abundor.
 Per l'Ascensió, l'ocell diu: «Avui reposo de fer el niu».
 Per l'endret i pel revés.
@@ -6762,9 +7303,11 @@ Per la joventut els polls són salut.
 Per la junta se n'ix l'aigua.
 Per la mà.
 Per la Mare de Déu de la Candelera, l'ou enrere.
+Per la Mare de Déu, el duc petit ja fa mèu-mèu.
 Per la Mercè, tronades pertot arreu.
 Per la part del colze!
 Per la part del cul!
+Per la part que li toca.
 Per la primavera, res no és com era.
 Per la tremenda.
 Per la via ràpida.
@@ -6785,6 +7328,7 @@ Per menjar poc de casada, val més fadrina i tirar la xarxa.
 Per més dades.
 Per més que es parli bé, tinta i paper.
 Per més que tinguis rics parents, sols refia't del que tens.
+Per més senyes.
 Per mica que.
 Per mirar no es paga.
 Per misèria, a Sant Quintí.
@@ -6800,20 +7344,25 @@ Per Nadal, no te'n vagis al Pont Alt.
 Per Nadal, Nostre Senyor fa de pastor.
 Per Nadal, petja nova.
 Per Ninou, un pas de bou.
+Per no pixar-se a l'església, es caga a la sepultura.
+Per no res no donen res.
 Per no saber, no canta ni missa.
 Per on passa el cap, passa el cos.
-—Per on passa el tren? —Per la via. —Calla, ruc. que ja ho sabia.
+Per oposició a.
 Per pa i per sal.
 Per paga de.
+Per pair, un bon got de vi.
+Per parlar amb veritat, poques paraules basten.
 Per part de.
 Per ploure, venint-hi bé tothom, no plouria mai.
 Per pobre no et cal amagar la cara.
 Per poc que.
 Per por de.
 Per por de mosques.
+Per preguntar que no quedi.
 —Per què es diu Verges? —Perquè al costat té la Tallada.
-Per què va al bany la negra si en sortirà com la pega?
 Per Reis, una cua de peix.
+Per saber si l'amic és bo o no, toca-li el butxacó.
 Per salar i fregir.
 Per Sant Andreu, ix a la porta que veuràs neu.
 Per Sant Andreu, si el dia s'estira, no ho coneixereu.
@@ -6907,10 +7456,12 @@ Per tots els caps i cantons.
 Per Tots Sants, agafa els pantalons de vellut.
 Per Tots Sants, capes i mocadors grans.
 Per Tots Sants, el que resta és pels passants.
+Per Tots Sants, fred a les mans.
 Per Tots Sants, plega les teles i vinguen rams.
 Per Tots Sants, pluges i vents.
 Per tu faràs!
 Per un cigró no es perd l'escudella.
+Per un costat... Per l'altre...
 Per un gra de blat.
 Per una ovella no es perd un ramat.
 Per vagar, anar a Sant Jaume.
@@ -6941,6 +7492,7 @@ Perdre les rialles.
 Perdre naus i galeres.
 Perdre temps i diners.
 Perdre-hi la pell.
+Perdre-li el respecte.
 Perdre-li la pista.
 Perdre-se'n el motlle.
 Perdre's com l'ànima de Judes.
@@ -6951,19 +7503,60 @@ Pere, no em diguis qui ets, que ja m'ho diran els teus fets.
 —Peresa, vols sopes? —Ja estan fetes?
 Període d'hivern, temps de pa sec i pocs doblers al calaixet.
 Però que torne.
+Perquè hi haurà un dia que no podrem més i llavors ho podrem tot.
 Perquè ho sàpigues!
 Perquè no se't corqui el gra, sovint l'has de sacsejar.
+Perquè no tenen rellotge i no saben quina hora és.
 Persona non grata.
 Persona que molt muda sempre està abatuda.
 Pesar a l'ànima.
 Pesar com un deute.
 Pesar un quintar.
+Pescador de vora a vora.
 Pescador de xixina, tard és si dina el dia que dina.
 Pescador que no pesca, mel en la bresca.
+Pescar a l'art.
+Pescar a l'artet.
+Pescar a l'artó.
+Pescar a l'eixut.
+Pescar a la barbolla.
+Pescar a la barcada.
+Pescar a la blanca.
+Pescar a la cullera.
+Pescar a la fluixa.
+Pescar a la gaita.
+Pescar a la gambeta.
+Pescar a la grumejada.
+Pescar a la llarga.
+Pescar a la llum.
+Pescar a la lluna.
+Pescar a la tranyina.
+Pescar a la vaca.
+Pescar a pas.
 Pescar al bou.
+Pescar al drap blanc.
+Pescar al fons.
+Pescar al quadro.
+Pescar al rossegall.
+Pescar al tresmall.
+Pescar al vol.
+Pescar amb campana.
+Pescar amb cascavell.
+Pescar amb dinamita.
+Pescar amb estores.
+Pescar amb paladar d'àngel.
+Pescar amb ploma de gall.
+Pescar amb suros.
+Pescar amb tronada.
+Pesi a qui pesi.
+Pessic cosit, pessic curat.
 Pet amb cua.
+Petit com un gra de mill.
 Petit com un tap.
 Petit com una pruna.
+Petit i eixerit.
+Petó de Judes.
+Peu mal calçat crida el constipat.
 Peus que estan fets a anar, no poden parats estar.
 Picà sola i se n'anà.
 Picada d'escorpí, mala fi.
@@ -6983,10 +7576,12 @@ Pla com una post.
 Plantant en pampa, un any s'avança.
 Plantar un pi.
 Plantar una estaca.
+Ple com un pollastre farcit.
 Ple de bondat.
 Ple de fills, ple de perills.
 Ple de vent.
 Plegar el llit.
+Plegar-se de braços.
 Plet resolt, l'un malferit i l'altre mort.
 Plogut del cel.
 Plor d'hereu, ningú el creu.
@@ -6996,12 +7591,14 @@ Ploure a bota canal.
 Ploure a ramalades.
 Pluja de Cap d'Any duu mal averany.
 Pluja de diumenge, ni fa ni deixa fer.
+Pluja de març, febre de blat.
 Pluja de matí no et privi de sortir.
 Pluja de primavera, estiu de sequera.
 Pluja de Sant Llorenç sempre arriba a temps.
 Pluja pel juny, bolets a l'octubre.
 Pluja per l'Ascensió, els blats crien carbó.
 Pluja per Sant Joan, pa per tot l'any.
+Pluja seguida i petita és la que més s'aprofita.
 Pobre conformat és afortunat.
 Pobre del diable que no té part en Déu.
 Pobre importú sempre treu d'algú.
@@ -7030,6 +7627,7 @@ Poder-hi córrer les rates.
 Poeta de secà.
 Poliol i nepta curen el mal de ventre.
 Polir el mànec.
+Polir la perla.
 Polit com el cul d'un home pobre.
 Polit i profit, no cap al llit.
 Política militant ofici d'intrigant.
@@ -7046,17 +7644,28 @@ Poques i encara cauen.
 Poques idees, però ben embullades.
 Poques metzines no maten.
 Poquet i claret.
+Porc de mala casta.
 Porc i conreu, qui no hi posa, no en treu.
 Porta la creu, que et portarà a Déu.
 Porta la pasta i la fusta a la festa de la Floresta.
 Porta merda de l'any que li'n demanis.
 Porta oberta, pobresa certa.
+Porta per porta.
 Porta tancada lleva temptació.
 Portar a l'hort.
 Portar a l'últim extrem.
 Portar benzina a la sang.
+Portar corda de penjat.
 Portar el penjador posat.
+Portar el trinc.
+Portar l'albarda sota la panxa.
+Portar la carn al llop.
+Portar la lliura.
+Portar la nau a port.
+Portar la seva creu.
+Portar les espardenyes ben lligades.
 Portar merda a la quilla.
+Portar més fúria que el llevant de darrere de la Seu.
 Portar més llenya que un ase de traginer.
 Portar més llenya que un burro de forn.
 Portar més vara que un burro de forner.
@@ -7078,7 +7687,6 @@ Posar en berlina.
 Posar en circulació.
 Posar en fonya.
 Posar en plet.
-Posar en roda.
 Posar fi a.
 Posar l'esquella al bou.
 Posar la clau al pany.
@@ -7092,14 +7700,19 @@ Posar-li al cap.
 Posar-li el vent a la flauta.
 Posar-li la pistola al pit.
 Posar-li la soga al coll.
+Posar-li un cap com una tarumba.
 Posar-se a córrer.
 Posar-se a fer.
+Posar-se a la pell d'algú.
 Posar-se al costat del més fort.
+Posar-se com un cabell de nina.
 Posar-se com un pobre de sopes.
 Posar-se com una fúria.
+Posar-se damunt els retalons.
 Posar-se de través.
 Posar-se el vent.
 Posar-se en possessió.
+Posar-se fet un lluquet.
 Posar-se-li el sol al cap.
 Posat cas que.
 Pot de verí.
@@ -7107,6 +7720,7 @@ Pot més costum que llei.
 Precaució i brou de gallina estalvia medecina.
 Preciós com una primavera.
 Predica, Roc, que t'escolte poc.
+Pregar a Sant Nazari.
 Premi o malifeta.
 Prendre a bé.
 Prendre a cens.
@@ -7144,6 +7758,7 @@ Prim com el dit.
 Prim com un bernat pescaire.
 Prim com un fil.
 Prim com un fil de teranyina.
+Prim com un filaberquí.
 Prim com un tall de ganivet.
 Prim com una agulla.
 Prim de barres.
@@ -7168,13 +7783,16 @@ Prometre més pa que formatge.
 Prompte com una pólvora.
 Prop d'un home descuidat sempre hi trobaràs un gat.
 Prop està del fum, la flama.
+Prosperitat, quan apar blana, dolçament enganya.
 Prou fa el que obeeix.
 Prou fa el que passa.
 Prou fa qui fa fer.
 Prou feina té.
 Prou que ho sé.
 Prova, pecador, aquí, el que a l'infern pots sofrir.
+Pubilla rica, oli a la pica.
 Pubilla, cua de guilla.
+Pública veu i fama.
 Puc i vull i tinc per fer-ho.
 Puces als palangres, llevant segur.
 Puçol, entre mar i muntanya.
@@ -7182,6 +7800,7 @@ Pudent com un carnús.
 Pudir a bolquims.
 Pudir com una bescambra.
 Puig-arner, quatre cases i un carrer.
+Puja paret amunt, amb el tabalet al cul.
 Pujada de garbí, baixada de llevant.
 Pujar més el suc que els moixons.
 Pujar més les campanes que la festa.
@@ -7203,12 +7822,14 @@ Quan el migjorn punxa, senyal de pluja.
 Quan el Montseny se serra, aigua en aquesta terra.
 Quan el parlador és orat, sigui l'escoltador assenyat.
 Quan el poble et fa una talla, paga i calla.
+Quan el savi fa un «borró», no t'espantes per això.
 Quan el sol es pon enllocat, llevant dalt del cap.
 Quan el sol s'emmiralla, de pluja guarda't.
 Quan el tro puja a tramuntana pluja assenyalada.
 Quan el vent ve de Vinaixa, si estàs suat posa't la faixa.
 Quan els bacins sonen, senyal de tempesta i de sang.
 Quan els diners canten, tots callen.
+Quan els piocs volaran seràs eixerit.
 Quan es floreix el vi madura el raïm.
 Quan estàs collint orengues, ten compte amb les ortigues.
 Quan et posen l'anell, prepara el mantell.
@@ -7276,6 +7897,7 @@ Quan plou sobre el vicari, degota sobre el rector.
 Quan rellampega a la marina, pluja a la ruïna.
 Quan s'acaba el migjorn el dimoni diu: «Déu faci que no torn».
 Quan sentis la tórtora rondinar, pren la cistella i ves a sembrar.
+Quan sentis parlar de justícia toca ferro.
 Quan tinguis paciència i perseveris, eixiràs amb la cosa que emprengueres.
 Quan tot vagi malament.
 Quan trona a Irta, aigua a la vista.
@@ -7287,10 +7909,13 @@ Quan un molí no mol, arri a l'altre.
 Quan un vol de verdums passa alt, farà bon temps. Si passa baix, plourà.
 Quan vagis a casa d'altri demana llicència a la porta.
 Quan vagis convidat, menja com un soldat.
+Quan van voler mal al diable el van casar.
+Quan ve coca, coca, i quan ve tallada, tallada.
 Quan ve de volea, es juga.
 Quan vegis jugar a cartes, seràs prudent si te n'apartes.
 Quan veuràs nesples madures, si ets mal vestit, pensa en vestidures.
 Quan violes hi ha, les ninetes a confessar.
+Quan voldré casar la noia gran amagarem la petita a la cendrera.
 —Quant t'ha costat? —Diners i paraules!
 —Quants anys tens? —Set i les dents.
 Quaresma clara, tot l'Advent emborbollada.
@@ -7309,7 +7934,6 @@ Que estàs torrada?
 —Què et fa mal? —El cul i la canal.
 Què et penses!
 —Què fa el teu pare? —Roba.
-Què farem, paelleta o arròs caldós?
 —Què fas aquí dalt, Fèlix? —Pelo Pèsols. —Pèsols peles, Fèlix?
 Què fas, compàs?
 —Què fem, por o fugim?
@@ -7323,11 +7947,9 @@ Què hi farem a casa si no hi som?
 Què hi ha.
 Què hi ha de nou.
 —Què hi ha de nou? —Que la vaca ha parit un bou.
-Què hi ha després de Santa Maria? Consell? No: «Ora pro nobis»!
 —Què hi ha per dinar? —Gresos. —Què són? —Els cagarros dels francesos.
 —Què hi ha per dinar? —Llecs —Què són llecs? —Cagallons secs.
 —Què hi ha per sopar? —Barbassos. —Què són barbassos? —Cagarros com braços.
-Què hi ha pitjor que el diable? el vi.
 Què hi ha...?
 Que ho conti a sa tia.
 Que ho faci en Maneta!
@@ -7350,7 +7972,6 @@ Que no es perdi per l'escolà.
 Que no se'n parli més.
 Que no sigui dit.
 Que no sigui res.
-Que no sigui res això! i duia l'ull a la mà.
 Què passa a Cadis?
 Què passa, carabassa?
 Què passa, mostassa!
@@ -7359,6 +7980,7 @@ Què passa, mostassa!
 —Què passa? —El carro de la bassa.
 —Què passa? —Que la banda està borratxa.
 —Què passa? —Una iaia per la plaça, passa un camió i l'esclafa.
+—Què passa? / —El carro de la bassa.
 Què podem fer-hi!
 Que s'esperi assegut!
 Què sabràs de penjar lloques si totes les escanyes.
@@ -7370,6 +7992,7 @@ Què t'estimes més: set forats a la cara o un eixam d'abelles al cul?
 Què t'hi jugues?
 Que té la nina a la nona, la nena?
 Que tiri qui té bon dret.
+Que un llamp et migparteixi!
 Que us bombin!
 Què va haver dit.
 Que vagi bé!
@@ -7470,6 +8093,7 @@ Qui diables compra, diables ha de vendre.
 Qui diners pren, es ven.
 Qui diu les veritats, va al cel.
 Qui diu mal, el vol oir.
+Qui diu moltó ja diu molt bo.
 Qui diumenge no va mudat, o és molt pobre o té mal de cap.
 Qui dorm dina.
 Qui dorm i reposa que no esperi gran cosa.
@@ -7477,6 +8101,7 @@ Qui dorm molt aprèn poc.
 Qui dorm no peca.
 Qui el melonar guarda, melons tasta.
 Qui el nas es talla lleig es torna.
+Qui el tracte féu, que mantingui el preu.
 Qui els penellons guarir-se vol, unti'ls amb saliva de juliol.
 Qui els pobres bat, ja té l'infern guanyat.
 Qui els tingui, que se'ls mantingui.
@@ -7509,7 +8134,6 @@ Qui està més alt, predica.
 Qui està parat, parat es troba.
 Qui està remull, es pot tornar a banyar.
 Qui estima Déu, ja és del cel hereu.
-Qui et canta la cobla, eixe te la pega.
 Qui et va parir!
 Qui fa bé, li ve; i qui fa mal, no l'allunya.
 Qui fa en pau la sucamulla no està per gresques ni bulla.
@@ -7520,6 +8144,9 @@ Qui faci fireta, lleugera la mà dreta.
 Qui fila borrut té el marit pelut.
 Qui filassa seva fila bona saliva destil·la.
 Qui fuig alguna cosa tem.
+Qui fuig de la feina, la feina l'encalça.
+Qui fuma en pipa, per tot es fica.
+Qui governa amb amor, causa gust i no dolor.
 Qui ha fet dilluns, farà dimarts.
 —Qui hi ha? —Teniu foc? —Ni llum tampoc!
 —Qui hi ha? —Un burro que vol entrar.
@@ -7557,7 +8184,10 @@ Qui més calla, més obra.
 Qui més en té, més en vol.
 Qui més en vol, menys en té.
 Qui més fa, manco guanya.
+Qui més parla de la mar, en ella no hi sol entrar.
+Qui més val, més comporta.
 Qui molt corre, alguna cosa atrapa.
+Qui molt diu, molt es desdiu.
 Qui molt llegeix, molt coneix.
 Qui molt menja, molt caga.
 Qui molt rellisca, cau.
@@ -7577,6 +8207,7 @@ Qui no compta, no s'erra.
 Qui no conegui el subjecte no formi d'ell mal concepte.
 Qui no conra ses voreres, per Nadal no té porgueres.
 Qui no crida no és valent.
+Qui no demana pateix gana.
 Qui no doni de ses peres, que no esperi de les alienes.
 Qui no du el llum dret, vessa l'oli.
 Qui no el criden, que no responga.
@@ -7596,6 +8227,7 @@ Qui no menja merda no està gras.
 Qui no mira, no sospira.
 Qui no pareix, pereix.
 Qui no parla, senyal que està mut.
+Qui no pensa en demà, de vell pararà la mà.
 Qui no pensa, no peca.
 Qui no persevera no és coronat.
 Qui no pot beure, glopeja.
@@ -7605,6 +8237,10 @@ Qui no pot més amb la càrrega, es gita.
 Qui no pot més, morir es deixa.
 Qui no pot pagar, no deu.
 Qui no pot pegar al clau, pega a la ferradura.
+Qui no pregunta no sap.
+Qui no pren el bon consell s'haurà de penedir d'ell.
+Qui no pren medecines està bo.
+Qui no puga tocar l'arpa que toque la flauta.
 Qui no repassa, no té casa.
 Qui no respecta el pare seu, no respecta Déu.
 Qui no roba no porta roba.
@@ -7612,7 +8248,9 @@ Qui no ronca, no sopa.
 Qui no s'embarca no es mareja.
 Qui no sap de l'art, el llop se'l menja.
 Qui no sap de parlar, el pengen sense culpa.
+Qui no sap més, amb sa mare es gita, i no peca.
 Qui no sap, no peca.
+Qui no sàpiga pixar, que no begui.
 Qui no sega arran en deixa la meitat al camp.
 Qui no sigui home que no es llogui.
 Qui no té bou ni cabra, tota la nit llaura.
@@ -7627,6 +8265,7 @@ Qui no té home, no és home.
 Qui no té hort ni mata porc, més valdria que fos mort.
 Qui no té l'eina, no fa feina.
 Qui no té pa n'ha d'anar a cercar.
+Qui no té sobres de pa, que no criï ca.
 Qui no té, no és.
 Qui no vol rates, ha de patir els gats.
 Qui no vulgui ser picat que no posi el cap al vesper.
@@ -7635,7 +8274,10 @@ Qui obra no porta roba.
 Qui ofèn venjança tem.
 Qui pa vol menjar ha d'estalviar.
 Qui paga bé, mana a la seva bossa i a la dels altres també.
+Qui paga empila.
+Qui paga, no deu; i qui no paga, deu.
 Qui passa de la proa, cau al mar.
+Qui passa ja fa prou.
 Qui passa la mar guanya la glòria.
 Qui pega al gos, pega a l'amo.
 Qui pega s'ha de disposar a rebre.
@@ -7678,6 +8320,8 @@ Qui roda el món, troba la mona.
 Qui s'abaixa, Déu l'alça.
 Qui s'aixeca tard, ni va a missa ni menja carn.
 Qui s'arramba a sotana, quasi sempre guanya.
+Qui s'està al portal d'Amunt, veu passar més d'un difunt.
+Qui s'està al portal d'Avall, prou farà més d'un badall.
 Qui s'ha menjat les figaflors s'ha de menjar les agostenques.
 Qui s'ha penjat!
 Qui santifica les festes ha de fer coses honestes.
@@ -7697,6 +8341,7 @@ Qui t'ha fet palangrer, sent ton pare pastor?
 Qui t'ha parit que et governi.
 Qui té a Déu, tot ho té.
 Qui té a prop el molí, mol abans que el seu veí.
+Qui té barquera, que li vagi al darrere.
 Qui té bon porc a la salera, bon Nadal se li espera.
 Qui té bona pastera, l'hivern no l'espaterra.
 Qui té buida la caixa la cara porta baixa.
@@ -7740,18 +8385,23 @@ Qui té sort no té salut; qui té salut no té sort.
 Qui té terra s'enterra.
 Qui té trèvol a casa no es casa.
 Qui té un art, té una heretat.
+Qui té un sou pot deturar el sol, si vol.
+Qui té un sou tot el món remou.
 Qui té, que doni a qui no té; i, si no, que barati.
 Qui té, sempre reté.
+Qui tem la mort, no frueix de la vida.
 Qui tem, alguna cosa ha fet.
 Qui terreja menja terra.
 Qui tinga por que no isca de casa.
 Qui tingui ous a ferrar, que els ferri.
 Qui tira serà tirat.
 —Qui toca les campanes? —Les sargantanes.
+Qui tot ho comença, res acaba.
 Qui tot ho creu, tot s'ho beu.
 Qui tot ho llença, poc pensa.
 Qui tot ho menja tot ho paeix.
 Qui tot ho menja, tot ho caga.
+Qui tot ho vol veure, tot s'ho ha de beure.
 Qui tots els dies fa festa, no té diumenges en tot l'any.
 Qui trasteja, menjoteja.
 Qui treballa a les festes, sempre serà pobre.
@@ -7810,6 +8460,7 @@ Quin vent et porta per aquí?
 Quina canongia! Voga que voga, cia que cia, i el temps que faci via.
 Quina gràcia, farmàcia.
 —Quina hora és? —L'hora de passar cabrons.
+Quines coses que passen!
 Quinto ronyós, soldat pollós.
 —Quinze i quinze? —Trenta. —Qui no caga rebenta.
 Quinze són quinze, quinze, quinze, quinze, quinze són quinze, quinze, quinze són.
@@ -7830,6 +8481,7 @@ Refia't d'en Magarola, que et traurà de mal si no te n'hi posa.
 Regal o esglai.
 Regirar-se-li la bilis.
 Regirat com un cuc.
+Reiniciar-li el Windows.
 Rellampecs al Port, aigua al foc.
 Rellotge de repetició.
 Remenar els galindons.
@@ -7872,6 +8524,7 @@ Rondalla va, mentida ve, no us cregueu res del que diré.
 Rondalla va, rondalla ve, si no escolteu, no us la diré.
 Ros com un fil d'or.
 Ros de mal pèl.
+Rosa de tot l'any.
 Rosegar els ossos.
 Rosegar la codonyeta.
 Rubí, robar, matar, assassinar, cara de deure i no pagar.
@@ -7892,6 +8545,7 @@ Saber com els gasta.
 Saber com es mata el peix.
 Saber com l'oli de tenda.
 Saber de bona part.
+Saber dir el parenostre al revés.
 Saber dos sons i una ballada.
 Saber el parenostre del pare Llop.
 Saber el que es diu.
@@ -7951,7 +8605,6 @@ Sant Antoni, el ruc al rec.
 Sant Bartomeu del Grau, tretze o catorze?
 Sant Bernat cura de febres i de mal de cap.
 Sant de pasta de lluna.
-Sant Felip Neri no hi ha sant sense misteri.
 Sant Feliu del Pinyó.
 Sant Fortià, passa a mig sembrar.
 Sant Francesc el raïm porta i Sant Josep se l'emporta.
@@ -7965,23 +8618,39 @@ Sant Joan enlleganyat, Sant Pere regalat; Sant Pere emborbollat, Sant Joan regal
 Sant Joan o barres?
 Sant Joan revoltós, Sant Pere plujós.
 Sant Joan, Sant Pere i Sant Pau, primavera adeu!, primavera au!
+Sant Josep, la veu li dóna al cuc, i, Sant Pere, el deixa mut.
 Sant Llorenç és desgraciat: cada any hi ha un ofegat.
 Sant Mamet porta barret.
+Sant Martí Sarroca, puja a cavall i toca!
+Sant Mateu de Mira a Bages.
 Sant Medard, plantador de cols i menjador de llard.
 Sant Miquel gloriós porta la lloga dels pastors.
+Sant Miquel i Sant Rafel donen aigua del cel.
 Sant Miquel sense lluna, de cent fedes, se n'escapa pas una.
 Sant Miquel, del raïm, tard vens i poc dures.
 Sant Miquel, qui s'aixeca no s'asseu.
 Sant Miquelet, el fanalet.
+Sant Necessari no hi és al calendari.
+Sant Nin, sant Non, carregats de son!...
+Sant Pancràs, patró dels obrers.
 Sant paper d'estrassa.
 Sant Pau de gener, hivern endavant o hivern endarrer.
+Sant Pau gloriós!
 Sant Pau mullat, tot l'any esgarriat.
 Sant Pau nevat, any de fam assegurat.
+Sant pel carrer i diable a casa.
+Sant Pere canvia els mobles de lloc.
+Sant Pere fa les portadores netes.
+Sant Pere ha obert les aixetes.
+Sant Pere mou els mobles del cel.
+Sant Pere plujós, durarà un dia o dos.
+Sant Pere remena les calaixeres.
 Sant Pere té la bufa darrere.
 Sant Pere ve i va, si un dia s'hi està, el juliol tornarà.
 Sant Pere, Sant Pere, si el foc ha pres, que no torni enrere.
 Sant Pol, gent de manta.
 Sant Ponç guarda de xinxes.
+Sant Privat, col i nap. El Mallol, nap i col.
 Sant Privat, sant capat.
 Sant Roc! Doneu-me foc, ni massa ni poc.
 Sant Urbà és el darrer veremador; si no plou, el pagès deixa el dolor.
@@ -8008,14 +8677,16 @@ Savi és l'home que només sap santificar-se.
 Savis amb savis s'entenen.
 Se li veu que vil és.
 Se'n moren més de joves que de vells.
+Se'n recull més amb el nas que amb una aixada ampla.
+Sec com els cavalls d'en Malla.
 Sec com un buscall.
 Sec com un carquinyoli.
 Sec març, plujós maig.
-Sec més que un bacallà.
 Segar molt terrer.
 Segar-li la vida.
 Segar-li les cames.
 Segó, segó, torna al caixó.
+Segons el bosc, la llenya.
 Segons el cul, les calces.
 Segons el peu, el calçat.
 Segons el peu, la sabata.
@@ -8057,6 +8728,7 @@ Semblar un galliner.
 Semblar un gripau.
 Semblar un indiot.
 Semblar un mussol.
+Semblar un perol esquerdat.
 Semblar una bota.
 Semblar una granera.
 Semblar una màrfega.
@@ -8092,12 +8764,15 @@ Sempre quietes, sempre inquietes. Dormint de dia, de nit despertes.
 Sempre s'emporta la mala fama aquell que no la té gaire bona.
 Sempre seràs pel que tindràs.
 Sencer com una ametlla.
+Sense aixeta ni pipó, d'on treus el vi de la bota, Rabassó?
 Sense amor no es viu.
+Sense cacau no es fa xocolata.
 Sense casa ni fogassa.
 Sense diners no hi ha dinades.
 Sense dir paraula.
 Sense dolor no hi ha amor.
 Sense fer res, perdràs salut i diners.
+Sense fer testament.
 Sense fotre brot.
 Sense fre ni esperó, quin cavall hi ha bo?
 Sense humilitat no hi ha grandesa.
@@ -8110,6 +8785,7 @@ Sense voler es toca la llaga.
 Sentir de nas.
 Sentir olor a les calces.
 Senyals de vida.
+Senyoret de mig cul.
 Senyoret, per la jaqueta li corre un pollet.
 Ser al pou.
 Ser amic del rei David.
@@ -8171,7 +8847,6 @@ Ser el dia del gos.
 Ser el gall del poble.
 Ser el manso.
 Ser el pitjor del pitjor.
-Ser el pont dels ases.
 Ser el que portà el pessic al món.
 Ser el quid de la qüestió.
 Ser el tot.
@@ -8179,9 +8854,11 @@ Ser en Nofre Llonze.
 Ser espectadors de primera fila.
 Ser espigolat a mala banda.
 Ser estudiant de la sopa.
+Ser filat del mateix cànem.
 Ser fill de son pare.
 Ser fill de Tossa.
 Ser fruita de vora camí.
+Ser home fet.
 Ser l'aleta del cor.
 Ser l'amo de l'auca.
 Ser l'amo de les ametlles.
@@ -8205,13 +8882,23 @@ Ser més mal de passar que un sisó roí.
 Ser més roín que la carn de coll.
 Ser més roín que les veces.
 Ser molt Pere.
+Ser músic d'ofici, de vocació i de vici.
 Ser músic de vora.
 Ser o no ser, aquesta és la qüestió.
+Ser o no, res!
+Ser passat Empúries.
 Ser pecat i porqueria.
+Ser Peret, el de les matinades.
 Ser pitjor que la Inquisició.
+Ser pluja d'abril.
 Ser pobre i honrat té molt de mèrit.
+Ser públic i notori.
 Ser repelós a.
+Ser ric és massa i ser pobre, massa poc.
+Ser senyora i majora.
 Ser solfes i mifes.
+Ser tan car com un ou un sou.
+Ser tan mort com els morts del cementiri.
 Ser tants com en van darrere dels gegants.
 Ser tingut de.
 Ser tingut per.
@@ -8226,6 +8913,7 @@ Ser un animal.
 Ser un animalot.
 Ser un aniversari que no es canta.
 Ser un armari.
+Ser un arpellot.
 Ser un artista.
 Ser un atordiment.
 Ser un aturat.
@@ -8235,6 +8923,8 @@ Ser un bajà.
 Ser un baladrer.
 Ser un bardaix.
 Ser un barroer.
+Ser un batusser.
+Ser un beco.
 Ser un benaventurat.
 Ser un Benet.
 Ser un besuc.
@@ -8281,6 +8971,7 @@ Ser un crac.
 Ser un cretí.
 Ser un cuc.
 Ser un dandi.
+Ser un dàtil.
 Ser un deixat.
 Ser un descregut.
 Ser un desgraciat.
@@ -8307,9 +8998,12 @@ Ser un ermità.
 Ser un esbirro.
 Ser un esclafit.
 Ser un escorniflaire.
+Ser un escurçó.
 Ser un espatotxí.
 Ser (un) esquifit.
 Ser un esquizofrènic.
+Ser un estaferm.
+Ser un estaquirot.
 Ser un estirat.
 Ser un estorinat.
 Ser un estret.
@@ -8334,6 +9028,7 @@ Ser un foc etern.
 Ser un follet.
 Ser un forn.
 Ser un fredolic.
+Ser un fregall.
 Ser un fresseta.
 Ser un fumeta.
 Ser un furoner.
@@ -8342,6 +9037,7 @@ Ser un galàpet.
 Ser un gallet.
 Ser un gamberro.
 Ser un ganassa.
+Ser un gavarro.
 Ser un gil.
 Ser un glaç.
 Ser un golondro.
@@ -8351,7 +9047,9 @@ Ser un gran cor.
 Ser un graponer.
 Ser un gripau.
 Ser un home d'anys.
+Ser un home nou.
 Ser un home que val per dos.
+Ser un home sense fe.
 Ser un homenet.
 Ser un idiota.
 Ser un individualista.
@@ -8359,8 +9057,11 @@ Ser un infeliç.
 Ser un inútil.
 Ser un ja-ja.
 Ser un janot.
+Ser un Joan Doneta.
+Ser un joc.
 Ser un joc d'ous.
 Ser un jueu.
+Ser un linx.
 Ser un liró.
 Ser un lladre.
 Ser un lladregot.
@@ -8372,6 +9073,7 @@ Ser un lleganyós.
 Ser un llepaire.
 Ser un llépol.
 Ser un llibre obert.
+Ser un llimac.
 Ser un llonze.
 Ser un llunàtic.
 Ser un macarró.
@@ -8381,7 +9083,9 @@ Ser un malvat.
 Ser un mamarratxo.
 Ser un manefla.
 Ser un maremàgnum.
+Ser un Marimon.
 Ser un marrec.
+Ser un màrtir.
 Ser un mec.
 Ser un met.
 Ser un meula.
@@ -8399,26 +9103,36 @@ Ser un mosquit.
 Ser un nap.
 Ser un neci.
 Ser un negat.
+Ser un negrer.
 Ser un nervi.
 Ser un obtús.
 Ser un orellut.
 Ser un pagès.
 Ser un paio.
+Ser un pal.
 Ser un pallasso.
 Ser un pàmfil.
 Ser un pampana.
 Ser un pàmpol.
+Ser un pas de rodolí.
 Ser un patufet.
 Ser un peça.
 Ser un pelat.
+Ser un Pere.
+Ser un Pere Llefres.
+Ser un Pere Pau.
+Ser un Pere Viret.
 Ser un pet tibat.
 Ser un petarrell.
+Ser un piano sense tecles.
 Ser un pipioli.
 Ser un pirat.
+Ser un pirata.
 Ser un pispa.
 Ser un ploraner.
 Ser un podrit.
 Ser un poll ressuscitat.
+Ser un Proteu.
 Ser un punxa.
 Ser un qualsevol.
 Ser un rodamon.
@@ -8432,7 +9146,6 @@ Ser un sastrinyoli.
 Ser un secall.
 Ser un secardí.
 Ser un siboc.
-Ser un soca.
 Ser un socó.
 Ser un somicaire.
 Ser un sonso.
@@ -8458,9 +9171,12 @@ Ser un trompeta.
 Ser un tronc.
 Ser un tronxo.
 Ser un truà.
+Ser un verderol.
 Ser un verro.
+Ser un viri.
 Ser un vividor.
 Ser un xarnego.
+Ser un xoriço.
 Ser una àliga.
 Ser una andròmina.
 Ser una aventura.
@@ -8477,6 +9193,7 @@ Ser una bruixa.
 Ser una bugadera.
 Ser una burla.
 Ser una cabronada.
+Ser una cafetera.
 Ser una campana.
 Ser una campana badada.
 Ser una carabassa.
@@ -8485,6 +9202,7 @@ Ser una catracòlica.
 Ser una ceba.
 Ser una comèdia.
 Ser una conilla.
+Ser una creu.
 Ser una donota.
 Ser una druda.
 Ser una espingarda.
@@ -8513,13 +9231,16 @@ Ser una marmota.
 Ser una martingala.
 Ser una maturranga.
 Ser una meravella.
+Ser una mona.
 Ser una mustela.
 Ser una pàmfila.
+Ser una passada.
 Ser una peladilla.
 Ser una pelleringa.
 Ser una pepa.
 Ser una pereta en dolç.
 Ser una perla.
+Ser una pesta.
 Ser una quera.
 Ser una rabosa.
 Ser una rampoina.
@@ -8556,6 +9277,7 @@ Set canes sota terra.
 Set ceps cecs i set xicres xiques.
 Set claus, set panys.
 Set de pardal.
+Set de venjança.
 Set i el batlle.
 Set pagesos, set reis, set lleis, set dimonis.
 Setembre de secada, bolet a l'ombrada.
@@ -8586,15 +9308,23 @@ Si bo és el temor, és més bo l'amor.
 Si bona xocolata vols no et cansis de remenar.
 Si caces no t'alabis, si no caces no t'enfadis.
 Si caiem, de terra no passarem.
+Si canten els de Palau, mal temps, adeu-siau.
 Si cola, cola.
 Si creus aquell qui t'ama mai no perdràs la fama.
 Si d'algú et vols revenjar, has de callar.
+Si d'altre no vols dir bé, no digues mal.
 Si d'una unça en fa xinxons, ja li pots donar expressions.
 Si de paraules t'enamores, pots ser molt bé enganyat.
+Si de prunes te'n fas un tip, aniràs a can Felip.
+Si de rendes vols «gosar», aprèn bé d'estalviar.
+Si demanes de més, t'exposes a no aconseguir res.
 Si demostres tenir ardits, no et faltaran pas amics.
 Si desembre no venia, l'any nou no arribaria, i el món s'acabaria.
 Si Déu vol, no hi val que diguis no vull.
+Si dic que sí, ai de mi! Si dic que no, hi ha por.
+Si dos octubres un any tenia, la gent es moriria.
 Si dubtes, no parlis.
+Si el batall no pica, la campana no sona.
 Si el cuc no canta per l'abril o està malalt o es vol morir.
 Si el cuc viu està, per l'abril el tenim ací ja.
 Si el dijous el sol es pon entre núvols, pluja abans de tres dies.
@@ -8632,6 +9362,7 @@ Si fora un bou!
 Si fos de...
 Si fuges de polseguera, cauràs en fanguera.
 Si governes la boca, governaràs la bossa.
+Si ho encerto, bé; i si no, també.
 Si jo consento el pecat, consento ser condemnat.
 Si l'abril és eixut, el maig serà ben florit.
 Si l'enveja fora música, quants de Mozart i Beethoven hi hauria.
@@ -8692,12 +9423,16 @@ Si pel febrer no fa fred, la resta de l'any se'n ressent.
 Si pel juliol aigua cau, neu a l'hivern serà.
 Si pel juny plou, el bon temps es remou.
 Si pel març sents tronar, ven els bous i menja't el pa.
+Si penso, és que sóc.
+Si per l'abril no ha aplegat, a Déu i als santets m'he encomanat.
+Si per l'abril plou, blat i ordi i seu de bou.
 Si per la Candelera neva, trenta dies més estarem amb ella.
 Si per Sant Climent fa vent, bon hivern.
 Si per Sant Llorenç vas a Das, creu-me que et divertiràs.
 Si per Sant Vicenç està clar, hi ha bona collita de vi i pa.
 Si per Sant Vicenç fa el temps fi, serà any de vi.
 Si per ventura.
+Si perd i riu el marxant, és boig o no vol pagar.
 Si piquen les mosques i es llepen els gats, aigua a grapats.
 Si plora el xirlot reial, farà temporal.
 Si plou brusques dins l'agost, esclata-sangs a voler.
@@ -8707,6 +9442,7 @@ Si plou per l'Ascensió, s'infla el codony.
 Si plou per Sant Bernabé, pluja tot l'estiu que ve.
 Si plou per Sant Vicenç, el fred s'espinya les dents.
 Si plou, perquè plou; si no plou, perquè no plou.
+Si pobre vols ser, ven el vell i compra el novell.
 Si porta capell, no et fiïs d'ell.
 Si quan plou crida l'òliba o el mussol, aviat es veurà el sol.
 Si resar veus en Bernat, penses que és en veritat?
@@ -8725,13 +9461,17 @@ Si torna Sant Jordi, torna el blat i l'ordi.
 Si trenques un mirall porta mala sort.
 Si trona aviat, estigues a tot preparat.
 Si trona pel febrer, molt mal en ve.
+Si tu ho dius!
 Si tu no parles, rebentes.
 Si un dia per l'altre veus el vent, bona vista tens.
 Si un remei et va bé, segueix-lo, que et convé.
 Si us plau, aigua de Viladrau.
 Si vas a Llavorsí, només hi trobaràs vi.
 Si vas a Roma amb diners, Papa pots ser.
+Si vas al bosc, no hi faces foc.
 Si vas al Puig, veges la Mare de Déu i fuig.
+Si véns amorós soparem tots dos.
+Si veus que la broma s'arrossega per la muntanya, pastor, no deixis la capa.
 Si vols bé al marit teu, dona-li cols per Sant Andreu.
 Si vols bon allar, deixa un dia de sembrar.
 Si vols bon aller sembra'l pel març o pel febrer.
@@ -8785,17 +9525,21 @@ Sigui pansa, sigui figa, que sigui de la Garriga.
 Siguin negres, siguin rosses, no et fiïs de certes mosses.
 Silenci, que a dalt escriuen!
 Simater i fill de frare!
+Síndrome de Diògenes.
 Sine qua non.
 Sobre desgràcia, fortuna.
 Sobre gustos molt s'escriurà i encara tot no es dirà.
 Sobreeixir-li el fel.
 Soc d'Alcalà, i «aló»!
+Sóc negre, però no mascare.
 Socarrats de Fontdepou.
 Sofrir mort i passió.
+Sol amb barba encarnada, terra mullada.
 Sol amb trompa, senyal de música.
 Sol barbut, bufarut.
 Sol barbut, tramuntana.
 Sol com un cucut.
+Sol d'abril, obre la mà i deixa'l anar.
 Sol i serena fa tornar la gent morena.
 Sol i vent, bo per al forment.
 Sol i vent, salut i poc turment.
@@ -8805,6 +9549,7 @@ Soldats, bagassa i criats, tres enemics ben pagats.
 Solta el tros!
 Soltar la boixa.
 Som atrapats si les gates no fan gats.
+Som pas de Bula.
 Són de gran autoritat justícia i benignitat.
 Són més xafarderes que ses bugaderes!
 Són monyicots, no ho entenen; van a la mar i s'ofeguen.
@@ -8823,18 +9568,20 @@ Sortir del cor.
 Sortir el nas.
 Sortir el sol.
 Sortir (o eixir-se'n) de mare.
+Sortir-li bromera per la boca.
 Sortir-li els ulls del cap.
 Sota el pont de la Riba n'hi havia una nina que rentava la «cardelina».
 Sota terra hi ha la guerra.
 Sota terra sigui!
 Suat com un poll.
+Suau alegria, exercici moderat i taula parca.
 Suca, mulla i guarda el pa.
-Suca, suca, Marieta, que val més el suc que la sardineta.
 Suor del meu front, aigua de la meua font.
 Surar com l'oli.
 Tabac, joc i vi, amb taxa distreuen, sense ella, són verí.
 Tabaleter és el meu marit, Déu me'l va donar i així me'l vaig quedar.
 Taca d'honra no s'esborra.
+Tal com el boig pensa, així ho escampa la campana.
 Tal es canta com alegre el cor està.
 Tal és en Pere, tal és com era.
 Tal és Pere com el qui li ve darrere.
@@ -8845,6 +9592,7 @@ Tal n'escup que en menjaria.
 Tal rector, tal vicari.
 Tallar el rotllo.
 Tallar la pilota.
+Tallar les ungles el divendres, fa sortir repèls.
 Tallar un bosc arreu.
 Tallar-li les ales.
 Tallar-se la cueta.
@@ -8878,6 +9626,7 @@ Tant en sé com en sabia.
 Tant hi ha de Petra a Pasqua com de Cinquagesma a Algaida.
 Tant hi ha, tant hi direm.
 Tant hi hagi com jo hi sé.
+Tant hi va el vell com el novell.
 Tant li és.
 Tant li és passejar el gat com fer busques de rellotge.
 Tant m'és fotre com fer llum.
@@ -8922,6 +9671,7 @@ Tenir a qui semblar.
 Tenir al cap més fusta que el pinar de Moià.
 Tenir al punt.
 Tenir blat a cambra.
+Tenir bon camatge.
 Tenir bon (o mal) rotllo.
 Tenir bona garra.
 Tenir bona grípia.
@@ -8936,13 +9686,13 @@ Tenir cara de mans.
 Tenir coll avall.
 Tenir cor de tigre.
 Tenir diners que mai no han vist el sol.
-Tenir el ball de sant Vito.
 Tenir el cap ben posat.
 Tenir el cap carregat.
 Tenir el cap com una enclusa.
 Tenir el cap destrempat.
 Tenir el cap ple d'aire.
 Tenir el cap ple de serradures.
+Tenir el cap tou.
 Tenir el clarinet a la màniga i l'himne a la boca.
 Tenir el cor adormit.
 Tenir el cor en un fil.
@@ -9014,6 +9764,7 @@ Tenir mal de mare.
 Tenir mal ull.
 Tenir mala grapa.
 Tenir mania persecutòria.
+Tenir merda a la corretja.
 Tenir més arròs que una baldana tortosina.
 Tenir més béns que l'emperador de la Xina.
 Tenir més cara que el rei de la Duana.
@@ -9027,6 +9778,7 @@ Tenir més gana que un ganivet nou.
 Tenir més llengua que setze.
 Tenir més notes que un burro amb potes.
 Tenir més orgull que diners.
+Tenir més perill que un formatge del senyor de Bicorb.
 Tenir més pretendents que en Just de les ametlles torrades.
 Tenir més punts que el sermó de Santa Anna.
 Tenir més punts que una capa de sastre.
@@ -9040,6 +9792,7 @@ Tenir molta comèdia.
 Tenir molta gola.
 Tenir molta lletra.
 Tenir molta merda al gec.
+Tenir molta «mili».
 Tenir molta palla i poc blat.
 Tenir molta tafarra.
 Tenir moltes mans.
@@ -9053,6 +9806,7 @@ Tenir pa per la vida.
 Tenir pacte amb el dimoni.
 Tenir paparres als ulls.
 Tenir part amb el dimoni.
+Tenir pèls a les mans.
 Tenir per davant.
 Tenir per mà.
 Tenir peuets de perdiueta.
@@ -9061,12 +9815,10 @@ Tenir poc esperit.
 Tenir poca son.
 Tenir quatre pèls de rata.
 Tenir refranys per a tot.
-Tenir sempre algun forat que tapar.
-Tenir sempre un forat que li fa aire.
 Tenir set de moixó.
-Tenir set pams a Son Tril·lo.
 Tenir set pèls en guerrilla.
 Tenir tants d'amics com Nostre Senyor de germans.
+Tenir temps de rosegar un pinyol d'oliva.
 Tenir temps i diners.
 Tenir tot el blat en herba.
 Tenir tots els moixos fermats.
@@ -9117,9 +9869,9 @@ Tenir-ho ben pastat.
 Tenir-ho mal parat.
 Tenir-ho (molt) negre.
 Tenir-ho tot al punt i al so.
-Tenir-li el peu al coll.
 Tenir-ne el pap ple.
 Tenir-ne les calces plenes.
+Tenir-ne tants com Nostre Senyor germans.
 Tenir-ne un feix.
 —Tens gana? —Balla la pavana!
 Tens més claror en els ulls, que foc el sol d'Alacant.
@@ -9172,6 +9924,7 @@ Toc de queda.
 Toca i nosaltres ballarem.
 Toca trons, que demà plourà!
 Toca, toca, i no et gires.
+Toca't el nas!
 Tocar a ànimes.
 Tocar a bateig.
 Tocar a bon temps.
@@ -9188,21 +9941,28 @@ Tocar el cel.
 Tocar el clarinet amplificat.
 Tocar el Tiroriro.
 Tocar el vint-i-nou.
+Tocar la dolçaina.
 Tocar la tanda.
+Tocar mal i apressa.
+Tocar pela llarga.
 Tocar sense paper.
+Tocar-li el rusc.
 Tocar-li els talons al cul.
 Tocar-li l'amor propi.
 Tocar-li la corfa.
+Tocar-li la pandereta.
 Tocar-li la solfa.
 Tocar-li la tanda.
 Tocar-se del cap.
 Tocar-se els ous.
+Tocarà cítara?, ara «tic», ara «cot».
 Tocat del perol.
 Tocat del violó.
 Tocat per la tramuntana.
 Tolba, la gossa pregona.
 —Tomàs? —Quin Tomàs? —El de la pipa al nas.
 Ton pare no té nas.
+Torbat com un allioli.
 Tord arribat, sembra aviat, i si no ho fas, te'n penediràs.
 Tords a la darreria de març, l'hivern és llarg.
 Torna-hi, cap vermell!
@@ -9216,6 +9976,7 @@ Tot ca lladra a sa porta.
 Tot duu la seva música.
 Tot eixirà en la colada.
 Tot el bé està bé.
+Tot el món i Bolulla.
 Tot el que Déu fa, ben fet està.
 Tot el que Déu vol és salvat.
 Tot és estam.
@@ -9230,6 +9991,7 @@ Tot li riu.
 Tot m'agrada, menys l'era.
 Tot mal és febre.
 Tot no són glòries, que també hi ha algun rèquiem.
+Tot pa revén sopes.
 Tot passa, com als gats la tos.
 Tot pecat neix d'amar-se a si mateix.
 Tot per l'audiència, però sense l'audiència.
@@ -9249,6 +10011,7 @@ Tot sigui per amor de Déu: pa i trons.
 Tot té el seu contrari.
 Tot va per companys i companyes.
 Tot ve que s'acaba.
+Tota classe de tavella fes-la amb lluna vella.
 Tota cosa és millor mercat quan és cara.
 Tota cuca vivent.
 Tota la claror és de dia.
@@ -9274,6 +10037,7 @@ Tots els dies no són diumenges.
 Tots els mestres han estat aprenents.
 Tots els pobres del món!
 Tou com un matalàs.
+Tou com un perol d'arròs.
 Tou com una figa.
 Tractar de tu.
 Tractar de tu a tu.
@@ -9294,6 +10058,7 @@ Trempar la ploma.
 Trencar el cuc.
 Trencar la baralla.
 Trencar la dormida.
+Trencar un sou pel mig.
 Tres per quatre, nou? I quatre botifarres, un sou.
 Tres per tu i dues per mi.
 Tres persones i un sol Déu són en un poder, fill meu.
@@ -9306,7 +10071,6 @@ Treure diners de la pols de la terra.
 Treure el cap a fora.
 Treure el fred de les relles.
 Treure el tros.
-Treure en roda.
 Treure la post del llit.
 Treure la verinada.
 Treure la xena de la comuna.
@@ -9321,11 +10085,17 @@ Treure's la màscara.
 Treure's la palla de damunt.
 Treure's la son de les orelles.
 Treure's una espina.
+Triant, triant, et quedes amb les triadures.
 Tric o trit.
+Trobar el jaç buit.
+Trobar la clau de volta.
 Trobar les Amèriques.
 Trobar les índies.
+Trobar pare i mare.
+Trobar pèls al cul.
 Trobar tac i bac.
 Trobar tapadora per a tot.
+Trobar-hi la punta.
 Trobar-se presa dintre les seves carns.
 Trona de març, mal anirà.
 Tronada de matinada, prompte finada.
@@ -9392,6 +10162,8 @@ Un bony, dos bonys, tres bonys té el codony.
 Un caçaire i un pescaire, un sastre i un sabater, quatre... mentiders.
 Un camp llaurat que punta de rella no hi ha tocat.
 Un cas siga!
+Un cataplasma fet amb escorpí ben aixafat, cura la picada d'escorpí.
+Un colló de.
 Un convent de monges blanques i un frare que els repica les anques.
 Un convidat més? Un pot d'aigua més a l'olla.
 Un cop al dia, les tripes ronquen.
@@ -9420,7 +10192,9 @@ Un per un.
 Un poc de.
 Un quintar de bròquil no fa una unça de greix.
 Un rap i una tenca, la rapitenca.
+Un riu de.
 Un roc al mig del rec, ric, roc, va rodant riu avall.
+Un sou sempre és un bon company.
 Un té vol un do.
 Un ull li mira a Sant Esteve i l'altre a Sant Joan.
 Un xic de.
@@ -9431,12 +10205,16 @@ Una brossa no fa niu, ni una gota no fa riu.
 Una cançó de fil i cotó.
 Una capseta blanca, que s'obre i no es tanca.
 Una caterva de.
+Una cosa és l'escultura i l'altra l'arquitectura.
 Una cosa és parlar i una altra és obrar.
 Una cosa petita com una poma, que no cap a Barcelona.
 Una cosa porta l'altra.
+Una cosa va per l'altra.
 Una cosa, rodona com un plat. Xip-Xap!, ja s'ha amagat.
 Una de dos, més val catarro que tos.
+Una de dues.
 Una desgràcia a qualsevol passa.
+Una en la vida i altra en la mort.
 Una escopeta buida fa por a dos.
 Una faixa, a l'hivern, és de bon govern.
 Una gràcia per caritat!
@@ -9504,6 +10282,7 @@ Val més foraster que forat.
 Val més fugir que morir.
 Val més l'escrit que cent testimonis.
 Val més la que guarda que la que cura.
+Val més mà de jutge que abraçada d'advocat.
 Val més menjar que anar d'apotecaris.
 Val més meu que nostre.
 Val més molt que poc.
@@ -9531,15 +10310,16 @@ Val més un poc honrat que un molt robat.
 Val més un prompte que cinc tossuts.
 Val més un tall de gallina que una bona medicina.
 Val més un veí a punt que un germà lluny.
-Val més una costelleta que una sardineta.
 Val més una gota que una bota.
 Val més una mala avinença que un bon plet.
 Val més vergonya que diners.
+Val qui té, i qui no té, no val res.
 Valen més els diners a la caixa que el fiador a la plaça.
+Valent gat parí sa mare!
 Valer el seu pes en or.
 Valer un Perú.
-Valga'm sant Aleix sota l'escala i sant Tet sota la cadira.
 Valga'm sant Pacià, que és el primer sant que es va afaitar.
+Valia més morir com a cavallers que no deixar-se prendre com a moltons.
 Van i venen i no es detenen.
 —Vas fi, Serafí!
 Vatua el món!
@@ -9564,7 +10344,6 @@ Vent de Gregal? Mal!
 Vent de migjorn fa venir son.
 Vent de migjorn, no hi torn.
 Vent de ponent, post el sol, post el vent.
-Vent de Sanahuja, posa't sota la pluja.
 Vent manresà, no plou ni plourà.
 Vent mestral a posta de sol ha acabat el jornal.
 Vent que dina i sopa, una quinzena.
@@ -9583,15 +10362,20 @@ Vermell com una cirera.
 Vermell com una gamba.
 Vermellor a la posta, mal temps porta.
 Vermellor al matí, la pluja és aquí.
+Ves a cobrar a can botifarra de la Roca.
 Ves a contar-ho a ta tia!
 Ves a enganyar a Déu, que et fotrà un cop de creu.
 Ves a fer pastetes!
+—Vés a fer punyetes. —Vés-hi tu que les compro fetes.
 Ves a la teua i no faces cas.
+Vés a marejar el bisbe!
+Ves a saber.
 Ves a ta mare que et bolque, monyicot.
 Ves al cul de ta mare.
 Ves al Reart a pelar canyes!
 Ves i fila!
 Ves i toca't el nas.
+Ves i toca't els collons!
 Ves-te'n amb tanta pau com descans ens has deixat.
 Vesprada de març, el teu ramat aplegaràs.
 Vestir a l'ample.
@@ -9616,19 +10400,29 @@ Vinga juny fresc, clar el Carme i abrasit Sant Jaume.
 Vinguin processons si cauen xinxons.
 —Vint i vint? —Quaranta. —Quan ton pare pixa, ta mare canta.
 Vint-i-nou de lluna.
+Visites curtes, amistats llargues.
 Vista la porta, sabuda la gent.
 Vistabella del Maestrat, a un pas del cel.
+Viure a l'Argenteria.
+Viure a Llofriu; i sense moure's del poble, esmorzar a Figueres.
 Viure al carrer de la Palla.
 Viure al carrer dels quatre vents.
 Viure al carrer Gran.
 Viure amb la cama en alt.
 Viure com una bèstia.
+Viure de l'altar.
+Viure de propina.
 Viure del tros.
+Viure en l'opulència.
+Viure en la pau de l'àngel.
 Viure en pecat.
 Viure en un cau.
+Viure és caminar cap a la mort.
+Viure és morir.
 Viure la vida.
 Viure més que Sarna.
 Viure pla i pensament sa.
+Voler comptar les estrelles.
 Voler de vells, acaba en les pells.
 Voler el gos i el collar.
 Voler el niu i la mareta.

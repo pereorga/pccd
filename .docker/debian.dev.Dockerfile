@@ -1,4 +1,4 @@
-FROM php:8.3.6-apache-bookworm
+FROM php:8.3.8-apache-bookworm
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Debian-based image with Apache and mod_php. Used for development."
 

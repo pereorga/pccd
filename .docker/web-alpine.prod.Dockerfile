@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.20
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Alpine-based image with Apache and mod_php. Used in production."
 
@@ -22,21 +22,18 @@ RUN apk --no-cache --update add \
     apache2-brotli \
     php83-apache2 \
     php83-apcu \
-    php83-common \
     php83-mbstring \
     php83-opcache \
     php83-pdo_mysql \
     php83-session
 
-# Remove some Apache default settings
-# Do not expose Apache version in header
-# Add AVIF type to Apache
-# Disable unnecessary Apache modules
-# Enable Apache modules
-# Do not expose PHP
+# Remove Apache DocumentRoot default settings
 RUN sed -i '/^DocumentRoot/d' /etc/apache2/httpd.conf \
+    # Do not expose unnecessary Server information
     && echo 'ServerTokens Prod' >> /etc/apache2/httpd.conf \
+    # Add AVIF type
     && echo 'image/avif avif' >> /etc/apache2/mime.types \
+    # Disable unnecessary Apache modules
     && sed -i 's/LoadModule access_compat_module/#LoadModule access_compat_module/' /etc/apache2/httpd.conf \
     && sed -i 's/LoadModule alias_module/#LoadModule alias_module/' /etc/apache2/httpd.conf \
     && sed -i 's/LoadModule auth_basic_module/#LoadModule auth_basic_module/' /etc/apache2/httpd.conf \
@@ -52,9 +49,11 @@ RUN sed -i '/^DocumentRoot/d' /etc/apache2/httpd.conf \
     && sed -i 's/LoadModule setenvif_module/#LoadModule setenvif_module/' /etc/apache2/httpd.conf \
     && sed -i 's/LoadModule status_module/#LoadModule status_module/' /etc/apache2/httpd.conf \
     && sed -i 's/LoadModule version_module/#LoadModule version_module/' /etc/apache2/httpd.conf \
+    # Enable necessary Apache modules
     && sed -i 's/#LoadModule\ deflate_module/LoadModule\ deflate_module/' /etc/apache2/httpd.conf \
     && sed -i 's/#LoadModule\ headers_module/LoadModule\ headers_module/' /etc/apache2/httpd.conf \
     && sed -i 's/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/' /etc/apache2/httpd.conf \
+    # Hide PHP
     && echo 'expose_php = Off' > /etc/php83/conf.d/security.ini
 
 # Copy configuration files
@@ -66,6 +65,7 @@ COPY docroot ./docroot
 COPY scripts ./scripts
 COPY src ./src
 COPY tmp ./tmp
+COPY tests ./tests
 
 # Remove default Apache logs and create symbolic links to stdout and stderr
 RUN ln -sf /dev/stdout /var/log/apache2/access.log \

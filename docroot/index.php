@@ -74,7 +74,7 @@ require __DIR__ . '/css/base.min.css';
                 <?php echo $side_blocks; ?>
                 <div class="bloc bloc-contact bloc-white">
                     <p>Ajudeu-nos a millorar</p>
-                    <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img loading="lazy" alt="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
+                    <p><a href="mailto:vpamies@gmail.com?subject=PCCD"><img alt="Contacteu-nos" width="80" height="44" src="/img/cargol.svg"></a></p>
                 </div>
             </aside>
         </div>

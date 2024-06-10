@@ -418,7 +418,7 @@ function get_side_blocks(string $page_name): string
     $side_blocks .= '<div class="bloc bloc-credits bloc-white">';
     $side_blocks .= '<p>Un projecte de:</p>';
     $side_blocks .= '<p><a href="http://www.dites.cat">dites.cat</a></p>';
-    $side_blocks .= '<p><a href="https://www.softcatala.org"><img loading="lazy" alt="Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>';
+    $side_blocks .= '<p><a href="https://www.softcatala.org"><img alt="Softcatalà" width="120" height="80" src="/img/logo-softcatala.svg"></a></p>';
     $side_blocks .= '</div>';
 
     if ($page_name !== 'search') {

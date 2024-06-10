@@ -210,8 +210,8 @@ function stats_paremiotipus(): void
     $directoryPath = __DIR__ . '/../../tests/playwright/data/historic/';
     $files = scandir($directoryPath);
     assert(is_array($files));
-    $paremiotipusNumberData = getDataFromFiles($files, $directoryPath, 'paremiotipusNumber');
-    $fitxesNumberData = getDataFromFiles($files, $directoryPath, 'fitxesNumber');
+    $paremiotipusNumberData = get_data_from_files($files, $directoryPath, 'paremiotipusNumber');
+    $fitxesNumberData = get_data_from_files($files, $directoryPath, 'fitxesNumber');
     echo get_chart('line', $paremiotipusNumberData, 'paremiotipus', 'Mesos (2023-2024)', 'Nombre de registres', style: 'width:800px;');
     echo get_chart('line', $fitxesNumberData, 'fitxes', 'Mesos (2023-2024)', 'Nombre de registres', style: 'width:800px;');
 }

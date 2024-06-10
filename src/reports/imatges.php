@@ -111,21 +111,6 @@ function test_imatges_minuscules(): void
         }
     }
     echo '</pre>';
-
-    echo '<h3>Fitxers de cobertes amb minúscules al nom</h3>';
-    echo '<pre>';
-    $dir = new DirectoryIterator(__DIR__ . '/../images/cobertes/');
-    foreach ($dir as $file_info) {
-        $filename = $file_info->getFilename();
-        if ($filename === '.' || $filename === '..' || $filename === '.picasa.ini') {
-            continue;
-        }
-        $name = pathinfo($filename, PATHINFO_FILENAME);
-        if ($name !== mb_strtoupper($name)) {
-            echo $filename . "\n";
-        }
-    }
-    echo '</pre>';
 }
 
 function test_imatges_sense_paremiotipus(): void

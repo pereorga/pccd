@@ -125,11 +125,19 @@ h3 {
 }
 
 h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+h3 {
+    font-size: 1rem;
 }
 
 main {
-    margin-top: 15px;
+    margin-top: 30px;
 }
 
 footer {
@@ -276,6 +284,7 @@ header {
 /* Very (not extreme) small devices */
 @media (min-width: 330px) {
     header nav {
+        gap: 1rem;
         font-size: 0.875rem;
     }
 
@@ -326,14 +335,18 @@ header {
         flex: 1;
     }
 
-    main {
-        margin-top: 30px;
-    }
-
     main,
     header > div {
         padding-right: 30px;
         padding-left: 30px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
     }
 
     .bloc-white {

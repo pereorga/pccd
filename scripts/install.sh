@@ -27,14 +27,13 @@ if [[ -n $1 ]]; then
 fi
 
 if [[ -f /.dockerenv ]]; then
-    echo "Detected running inside Docker..."
+    echo "Running installation script inside Docker..."
     IS_DOCKER=1
 else
-    echo "Running outside Docker..."
+    echo "Running installation script outside Docker..."
     IS_DOCKER=0
 fi
 
-echo "Running installation script..."
 if [[ "${IS_DOCKER}" -eq 1 ]]; then
     php install.php
 else
