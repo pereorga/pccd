@@ -25,6 +25,7 @@ h2 {
     line-height: 1;
     background-color: #eee;
     border: 1px solid #ccc;
+    border-radius: 0.25rem;
 }
 
 .shortcuts button:hover,

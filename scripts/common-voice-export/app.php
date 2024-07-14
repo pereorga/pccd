@@ -53,28 +53,33 @@ foreach ($paremiotipus as $p) {
 
     // Omit some sentences that contain inappropriate language.
     if (
-        preg_match('/\\bcago\\b/', $p_lowercase) === 1
-        || preg_match('/\\bcony\\b/', $p_lowercase) === 1
-        || preg_match('/\\bcunyada\\b/', $p_lowercase) === 1
-        || preg_match('/\\bcunyades\\b/', $p_lowercase) === 1
-        || (preg_match('/\\bdona\\b/', $p_lowercase) === 1 && !str_contains($p_lowercase, 'dona-'))
-        || preg_match('/\\bdones\\b/', $p_lowercase) === 1
-        || preg_match('/\\bfilla\\b/', $p_lowercase) === 1
-        || preg_match('/\\bfilles\\b/', $p_lowercase) === 1
-        || preg_match('/\\bgitano\\b/', $p_lowercase) === 1
-        || preg_match('/\\bgitanos\\b/', $p_lowercase) === 1
-        || preg_match('/\\bmamella\\b/', $p_lowercase) === 1
-        || preg_match('/\\bmamelles\\b/', $p_lowercase) === 1
-        || preg_match('/\\bmoro\\b/', $p_lowercase) === 1
-        || preg_match('/\\bmoros\\b/', $p_lowercase) === 1
-        || preg_match('/\\bmuller\\b/', $p_lowercase) === 1
-        || preg_match('/\\bputa\\b/', $p_lowercase) === 1
-        || preg_match('/\\bputes\\b/', $p_lowercase) === 1
-        || preg_match('/\\bsogra\\b/', $p_lowercase) === 1
-        || preg_match('/\\bsogres\\b/', $p_lowercase) === 1
+        preg_match('/\bcago\b/', $p_lowercase) === 1
+        || preg_match('/\bcony\b/', $p_lowercase) === 1
+        || preg_match('/\bcunyada\b/', $p_lowercase) === 1
+        || preg_match('/\bcunyades\b/', $p_lowercase) === 1
+        || (preg_match('/\bdona\b/', $p_lowercase) === 1 && !str_contains($p_lowercase, 'dona-'))
+        || preg_match('/\bdones\b/', $p_lowercase) === 1
+        || preg_match('/\bfilla\b/', $p_lowercase) === 1
+        || preg_match('/\bfilles\b/', $p_lowercase) === 1
+        || preg_match('/\bgitano\b/', $p_lowercase) === 1
+        || preg_match('/\bgitanos\b/', $p_lowercase) === 1
+        || preg_match('/\bmamella\b/', $p_lowercase) === 1
+        || preg_match('/\bmamelles\b/', $p_lowercase) === 1
+        || preg_match('/\bmoro\b/', $p_lowercase) === 1
+        || preg_match('/\bmoros\b/', $p_lowercase) === 1
+        || preg_match('/\bmuller\b/', $p_lowercase) === 1
+        || preg_match('/\bputa\b/', $p_lowercase) === 1
+        || preg_match('/\bputes\b/', $p_lowercase) === 1
+        || preg_match('/\bsogra\b/', $p_lowercase) === 1
+        || preg_match('/\bsogres\b/', $p_lowercase) === 1
     ) {
         fwrite(STDERR, $p_display . "\n");
 
+        continue;
+    }
+
+    $p_display = remove_parentheses($p_display);
+    if ($p_display === '') {
         continue;
     }
 

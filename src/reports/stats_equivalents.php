@@ -10,6 +10,8 @@
  * source code in the file LICENSE.
  */
 
+const MIN_RECORDS = 500;
+
 function stats_equivalents(): void
 {
     require_once __DIR__ . '/../common.php';
@@ -17,7 +19,7 @@ function stats_equivalents(): void
     require_once __DIR__ . '/../reports_common.php';
 
     echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
-    echo "<h3>Nombre d'equivalents dels principals idiomes</h3>";
+    echo "<h3>Nombre d'equivalents dels idiomes amb més de " . MIN_RECORDS . ' registres</h3>';
     $modismes = get_db()->query("SELECT
             COUNT(`EQUIVALENT`) AS `EQUIVALENTS`,
             IFNULL(`IDIOMA`, '(buit)') AS `IDIOMA`
@@ -29,15 +31,15 @@ function stats_equivalents(): void
             `IDIOMA`
     ")->fetchAll(PDO::FETCH_ASSOC);
     $data = [
-        '(altres)' => 0,
+        '(resta)' => 0,
     ];
     $data_table = [];
     foreach ($modismes as $modisme) {
-        $language = $modisme['IDIOMA'] === '(buit)' ? '(buit)' : mb_ucfirst(get_idioma($modisme['IDIOMA']));
+        $language = $modisme['IDIOMA'] === '(buit)' ? '(buit)' : get_idioma($modisme['IDIOMA']);
         if ($language === '') {
             $data_table['(desconegut)'] = $modisme['EQUIVALENTS'];
-        } elseif ($modisme['EQUIVALENTS'] < 1000) {
-            $data['(altres)'] += $modisme['EQUIVALENTS'];
+        } elseif ($modisme['EQUIVALENTS'] < MIN_RECORDS) {
+            $data['(resta)'] += $modisme['EQUIVALENTS'];
             $data_table[$language] = $modisme['EQUIVALENTS'];
         } else {
             $data[$language] = $modisme['EQUIVALENTS'];

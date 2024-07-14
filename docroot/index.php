@@ -48,7 +48,7 @@ require __DIR__ . '/css/base.min.css';
 
 // If the page has page-specific CSS, include it.
 /** @psalm-suppress UnresolvableInclude */
-@include __DIR__ . "/css/{$page_name}.min.css";
+@include __DIR__ . "/css/pages/{$page_name}.min.css";
 ?>
 </style>
 </head>
@@ -59,7 +59,8 @@ require __DIR__ . '/css/base.min.css';
             <nav aria-label="Menú principal">
                 <a href="/projecte">Projecte</a>
                 <a href="/">Cerca</a>
-                <a href="/instruccions">Instruccions d'ús</a>
+                <a href="/instruccions">Instruccions</a>
+                <a href="/fonts">Fonts</a>
                 <a href="/credits">Crèdits</a>
             </nav>
         </div>
@@ -89,7 +90,15 @@ require __DIR__ . '/css/base.min.css';
             <button type="button">D'acord</button>
         </div>
     </div>
-    <script async src="/js/script.min.js?v=10"></script>
+    <script>
+<?php
+// If the page has page-specific JS, include it first.
+/** @psalm-suppress UnresolvableInclude */
+@include __DIR__ . "/js/pages/{$page_name}.min.js";
+
+require __DIR__ . '/js/app.min.js';
+?>
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP42Y3NK1R"></script>
 </body>
 </html>

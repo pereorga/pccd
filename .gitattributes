@@ -1,14 +1,20 @@
 * text=auto eol=lf
 
 *.css diff=css
-*.generated.php -diff
-*.min.* -diff
 *.php diff=php
 
-/docroot/img/imatges/* binary
-/docroot/img/obres/* binary
-/docroot/mp3/* binary
+*.avif binary
+*.gif binary
+*.jpg binary
+*.mp3 binary
+*.png binary
+*.webp binary
+
+*.generated.* linguist-generated -diff
+*.min.* linguist-generated -diff
+
 /src/third_party/* linguist-vendored
+/tools/* linguist-vendored -diff
 
 .mailmap export-ignore
 /.idea export-ignore

@@ -75,6 +75,10 @@ a.external {
     background-size: 0.857em;
 }
 
+.bloc-credits a {
+    font-size: 1.5rem;
+}
+
 .brand {
     display: block;
     margin: 0.5rem 0;
@@ -108,7 +112,6 @@ input {
 button {
     touch-action: manipulation;
     cursor: pointer;
-    border-radius: 0.25rem;
 }
 
 button::-moz-focus-inner {
@@ -149,10 +152,6 @@ footer {
     border-top: 1px solid #dee2e6;
 }
 
-button:focus {
-    outline: #cbd5e7 solid 3px;
-}
-
 main,
 header > div {
     max-width: 1140px;
@@ -180,10 +179,6 @@ header > div {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
-}
-
-article {
-    margin-bottom: 30px;
 }
 
 header {
@@ -240,15 +235,13 @@ header {
     border: 0;
 }
 
-.bloc-credits {
-    margin-top: 45px;
+.bloc:first-child {
+    margin-top: 30px;
 }
 
-/* stylelint-disable no-descending-specificity */
-.bloc-credits a {
-    font-size: 1.5rem;
+.bloc.bloc-credits {
+    margin-top: 45px;
 }
-/* stylelint-enable no-descending-specificity */
 
 #cookie-banner {
     position: fixed;
@@ -284,7 +277,6 @@ header {
 /* Very (not extreme) small devices */
 @media (min-width: 330px) {
     header nav {
-        gap: 1rem;
         font-size: 0.875rem;
     }
 
@@ -296,6 +288,7 @@ header {
 /* Small devices */
 @media (min-width: 400px) {
     header nav {
+        gap: 1.25rem;
         font-size: 1rem;
     }
 
@@ -335,12 +328,6 @@ header {
         flex: 1;
     }
 
-    main,
-    header > div {
-        padding-right: 30px;
-        padding-left: 30px;
-    }
-
     h1 {
         font-size: 1.75rem;
     }
@@ -353,12 +340,9 @@ header {
         border: 1px solid #dee2e6;
     }
 
-    .bloc-credits {
+    .bloc:first-child,
+    .bloc.bloc-credits {
         margin-top: 0;
-    }
-
-    .brand {
-        margin: 1rem 0;
     }
 }
 
@@ -366,6 +350,17 @@ header {
 @media (min-width: 992px) {
     aside {
         flex: 0 0 18rem;
+    }
+
+    main,
+    header > div {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
+    .brand {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 }
 

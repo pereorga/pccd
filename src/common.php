@@ -314,7 +314,7 @@ function ct(string $text, bool $escape_html = true, bool $end_with_dot = true): 
  */
 function get_page_name(): string
 {
-    $allowed_pages = ['credits', 'instruccions', 'llibres', 'obra', 'paremiotipus', 'projecte', 'top100', 'top10000'];
+    $allowed_pages = ['credits', 'instruccions', 'fonts', 'llibres', 'obra', 'paremiotipus', 'projecte', 'top100', 'top10000'];
 
     foreach ($allowed_pages as $allowed_page) {
         if (isset($_GET[$allowed_page])) {
@@ -336,11 +336,7 @@ function checkbox_checked(string $checkbox): bool
     }
 
     // "variants" checkbox is enabled by default when the search is empty (e.g. in the homepage)
-    if ($checkbox === 'variant' && (!isset($_GET['cerca']) || $_GET['cerca'] === '')) {
-        return true;
-    }
-
-    return false;
+    return $checkbox === 'variant' && (!isset($_GET['cerca']) || $_GET['cerca'] === '');
 }
 
 /**
@@ -852,7 +848,6 @@ function get_redirects(): array
         '/p/Ni_fe_d%27enc%c3%a0rrec' => '/p/Ni_fet_d%27enc%C3%A0rrec',
         '/p/Pel_setembre_o_desembre%2C_qui_tingui_blat%2C_que_en_sembri' => '/p/Pel_setembre%2C_qui_tingui_blat%2C_que_en_sembri',
         '/p/Posar-hi_terra_per_mig' => '/p/Posar_terra_de_per_mig',
-        '/p/Posar-li_els_dits_a_la_boca' => '/p/Ficar-li_els_dits_a_la_boca',
         '/p/Posar-li_un_dogal_al_coll' => '/p/Amb_el_dogal_al_coll',
         '/p/Posar-se_en_gr%C3%A0cia' => '/p/En_gràcia',
         '/p/Posra_barba' => '/p/Posar_barba',
@@ -918,12 +913,19 @@ function try_to_redirect_manual_and_exit(): void
 
 /**
  * Returns an HTTP 404 page and exits.
+ *
+ * @param string $paremiotipus if not empty, suggest to visit that paremiotipus page.
  */
-function return_404_and_exit(): never
+function return_404_and_exit(string $paremiotipus = ''): never
 {
     header('HTTP/1.1 404 Not Found', response_code: 404);
 
     require __DIR__ . '/../docroot/404.html';
+    if ($paremiotipus !== '') {
+        $url = get_paremiotipus_url($paremiotipus);
+        $paremiotipus = get_paremiotipus_display($paremiotipus);
+        echo "<p>També us pot ser útil la pàgina del paremiotipus <a href='{$url}'>{$paremiotipus}</a>.";
+    }
 
     exit;
 }
@@ -964,16 +966,6 @@ function try_to_redirect_to_valid_paremiotipus_and_exit(string $paremiotipus): v
     if ($paremiotipus_match !== '') {
         // Redirect to an existing page.
         header('Location: ' . get_paremiotipus_url($paremiotipus_match), response_code: 301);
-
-        exit;
-    }
-
-    // Try to find a possible paremiotipus for this URL.
-    // TODO: probably disable in the long term.
-    $paremiotipus_match = get_paremiotipus_best_match($paremiotipus);
-    if ($paremiotipus_match !== '') {
-        // Redirect to an existing page.
-        header('Location: ' . get_paremiotipus_url($paremiotipus_match));
 
         exit;
     }
@@ -1562,7 +1554,7 @@ function build_search_summary(int $offset, int $results_per_page, int $total, st
         return 'S\'ha trobat 1 paremiotipus per a la cerca <span class="text-monospace">' . $search_string . '</span>.';
     }
 
-    $output = 'S\'han trobat ' . format_nombre($total) . ' paremiotipus per a la cerca <span class="text-monospace">' . $search_string . '</span>.';
+    $output = "S'han trobat " . format_nombre($total) . ' paremiotipus per a la cerca <span class="text-monospace">' . $search_string . '</span>.';
 
     if ($total > $results_per_page) {
         $first_record = $offset + 1;
@@ -1896,12 +1888,6 @@ function get_fonts(): array
 
 /**
  * Generates HTML markup for an image, optionally within a <picture> tag for optimized formats.
- *
- * This function creates HTML markup for displaying an image. If available, it includes optimized versions of the image
- * (AVIF or WEBP) within a <picture> tag. The function can also return only the image URL if the $return_href_only
- * parameter is set to true. The URL of the optimized image is returned when available.
- *
- * Note: Ensure the source image exists before calling this function.
  *
  * @param string $file_name The file name of the image file.
  * @param string $path The path to the image file, starting with a slash.

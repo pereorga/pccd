@@ -23,3 +23,14 @@ function standardize_spaces(string $string): string
 
     return trim($string);
 }
+
+/**
+ * Remove parentheses and everything inside them from a given string.
+ */
+function remove_parentheses(string $input): string
+{
+    // Handle specific examples such as "A (o d')aquesta part"
+    $input = str_replace(')a', ') a', $input);
+
+    return preg_replace('/\s*\([^)]*\)/', '', $input) ?? '';
+}

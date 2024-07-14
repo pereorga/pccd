@@ -76,7 +76,7 @@ function test_imatges_no_reconegudes(): void
     }
     echo '</pre>';
 
-    echo '<h3>Imatges que no s\'ha pogut detectar la seva mida</h3>';
+    echo "<h3>Imatges que no s'ha pogut detectar la seva mida</h3>";
     echo '<pre>';
     $stmt = get_db()->query('SELECT `Imatge`, `WIDTH`, `HEIGHT` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);

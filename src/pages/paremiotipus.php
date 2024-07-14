@@ -24,7 +24,7 @@ if ($total_variants === 0) {
 
     // If no match could be found, return an HTTP 404 page.
     error_log("Error: entry not found for URL: {$request_uri}");
-    return_404_and_exit();
+    return_404_and_exit(get_paremiotipus_best_match($paremiotipus));
 }
 
 $editorials = get_editorials();

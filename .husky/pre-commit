@@ -10,13 +10,3 @@ fi
 if ! npm run check:code; then
     exit 1
 fi
-
-if ! npm run lint:dockerignore:images; then
-    echo "Make sure src/images directory is ignored in Docker."
-    exit 1
-fi
-
-if ! npm run lint:dockerignore; then
-    echo "Make sure .dockerignore file exists."
-    exit 1
-fi

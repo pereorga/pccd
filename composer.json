@@ -36,7 +36,6 @@
   },
   "require-dev": {
     "ext-curl": "*",
-    "ext-gd": "*",
     "ext-imagick": "*",
     "guzzlehttp/guzzle": "^7.8",
     "noisebynorthwest/php-spx": "dev-master",
@@ -44,13 +43,13 @@
     "phpstan/phpstan": "^1.11",
     "phpstan/phpstan-deprecation-rules": "^1.2",
     "phpstan/phpstan-strict-rules": "^1.6",
-    "rector/rector": "^1.1",
+    "rector/rector": "^1.2",
     "slevomat/coding-standard": "^8.15"
   },
   "suggest": {
     "ext-apcu": "Used for caching SQL queries. Strongly encouraged in the web server",
     "ext-curl": "Dev: Used for tests after install",
-    "ext-gd": "Dev: Required for image size detection during install",
+    "ext-gd": "Can be used by apc.php",
     "ext-imagick": "Dev: Required for image optimization during install",
     "ext-intl": "Dev: Required for some tests",
     "ext-pdo-mysql": "Required in the web server",

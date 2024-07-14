@@ -10,17 +10,11 @@
  * source code in the file LICENSE.
  */
 
-use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
-use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
-use Rector\CodingStyle\Rector\PostInc\PostIncDecToPreIncDecRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
-use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
-use Rector\Php70\Rector\FuncCall\RandomFunctionRector;
-use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -36,7 +30,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->importNames();
 
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_82,
+        LevelSetList::UP_TO_PHP_83,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
@@ -47,15 +41,9 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         __DIR__ . '/src/third_party/*',
         EncapsedStringsToSprintfRector::class,
-        JoinStringConcatRector::class,
-        JsonThrowOnErrorRector::class,
         NewlineAfterStatementRector::class,
         NullToStrictStringFuncCallArgRector::class,
-        PostIncDecToPreIncDecRector::class,
-        RandomFunctionRector::class,
         RenameForeachValueVariableToMatchExprVariableRector::class,
-        SimplifyIfReturnBoolRector::class,
         SimplifyUselessVariableRector::class,
-        SymplifyQuoteEscapeRector::class,
     ]);
 };

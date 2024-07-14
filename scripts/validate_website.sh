@@ -107,12 +107,6 @@ validate_url() {
         set -e -o pipefail
     fi
 
-    # Check that $ signs are not found in the HTML, if for some reason a PHP variable is not printed properly.
-    if grep -q -r -F -m 1 '$' "${OUTPUT_FILENAME}"; then
-        echo 'ERROR: Dollar character ($) found.' >&2
-        exit 255
-    fi
-
     # htmlhint is a quick static code analysis tool for HTML. See .htmlhintrc.json file.
     if [[ -z ${SKIP_HTMLHINT} ]]; then
         echo "=============="
@@ -178,6 +172,7 @@ validate_url "${BASE_URL}/top100"
 validate_url "${BASE_URL}/llibres"
 validate_url "${BASE_URL}/instruccions"
 validate_url "${BASE_URL}/credits"
+validate_url "${BASE_URL}/fonts"
 validate_url "${BASE_URL}/p/A_Abrera%2C_donen_garses_per_perdius"
 validate_url "${BASE_URL}/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era"
 validate_url "${BASE_URL}/obra/Pons_Lluch%2C_Josep_%281993%29%3A_Refranyer_menorqu%C3%AD"

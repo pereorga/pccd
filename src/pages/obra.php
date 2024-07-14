@@ -51,7 +51,7 @@ if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
         header("Link: <{$image_url}>; rel=preload; as=image");
     }
 
-    $output .= '<aside class="col-image" aria-label="Coberta del llibre o imatge representativa de l\'obra">';
+    $output .= '<figure class="col-image">';
     $output .= get_image_tags(
         file_name: $obra['Imatge'],
         path: '/img/obres/',
@@ -60,7 +60,7 @@ if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
         height: $obra['HEIGHT'],
         lazy_loading: is_mobile()
     );
-    $output .= '</aside>';
+    $output .= '</figure>';
 }
 
 $output .= '<div class="col-work text-break">';

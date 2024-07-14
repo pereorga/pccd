@@ -1,22 +1,30 @@
 [
   {
     "name": "docroot/css/base.min.css",
-    "size": 1047
+    "size": 1039
   },
   {
-    "name": "docroot/css/search.min.css",
-    "size": 774
+    "name": "docroot/css/pages/search.min.css",
+    "size": 780
   },
   {
-    "name": "docroot/css/paremiotipus.min.css",
-    "size": 281
+    "name": "docroot/css/pages/paremiotipus.min.css",
+    "size": 291
   },
   {
-    "name": "docroot/css/obra.min.css",
+    "name": "docroot/css/pages/obra.min.css",
     "size": 198
   },
   {
-    "name": "docroot/js/script.min.js",
-    "size": 922
+    "name": "docroot/js/app.min.js",
+    "size": 345
+  },
+  {
+    "name": "docroot/js/pages/search.min.js",
+    "size": 389
+  },
+  {
+    "name": "docroot/js/pages/paremiotipus.min.js",
+    "size": 328
   }
 ]

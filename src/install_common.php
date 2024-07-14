@@ -46,7 +46,7 @@ function store_image_dimensions(string $table, string $field, string $directory)
             $image_size = getimagesize($filename);
             if ($image_size !== false) {
                 [$width, $height] = $image_size;
-                if ($width > 0 && $height > 0) {
+                if ($width > 0) {
                     $update_stmt->execute([$width, $height, $image]);
                 }
             }

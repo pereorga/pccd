@@ -131,4 +131,8 @@ is Copyright (c) Víctor Pàmies i Riudor and is made available under the
 
 For more details about PCCD, visit <https://pccd.dites.cat/>.
 
-This repository includes [phive](https://phar.io/), a [BSD-licensed](tools/LICENSE.txt) tool for managing phar files.
+This repository includes:
+
+- [phive](https://phar.io/), a [BSD-licensed](tools/LICENSE.txt) tool for managing phar files.
+- [simple-datatables](https://github.com/fiduswriter/simple-datatables), an
+  [LGPL-licensed](https://github.com/fiduswriter/simple-datatables/blob/main/LICENSE) JavaScript library to enhance HTML tables.

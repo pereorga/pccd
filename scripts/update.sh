@@ -141,13 +141,13 @@ update_composer() {
 
     # Update non-dev dependencies.
     tools/composer.phar show --no-dev --direct --name-only |
-        xargs tools/composer.phar require
+        xargs tools/composer.phar require --update-with-all-dependencies
 
     # Update dev dependencies.
     grep -F -v -f \
         <(tools/composer.phar show --direct --no-dev --name-only | sort) \
         <(tools/composer.phar show --direct --name-only | sort) |
-        xargs tools/composer.phar require --dev
+        xargs tools/composer.phar require --dev --update-with-all-dependencies
 
     # Mitigate https://github.com/composer/composer/issues/11698
     tools/composer.phar install
@@ -161,6 +161,7 @@ update_composer() {
 update_npm() {
     rm -rf node_modules package-lock.json
     jq '.devDependencies | keys | .[]' package.json | xargs npm install --save-dev --ignore-scripts
+    jq '.dependencies | keys | .[]' package.json | xargs npm install --save --ignore-scripts
 }
 
 ##############################################################################

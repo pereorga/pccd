@@ -150,6 +150,10 @@ input[type="search"]:focus {
     border-radius: 0 0.25rem 0.25rem 0;
 }
 
+.input button:focus {
+    outline: #cbd5e7 solid 3px;
+}
+
 input[type="search"]:focus + button {
     clip-path: inset(-3px -3px -3px 0);
     box-shadow: 0 0 0 3px #cbd5e7;

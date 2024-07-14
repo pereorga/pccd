@@ -79,7 +79,6 @@
     "install:db": "scripts/install.sh",
     "lint": "concurrently -g --timings 'npm:lint:*'",
     "lint:composer": "tools/composer.phar validate --strict",
-    "lint:css": "stylelint src/css/",
     "lint:docker": "hadolint .docker/*Dockerfile",
     "lint:dockerignore": "test -f .dockerignore",
     "lint:dockerignore:images": "grep -qxe '^src/images$' .dockerignore",
@@ -90,6 +89,7 @@
     "lint:prettier": "prettier --log-level log --check .",
     "lint:shellcheck": "for file in $(find scripts -type f -name '*.sh' -not -name '*.generated.sh'); do shellcheck \"$file\" || exit 1; done",
     "lint:shfmt": "shfmt -l -d .",
+    "lint:stylelint": "stylelint src/css/",
     "lint:xml": "xmllint --noout *.xml docroot/*.xml .phive/phars.xml",
     "lint:yamllint": "yamllint . --strict",
     "optimize:images": "php scripts/image-convertor/app.php",
@@ -134,26 +134,29 @@
     "refranys"
   ],
   "devDependencies": {
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.45.1",
     "@size-limit/file": "^11.1.4",
     "clean-css-cli": "^5.6.3",
     "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",
     "editorconfig-checker": "^5.1.8",
-    "eslint": "^9.4.0",
+    "eslint": "^9.7.0",
     "eslint-plugin-unicorn": "^52.0.0",
-    "html-validate": "^8.20.0",
+    "html-validate": "^8.20.1",
     "htmlhint": "^1.1.4",
     "husky": "^9.0.11",
     "lighthouse": "^11.7.1",
-    "linkinator": "^6.0.5",
+    "linkinator": "^6.1.1",
     "markdownlint-cli": "^0.39.0",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.3",
     "size-limit": "^11.1.4",
-    "stylelint": "^16.6.1",
+    "stylelint": "^16.7.0",
     "stylelint-config-recess-order": "^4.6.0",
-    "stylelint-config-standard": "^36.0.0",
+    "stylelint-config-standard": "^36.0.1",
     "svgo": "^3.3.2",
-    "terser": "^5.31.1"
+    "terser": "^5.31.2"
+  },
+  "dependencies": {
+    "simple-datatables": "^9.0.4"
   }
 }

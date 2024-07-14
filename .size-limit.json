@@ -5,23 +5,33 @@
     "brotli": true
   },
   {
-    "path": "docroot/css/search.min.css",
+    "path": "docroot/css/pages/search.min.css",
     "limit": "1 kB",
     "brotli": true
   },
   {
-    "path": "docroot/css/paremiotipus.min.css",
+    "path": "docroot/css/pages/paremiotipus.min.css",
     "limit": "0.5 kB",
     "brotli": true
   },
   {
-    "path": "docroot/css/obra.min.css",
-    "limit": "0.2 kB",
+    "path": "docroot/css/pages/obra.min.css",
+    "limit": "0.25 kB",
     "brotli": true
   },
   {
-    "path": "docroot/js/script.min.js",
-    "limit": "1.5 kB",
+    "path": "docroot/js/app.min.js",
+    "limit": "0.5 kB",
+    "brotli": true
+  },
+  {
+    "path": "docroot/js/pages/search.min.js",
+    "limit": "0.5 kB",
+    "brotli": true
+  },
+  {
+    "path": "docroot/js/pages/paremiotipus.min.js",
+    "limit": "0.5 kB",
     "brotli": true
   }
 ]
