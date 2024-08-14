@@ -7,7 +7,7 @@
 # This source file is subject to the AGPL license that is bundled with this
 # source code in the file LICENSE.
 
-set -e
+set -eu
 
 ##############################################################################
 # Shows the help of this command.

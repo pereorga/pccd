@@ -40,7 +40,6 @@ final class PhpVersionTest extends TestCase
         $phpStormConfigPath = realpath(__DIR__ . '/../../.idea/php.xml');
         $phpStormConfigContent = file_get_contents($phpStormConfigPath);
 
-        $matches = [];
         preg_match('/php_language_level="(\d+\.\d+)"/', $phpStormConfigContent, $matches);
         $phpStormPhpVersion = $matches[1];
 
@@ -58,7 +57,6 @@ final class PhpVersionTest extends TestCase
     {
         $rectorConfigContent = file_get_contents(__DIR__ . '/../../rector.php');
 
-        $matches = [];
         preg_match('/UP_TO_PHP_(\d)(\d)/', $rectorConfigContent, $matches);
         $extractedRectorPhpVersion = isset($matches[1]) && isset($matches[2]) ? $matches[1] . '.' . $matches[2] : 'Not Found';
 

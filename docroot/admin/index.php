@@ -97,7 +97,6 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
     $test_file = $_GET['test'];
     $test_functions = get_test_functions();
     if (isset($test_functions[$test_file])) {
-        /** @psalm-suppress UnresolvableInclude */
         require __DIR__ . '/../../src/reports/' . $test_file . '.php';
         foreach ($test_functions[$test_file] as $function_name) {
             $function_name();
@@ -169,9 +168,13 @@ if (function_exists('apcu_cache_info')) {
     assert(is_int($status['opcache_statistics']['start_time']));
     echo '<br>Última arrencada: ' . date('Y/m/d H:i:s', $status['opcache_statistics']['start_time']);
 }
+$mysql_version = get_db()->getAttribute(PDO::ATTR_SERVER_VERSION);
+$mysql_info = get_db()->getAttribute(PDO::ATTR_SERVER_INFO);
+assert(is_string($mysql_version));
+assert(is_string($mysql_info));
 ?>
-    <br><?php echo 'PHP ' . PHP_VERSION . ', ' . apache_get_version() . ' (' . PHP_OS . '), ' . get_db()->getAttribute(PDO::ATTR_SERVER_VERSION); ?>
-    <br><?php echo 'MariaDB ' . get_db()->getAttribute(PDO::ATTR_SERVER_INFO); ?>
+    <br><?php echo 'PHP ' . PHP_VERSION . ', ' . apache_get_version() . ' (' . PHP_OS . '), ' . $mysql_version; ?>
+    <br><?php echo 'MariaDB ' . $mysql_info; ?>
 </small>
 </body>
 </html>

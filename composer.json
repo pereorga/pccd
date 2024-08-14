@@ -37,7 +37,7 @@
   "require-dev": {
     "ext-curl": "*",
     "ext-imagick": "*",
-    "guzzlehttp/guzzle": "^7.8",
+    "guzzlehttp/guzzle": "^7.9",
     "noisebynorthwest/php-spx": "dev-master",
     "pereorga/pccd-lt-filter": "dev-master",
     "phpstan/phpstan": "^1.11",

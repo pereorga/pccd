@@ -1,4 +1,4 @@
-FROM php:8.3.9-apache-bookworm
+FROM php:8.3.10-apache-bookworm
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Debian-based image with Apache and mod_php. This was used in production prior to having Alpine."
 
@@ -12,11 +12,16 @@ ENV MYSQL_PASSWORD=${ARG_MYSQL_PWD}
 ENV MYSQL_USER=${ARG_MYSQL_USER}
 ENV WEB_ADMIN_PASSWORD=${ARG_WEB_ADMIN_PWD}
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Set working directory
 WORKDIR /srv/app
 
 # Install install-php-extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+# Update package list and upgrade packages
+RUN apt-get update && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Remove some Apache default settings provided by Debian
 # Do not expose Apache version in header

@@ -126,15 +126,22 @@ function resize_and_optimize_images_bulk(string $source_directory, string $targe
  * Returns whether two files have similar sizes, where $bigger_file is expected to be bigger.
  *
  * This is used to discard lossy compression of images that do not save enough bytes.
+ * TODO: @phpstan-impure should not be necessary, see https://github.com/phpstan/phpstan/issues/11484
  *
  * @phpstan-impure
  */
 function files_have_similar_sizes(string $bigger_file, string $smaller_file): bool
 {
+    clearstatcache();
     $bigger_file_size = filesize($bigger_file);
     $smaller_file_size = filesize($smaller_file);
 
-    return $bigger_file_size > 0 && $smaller_file_size > 0 && ($bigger_file_size - SIZE_THRESHOLD) <= $smaller_file_size;
+    // If there is an error, return true so the target file is removed.
+    if ($bigger_file_size === false || $smaller_file_size === false) {
+        return true;
+    }
+
+    return $bigger_file_size - SIZE_THRESHOLD <= $smaller_file_size;
 }
 
 /**

@@ -9,26 +9,9 @@
 # This source file is subject to the AGPL license that is bundled with this
 # source code in the file LICENSE.
 
-set -e
+set -eu
 
 cd "$(dirname "$0")"
-
-##############################################################################
-# Shows the help of this command.
-# Arguments:
-#   None
-##############################################################################
-usage() {
-    echo "Usage: ./$(basename "$0")"
-}
-
-if [[ -n $1 ]]; then
-    usage
-    exit 1
-fi
-
-# Clean up previous files.
-rm -f filtered.txt controversial.txt
 
 # Run export script, trying to filter out controversial sentences.
 docker exec pccd-web php scripts/common-voice-export/app.php > filtered.txt 2> controversial.txt
@@ -49,7 +32,7 @@ docker exec pccd-web php scripts/common-voice-export/app.php > filtered.txt 2> c
 grep -v -F 'SLF4J:' error.txt > excluded.txt
 
 # Get the new LT-excluded sentences since last commit.
-git diff --unified=0 excluded.txt excluded.txt | grep -E '^\+[^+]' | sed 's/^\+//' > excluded_new_tmp.txt
+git diff --unified=0 HEAD excluded.txt | grep -E '^\+[^+]' | sed 's/^\+//' > excluded_new_tmp.txt
 
 # Only update the file if there are new entries.
 if [[ "$(wc -l < excluded_new_tmp.txt)" -gt 1 ]]; then
@@ -59,6 +42,10 @@ fi
 # Get the new PCCD sentences since last push to CV.
 curl --fail --silent https://raw.githubusercontent.com/common-voice/common-voice/main/server/data/ca/pccd.txt > cv.txt
 comm -23 <(sort pccd.txt) <(sort cv.txt) > pccd_new.txt
+rm pccd.txt
+if [[ "$(wc -l < pccd_new.txt)" -gt 1 ]]; then
+    cp pccd_new.txt pccd.txt
+fi
 
 # Remove temporary files.
-rm error.txt cv.txt filtered.txt excluded_new_tmp.txt
+rm error.txt cv.txt filtered.txt excluded_new_tmp.txt pccd_new.txt

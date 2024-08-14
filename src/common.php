@@ -38,21 +38,6 @@ if (!function_exists('mb_ucfirst')) {
 }
 
 /**
- * Gets whether the device sends a mobile user agent.
- *
- * This is not reliable if CDN/Varnish are in place (which is not the case). Currently only used for preloading images.
- *
- * @psalm-suppress PossiblyUndefinedArrayOffset, RedundantCondition
- */
-function is_mobile(): bool
-{
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    assert(is_string($user_agent));
-
-    return stripos($user_agent, 'mobile') !== false;
-}
-
-/**
  * Transforms plain text into valid HTML turning URLs into links.
  *
  * Originally based on urlLinker by Søren Løvborg.
@@ -388,20 +373,16 @@ function get_side_blocks(string $page_name): string
             $side_blocks .= '<a href="' . $random_book['URL'] . '">';
         }
 
-        // Preload above the fold image.
-        if (!is_mobile()) {
-            $image_url = get_image_tags(file_name: $random_book['Imatge'], path: '/img/obres/', return_href_only: true);
-            header("Link: <{$image_url}>; rel=preload; as=image");
-        }
-
         $side_blocks .= get_image_tags(
             file_name: $random_book['Imatge'],
             path: '/img/obres/',
             alt_text: $random_book['Títol'],
             width: $random_book['WIDTH'],
             height: $random_book['HEIGHT'],
-            lazy_loading: is_mobile()
+            preload: true,
+            preload_media: '(min-width: 768px)'
         );
+
         if ($random_book['URL'] !== null) {
             $side_blocks .= '</a>';
         }
@@ -1368,8 +1349,6 @@ function get_obra_url(string $obra, bool $absolute = false): string
 
 /**
  * Renders and returns the current page content.
- *
- * @psalm-suppress UnresolvableInclude
  */
 function build_main_content(string $page_name): string
 {
@@ -1570,7 +1549,7 @@ function build_search_summary(int $offset, int $results_per_page, int $total, st
 /**
  * Formats number in Catalan.
  */
-function format_nombre(int|string $num): string
+function format_nombre(float|int|string $num): string
 {
     return number_format((float) $num, 0, ',', '.');
 }
@@ -1682,6 +1661,8 @@ function build_search_query(string $search, string $search_mode, string &$where_
         $where_clause = " WHERE `PAREMIOTIPUS` LIKE CONCAT(?, '%')";
     } elseif ($search_mode === 'acaba') {
         $where_clause = " WHERE `PAREMIOTIPUS` LIKE CONCAT('%', ?)";
+    } elseif ($search_mode === 'coincident') {
+        $where_clause = ' WHERE `PAREMIOTIPUS` = ?';
     } elseif (isset($_GET['font']) && is_string($_GET['font']) && $_GET['font'] !== '') {
         $arguments = [path_to_name($_GET['font'])];
         $where_clause = ' WHERE `ID_FONT` = ?';
@@ -1708,6 +1689,9 @@ function build_search_query(string $search, string $search_mode, string &$where_
                 $arguments[] = $search;
             } elseif ($search_mode === 'acaba') {
                 $where_clause .= " OR {$column} LIKE CONCAT('%', ?)";
+                $arguments[] = $search;
+            } elseif ($search_mode === 'coincident') {
+                $where_clause .= " OR {$column} = ?";
                 $arguments[] = $search;
             }
         }
@@ -1895,9 +1879,10 @@ function get_fonts(): array
  * @param int $width (optional) The width attribute for the <img> tag. Defaults to 0 (not set).
  * @param int $height (optional) The height attribute for the <img> tag. Defaults to 0 (not set).
  * @param bool $lazy_loading (optional) If true, adds 'loading="lazy"' to the <img> tag. Defaults to true.
- * @param bool $return_href_only (optional) If true, returns only the image URL. Defaults to false.
+ * @param bool $preload (optional) If true, adds a preload HTTP header for the image. Defaults to false.
+ * @param string $preload_media (optional) Adds the media rule to the preloaded image. Defaults to empty string (no media rule).
  *
- * @return string The generated HTML markup for the image, or the image URL if $return_href_only is true.
+ * @return string The generated HTML markup for the image.
  */
 function get_image_tags(
     string $file_name,
@@ -1906,52 +1891,80 @@ function get_image_tags(
     int $width = 0,
     int $height = 0,
     bool $lazy_loading = true,
-    bool $return_href_only = false
+    bool $preload = false,
+    string $preload_media = ''
 ): string {
-    $optimized_type = '';
     $optimized_file_url = '';
+    $file_url = $path . rawurlencode($file_name);
     // Image files may have been provided in WEBP/AVIF format already.
     if (!str_ends_with($file_name, '.webp') && !str_ends_with($file_name, '.avif')) {
         // We currently provide AVIF as an alternative for JPEG/PNG images, and WEBP for GIF.
         $avif_file = str_ireplace(['.jpg', '.png'], '.avif', $file_name);
         $avif_exists = str_ends_with($avif_file, '.avif') && is_file(__DIR__ . "/../docroot{$path}{$avif_file}");
         if ($avif_exists) {
-            $optimized_type = 'avif';
             $optimized_file_url = $path . rawurlencode($avif_file);
         } else {
             $webp_file = str_ireplace('.gif', '.webp', $file_name);
             $webp_exists = str_ends_with($webp_file, '.webp') && is_file(__DIR__ . "/../docroot{$path}{$webp_file}");
             if ($webp_exists) {
-                $optimized_type = 'webp';
                 $optimized_file_url = $path . rawurlencode($webp_file);
             }
         }
     }
+    $preload_url = $optimized_file_url !== '' ? $optimized_file_url : $file_url;
+    $extension = strtolower(pathinfo($preload_url, PATHINFO_EXTENSION));
+    $mime_types = [
+        'avif' => 'image/avif',
+        'gif' => 'image/gif',
+        'jpeg' => 'image/jpeg',
+        'jpg' => 'image/jpeg',
+        'png' => 'image/png',
+        'webp' => 'image/webp',
+    ];
+    $mime_type = $mime_types[$extension] ?? '';
 
-    if ($return_href_only) {
-        return $optimized_file_url !== '' ? $optimized_file_url : $path . rawurlencode($file_name);
-    }
-
+    // Generate the HTML markup for the image.
     $image_tags = '';
     if ($optimized_file_url !== '') {
         $image_tags .= '<picture>';
-        $image_tags .= '<source srcset="' . $optimized_file_url . '" type="image/' . $optimized_type . '">';
+        $image_tags .= '<source srcset="' . $optimized_file_url . '"';
+        if ($mime_type !== '') {
+            $image_tags .= ' type="' . $mime_type . '"';
+        }
+        $image_tags .= '>';
     }
-
-    $image_tags .= '<img decoding="async" alt="' . htmlspecialchars($alt_text) . '"';
+    $image_tags .= '<img alt="' . htmlspecialchars($alt_text) . '"';
     if ($lazy_loading) {
         $image_tags .= ' loading="lazy"';
     }
     if ($width > 0 && $height > 0) {
         $image_tags .= ' width="' . $width . '" height="' . $height . '"';
     }
-    $image_tags .= ' src="' . $path . rawurlencode($file_name) . '">';
-
+    $image_tags .= ' src="' . $file_url . '">';
     if ($optimized_file_url !== '') {
         $image_tags .= '</picture>';
     }
 
+    if ($preload) {
+        preload_image_header(url: $preload_url, media: $preload_media, type: $mime_type);
+    }
+
     return $image_tags;
+}
+
+/**
+ * Adds an HTTP header to preload an image.
+ */
+function preload_image_header(string $url, string $media = '', string $type = ''): void
+{
+    $header = "Link: <{$url}>; rel=preload; as=image";
+    if ($type !== '') {
+        $header .= "; type={$type}";
+    }
+    if ($media !== '') {
+        $header .= "; media=\"{$media}\"";
+    }
+    header($header);
 }
 
 /**

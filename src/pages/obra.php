@@ -45,12 +45,6 @@ if ($is_book) {
 if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
     set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra['Imatge']));
 
-    // Preload above the fold image.
-    if (!is_mobile()) {
-        $image_url = get_image_tags(file_name: $obra['Imatge'], path: '/img/obres/', return_href_only: true);
-        header("Link: <{$image_url}>; rel=preload; as=image");
-    }
-
     $output .= '<figure class="col-image">';
     $output .= get_image_tags(
         file_name: $obra['Imatge'],
@@ -58,7 +52,8 @@ if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra['Imatge'])) {
         alt_text: $is_book ? 'Coberta' : $obra['Títol'],
         width: $obra['WIDTH'],
         height: $obra['HEIGHT'],
-        lazy_loading: is_mobile()
+        preload: true,
+        preload_media: '(min-width: 576px)'
     );
     $output .= '</figure>';
 }
@@ -145,7 +140,7 @@ if ($obra['Preu'] > 0) {
     $output .= '<dd>' . round($obra['Preu']) . '&nbsp;€</dd>';
 }
 if ($obra['URL'] !== null) {
-    $output .= '<dt class="d-none">Enllaç:</dt>';
+    $output .= '<dt hidden>Enllaç:</dt>';
     $output .= '<dd>' . html_escape_and_link_urls($obra['URL'], 'url') . '</dd>';
 }
 if ($obra['Observacions'] !== null) {

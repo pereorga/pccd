@@ -13,7 +13,7 @@ dd {
     margin: 0;
 }
 
-dt {
+dt:not([hidden]) {
     display: inline-block;
 }
 
@@ -21,7 +21,7 @@ dd {
     display: inline;
 }
 
-dt:not(.d-none) + dd {
+dt:not([hidden]) + dd {
     margin-left: 0.4rem;
 }
 
@@ -31,17 +31,17 @@ dd::after {
     content: "";
 }
 
-.col-work .footer {
-    margin: 1rem 0 2rem;
-}
-
 .col-image {
     order: 2;
     text-align: center;
 }
 
-.col-image + .col-work {
+.col-work {
     order: 1;
+}
+
+.col-work .footer {
+    margin: 1rem 0 2rem;
 }
 
 /* Medium devices */

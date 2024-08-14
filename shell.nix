@@ -27,7 +27,6 @@ let
         ]))
       _7zz
       curl
-      docker-compose
       file
       gifsicle
       gnupg

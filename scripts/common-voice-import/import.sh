@@ -10,23 +10,9 @@
 # This source file is subject to the AGPL license that is bundled with this
 # source code in the file LICENSE.
 
-set -e
+set -eu
 
 cd "$(dirname "$0")"
-
-##############################################################################
-# Shows the help of this command.
-# Arguments:
-#   None
-##############################################################################
-usage() {
-    echo "Usage: ./$(basename "$0")"
-}
-
-if [[ -n $1 ]]; then
-    usage
-    exit 1
-fi
 
 rm -rf ../../docroot/mp3
 mkdir ../../docroot/mp3

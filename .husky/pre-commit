@@ -5,8 +5,6 @@ if [ -n "${IN_NIX_SHELL}" ]; then
     exit 1
 fi
 
-. "$(dirname -- "$0")/_/husky.sh"
-
 if ! npm run check:code; then
     exit 1
 fi

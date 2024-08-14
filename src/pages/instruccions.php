@@ -40,7 +40,7 @@ set_meta_description("Instruccions d'ús de la Paremiologia catalana comparada d
 
 <p>L'operador de resta <span class="text-monospace">-</span> indica que el terme no ha de ser present. Per exemple, la cerca <span class="text-monospace text-nowrap">pluja -boira</span> retornarà resultats que inclouen <em>pluja</em> però no <em>boira</em>.</p>
 
-<p>Els caràcters <span class="text-monospace">*</span> i <span class="text-monospace">?</span> funcionen com a comodins, i serveixen per cercar frases que contenen fragments d'un mot. Per exemple, la cerca <span class="text-monospace text-nowrap">*pobre*</span> retornarà resultats amb els termes <em>afartapobres</em>, <em>pobre</em>, <em>pobres</em> i <em>pobresa</em>, mentre que la cerca <span class="text-monospace text-nowrap">ll?bre</span> retornarà resultats amb els termes <em>llebre</em> i <em>llibre</em>.</p>
+<p>En cercar un sol terme, els caràcters <span class="text-monospace">*</span> i <span class="text-monospace">?</span> funcionen com a comodins, i serveixen per cercar frases que contenen fragments d'un mot. Per exemple, la cerca <span class="text-monospace text-nowrap">*pobre*</span> retornarà resultats amb els termes <em>afartapobres</em>, <em>pobre</em>, <em>pobres</em> i <em>pobresa</em>, mentre que la cerca <span class="text-monospace text-nowrap">ll?bre</span> retornarà resultats amb els termes <em>llebre</em> i <em>llibre</em>.</p>
 
 <h3>Mode de cerca <em>comença per</em></h3>
 
@@ -49,3 +49,7 @@ set_meta_description("Instruccions d'ús de la Paremiologia catalana comparada d
 <h3>Mode de cerca <em>acaba en</em></h3>
 
 <p>Permet cercar frases que acaben en el fragment indicat.</p>
+
+<h3>Mode de cerca <em>coincident</em></h3>
+
+<p>Permet cercar frases que coincideixen exactament amb el fragment indicat.</p>

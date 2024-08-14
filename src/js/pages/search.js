@@ -17,7 +17,7 @@
     const mostra = document.querySelector(".pager select");
 
     // Remember the search options, but only if the search is empty.
-    if (searchBox.value === "") {
+    if (!searchBox.value) {
         variantCheckbox.checked = localStorage.getItem("variant") !== "2";
         sinonimCheckbox.checked = localStorage.getItem("sinonim") === "1";
         equivalentCheckbox.checked = localStorage.getItem("equivalent") === "1";
@@ -54,14 +54,14 @@
         searchBox.value = new URLSearchParams(location.search).get("cerca") || "";
 
         // On desktop, select the searched value, so it can be replaced by simply typing.
-        if (searchBox.value !== "" && !/Android|iPad|iPhone/.test(navigator.userAgent)) {
+        if (searchBox.value && !/Android|iPad|iPhone/.test(navigator.userAgent)) {
             searchBox.select();
         }
     });
 
     searchBox.addEventListener("touchend", () => {
         // On touch devices, select the word on touch, unless it is already selected.
-        if (searchBox.value !== "" && searchBox.selectionStart === searchBox.selectionEnd) {
+        if (searchBox.value && searchBox.selectionStart === searchBox.selectionEnd) {
             searchBox.select();
         }
     });

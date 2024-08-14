@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<ruleset name="PCCD" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+<ruleset name="PCCD" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
   <description>PSR12 with some rules disabled, and with a few enabled rules from SlevomatCodingStandard.</description>
   <rule ref="PSR12">
     <exclude name="Generic.Files.LineLength" />

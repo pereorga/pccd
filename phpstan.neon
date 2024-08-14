@@ -4,6 +4,10 @@ includes:
   - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
   level: max
+  checkBenevolentUnionTypes: true
+  reportAlwaysTrueInLastCondition: true
+  reportAnyTypeWideningInVarTag: true
+  reportPossiblyNonexistentConstantArrayOffset: true
   paths:
     - src
     - docroot
@@ -16,5 +20,4 @@ parameters:
     - */vendor/*
     - src/xhprof.php
   ignoreErrors:
-    - '#Cannot call method fetchAll\(\) on PDOStatement\|false.#'
-    - '#Cannot call method fetchColumn\(\) on PDOStatement\|false.#'
+    - '#on PDOStatement\|false.#'

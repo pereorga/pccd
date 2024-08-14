@@ -42,6 +42,7 @@ function stats_autors(): void
     echo "<table style='width:1200px;'>";
     echo '<tr><th>Autor</th><th>Paremiotipus</th></tr>';
     foreach ($records as $autor => $paremiotipus) {
+        assert(is_string($autor));
         echo '<tr>';
         echo '<td>' . htmlspecialchars($autor) . '</td>';
         echo '<td>' . format_nombre($paremiotipus) . '</td>';
@@ -74,6 +75,7 @@ function stats_autors(): void
     echo "<table style='width:1200px;'>";
     echo '<tr><th>Autor</th><th>Fitxes</th></tr>';
     foreach ($records as $autor => $fitxes) {
+        assert(is_string($autor));
         echo '<tr>';
         echo '<td>' . htmlspecialchars($autor) . '</td>';
         echo '<td>' . format_nombre($fitxes) . '</td>';
@@ -106,6 +108,7 @@ function stats_autors(): void
     echo "<table style='width:1200px;'>";
     echo "<tr><th>Autor</th><th>Nombre d'obres</th></tr>";
     foreach ($records as $autor => $obres) {
+        assert(is_string($autor));
         echo '<tr>';
         echo '<td>' . htmlspecialchars($autor) . '</td>';
         echo '<td>' . format_nombre($obres) . '</td>';

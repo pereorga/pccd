@@ -186,10 +186,6 @@ header {
     background-color: #2b5797;
 }
 
-.d-none {
-    display: none;
-}
-
 .text-balance {
     text-wrap: balance;
 }

@@ -20,7 +20,6 @@ final class DeploymentYearTest extends TestCase
     {
         $date = file_get_contents(__DIR__ . '/../../tmp/db_date.txt');
         $year = date('Y');
-        $matches = [];
         preg_match('/^.*(\d{4}).*$/', $date, $matches);
 
         self::assertSame($year, $matches[1], "File tmp/db_date.txt should contain the current year {$year}");

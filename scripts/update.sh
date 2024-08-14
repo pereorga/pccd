@@ -9,7 +9,7 @@
 # This source file is subject to the AGPL license that is bundled with this
 # source code in the file LICENSE.
 
-set -e
+set -eu
 
 cd "$(dirname "$0")/.."
 
@@ -41,7 +41,7 @@ usage() {
 # Checks whether a specific version of a hub.docker.com image exists.
 # Arguments:
 #   An image name (e.g. "php")
-#   An versioned image tag (e.g. "8.2.0-apache-buster")
+#   A versioned image tag (e.g. "8.2.0-apache-buster")
 # Returns:
 #   0 if the release exists, 1 otherwise.
 ##############################################################################
@@ -82,7 +82,7 @@ export -f increment_version
 ##############################################################################
 # Tries to check for a newer version of a hub.docker.com image specified in a Docker file, and updates it.
 # Arguments:
-#   A Docker file, a path (e.g. ".docker/Dockerfile")
+#   A Docker file path (e.g. ".docker/Dockerfile")
 #   An image name (e.g. "php")
 ##############################################################################
 check_version_docker_file() {
@@ -98,7 +98,6 @@ check_version_docker_file() {
         echo "${IMAGE_NAME} Docker image is out of date, updating to ${next_image}..."
         sed -i'.original' -e "s/${current_image}/${next_image}/" "${DOCKER_FILE}"
         rm "${DOCKER_FILE}.original"
-        exit 1
     else
         echo "OK: ${IMAGE_NAME} Docker image is up to date in ${DOCKER_FILE}."
     fi
@@ -107,7 +106,7 @@ check_version_docker_file() {
 ##############################################################################
 # Tries to check for a newer version of a hub.docker.com image specified in a Docker Compose file, and updates it.
 # Arguments:
-#   A Docker Compose file, a path (e.g. "docker-compose.yml")
+#   A Docker Compose file path (e.g. "docker-compose.yml")
 #   An image name (e.g. "mariadb")
 ##############################################################################
 check_version_docker_compose() {
@@ -121,7 +120,6 @@ check_version_docker_compose() {
         echo "${IMAGE_NAME} Docker image is out of date, updating to ${next_version}..."
         sed -i'.original' -e "s/${current_version}/${next_version}/" "${COMPOSE_FILE}"
         rm "${COMPOSE_FILE}.original"
-        exit 1
     else
         echo "OK: ${IMAGE_NAME} Docker image is up to date in ${COMPOSE_FILE}."
     fi
@@ -167,7 +165,7 @@ update_npm() {
 ##############################################################################
 # Updates a cargo package to the latest version in a Dockerfile.
 # Arguments:
-#   A Docker file, a path (e.g. "Dockerfile")
+#   A Docker file path (e.g. "Dockerfile")
 #   A cargo package name (e.g. "oxipng")
 ##############################################################################
 update_cargo_dockerfile() {
@@ -229,14 +227,11 @@ if [[ $1 == "opcache-gui" ]]; then
     exit 0
 fi
 
-if [[ $1 == "npm" ]]; then
-    update_npm
-    exit 0
-fi
-
 if [[ $1 == "docker" ]]; then
     check_version_docker_file .docker/debian.dev.Dockerfile php
+    check_version_docker_file .docker/web-debian.prod.Dockerfile php
     check_version_docker_file .docker/alpine.dev.Dockerfile alpine
+    check_version_docker_file .docker/sql.prod.Dockerfile mariadb
     check_version_docker_compose docker-compose.yml mariadb
     check_version_docker_compose docker-compose-alpine.yml mariadb
     exit 0
@@ -244,6 +239,11 @@ fi
 
 if [[ $1 == "oxipng" ]]; then
     update_cargo_dockerfile .docker/ubuntu.build.Dockerfile oxipng
+    exit 0
+fi
+
+if [[ $1 == "npm" ]]; then
+    update_npm
     exit 0
 fi
 

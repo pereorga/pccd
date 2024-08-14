@@ -132,34 +132,6 @@ ALTER TABLE `00_MATRIU2019` ADD INDEX `ID_FONT` (`ID_FONT`);
 ALTER TABLE `00_MATRIU2019` ADD INDEX `IDIOMA` (`IDIOMA`);
 ALTER TABLE `00_MATRIU2019` ADD PRIMARY KEY (`Id`);
 
-CREATE TABLE `00_OBRESVPR`
- (
-	`Comptador`			int NOT NULL, 
-	`Identificador`			varchar (255), 
-	`Autor`			varchar (255), 
-	`Any`			varchar (10), 
-	`Títol`			varchar (255), 
-	`ISBN`			varchar (50), 
-	`Codi_edit`			varchar (3), 
-	`Editorial`			varchar (255), 
-	`Municipi`			varchar (255), 
-	`Edició`			varchar (25), 
-	`Any_edició`			int, 
-	`Collecció`			varchar (255), 
-	`Núm_collecció`			varchar (255), 
-	`Pàgines`			int, 
-	`Idioma`			varchar (255), 
-	`Preu`			float, 
-	`Imatge`			varchar (255), 
-	`URL`			varchar (255)
-);
-
--- CREATE INDEXES ...
-ALTER TABLE `00_OBRESVPR` ADD INDEX `Identificador` (`Identificador`);
-ALTER TABLE `00_OBRESVPR` ADD INDEX `Idioma` (`Idioma`);
-ALTER TABLE `00_OBRESVPR` ADD INDEX `Núm_collecció` (`Núm_collecció`);
-ALTER TABLE `00_OBRESVPR` ADD PRIMARY KEY (`Comptador`);
-
 CREATE TABLE `00_PAREMIOTIPUS`
  (
 	`Id`			int not null auto_increment unique, 
@@ -245,6 +217,34 @@ CREATE TABLE `RML`
 
 -- CREATE INDEXES ...
 ALTER TABLE `RML` ADD PRIMARY KEY (`NUM_ORDRE`);
+
+CREATE TABLE `00_OBRESVPR`
+ (
+	`Comptador`			int NOT NULL, 
+	`Identificador`			varchar (255), 
+	`Autor`			varchar (255), 
+	`Any`			varchar (10), 
+	`Títol`			varchar (255), 
+	`ISBN`			varchar (50), 
+	`Codi_edit`			varchar (3), 
+	`Editorial`			varchar (255), 
+	`Municipi`			varchar (255), 
+	`Edició`			varchar (25), 
+	`Any_edició`			int, 
+	`Collecció`			varchar (255), 
+	`Núm_collecció`			varchar (255), 
+	`Pàgines`			int, 
+	`Idioma`			varchar (255), 
+	`Preu`			float, 
+	`Imatge`			varchar (255), 
+	`URL`			varchar (255)
+);
+
+-- CREATE INDEXES ...
+ALTER TABLE `00_OBRESVPR` ADD INDEX `Identificador` (`Identificador`);
+ALTER TABLE `00_OBRESVPR` ADD INDEX `Idioma` (`Idioma`);
+ALTER TABLE `00_OBRESVPR` ADD INDEX `Núm_collecció` (`Núm_collecció`);
+ALTER TABLE `00_OBRESVPR` ADD PRIMARY KEY (`Comptador`);
 
 
 -- CREATE Relationships ...

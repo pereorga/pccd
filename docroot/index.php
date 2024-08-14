@@ -22,8 +22,8 @@ if (str_contains(get_request_uri(), 'index.php')) {
 // If the connection to the database fails, fail fast.
 check_db_or_exit();
 
-// Cache pages for 15 minutes in the browser, for 1 year in reverse proxies.
-header('Cache-Control: public, s-maxage=31536000, max-age=900');
+// Cache pages for 15 minutes in the browser.
+header('Cache-Control: public, max-age=900');
 
 // Build page content in advance.
 $page_name = get_page_name();
@@ -47,7 +47,6 @@ $side_blocks = get_side_blocks($page_name);
 require __DIR__ . '/css/base.min.css';
 
 // If the page has page-specific CSS, include it.
-/** @psalm-suppress UnresolvableInclude */
 @include __DIR__ . "/css/pages/{$page_name}.min.css";
 ?>
 </style>
@@ -84,7 +83,7 @@ require __DIR__ . '/css/base.min.css';
         <p><?php echo format_nombre(get_n_modismes()); ?>&nbsp;fitxes, corresponents a <?php echo format_nombre(get_n_paremiotipus()); ?>&nbsp;paremiotipus, recollides de <?php echo format_nombre(get_n_fonts()); ?>&nbsp;fonts i <?php echo format_nombre(get_n_informants()); ?>&nbsp;informants. Última actualització: <?php require __DIR__ . '/../tmp/db_date.txt'; ?></p>
         <p>© Víctor Pàmies i Riudor, 2020-2024.</p>
     </footer>
-    <div id="cookie-banner" class="d-none">
+    <div id="cookie-banner" hidden>
         <div role="alert">
             <div>Aquest lloc web fa servir galetes de Google per analitzar el trànsit.</div>
             <button type="button">D'acord</button>
@@ -92,9 +91,10 @@ require __DIR__ . '/css/base.min.css';
     </div>
     <script>
 <?php
-// If the page has page-specific JS, include it first.
-/** @psalm-suppress UnresolvableInclude */
-@include __DIR__ . "/js/pages/{$page_name}.min.js";
+$pages_with_javascript = ['search', 'paremiotipus', 'fonts'];
+if (in_array($page_name, $pages_with_javascript, true)) {
+    require __DIR__ . "/js/pages/{$page_name}.min.js";
+}
 
 require __DIR__ . '/js/app.min.js';
 ?>

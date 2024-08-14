@@ -248,12 +248,6 @@ foreach ($images as $image) {
         if ($is_first_image) {
             // Use it for the meta image.
             set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($image['Identificador']));
-
-            // Preload above the fold image.
-            if (!is_mobile()) {
-                $image_url = get_image_tags(file_name: $image['Identificador'], path: '/img/imatges/', return_href_only: true);
-                header("Link: <{$image_url}>; rel=preload; as=image");
-            }
         }
 
         $image_tag = get_image_tags(
@@ -262,7 +256,8 @@ foreach ($images as $image) {
             alt_text: $paremiotipus,
             width: $image['WIDTH'],
             height: $image['HEIGHT'],
-            lazy_loading: is_mobile() || !$is_first_image
+            preload: $is_first_image,
+            preload_media: '(min-width: 768px)'
         );
 
         $image_link = get_clean_url($image['URL_ENLLAÇ']);
@@ -327,7 +322,7 @@ if ($cv_output !== '') {
     $blocks = '<div id="commonvoice" class="bloc text-balance text-break" title="Reprodueix un enregistrament">';
     $blocks .= $cv_output;
     $blocks .= '<p><a href="https://commonvoice.mozilla.org/ca">';
-    $blocks .= '<img alt="Projecte Common Voice" width="100" height="25" src="/img/commonvoice.svg"></a></p>';
+    $blocks .= '<img title="Projecte Common Voice" alt="Logo Common Voice" width="100" height="25" src="/img/commonvoice.svg"></a></p>';
     $blocks .= '</div>';
 }
 if ($images_output !== '') {

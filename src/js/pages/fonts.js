@@ -8,7 +8,8 @@
  */
 
 (() => {
-    const dataTable = new simpleDatatables.DataTable("#fonts", {
+    // eslint-disable-next-line no-new, no-undef
+    new simpleDatatables.DataTable("#fonts", {
         locale: "ca",
         paging: false,
         labels: {
@@ -27,20 +28,28 @@
             const tHead = table.childNodes[0];
             const filterHeaders = {
                 nodeName: "TR",
-                childNodes: tHead.childNodes[0].childNodes.map((_th, index) => ({
-                    nodeName: "TH",
-                    childNodes: [
-                        {
-                            nodeName: "INPUT",
-                            attributes: {
-                                "class": "datatable-input",
-                                "type": "search",
-                                "data-columns": `[${index}]`,
-                                "data-and": true,
+                childNodes: tHead.childNodes[0].childNodes.map((th, index) => {
+                    const buttonNode = th.childNodes.find((node) => node.nodeName === "BUTTON");
+                    const labelText =
+                        buttonNode && buttonNode.childNodes.length > 0 && buttonNode.childNodes[0].nodeName === "#text"
+                            ? buttonNode.childNodes[0].data
+                            : index + 1;
+                    return {
+                        nodeName: "TH",
+                        childNodes: [
+                            {
+                                nodeName: "INPUT",
+                                attributes: {
+                                    "class": "datatable-input",
+                                    "type": "search",
+                                    "data-columns": `[${index}]`,
+                                    "data-and": true,
+                                    "aria-label": `Cerca a la columna ${labelText}`,
+                                },
                             },
-                        },
-                    ],
-                })),
+                        ],
+                    };
+                }),
             };
             tHead.childNodes.push(filterHeaders);
             return table;

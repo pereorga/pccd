@@ -8,32 +8,7 @@ variables:
 stages:
   - build
   - deploy
-
-.check_code_template: &check_code_base
-  stage: build
-  when: always
-  before_script:
-    - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get upgrade -y && xargs apt-get install --no-install-recommends -y < apt-packages.txt
-    - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    - brew bundle install --file=apt-missing.Brewfile
-    - npm ci
-  script:
-    - tools/composer.phar run parallel-lint
-    - npm run check:size
-    - npm run lint
-    - npm run analysis
-    - npx editorconfig-checker
-  allow_failure: true
-
-check_code_ubuntu:
-  <<: *check_code_base
-  image: ubuntu:devel
-
-check_code_debian:
-  <<: *check_code_base
-  image: debian:testing
+  - update
 
 build:
   image: docker:latest
@@ -54,6 +29,139 @@ build:
     - docker push $DOCKER_IMAGE:$CI_COMMIT_SHA
     - docker push $DOCKER_IMAGE:$DATETAG
     - docker push $DOCKER_IMAGE:latest
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+.setup:
+  before_script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update && apt-get upgrade -y && xargs apt-get install --no-install-recommends -y < apt-packages.txt
+    - npm ci --ignore-scripts
+    - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
+    - tools/composer.phar install
+
+.full_setup:
+  before_script:
+    - !reference [.setup, before_script]
+    - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    - brew bundle install --file=apt-missing.Brewfile
+
+.php_lint_template:
+  stage: build
+  script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y git unzip gpg
+    - curl -L https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions > /usr/local/bin/install-php-extensions
+    - chmod +x /usr/local/bin/install-php-extensions
+    - install-php-extensions intl pdo_mysql imagick
+    - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
+    - php tools/composer.phar install
+    - php tools/composer.phar run parallel-lint
+    - php tools/composer.phar run phpcs
+    - php tools/composer.phar run php-cs-fixer-lint
+    - php tools/composer.phar run phpstan
+    - php tools/composer.phar run psalm
+    - php tools/composer.phar run rector-lint
+  allow_failure: true
+
+php_lint:
+  extends: .php_lint_template
+  parallel:
+    matrix:
+      - PHP_VERSION: "8.2"
+      - PHP_VERSION: "8.3"
+  image: php:${PHP_VERSION}
+  before_script:
+    - echo "Running in PHP version ${PHP_VERSION}"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+.npm_lint_template:
+  stage: build
+  script:
+    - npm ci --ignore-scripts
+    - npm run lint:eslint
+    - npm run lint:stylelint
+    - npm run lint:prettier
+  allow_failure: true
+
+npm_lint:
+  extends: .npm_lint_template
+  parallel:
+    matrix:
+      - NODE_VERSION: 18
+      - NODE_VERSION: 20
+      - NODE_VERSION: 22
+  image: node:${NODE_VERSION}
+  before_script:
+    - echo "Running in Node.js version ${NODE_VERSION}"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+.check_code_template:
+  extends: .full_setup
+  stage: build
+  script:
+    - tools/composer.phar run parallel-lint
+    - npm run check:size
+    - npm run lint
+    - npm run analysis
+    - npx editorconfig-checker
+  allow_failure: true
+
+check_code_ubuntu:
+  extends: .check_code_template
+  image: ubuntu:devel
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+check_code_debian:
+  extends: .check_code_template
+  image: debian:testing
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+nightly_update:
+  extends: .setup
+  image: debian:testing
+  stage: update
+  script:
+    - npm run update
+    - |
+      if [ -n "$(git status --porcelain)" ]; then
+        git config --global user.email "ci@softcatala.org"
+        git config --global user.name "PCCD Bot"
+        git remote set-url origin https://oauth2:$GITLAB_TOKEN@gitlab.softcatala.org/pere/pccd.git
+        git branch -D nightly-update || true
+        git checkout -b nightly-update
+        git add .
+        HUSKY=0 git commit -m "chore(deps): update dependencies"
+        git push origin nightly-update --force
+        MR_EXISTS=$(curl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "https://gitlab.softcatala.org/api/v4/projects/14/merge_requests?state=opened&source_branch=nightly-update")
+        if [ "$MR_EXISTS" == "[]" ]; then
+          curl --request POST --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+            --data "title=chore(deps): update dependencies&source_branch=nightly-update&target_branch=master" \
+            "https://gitlab.softcatala.org/api/v4/projects/14/merge_requests"
+        else
+          echo "Merge request already exists"
+        fi
+      else
+        echo "No changes to commit"
+        exit 0
+      fi
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - when: manual
+  needs: []
 
 deploy:
   stage: deploy

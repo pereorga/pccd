@@ -48,6 +48,7 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '')
                     <option value="">conté</option>
                     <option<?php echo $search_mode === 'comença' ? ' selected' : ''; ?> value="comença">comença per</option>
                     <option<?php echo $search_mode === 'acaba' ? ' selected' : ''; ?> value="acaba">acaba en</option>
+                    <option<?php echo $search_mode === 'coincident' ? ' selected' : ''; ?> value="coincident">coincident</option>
                 </select>
             </div>
             <div class="input">

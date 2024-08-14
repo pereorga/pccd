@@ -49,6 +49,15 @@ test.describe("Homepage <picture> tag", () => {
             expect(response.headers()["strict-transport-security"]).toBe("max-age=31536000");
         }
     });
+
+    test("homepage includes a preloaded image with type and media attributes", async ({ page }) => {
+        const response = await page.goto("/");
+        const linkHeader = response.headers().link;
+
+        expect(linkHeader).toMatch(
+            /<[^>]+>; rel=preload; as=image; type=image\/(avif|webp|jpeg|png|gif); media="\(min-width: \d+px\)"/,
+        );
+    });
 });
 
 test.describe("SVG in <img> tags", () => {

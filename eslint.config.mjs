@@ -1,8 +1,17 @@
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
+import js from "@eslint/js";
+import globals from "globals";
 
 export default [
+    js.configs.recommended,
     eslintPluginUnicorn.configs["flat/recommended"],
     {
+        languageOptions: {
+            sourceType: "script",
+            globals: {
+                ...globals.browser,
+            },
+        },
         rules: {
             "camelcase": "error",
             "consistent-this": "error",
@@ -74,6 +83,13 @@ export default [
             "unicorn/prefer-module": "off",
             "unicorn/prefer-top-level-await": "off",
             "yoda": "error",
+        },
+    },
+    {
+        files: ["tests/**/*.js", "scripts/**/*.js"],
+        languageOptions: {
+            sourceType: "commonjs",
+            globals: { ...globals.node },
         },
     },
 ];

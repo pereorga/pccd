@@ -1,7 +1,6 @@
 7zip-standalone
 build-essential
 curl
-docker-compose
 file
 gcc
 gifsicle

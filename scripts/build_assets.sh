@@ -7,23 +7,9 @@
 # This source file is subject to the AGPL license that is bundled with this
 # source code in the file LICENSE.
 
-set -e
+set -eu
 
 cd "$(dirname "$0")/.."
-
-##############################################################################
-# Shows the help of this command.
-# Arguments:
-#   None
-##############################################################################
-usage() {
-    echo "Usage: ./$(basename "$0")"
-}
-
-if [[ -n $1 ]]; then
-    usage
-    exit 1
-fi
 
 echo "Minifying src/js/app.js..."
 npx terser src/js/app.js --compress --mangle > docroot/js/app.min.js
@@ -41,7 +27,11 @@ for file in src/js/pages/*.js; do
 done
 
 echo "Minifying src/css/base.css..."
-# cssnano and csso are good too, but both lack a bit of updates, so clean-css is used.
+# TODO: consider an alternative to cleancss, which is in maintenance mode.
+#   - csso is less maintained and has lower usage
+#   - cssnano looks maintained and delivers comparable results, but requires postcss and postcss-cli, which is too much
+#   - lightning-css is a new rust-based alternative, it is faster and works well with npx, but compresses a bit worse in all cases (tested with --minify --bundle --targets '>= 0.25%')
+#   - See https://npmtrends.com/clean-css-vs-cssmin-vs-cssnano-vs-csso-vs-lightning-css-vs-lightningcss and https://kondratjev.github.io/css-minification-benchmark/
 npx cleancss -O2 src/css/base.css > docroot/css/base.min.css
 for file in src/css/pages/*.css; do
     echo "Minifying ${file}..."

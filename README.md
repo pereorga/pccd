@@ -31,7 +31,8 @@ Or:
 
 ```bash
 docker system prune -f
-docker-compose -f docker-compose-alpine.yml -f docker-compose-alpine.override.sample.yml up --build
+docker-compose -f docker-compose-alpine.yml -f docker-compose-alpine.override.sample.yml build --no-cache
+docker-compose -f docker-compose-alpine.yml -f docker-compose-alpine.override.sample.yml up
 ```
 
 ## Updating the content and creating a new release

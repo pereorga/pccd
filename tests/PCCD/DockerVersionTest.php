@@ -57,7 +57,6 @@ final class DockerVersionTest extends TestCase
 
     protected function getAlpineDockerPhpVersion(string $dockerFile): string
     {
-        $matches = [];
         preg_match('/php(\d{2})-apache2/', $dockerFile, $matches);
 
         // Convert '83' to '8.3' for example.
@@ -66,8 +65,6 @@ final class DockerVersionTest extends TestCase
 
     protected function getDockerPhpVersion(string $dockerFile, bool $patch = true): string
     {
-        $matches = [];
-
         if ($patch) {
             preg_match('/^FROM php:([0-9.]+(-rc|beta\d+)?)-apache/', $dockerFile, $matches);
 
@@ -82,7 +79,6 @@ final class DockerVersionTest extends TestCase
 
     protected function getDockerMysqlVersion(string $dockerFile): string
     {
-        $matches = [];
         preg_match('/^FROM mariadb:([0-9.]+)/', $dockerFile, $matches);
 
         return $matches[1];
@@ -90,7 +86,6 @@ final class DockerVersionTest extends TestCase
 
     protected function getDockerComposeMysqlVersion(string $dockerComposeFile): string
     {
-        $matches = [];
         preg_match('/image: mariadb:([0-9.]+)/', $dockerComposeFile, $matches);
 
         return $matches[1];
