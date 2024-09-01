@@ -22,6 +22,7 @@ RUN apk --no-cache --update add \
     apache2-brotli \
     php83-apache2 \
     php83-apcu \
+    php83-gd \
     php83-mbstring \
     php83-opcache \
     php83-pdo_mysql \
@@ -58,7 +59,7 @@ RUN sed -i '/^DocumentRoot/d' /etc/apache2/httpd.conf \
 
 # Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/conf.d/vhost.conf
-COPY .docker/php/production.ini /etc/php83/conf.d/production.ini
+COPY .docker/php/performance.ini /etc/php83/conf.d/performance.ini
 
 # Copy project files
 COPY docroot ./docroot

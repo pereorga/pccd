@@ -27,11 +27,11 @@ for file in src/js/pages/*.js; do
 done
 
 echo "Minifying src/css/base.css..."
-# TODO: consider an alternative to cleancss, which is in maintenance mode.
-#   - csso is less maintained and has lower usage
-#   - cssnano looks maintained and delivers comparable results, but requires postcss and postcss-cli, which is too much
-#   - lightning-css is a new rust-based alternative, it is faster and works well with npx, but compresses a bit worse in all cases (tested with --minify --bundle --targets '>= 0.25%')
-#   - See https://npmtrends.com/clean-css-vs-cssmin-vs-cssnano-vs-csso-vs-lightning-css-vs-lightningcss and https://kondratjev.github.io/css-minification-benchmark/
+# TODO: consider an alternative to clean-css, which is in maintenance mode.
+#   - csso is unmaintained too.
+#   - cssnano looks maintained and delivers comparable results, but requires postcss and postcss-cli, which is too much.
+#   - lightning-css is a new rust-based alternative, it is faster and works well with npx, but compresses a bit worse in all cases (tested with --minify --bundle --targets '>= 0.25%').
+#   - See https://npmtrends.com/clean-css-vs-cssmin-vs-cssnano-vs-csso-vs-lightning-css-vs-lightningcss and https://kondratjev.github.io/css-minification-benchmark/.
 npx cleancss -O2 src/css/base.css > docroot/css/base.min.css
 for file in src/css/pages/*.css; do
     echo "Minifying ${file}..."

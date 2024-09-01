@@ -8,9 +8,7 @@ export default [
     {
         languageOptions: {
             sourceType: "script",
-            globals: {
-                ...globals.browser,
-            },
+            globals: { ...globals.browser },
         },
         rules: {
             "camelcase": "error",
@@ -28,7 +26,6 @@ export default [
             "no-bitwise": "error",
             "no-caller": "error",
             "no-catch-shadow": "error",
-            "no-continue": "error",
             "no-div-regex": "error",
             "no-else-return": "error",
             "no-eq-null": "error",

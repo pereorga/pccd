@@ -10,16 +10,16 @@ xargs sudo apt-get install -y < apt-packages.txt
 
 You may want to set up Docker to be used with a non-root user.
 
-Some additional packages can be installed using [Homebrew](https://brew.sh/):
-
-```bash
-brew bundle install --file=apt-missing.Brewfile
-```
-
 The rest of dependencies can be installed using `npm`:
 
 ```bash
 npm ci
+```
+
+Optionally, some additional packages can be installed using [Homebrew](https://brew.sh/):
+
+```bash
+brew bundle install --file=apt-missing.Brewfile
 ```
 
 ### Prerequisites: macOS (Homebrew)
@@ -28,7 +28,7 @@ After installing [Homebrew](https://brew.sh/), run the following from the root d
 dependencies:
 
 ```bash
-brew bundle install && npm ci && pecl install imagick
+brew bundle install && npm ci
 ```
 
 ### Prerequisites: Linux (Nix) / macOS (Nix) untested

@@ -14,9 +14,6 @@ $request_uri = get_request_uri();
 $obra_title = is_string($_GET['obra']) ? path_to_name($_GET['obra']) : '';
 $obra = get_obra($obra_title);
 if ($obra === false) {
-    // Try to redirect (HTTP 301) to an existing page.
-    try_to_redirect_manual_and_exit();
-
     // If no match could be found, return an HTTP 404 page.
     error_log("Error: entry not found for URL: {$request_uri}");
     return_404_and_exit();

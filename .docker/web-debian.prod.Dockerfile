@@ -1,4 +1,4 @@
-FROM php:8.3.10-apache-bookworm
+FROM php:8.3.11-apache-bookworm
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Debian-based image with Apache and mod_php. This was used in production prior to having Alpine."
 
@@ -35,14 +35,11 @@ RUN rm -f /etc/apache2/mods-enabled/deflate.conf /etc/apache2/mods-enabled/alias
     a2enmod rewrite headers brotli && \
     sed 's/expose_php = On/expose_php = Off/g' /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini && \
     chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions apcu opcache pdo_mysql
+    install-php-extensions apcu gd opcache pdo_mysql
 
 # Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
-COPY .docker/php/production.ini /usr/local/etc/php/conf.d/production.ini
-
-# apcu.php uses gd, but we usually don't care
-#RUN install-php-extensions gd
+COPY .docker/php/performance.ini /usr/local/etc/php/conf.d/performance.ini
 
 # Copy project files
 COPY docroot ./docroot

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2094
 #
-# Updates Composer/PHIVE/NPM/PECL/apt-get/Maven dependencies and Docker images.
+# Updates dependencies to latest release.
 #
 # This script is called by npm update script.
 #
@@ -152,7 +153,36 @@ update_composer() {
 }
 
 ##############################################################################
-# Updates all npm dev dependencies to latest release.
+# Installs newest versions of PHIVE packages, and bumps versions.
+# Arguments:
+#   None
+##############################################################################
+update_phive() {
+    yes | php -d memory_limit=256M tools/phive selfupdate
+    yes | php -d memory_limit=256M tools/phive update --force-accept-unsigned
+
+    # Bump versions
+    local -r xml_file=".phive/phars.xml"
+    while read -r line; do
+        if [[ "${line}" =~ ^[[:space:]]*\<phar ]]; then
+            local name version installed updated_line
+            name=$(echo "${line}" | sed -E 's/.*name="([^"]+)".*/\1/')
+            version=$(echo "${line}" | sed -E 's/.*version="([^"]+)".*/\1/')
+            installed=$(echo "${line}" | sed -E 's/.*installed="([^"]+)".*/\1/')
+
+            updated_line=$(echo "${line}" | sed "s/version=\"${version}\"/version=\"^${installed}\"/")
+
+            if [[ "${line}" != "${updated_line}" ]]; then
+                sed -i'.original' -e "s|${line}|${updated_line}|" "${xml_file}"
+                rm "${xml_file}.original"
+                echo "Updated ${name}: ${version} -> ${installed}"
+            fi
+        fi
+    done < "${xml_file}"
+}
+
+##############################################################################
+# Updates all npm dependencies to latest release.
 # Arguments:
 #   None
 ##############################################################################
@@ -160,6 +190,32 @@ update_npm() {
     rm -rf node_modules package-lock.json
     jq '.devDependencies | keys | .[]' package.json | xargs npm install --save-dev --ignore-scripts
     jq '.dependencies | keys | .[]' package.json | xargs npm install --save --ignore-scripts
+
+    # Get all outdated packages
+    local outdated
+    outdated=$(npm outdated --json)
+
+    # Loop through each outdated package
+    for package in $(echo "${outdated}" | jq -r 'keys[]'); do
+        echo "Processing outdated package: ${package}"
+
+        # Get the latest version of the package
+        local latest
+        latest=$(echo "${outdated}" | jq -r --arg pkg "${package}" '.[$pkg].latest')
+
+        # Check if the package is a dev dependency
+        local is_dev_dependency
+        is_dev_dependency=$(jq -r --arg pkg "${package}" 'if .devDependencies[$pkg] then true else false end' package.json)
+
+        # Install the latest version of the package
+        if [[ "${is_dev_dependency}" = "true" ]]; then
+            echo "Installing ${package}@${latest} as a dev dependency"
+            npm install "${package}@${latest}" --save-dev
+        else
+            echo "Installing ${package}@${latest} as a dependency"
+            npm install "${package}@${latest}" --save
+        fi
+    done
 }
 
 ##############################################################################
@@ -212,8 +268,7 @@ if [[ $1 == "composer" ]]; then
 fi
 
 if [[ $1 == "phive" ]]; then
-    php -d memory_limit=256M tools/phive selfupdate --trust-gpg-keys
-    yes | php -d memory_limit=256M tools/phive update --force-accept-unsigned
+    update_phive
     exit 0
 fi
 
@@ -231,6 +286,7 @@ if [[ $1 == "docker" ]]; then
     check_version_docker_file .docker/debian.dev.Dockerfile php
     check_version_docker_file .docker/web-debian.prod.Dockerfile php
     check_version_docker_file .docker/alpine.dev.Dockerfile alpine
+    check_version_docker_file .docker/web-alpine.prod.Dockerfile alpine
     check_version_docker_file .docker/sql.prod.Dockerfile mariadb
     check_version_docker_compose docker-compose.yml mariadb
     check_version_docker_compose docker-compose-alpine.yml mariadb

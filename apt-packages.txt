@@ -20,7 +20,6 @@ php-curl
 php-dev
 php-dom
 php-gd
-php-imagick
 php-intl
 php-mbstring
 php-mysql

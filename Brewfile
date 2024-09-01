@@ -6,7 +6,6 @@ brew "gifsicle"
 brew "gpg"
 brew "hadolint"
 brew "icu4c", link: true
-brew "imagemagick"
 brew "jpeginfo"
 brew "jpegoptim"
 brew "jq"

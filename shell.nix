@@ -13,7 +13,6 @@ let
           dom
           filter
           gd
-          imagick
           intl
           mbstring
           opcache

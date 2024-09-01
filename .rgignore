@@ -6,15 +6,16 @@
 /scripts/*/*.txt
 /tmp/
 
-# Vendor directories
-vendor/
+# Vendor directories and files
 node_modules/
 third_party/
+vendor/
+LICENSE
+LICENSE.txt
 
 # Generated files
 *.sublime-workspace
 *Brewfile.lock.json
-/LICENSE
 composer.lock
 package-lock.json
 
@@ -24,11 +25,11 @@ package-lock.json
 /docroot/mp3/
 /src/images/
 
-# Include hidden files but default, but ignore some.
+# Include hidden files by default, but ignore some
 !.*
 .DS_Store
-.git
-.idea
+.git/
+.idea/
 .php-cs-fixer.cache
 .phpunit.result.cache
 .picasa.ini

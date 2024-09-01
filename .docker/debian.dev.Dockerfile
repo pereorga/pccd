@@ -1,4 +1,4 @@
-FROM php:8.3.10-apache-bookworm
+FROM php:8.3.11-apache-bookworm
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Debian-based image with Apache and mod_php. Used for development."
 
@@ -16,22 +16,20 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN apt-get update && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Remove some Apache default settings provided by Debian
-# Do not expose Apache version in header
 # Disable unnecessary Apache modules
 # Enable Apache modules
-# Use PHP default production settings, but do not expose PHP version
+# Use PHP default development settings
 # Install PHP extensions, ommitting OPCache/APCu to reduce Docker build times
 RUN rm -f /etc/apache2/mods-enabled/deflate.conf /etc/apache2/mods-enabled/alias.conf && \
-    sed -i 's/ServerTokens OS/ServerTokens Prod/g' /etc/apache2/conf-available/security.conf && \
     a2dismod -f access_compat auth_basic authn_core authn_file authz_host authz_user autoindex negotiation reqtimeout setenvif status && \
     a2enmod rewrite headers brotli && \
-    sed 's/expose_php = On/expose_php = Off/g' /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini && \
+    cat /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
     chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions intl pdo_mysql
+    install-php-extensions gd intl pdo_mysql
 
 # Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
-#COPY .docker/php/production.ini /etc/php83/conf.d/production.ini
+#COPY .docker/php/performance.ini /etc/php83/conf.d/performance.ini
 
 # Copy project files
 COPY docroot ./docroot

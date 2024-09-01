@@ -174,7 +174,7 @@ function get_data_from_files(array $files, string $directoryPath, string $attrib
     $data = [];
     foreach ($files as $file) {
         if (preg_match('/data-(\d{6})\.json$/', $file, $matches) > 0) {
-            // TODO: Remove when https://github.com/phpstan/phpstan/issues/11293 is fixed.
+            // TODO: remove when https://github.com/phpstan/phpstan/issues/11293 is fixed.
             assert(isset($matches[1]));
             $year = substr($matches[1], 2, 2);
             $month = substr($matches[1], 4, 2);
@@ -198,7 +198,10 @@ function get_data_from_files(array $files, string $directoryPath, string $attrib
  */
 function curl_get_response_code(string $url, bool $nobody = true): int
 {
-    assert($url !== '');
+    if ($url === '') {
+        return 0;
+    }
+
     static $ch = null;
     if ($ch === null) {
         $ch = curl_init();

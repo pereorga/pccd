@@ -8,6 +8,7 @@
 *.jpg binary
 *.mp3 binary
 *.png binary
+*.ttf binary
 *.webp binary
 
 *.generated.* linguist-generated -diff

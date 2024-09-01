@@ -317,6 +317,10 @@ foreach ($images as $image) {
     }
 }
 
+if ($images_output === '') {
+    set_meta_image('https://pccd.dites.cat/og/' . name_to_path($paremiotipus_db) . '.png');
+}
+
 $blocks = '';
 if ($cv_output !== '') {
     $blocks = '<div id="commonvoice" class="bloc text-balance text-break" title="Reprodueix un enregistrament">';

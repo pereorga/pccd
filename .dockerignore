@@ -12,7 +12,6 @@ tools
 # Local dependencies and scripts
 node_modules
 scripts/SentenceSimilarityGroup
-scripts/image-convertor
 vendor
 # We use Composer to add git repositories as dev dependencies
 !vendor/noisebynorthwest/php-spx
@@ -26,6 +25,6 @@ tmp/*.tar
 tmp/github
 test-results
 
-# Last line may be added/removed by docker:images:* Yarn scripts. This is because the source image files are only needed
+# Last line may be added/removed by docker:images:* npm scripts. This is because the source image files are only needed
 # when executing some background tests, and keeping them in the image would impact Docker image size and performance.
 src/images

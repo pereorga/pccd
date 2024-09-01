@@ -42,29 +42,29 @@ build:
     - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
     - tools/composer.phar install
 
-.full_setup:
-  before_script:
-    - !reference [.setup, before_script]
-    - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    - brew bundle install --file=apt-missing.Brewfile
-
 .php_lint_template:
   stage: build
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y git unzip gpg
+    - apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y git unzip gpg wget
     - curl -L https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions > /usr/local/bin/install-php-extensions
     - chmod +x /usr/local/bin/install-php-extensions
-    - install-php-extensions intl pdo_mysql imagick
+    - install-php-extensions gd intl pdo_mysql
     - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
     - php tools/composer.phar install
     - php tools/composer.phar run parallel-lint
     - php tools/composer.phar run phpcs
+    - |
+      if [[ "${PHP_VERSION}" == "8.4-rc" ]]; then
+        export PHP_CS_FIXER_IGNORE_ENV=1
+      fi
     - php tools/composer.phar run php-cs-fixer-lint
     - php tools/composer.phar run phpstan
-    - php tools/composer.phar run psalm
     - php tools/composer.phar run rector-lint
+    - |
+      if [[ "${PHP_VERSION}" != "8.4-rc" ]]; then
+        php tools/composer.phar run psalm
+      fi
   allow_failure: true
 
 php_lint:
@@ -73,6 +73,7 @@ php_lint:
     matrix:
       - PHP_VERSION: "8.2"
       - PHP_VERSION: "8.3"
+      - PHP_VERSION: "8.4-rc"
   image: php:${PHP_VERSION}
   before_script:
     - echo "Running in PHP version ${PHP_VERSION}"
@@ -106,7 +107,7 @@ npm_lint:
     - if: '$CI_COMMIT_BRANCH == "master"'
 
 .check_code_template:
-  extends: .full_setup
+  extends: .setup
   stage: build
   script:
     - tools/composer.phar run parallel-lint

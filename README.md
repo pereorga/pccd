@@ -137,3 +137,4 @@ This repository includes:
 - [phive](https://phar.io/), a [BSD-licensed](tools/LICENSE.txt) tool for managing phar files.
 - [simple-datatables](https://github.com/fiduswriter/simple-datatables), an
   [LGPL-licensed](https://github.com/fiduswriter/simple-datatables/blob/main/LICENSE) JavaScript library to enhance HTML tables.
+- The [Roboto font](https://github.com/googlefonts/roboto), licensed under [Apache License Version 2.0](src/fonts/LICENSE).
