@@ -11,16 +11,87 @@ h2 {
     font-size: 1.125rem;
 }
 
+h2:first-of-type {
+    margin-top: 1rem;
+}
+
+#share svg {
+    width: 0.875rem;
+}
+
+.share-wrapper {
+    position: relative;
+    margin-left: auto;
+}
+
+.share-icons {
+    position: absolute;
+    font-size: 0.875rem;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+.share-icon {
+    display: flex;
+    padding-right: 7px;
+    color: #000;
+}
+
+.share-icon:hover {
+    text-decoration: none;
+}
+
+.share-icon[href]:hover {
+    color: #36c;
+}
+
+.share-icon.facebook:hover {
+    color: #0866ff;
+}
+
+.share-icon.twitter:hover {
+    color: #1da1f2;
+}
+
+.share-icon.whatsapp:hover {
+    color: #00d757;
+}
+
+.share-icon.telegram:hover {
+    color: #3290ec;
+}
+
+.share-image {
+    width: 2rem;
+    padding: 4px;
+    margin: 1px;
+}
+
+.share-title {
+    margin: auto;
+    margin-left: 0;
+}
+
+.close {
+    display: none;
+}
+
 .description {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .shortcuts {
-    margin-top: 0.5rem;
+    display: flex;
+}
+
+h1 + .shortcuts {
+    margin-top: -0.75rem;
 }
 
 .shortcuts button {
-    padding: 2px 8px;
+    display: block;
+    padding: 4px 8px;
     font-size: 0.875rem;
     line-height: 1;
     background-color: #eee;
@@ -28,10 +99,16 @@ h2 {
     border-radius: 0.25rem;
 }
 
-.shortcuts button:hover,
-.shortcuts button:focus,
-.shortcuts button:focus-visible {
-    outline: 1px solid #333;
+.shortcuts > * {
+    margin-bottom: 0.5rem;
+}
+
+.shortcuts button:hover {
+    outline: 1px solid #e3e3e3;
+}
+
+.shortcuts button:active {
+    outline: 1px solid #888;
 }
 
 .entry {
@@ -77,14 +154,43 @@ figcaption {
 a.audio {
     display: inline-block;
     padding: 0.5rem;
-    outline: 0;
     opacity: 0.6;
 }
 
-a.audio:hover,
-a.audio:focus {
+a.audio:hover {
     filter: brightness(75%);
     opacity: 1;
+}
+
+@media (max-width: 577px) {
+    .share-icons {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 20;
+        padding: 0.5rem;
+        border: 0;
+        border-top: 1px solid #dee2e6;
+        border-radius: 0;
+    }
+
+    .close {
+        display: block;
+        float: right;
+        width: 2rem;
+        margin-bottom: 1rem;
+        margin-left: 1rem;
+        cursor: pointer;
+    }
+
+    .share-icon {
+        padding: 0.25rem;
+    }
+
+    .share-image {
+        width: 2.5rem;
+    }
 }
 
 @media print {

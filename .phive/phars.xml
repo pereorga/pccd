@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="composer" version="^2.7.8" installed="2.7.8" location="./tools/composer.phar" copy="true"/>
+  <phar name="composer" version="^2.7.9" installed="2.7.9" location="./tools/composer.phar" copy="true"/>
   <phar name="composer-normalize" version="^2.43.0" installed="2.43.0" location="./tools/composer-normalize.phar" copy="true"/>
   <phar name="php-cs-fixer" version="^3.64.0" installed="3.64.0" location="./tools/php-cs-fixer.phar" copy="true"/>
   <phar name="php-parallel-lint/php-parallel-lint" version="^1.4.0" installed="1.4.0" location="./tools/parallel-lint.phar" copy="true"/>
   <phar name="phpcbf" version="^3.10.2" installed="3.10.2" location="./tools/phpcbf.phar" copy="true"/>
   <phar name="phpcs" version="^3.10.2" installed="3.10.2" location="./tools/phpcs.phar" copy="true"/>
-  <phar name="phpunit" version="^11.3.1" installed="11.3.1" location="./tools/phpunit.phar" copy="true"/>
-  <phar name="psalm" version="^5.25.0" installed="5.25.0" location="./tools/psalm.phar" copy="true"/>
+  <phar name="phpunit" version="^11.3.4" installed="11.3.4" location="./tools/phpunit.phar" copy="true"/>
+  <phar name="psalm" version="^5.26.1" installed="5.26.1" location="./tools/psalm.phar" copy="true"/>
 </phive>

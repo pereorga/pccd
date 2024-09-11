@@ -30,6 +30,40 @@
         });
     }
 
+    // Show share buttons.
+    const shareButton = document.querySelector("#share");
+    const shareIcons = document.querySelector(".share-icons");
+    shareButton.addEventListener("click", (event) => {
+        shareIcons.toggleAttribute("hidden");
+        event.stopPropagation();
+    });
+    document.addEventListener("click", () => {
+        shareIcons.setAttribute("hidden", true);
+    });
+
+    document.querySelector(".share-icon.copy").addEventListener("click", function handleClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const shareIcon = event.currentTarget;
+        const shareTitle = shareIcon.querySelector(".share-title");
+        const shareImage = shareIcon.querySelector(".share-image");
+
+        const successSVG =
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z"/></svg>';
+
+        navigator.clipboard
+            .writeText(window.location.href)
+            .then(() => {
+                shareTitle.textContent = "Copiat";
+                shareImage.innerHTML = successSVG;
+                shareIcon.removeAttribute("href");
+                shareIcon.removeEventListener("click", handleClick);
+            })
+            .catch(() => {
+                shareTitle.textContent = "Error";
+            });
+    });
+
     // Play Common Voice files on click.
     for (const audio of document.querySelectorAll(".audio")) {
         audio.addEventListener("click", (event) => {

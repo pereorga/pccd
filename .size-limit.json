@@ -11,7 +11,7 @@
   },
   {
     "path": "docroot/css/pages/paremiotipus.min.css",
-    "limit": "0.5 kB",
+    "limit": "1 kB",
     "brotli": true
   },
   {
@@ -31,7 +31,7 @@
   },
   {
     "path": "docroot/js/pages/paremiotipus.min.js",
-    "limit": "0.5 kB",
+    "limit": "1 kB",
     "brotli": true
   }
 ]

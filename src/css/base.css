@@ -18,6 +18,11 @@
     background-color: #3191ff;
 }
 
+/* Show only outline when needed for accessibilty */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
 /* Remove annoying scrolling effect on iOS. See https://stackoverflow.com/a/47818418/1391963 and
     https://stackoverflow.com/a/76012628/1391963 */
 @supports (-webkit-touch-callout: none) {
@@ -112,6 +117,12 @@ input {
 button {
     touch-action: manipulation;
     cursor: pointer;
+}
+
+input,
+button,
+select {
+    font-family: inherit;
 }
 
 button::-moz-focus-inner {

@@ -22,6 +22,7 @@ aside .bloc.bloc-credits {
 
 table {
     font-size: 0.875rem;
+    border-spacing: 0;
 }
 
 .datatable-input {
@@ -46,9 +47,9 @@ thead tr:first-child {
     display: none;
 }
 
+h1 + table,
 .datatable-wrapper {
-    margin-right: -9px;
-    margin-left: -9px;
+    margin: 0 -8px;
 }
 
 .datatable-wrapper.no-footer .datatable-container {
@@ -70,12 +71,13 @@ input[type="search"] {
 }
 
 input[type="search"]:focus {
-    outline: #cbd5e7 solid 1px;
+    outline: 1px solid #cbd5e7;
 }
 
 table td,
 table th {
     display: none;
+    padding: 8px 10px;
 }
 
 /* Show only the title column on the smallest devices */

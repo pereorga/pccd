@@ -32,7 +32,7 @@ if (isset($_SESSION['auth'])) {
         exit;
     }
 
-    if (isset($_GET['apc']) || isset($_GET['SCOPE'])) {
+    if (isset($_GET['apc']) || isset($_GET['SCOPE']) || isset($_GET['IMG'])) {
         require __DIR__ . '/../../src/third_party/apc.php';
 
         exit;

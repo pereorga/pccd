@@ -192,8 +192,10 @@ update_npm() {
     jq '.dependencies | keys | .[]' package.json | xargs npm install --save --ignore-scripts
 
     # Get all outdated packages
+    set +e
     local outdated
     outdated=$(npm outdated --json)
+    set -e
 
     # Loop through each outdated package
     for package in $(echo "${outdated}" | jq -r 'keys[]'); do

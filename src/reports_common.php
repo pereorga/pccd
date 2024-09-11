@@ -205,6 +205,7 @@ function curl_get_response_code(string $url, bool $nobody = true): int
     static $ch = null;
     if ($ch === null) {
         $ch = curl_init();
+        assert($ch !== false);
         curl_setopt($ch, \CURLOPT_HEADER, true);
         curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, \CURLOPT_CONNECTTIMEOUT, 3);
