@@ -1,7 +1,7 @@
 {
   "name": "dites.cat/pccd",
   "description": "Paremiologia catalana comparada digital",
-  "license": "AGPL-3.0-only",
+  "license": "AGPL-3.0-or-later",
   "type": "project",
   "keywords": [
     "catalan",
@@ -47,7 +47,7 @@
     "slevomat/coding-standard": "^8.15"
   },
   "suggest": {
-    "ext-apcu": "Optional: used for caching SQL queries. Strongly encouraged in the web server",
+    "ext-apcu": "Optional: used for caching SQL queries, and for the search stats. Strongly encouraged in the web server",
     "ext-curl": "Dev: used for some offline reports generated after install",
     "ext-gd": "Required in the web server for generating OG images, and optionally by apc.php in admin pages",
     "ext-intl": "Dev: used in a few offline reports",
@@ -56,7 +56,7 @@
     "ext-zend-opcache": "Optional: encouraged in the web server",
     "guzzlehttp/guzzle": "Dev, optional: used by the (currently unused) sentence-tagger-openai script",
     "noisebynorthwest/php-spx": "Dev, optional: may be used for profiling",
-    "pereorga/pccd-lt-filter": "Dev: used by common-voice-export script"
+    "pereorga/pccd-lt-filter": "Dev: used by the LanguageTool offline report and the old common-voice-export script"
   },
   "repositories": [
     {
@@ -96,8 +96,8 @@
     "composer-normalize": "tools/composer-normalize.phar --no-interaction --ansi",
     "composer-normalize-lint": "tools/composer-normalize.phar --dry-run --no-interaction --ansi",
     "parallel-lint": "tools/parallel-lint.phar --no-progress --no-colors --exclude vendor --exclude node_modules --exclude tmp .",
-    "php-cs-fixer": "tools/php-cs-fixer.phar fix --diff --no-interaction --ansi",
-    "php-cs-fixer-lint": "tools/php-cs-fixer.phar fix --dry-run --stop-on-violation --no-interaction --ansi",
+    "php-cs-fixer": "tools/php-cs-fixer.phar fix --diff --no-interaction --ansi --show-progress=none",
+    "php-cs-fixer-lint": "tools/php-cs-fixer.phar fix --dry-run --stop-on-violation --no-interaction --ansi --show-progress=none",
     "phpcbf": "tools/phpcbf.phar  --standard=phpcs.xml .",
     "phpcs": "tools/phpcs.phar --standard=phpcs.xml .",
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=256M --no-progress",

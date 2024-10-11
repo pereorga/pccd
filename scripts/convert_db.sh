@@ -61,16 +61,6 @@ mdb-schema --no-indexes --no-relations -T 00_EQUIVALENTS ../"${DATABASE_FILE}" m
 # Add additional columns.
 echo "ALTER TABLE 00_PAREMIOTIPUS ADD COLUMN ACCEPCIO varchar (2);" >> ../install/db/db.sql
 
-# Set an accent sensitive, case-insensitive collation.
-# Unnecessary when we can set collation-server = utf8mb4_uca1400_ai_ci on MariaDB settings.
-# See https://mariadb.org/post-mortem-php-and-mariadb-docker-issue/
-echo "ALTER TABLE 00_PAREMIOTIPUS CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_FONTS CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_IMATGES CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_EDITORIA CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_OBRESVPR CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
-echo "ALTER TABLE 00_EQUIVALENTS CONVERT TO CHARACTER SET utf8mb4 COLLATE uca1400_ai_ci;" >> ../install/db/db.sql
-
 # Dump data.
 mdb-export -I mysql ../"${DATABASE_FILE}" "00_PAREMIOTIPUS" >> ../install/db/db.sql
 mdb-export -I mysql ../"${DATABASE_FILE}" "00_FONTS" >> ../install/db/db.sql
@@ -112,10 +102,10 @@ echo "ALTER TABLE 00_EDITORIA ADD INDEX (CODI);" >> ../install/db/db.sql
 
 # Create additional custom tables.
 # Used for displaying top 10000 paremiotipus.
-echo "CREATE TABLE common_paremiotipus(Paremiotipus varchar (255), Compt int, INDEX (Compt)) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;" >> ../install/db/db.sql
+echo "CREATE TABLE common_paremiotipus(Paremiotipus varchar (255), Compt int, INDEX (Compt));" >> ../install/db/db.sql
 # This is used because the PAREMIOTIPUS column is preprocessed to optimize sorting, and we still want to display the
 # original value. It is also used to perform a faster count in get_n_paremiotipus() PHP function.
-echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, Display varchar (255)) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;" >> ../install/db/db.sql
+echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, Display varchar (255));" >> ../install/db/db.sql
 
 # Normalize UTF-8 combined characters.
 uconv -x nfkc ../install/db/db.sql > ../tmp/db_temp1.sql

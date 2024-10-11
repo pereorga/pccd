@@ -1,0 +1,26 @@
+ls:
+  .css: kebab-case | point.case
+  .js: kebab-case | point.case
+  .json: kebab-case
+  .php: snake_case | point.case
+  .sh: snake_case
+  .sql: snake_case
+  .svg: kebab-case
+  .txt: snake_case
+  .xml: kebab-case
+  .yml: kebab-case
+  tests:
+    .php: PascalCase
+
+ignore:
+  - "*.Brewfile.lock.json"
+  - "*.override.yml"
+  - "*.sample.yml"
+  - .*
+  - node_modules
+  - src/db_settings.local.sample.php
+  - src/third_party
+  - test-results
+  - tmp
+  - tools
+  - vendor

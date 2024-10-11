@@ -26,8 +26,7 @@ foreach ($parem as $p) {
     $parem_sin_array[$p][] = $p;
 
     $sin_stmt = $pdo->prepare('SELECT `SINONIM` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` = :paremiotipus AND `SINONIM` IS NOT NULL');
-    $sin_stmt->bindParam(':paremiotipus', $p, PDO::PARAM_STR);
-    $sin_stmt->execute();
+    $sin_stmt->execute([':paremiotipus' => $p]);
     $sinonims = $sin_stmt->fetchAll(PDO::FETCH_COLUMN);
 
     foreach ($sinonims as $sinonim) {
@@ -35,15 +34,13 @@ foreach ($parem as $p) {
             $sinonims_array = get_sinonims($sinonim);
             foreach ($sinonims_array as $s) {
                 // Try get a paremiotipus for that sinònim.
-                $parem_stmt->bindParam(':paremiotipus', $s, PDO::PARAM_STR);
-                $parem_stmt->execute();
-                $sp = $parem_stmt->fetch(PDO::FETCH_COLUMN);
+                $parem_stmt->execute([':paremiotipus' => $s]);
+                $sp = $parem_stmt->fetchColumn();
 
                 // Try to get the paremiotipus from the modisme.
                 if ($sp === false) {
-                    $modisme_stmt->bindParam(':modisme', $s, PDO::PARAM_STR);
-                    $modisme_stmt->execute();
-                    $sp = $modisme_stmt->fetch(PDO::FETCH_COLUMN);
+                    $modisme_stmt->execute([':modisme' => $s]);
+                    $sp = $modisme_stmt->fetchColumn();
                 }
 
                 if ($sp !== false) {

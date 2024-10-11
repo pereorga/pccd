@@ -5,7 +5,7 @@
 ### Prerequisites: Linux (Debian-based)
 
 ```bash
-xargs sudo apt-get install -y < apt-packages.txt
+xargs sudo apt-get install -y < apt_packages.txt
 ```
 
 You may want to set up Docker to be used with a non-root user.
@@ -19,7 +19,7 @@ npm ci
 Optionally, some additional packages can be installed using [Homebrew](https://brew.sh/):
 
 ```bash
-brew bundle install --file=apt-missing.Brewfile
+brew bundle install --file=apt_missing.Brewfile
 ```
 
 ### Prerequisites: macOS (Homebrew)
@@ -44,7 +44,7 @@ Imatges.zip, Obres-VPR.zip) are provided. Put them in the root directory alongsi
 (database.accdb) before running the following (skip the first 2 commands if images have not been provided):
 
 ```bash
-npm run decompress:images && npm run optimize:images && npm run convert:db && npm run build:docker
+npm run decompress:images && npm run optimize:images && npm run convert:db && npm run docker:build
 ```
 
 **Part 2**: Install (in a separate shell, after the database has been initialized in **Part 1**)

@@ -8,6 +8,14 @@
  */
 
 (() => {
+    // Hack: disable resize listener for performance reasons.
+    const originalAddEventListener = window.addEventListener;
+    window.addEventListener = function (event, listener, options) {
+        if (event !== "resize") {
+            originalAddEventListener.call(this, event, listener, options);
+        }
+    };
+
     // eslint-disable-next-line no-new, no-undef
     new simpleDatatables.DataTable("#fonts", {
         locale: "ca",

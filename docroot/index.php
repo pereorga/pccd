@@ -19,9 +19,6 @@ if (str_contains(get_request_uri(), 'index.php')) {
     exit;
 }
 
-// If the connection to the database fails, fail fast.
-check_db_or_exit();
-
 // Cache pages for 15 minutes in the browser.
 header('Cache-Control: public, max-age=900');
 

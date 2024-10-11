@@ -90,7 +90,7 @@ CREATE TABLE `00_FONTS` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `Identificador` (`Identificador`)
-) ENGINE=InnoDB AUTO_INCREMENT=674 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `00_IMATGES` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `PAREMIOTIPUS` (`PAREMIOTIPUS`)
-) ENGINE=InnoDB AUTO_INCREMENT=5407 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5460 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +204,7 @@ CREATE TABLE `00_PAREMIOTIPUS` (
   FULLTEXT KEY `PAREMIOTIPUS_7` (`PAREMIOTIPUS`,`MODISME`,`EQUIVALENT`),
   FULLTEXT KEY `PAREMIOTIPUS_8` (`PAREMIOTIPUS`,`SINONIM`,`EQUIVALENT`),
   FULLTEXT KEY `PAREMIOTIPUS_9` (`PAREMIOTIPUS`,`MODISME`,`SINONIM`,`EQUIVALENT`)
-) ENGINE=InnoDB AUTO_INCREMENT=900282 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=912503 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +258,7 @@ DROP TABLE IF EXISTS `pccd_is_installed`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pccd_is_installed` (
   `id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

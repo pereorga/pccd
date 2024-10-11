@@ -30,5 +30,6 @@
 /scripts/sinonims-export/*.txt export-ignore
 /src/images export-ignore
 /src/third_party export-ignore
+/src/reports/*.txt export-ignore
 /tmp/test* export-ignore
 /vendor export-ignore

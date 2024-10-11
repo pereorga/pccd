@@ -19,8 +19,8 @@ function test_majuscules(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (mb_ucfirst($m) !== $m && mb_ucfirst(get_paremiotipus_display($m, escape_html: false)) !== get_paremiotipus_display($m, escape_html: false)) {
-            echo get_paremiotipus_display($m, escape_html: false) . "\n";
+        if (mb_ucfirst($m) !== $m) {
+            echo get_paremiotipus_display($m) . "\n";
         }
     }
     echo '</pre>';

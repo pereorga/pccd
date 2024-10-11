@@ -82,7 +82,7 @@ function stats_paremiotipus(): void
 
     echo '<article>';
     echo '<h3>Paremiotipus / LanguageTool</h3>';
-    $text = file_get_contents(__DIR__ . '/../../scripts/common-voice-export/excluded.txt');
+    $text = file_get_contents(__DIR__ . '/../../scripts/languagetool-checker/excluded.txt');
     if ($text !== false) {
         $total = substr_count($text, "\n");
         $data = [

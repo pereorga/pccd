@@ -74,7 +74,7 @@ $sql = 'DROP TABLE IF EXISTS `commonvoice`;
             `paremiotipus` varchar(300) NOT NULL,
             `file` varchar(200) NOT NULL,
             PRIMARY KEY (`paremiotipus`, `file`)
-        ) DEFAULT CHARSET=utf8mb4 COLLATE=uca1400_ai_ci;' . "\n";
+        );' . "\n";
 $sql .= 'INSERT IGNORE INTO `commonvoice`(`paremiotipus`, `file`) VALUES ' . "\n";
 
 foreach ($sentences_array as $paremiotipus => $pronunciations) {

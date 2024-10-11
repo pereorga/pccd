@@ -21,7 +21,7 @@ final class DockerVersionTest extends TestCase
         $dockerFileDev = file_get_contents(__DIR__ . '/../../.docker/debian.dev.Dockerfile');
         $dockerFileProd = file_get_contents(__DIR__ . '/../../.docker/web-debian.prod.Dockerfile');
 
-        $dockerVersionDev = $this->getDockerPhpVersion($dockerFileDev);
+        $dockerVersionDev = $this->getDockerPhpTagVersion($dockerFileDev);
         $dockerVersionProd = $this->getDockerPhpVersion($dockerFileProd);
 
         self::assertSame($dockerVersionDev, $dockerVersionProd, 'Debian dev and prod Docker files should use the same PHP version');
@@ -30,22 +30,19 @@ final class DockerVersionTest extends TestCase
     public function testDockerMysqlVersionMatch(): void
     {
         $dockerComposeFile = file_get_contents(__DIR__ . '/../../docker-compose.yml');
-        $dockerComposeAlpineFile = file_get_contents(__DIR__ . '/../../docker-compose-alpine.yml');
         $dockerFile = file_get_contents(__DIR__ . '/../../.docker/sql.prod.Dockerfile');
 
         $dockerVersionDev = $this->getDockerComposeMysqlVersion($dockerComposeFile);
-        $dockerVersionAlpineDev = $this->getDockerComposeMysqlVersion($dockerComposeAlpineFile);
         $dockerVersionProd = $this->getDockerMysqlVersion($dockerFile);
 
         self::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MariaDB version');
-        self::assertSame($dockerVersionDev, $dockerVersionAlpineDev, 'docker-compose.yml and docker-compose-alpine.yml should use the same MariaDB version');
     }
 
     public function testAlpineDockerPhpVersionMatch(): void
     {
         $alpineFileDev = file_get_contents(__DIR__ . '/../../.docker/alpine.dev.Dockerfile');
         $alpineFileProd = file_get_contents(__DIR__ . '/../../.docker/web-alpine.prod.Dockerfile');
-        $debianFile = file_get_contents(__DIR__ . '/../../.docker/debian.dev.Dockerfile');
+        $debianFile = file_get_contents(__DIR__ . '/../../.docker/web-debian.prod.Dockerfile');
 
         $alpineVersionDev = $this->getAlpineDockerPhpVersion($alpineFileDev);
         $alpineVersionProd = $this->getAlpineDockerPhpVersion($alpineFileProd);
@@ -61,6 +58,20 @@ final class DockerVersionTest extends TestCase
 
         // Convert '83' to '8.3' for example.
         return substr($matches[1], 0, 1) . '.' . substr($matches[1], 1);
+    }
+
+    protected function getDockerPhpTagVersion(string $dockerFile, bool $patch = true): string
+    {
+        if ($patch) {
+            preg_match('/^ARG PHP_IMAGE_TAG=([0-9.]+(-rc|beta\d+)?)-apache/', $dockerFile, $matches);
+
+            return $matches[1];
+        }
+
+        preg_match('/^ARG PHP_IMAGE_TAG=(\d+)\.(\d+)(\.\d+)?(-rc|beta\d+)?-apache/', $dockerFile, $matches);
+
+        // Concatenate major and minor version parts.
+        return $matches[1] . '.' . $matches[2];
     }
 
     protected function getDockerPhpVersion(string $dockerFile, bool $patch = true): string

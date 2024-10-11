@@ -19,7 +19,24 @@ usage() {
     echo ""
     echo "Optional arguments:"
     echo "  OPTIONS               The options to pass to docker-compose build command"
+    echo "  --alpine              Use Alpine image"
+    echo "  --alpine-edge         Use Alpine image (edge)"
 }
+
+for arg in "$@"; do
+    if [[ "${arg}" == "--alpine" ]]; then
+        DOCKERFILE_PATH=".docker/alpine.dev.Dockerfile"
+        export DOCKERFILE_PATH
+        shift
+        break
+    fi
+    if [[ "${arg}" == "--alpine-edge" ]]; then
+        DOCKERFILE_PATH=".docker/alpine.edge.Dockerfile"
+        export DOCKERFILE_PATH
+        shift
+        break
+    fi
+done
 
 (cd "$(dirname "$0")/.." &&
     docker-compose down --volumes &&

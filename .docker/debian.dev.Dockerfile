@@ -1,4 +1,6 @@
-FROM php:8.3.11-apache-bookworm
+ARG PHP_IMAGE_TAG=8.3.12-apache-bookworm
+
+FROM php:${PHP_IMAGE_TAG}
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Debian-based image with Apache and mod_php. Used for development."
 
@@ -16,12 +18,10 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN apt-get update && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Remove some Apache default settings provided by Debian
-# Disable unnecessary Apache modules
 # Enable Apache modules
 # Use PHP default development settings
-# Install PHP extensions, ommitting OPCache/APCu to reduce Docker build times
+# Install PHP extensions, ommitting OPcache/APCu to reduce Docker build times
 RUN rm -f /etc/apache2/mods-enabled/deflate.conf /etc/apache2/mods-enabled/alias.conf && \
-    a2dismod -f access_compat auth_basic authn_core authn_file authz_host authz_user autoindex negotiation reqtimeout setenvif status && \
     a2enmod rewrite headers brotli && \
     cat /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
     chmod +x /usr/local/bin/install-php-extensions && \

@@ -3,7 +3,7 @@ includes:
   - vendor/phpstan/phpstan-deprecation-rules/rules.neon
   - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
-  level: max
+  level: 9
   checkBenevolentUnionTypes: true
   reportAlwaysTrueInLastCondition: true
   reportAnyTypeWideningInVarTag: true
@@ -20,4 +20,4 @@ parameters:
     - */vendor/*
     - src/xhprof.php
   ignoreErrors:
-    - '#on PDOStatement\|false.#'
+    - '#Cannot call method (execute|fetch|fetchAll|fetchColumn)\(\) on PDOStatement\|false#'

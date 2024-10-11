@@ -183,13 +183,24 @@ function get_db(): PDO
     assert(is_string($user));
     assert(is_string($password));
 
-    $pdo = new PDO("mysql:host={$host};dbname={$db_name};charset=utf8mb4", $user, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_PERSISTENT => false,
-        PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
-    ]);
+    try {
+        $pdo = new PDO("mysql:host={$host};dbname={$db_name};charset=utf8mb4", $user, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_PERSISTENT => false,
+            PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
+        ]);
 
-    return $pdo;
+        return $pdo;
+    } catch (Exception) {
+        ob_end_clean();
+
+        header('HTTP/1.1 500 Internal Server Error', response_code: 500);
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+
+        require __DIR__ . '/../docroot/500.html';
+
+        exit;
+    }
 }
 
 /**
@@ -613,11 +624,10 @@ function get_page_meta_tags(string $page_name): string
  */
 function get_paremiotipus_display(string $paremiotipus, bool $escape_html = true, bool $use_fallback_string = true): string
 {
-    $value = function_exists('apcu_fetch') ? apcu_fetch($paremiotipus) : false;
+    $value = extension_loaded('apcu') ? apcu_fetch($paremiotipus) : false;
     if ($value === false) {
         $stmt = get_db()->prepare('SELECT `Display` FROM `paremiotipus_display` WHERE `Paremiotipus` = :paremiotipus');
-        $stmt->bindParam(':paremiotipus', $paremiotipus);
-        $stmt->execute();
+        $stmt->execute([':paremiotipus' => $paremiotipus]);
         $value = $stmt->fetchColumn();
         if ($value === false) {
             error_log("Error: '{$paremiotipus}' not found in paremiotipus_display table");
@@ -632,7 +642,7 @@ function get_paremiotipus_display(string $paremiotipus, bool $escape_html = true
 
             return '';
         }
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store($paremiotipus, $value);
         }
     }
@@ -649,9 +659,15 @@ function get_paremiotipus_display(string $paremiotipus, bool $escape_html = true
 /**
  * Returns the path for a paremiotipus/obra title.
  */
-function name_to_path(string $name): string
+function name_to_path(string $name, bool $encode = true): string
 {
-    return rawurlencode(str_replace([' ', '/'], ['_', '\\'], $name));
+    $path = str_replace([' ', '/'], ['_', '\\'], $name);
+
+    if ($encode) {
+        $path = rawurlencode($path);
+    }
+
+    return $path;
 }
 
 /**
@@ -668,8 +684,7 @@ function path_to_name(string $path): string
 function get_paremiotipus_by_modisme(string $modisme): string
 {
     $stmt = get_db()->prepare('SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `MODISME` = :modisme LIMIT 1');
-    $stmt->bindParam(':modisme', $modisme);
-    $stmt->execute();
+    $stmt->execute([':modisme' => $modisme]);
 
     $paremiotipus = $stmt->fetchColumn();
     $paremiotipus = $paremiotipus !== false ? $paremiotipus : '';
@@ -708,22 +723,6 @@ function return_404_and_exit(string $paremiotipus = ''): never
     }
 
     exit;
-}
-
-/**
- * Returns an HTTP 500 page and exits if the database connection fails.
- */
-function check_db_or_exit(): void
-{
-    try {
-        get_db();
-    } catch (Exception) {
-        header('HTTP/1.1 500 Internal Server Error', response_code: 500);
-
-        require __DIR__ . '/../docroot/500.html';
-
-        exit;
-    }
 }
 
 /**
@@ -787,10 +786,9 @@ function get_paremiotipus_best_match(string $modisme): string
 }
 
 /**
- * Gets an array of modisme arrays keyed by the modisme title.
+ * Gets an array of unique variant arrays, keyed by MODISME.
  *
- * @return list<array{
- *     MODISME: string,
+ * @return array<string, non-empty-list<array{
  *     PAREMIOTIPUS: string,
  *     AUTOR: ?string,
  *     AUTORIA: ?string,
@@ -809,12 +807,12 @@ function get_paremiotipus_best_match(string $modisme): string
  *     FONT: ?string,
  *     ACCEPCIO: ?string,
  *     ID_FONT: ?string,
- * }>
+ * }>>
  */
-function get_modismes(string $paremiotipus): array
+function get_modismes_by_variant(string $paremiotipus): array
 {
-    $stmt = get_db()->prepare('SELECT
-        DISTINCT `MODISME`,
+    $stmt = get_db()->prepare('SELECT DISTINCT
+        `MODISME`,
         `PAREMIOTIPUS`,
         `AUTOR`,
         `AUTORIA`,
@@ -851,12 +849,10 @@ function get_modismes(string $paremiotipus): array
         `EQUIVALENT`,
         `IDIOMA`,
         `LLOC`');
-    $stmt->bindParam(':paremiotipus', $paremiotipus);
-    $stmt->execute();
+    $stmt->execute([':paremiotipus' => $paremiotipus]);
 
     /**
-     * @var list<array{
-     *     MODISME: string,
+     * @var array<string, non-empty-list<array{
      *     PAREMIOTIPUS: string,
      *     AUTOR: ?string,
      *     AUTORIA: ?string,
@@ -875,69 +871,9 @@ function get_modismes(string $paremiotipus): array
      *     FONT: ?string,
      *     ACCEPCIO: ?string,
      *     ID_FONT: ?string,
-     * }>
+     * }>>
      */
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-/**
- * Groups modismes by variant.
- *
- * @param list<array{
- *     MODISME: string,
- *     PAREMIOTIPUS: string,
- *     AUTOR: ?string,
- *     AUTORIA: ?string,
- *     DIARI: ?string,
- *     ARTICLE: ?string,
- *     EDITORIAL: ?string,
- *     ANY: ?float,
- *     PAGINA: ?string,
- *     LLOC: ?string,
- *     EXPLICACIO: ?string,
- *     EXPLICACIO2: ?string,
- *     EXEMPLES: ?string,
- *     SINONIM: ?string,
- *     EQUIVALENT: ?string,
- *     IDIOMA: ?string,
- *     FONT: ?string,
- *     ACCEPCIO: ?string,
- *     ID_FONT: ?string,
- * }> $modismes
- *
- * @return array<string, non-empty-list<array{
- *     MODISME: string,
- *     PAREMIOTIPUS: string,
- *     AUTOR: ?string,
- *     AUTORIA: ?string,
- *     DIARI: ?string,
- *     ARTICLE: ?string,
- *     EDITORIAL: ?string,
- *     ANY: ?float,
- *     PAGINA: ?string,
- *     LLOC: ?string,
- *     EXPLICACIO: ?string,
- *     EXPLICACIO2: ?string,
- *     EXEMPLES: ?string,
- *     SINONIM: ?string,
- *     EQUIVALENT: ?string,
- *     IDIOMA: ?string,
- *     FONT: ?string,
- *     ACCEPCIO: ?string,
- *     ID_FONT: ?string,
- * }>>
- */
-function group_modismes_by_variant(array $modismes): array
-{
-    $variants = [];
-    foreach ($modismes as $modisme) {
-        if (!isset($variants[$modisme['MODISME']])) {
-            $variants[$modisme['MODISME']] = [];
-        }
-        $variants[$modisme['MODISME']][] = $modisme;
-    }
-
-    return $variants;
+    return $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
 }
 
 /**
@@ -972,8 +908,7 @@ function get_images(string $paremiotipus): array
         `PAREMIOTIPUS` = :paremiotipus
     ORDER BY
         `Comptador` DESC');
-    $stmt->bindParam(':paremiotipus', $paremiotipus);
-    $stmt->execute();
+    $stmt->execute([':paremiotipus' => $paremiotipus]);
 
     /**
      * @var list<array{
@@ -999,8 +934,7 @@ function get_images(string $paremiotipus): array
 function get_cv_files(string $paremiotipus): array
 {
     $stmt = get_db()->prepare('SELECT `file` FROM `commonvoice` WHERE `paremiotipus` = :paremiotipus');
-    $stmt->bindParam(':paremiotipus', $paremiotipus);
-    $stmt->execute();
+    $stmt->execute([':paremiotipus' => $paremiotipus]);
 
     /** @var list<string> */
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -1065,8 +999,7 @@ function get_obra(string $obra_title): array|false
         `00_FONTS`
     WHERE
         `Identificador` = :id');
-    $stmt->bindParam(':id', $obra_title);
-    $stmt->execute();
+    $stmt->execute([':id' => $obra_title]);
 
     /**
      * @var false|array{
@@ -1104,8 +1037,7 @@ function get_obra(string $obra_title): array|false
 function get_paremiotipus_count_by_font(string $font_id): int
 {
     $stmt = get_db()->prepare('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `ID_FONT` = :id');
-    $stmt->bindParam(':id', $font_id);
-    $stmt->execute();
+    $stmt->execute([':id' => $font_id]);
 
     $total = $stmt->fetchColumn();
     assert(is_int($total));
@@ -1116,16 +1048,18 @@ function get_paremiotipus_count_by_font(string $font_id): int
 /**
  * Returns a canonical URL for the paremiotipus.
  */
-function get_paremiotipus_url(string $paremiotipus, bool $absolute = false): string
+function get_paremiotipus_url(string $paremiotipus, bool $absolute = false, bool $encode_full_url = false): string
 {
-    $url = '';
+    $base_url = '';
     if ($absolute) {
-        $url = 'https://pccd.dites.cat';
+        $base_url = 'https://pccd.dites.cat';
     }
 
-    $url .= '/p/' . name_to_path($paremiotipus);
+    if ($encode_full_url) {
+        return rawurlencode($base_url . '/p/' . name_to_path($paremiotipus, encode: false));
+    }
 
-    return $url;
+    return $base_url . '/p/' . name_to_path($paremiotipus);
 }
 
 /**
@@ -1312,11 +1246,11 @@ function render_pager(int $page_num, int $num_pages): string
 }
 
 /**
- * Returns whether the provided number needs an apostrophe.
+ * Returns whether the provided number needs an apostrophe in Catalan.
  */
 function number_needs_apostrophe(int $num): bool
 {
-    // We do not have records bigger or equal than 11.000.000, so this should be fine.
+    // We do not have records bigger or equal than 11M, so this should be fine.
     return $num === 1 || $num === 11 || ($num >= 11000 && $num < 12000);
 }
 
@@ -1343,11 +1277,11 @@ function build_search_summary(int $offset, int $results_per_page, int $total, st
 }
 
 /**
- * Formats number in Catalan.
+ * Formats an integer in Catalan.
  */
 function format_nombre(float|int|string $num): string
 {
-    return number_format((float) $num, 0, ',', '.');
+    return number_format(num: (float) $num, thousands_separator: '.');
 }
 
 /**
@@ -1359,11 +1293,11 @@ function format_nombre(float|int|string $num): string
  */
 function get_idiomes(): array
 {
-    $idiomes = function_exists('apcu_fetch') ? apcu_fetch('equivalents') : false;
+    $idiomes = extension_loaded('apcu') ? apcu_fetch('equivalents') : false;
     if ($idiomes === false) {
         $stmt = get_db()->query('SELECT `CODI`, `IDIOMA` FROM `00_EQUIVALENTS`');
         $idiomes = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('equivalents', $idiomes);
         }
     }
@@ -1505,13 +1439,13 @@ function get_n_results(string $where_clause, array $arguments): int
 {
     // Cache the count query if APCu is available.
     $cache_key = $where_clause . ' ' . implode('|', $arguments);
-    $total = function_exists('apcu_fetch') ? apcu_fetch($cache_key) : false;
+    $total = extension_loaded('apcu') ? apcu_fetch($cache_key) : false;
     if ($total === false) {
         try {
             $stmt = get_db()->prepare("SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS` {$where_clause}");
             $stmt->execute($arguments);
             $total = $stmt->fetchColumn();
-            if (function_exists('apcu_store')) {
+            if (extension_loaded('apcu')) {
                 apcu_store($cache_key, $total);
             }
         } catch (Exception) {
@@ -1533,8 +1467,8 @@ function get_n_results(string $where_clause, array $arguments): int
  */
 function get_paremiotipus_search_results(string $where_clause, array $arguments, int $limit, int $offset): array
 {
-    $stmt = get_db()->prepare("SELECT
-            DISTINCT `PAREMIOTIPUS`
+    $stmt = get_db()->prepare("SELECT DISTINCT
+            `PAREMIOTIPUS`
         FROM
             `00_PAREMIOTIPUS`
         {$where_clause}
@@ -1631,11 +1565,11 @@ function normalize_search(?string $string, string $search_mode = ''): string
  */
 function get_editorials(): array
 {
-    $editorials = function_exists('apcu_fetch') ? apcu_fetch('editorials') : false;
+    $editorials = extension_loaded('apcu') ? apcu_fetch('editorials') : false;
     if ($editorials === false) {
         $stmt = get_db()->query('SELECT `CODI`, `NOM` FROM `00_EDITORIA`');
         $editorials = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('editorials', $editorials);
         }
     }
@@ -1651,13 +1585,13 @@ function get_editorials(): array
  */
 function get_fonts(): array
 {
-    $fonts = function_exists('apcu_fetch') ? apcu_fetch('fonts') : false;
+    $fonts = extension_loaded('apcu') ? apcu_fetch('fonts') : false;
     if ($fonts === false) {
         // We are only using the first column for now (not the title). We could extend this to include the full table
         // and reuse it in the "obra" page, but that may not be worth it.
         $stmt = get_db()->query('SELECT `Identificador`, `Títol` FROM `00_FONTS`');
         $fonts = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('fonts', $fonts);
         }
     }
@@ -1768,11 +1702,11 @@ function preload_image_header(string $url, string $media = '', string $type = ''
  */
 function get_n_modismes(): int
 {
-    $n_modismes = function_exists('apcu_fetch') ? apcu_fetch('n_modismes') : false;
+    $n_modismes = extension_loaded('apcu') ? apcu_fetch('n_modismes') : false;
     if ($n_modismes === false) {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS`');
         $n_modismes = $stmt->fetchColumn();
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('n_modismes', $n_modismes);
         }
     }
@@ -1787,11 +1721,11 @@ function get_n_modismes(): int
  */
 function get_n_paremiotipus(): int
 {
-    $n_paremiotipus = function_exists('apcu_fetch') ? apcu_fetch('n_paremiotipus') : false;
+    $n_paremiotipus = extension_loaded('apcu') ? apcu_fetch('n_paremiotipus') : false;
     if ($n_paremiotipus === false) {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `paremiotipus_display`');
         $n_paremiotipus = $stmt->fetchColumn();
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('n_paremiotipus', $n_paremiotipus);
         }
     }
@@ -1806,11 +1740,11 @@ function get_n_paremiotipus(): int
  */
 function get_n_informants(): int
 {
-    $n_fonts = function_exists('apcu_fetch') ? apcu_fetch('n_informants') : false;
+    $n_fonts = extension_loaded('apcu') ? apcu_fetch('n_informants') : false;
     if ($n_fonts === false) {
         $stmt = get_db()->query('SELECT COUNT(DISTINCT `AUTOR`) FROM `00_PAREMIOTIPUS`');
         $n_fonts = $stmt->fetchColumn();
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('n_informants', $n_fonts);
         }
     }
@@ -1825,11 +1759,11 @@ function get_n_informants(): int
  */
 function get_n_fonts(): int
 {
-    $n_fonts = function_exists('apcu_fetch') ? apcu_fetch('n_fonts') : false;
+    $n_fonts = extension_loaded('apcu') ? apcu_fetch('n_fonts') : false;
     if ($n_fonts === false) {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `00_FONTS`');
         $n_fonts = $stmt->fetchColumn();
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('n_fonts', $n_fonts);
         }
     }
@@ -1849,14 +1783,14 @@ function get_random_top_paremiotipus(int $max = 10000): string
     $cache_key = 'paremiotipus_' . $random_index;
 
     // Check if the entry is in the cache.
-    $random_paremiotipus = function_exists('apcu_fetch') ? apcu_fetch($cache_key) : false;
+    $random_paremiotipus = extension_loaded('apcu') ? apcu_fetch($cache_key) : false;
     if ($random_paremiotipus === false) {
         // Fetch the entry from the database if not in cache.
         $stmt = get_db()->query("SELECT `Paremiotipus` FROM `common_paremiotipus` LIMIT 1 OFFSET {$random_index}");
         $random_paremiotipus = $stmt->fetchColumn();
 
         // Cache the entry for future use.
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store($cache_key, $random_paremiotipus);
         }
     }
@@ -1873,13 +1807,13 @@ function get_random_book(): array
 {
     // As this query has a limited number of results but runs many times, cache it in memory.
     /** @var false|list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
-    $books = function_exists('apcu_fetch') ? apcu_fetch('obresvpr') : false;
+    $books = extension_loaded('apcu') ? apcu_fetch('obresvpr') : false;
     if ($books === false) {
         $stmt = get_db()->query('SELECT `Imatge`, `Títol`, `URL`, `WIDTH`, `HEIGHT` FROM `00_OBRESVPR`');
 
         /** @var list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
         $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (function_exists('apcu_store')) {
+        if (extension_loaded('apcu')) {
             apcu_store('obresvpr', $books);
         }
     }

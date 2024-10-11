@@ -4,6 +4,7 @@
 /docroot/sitemap*.txt
 /scripts/*/*.json
 /scripts/*/*.txt
+/src/reports/*.txt
 /tmp/
 
 # Vendor directories and files

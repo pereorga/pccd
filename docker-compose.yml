@@ -3,8 +3,8 @@ services:
   web:
     build:
       context: .
-      dockerfile: .docker/debian.dev.Dockerfile
-    image: apache2-php-debian
+      dockerfile: ${DOCKERFILE_PATH:-.docker/debian.dev.Dockerfile}
+    image: apache2-php
     container_name: pccd-web
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-pccd}

@@ -176,9 +176,32 @@ const resizeAndOptimizeImagesBulk = function (sourceDirectory, targetDirectory, 
     }
 };
 
+const deleteUnusedImages = function (targetDirectory, sourceDirectory) {
+    const targetFiles = fs.readdirSync(targetDirectory);
+    const sourceFiles = fs.readdirSync(sourceDirectory);
+
+    // Create a set of base filenames (without extension) from the source directory.
+    const sourceFileSet = new Set(sourceFiles.map((file) => path.basename(file, path.extname(file))));
+
+    for (const targetFile of targetFiles) {
+        const targetFileBaseName = path.basename(targetFile, path.extname(targetFile));
+
+        // If the file doesn't exist in the source directory, delete it.
+        if (!sourceFileSet.has(targetFileBaseName)) {
+            const targetFilePath = path.join(targetDirectory, targetFile);
+            fs.unlinkSync(targetFilePath);
+            console.log(`Deleted: ${targetFilePath}`);
+        }
+    }
+};
+
 const main = async function () {
     await resizeAndOptimizeImagesBulk(cobertesDirectory, cobertesTargetDirectory, IMAGE_WIDTH);
     await resizeAndOptimizeImagesBulk(paremiesDirectory, paremiesTargetDirectory, IMAGE_WIDTH);
+
+    // Delete images not present in the source directories.
+    deleteUnusedImages(cobertesTargetDirectory, cobertesDirectory);
+    deleteUnusedImages(paremiesTargetDirectory, paremiesDirectory);
 };
 
 main().catch((error) => {

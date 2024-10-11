@@ -8,6 +8,7 @@
  */
 
 // Google Tag Manager code.
+// eslint-disable-next-line unicorn/prefer-global-this
 window.dataLayer = window.dataLayer || [];
 const gtag = function () {
     // eslint-disable-next-line no-undef

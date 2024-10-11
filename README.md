@@ -19,22 +19,6 @@ When the database has finished importing, the website should be available at <ht
 Note: If you don't have a database, you can copy `tmp/schema.sql` and `tmp/schema_init_sample.sql` files to
 `install/db/`. That will import an empty database and should allow you to browse the website locally.
 
-### Alpine-based image
-
-An Alpine-based image is used in production, and is also available locally:
-
-```bash
-docker-compose -f docker-compose-alpine.yml up
-```
-
-Or:
-
-```bash
-docker system prune -f
-docker-compose -f docker-compose-alpine.yml -f docker-compose-alpine.override.sample.yml build --no-cache
-docker-compose -f docker-compose-alpine.yml -f docker-compose-alpine.override.sample.yml up
-```
-
 ## Updating the content and creating a new release
 
 For detailed instructions on updating the content and pushing a new release, please see the [Content Update and Release Guide](docs/Content_Update_and_Release_Guide.md).
@@ -94,11 +78,11 @@ npm run check:sitemap
 SPX and XHProf profilers are available:
 
 ```bash
-npm run build:docker:spx
+npm run docker:build:spx
 ```
 
 ```bash
-npm run build:docker:xhprof
+npm run docker:build:xhprof
 ```
 
 Profiler reports can be accessed in `/admin/`, alongside the other reports (web admin password is set in the `.env`
@@ -123,8 +107,8 @@ Copyright (c) Pere Orga Esteve <pere@orga.cat>, 2020.
 
 Copyright (c) Víctor Pàmies i Riudor <vpamies@gmail.com>, 2020.
 
-Use of this source code is governed by the GNU Affero General Public License v3.0 found in the [LICENSE](LICENSE) file
-or at <https://www.gnu.org/licenses/agpl-3.0.html>.
+This source code is licensed under the GNU Affero General Public License, version 3 or later (AGPL-3.0-or-later), as
+detailed in the [LICENSE](LICENSE) file or available at <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 File [scripts/common-voice-export/pccd.txt](scripts/common-voice-export/pccd.txt)
 is Copyright (c) Víctor Pàmies i Riudor and is made available under the

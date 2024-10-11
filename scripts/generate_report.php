@@ -16,7 +16,7 @@
  * This file is called by npm generate:reports script.
  */
 
-require __DIR__ . '/../src/reports/pre-generated.php';
+require __DIR__ . '/../src/reports/offline.php';
 
 ini_set('memory_limit', '512M');
 

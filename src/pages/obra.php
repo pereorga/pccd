@@ -147,12 +147,26 @@ if ($obra['Observacions'] !== null) {
     set_meta_description_once(ct($obra['Observacions']));
 }
 $output .= '</dl>';
-if ($obra['Registres'] > 0) {
-    $fitxes = format_nombre($obra['Registres']);
-    $recollides = format_nombre(get_paremiotipus_count_by_font($obra['Identificador']));
-    $registres = "Aquesta obra té {$fitxes} fitxes a la base de dades, de les quals {$recollides} estan recollides en aquest web.";
+
+// Print the record count, but only when there are records.
+$n_recollides = get_paremiotipus_count_by_font($obra['Identificador']);
+$registres = '';
+if ($obra['Registres'] === 0 && $n_recollides > 0) {
+    if ($n_recollides === 1) {
+        $registres = 'Aquesta obra té 1 fitxa recollida en aquest web.';
+    } else {
+        $registres = 'Aquesta obra té ' . format_nombre($n_recollides) . ' fitxes recollides en aquest web.';
+    }
+} elseif ($obra['Registres'] > 0 && $n_recollides === 0) {
+    $registres = 'Aquesta obra té ' . ($obra['Registres'] === 1 ? '1 fitxa' : format_nombre($obra['Registres']) . ' fitxes') . ' a la base de dades.';
+} elseif ($obra['Registres'] > 0 && $n_recollides > 0) {
+    $registres = 'Aquesta obra té ' . ($obra['Registres'] === 1 ? '1 fitxa' : format_nombre($obra['Registres']) . ' fitxes') .
+                 ' a la base de dades, de les quals ' . ($n_recollides === 1 ? '1 està recollida' : format_nombre($n_recollides) . ' estan recollides') . ' en aquest web.';
+}
+if ($registres !== '') {
     $output .= '<div class="footer">' . $registres . '</div>';
     set_meta_description_once($registres);
 }
+
 $output .= '</div></div>';
 echo $output;

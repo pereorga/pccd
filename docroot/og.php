@@ -30,6 +30,7 @@ if ($text === '') {
 }
 
 header('Content-Type: image/png');
+header('Cache-Control: public, max-age=31536000, immutable');
 
 $text_length = mb_strlen($text);
 

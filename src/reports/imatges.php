@@ -207,7 +207,7 @@ function test_imatges_camps_duplicats(): void
 
 function test_imatges_no_existents(): void
 {
-    echo "<h3>Fitxers d'imatge no existents</h3>";
+    echo "<h3>Fitxers d'imatge que no s'han pogut generar correctament, o que no existeixen</h3>";
     echo '<pre>';
     readfile(__DIR__ . '/../../tmp/test_imatges_no_existents.txt');
     echo '</pre>';
@@ -216,9 +216,9 @@ function test_imatges_no_existents(): void
 function test_imatges_duplicades(): void
 {
     echo "<h3>Fitxers d'imatge duplicats</h3>";
-    echo '<pre>';
+    echo '<details><pre>';
     readfile(__DIR__ . '/../../tmp/test_imatges_duplicades.txt');
-    echo '</pre>';
+    echo '</pre></details>';
 }
 
 function test_imatges_no_referenciades(): void

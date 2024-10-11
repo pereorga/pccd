@@ -38,9 +38,8 @@ function test_sinonims(): void
     arsort($sinonims_array_truncated);
     foreach ($sinonims_array_truncated as $s => $count) {
         // Try get a modisme for that sinònim.
-        $mod_stmt->bindParam(':modisme', $s, PDO::PARAM_STR);
-        $mod_stmt->execute();
-        $sm = $mod_stmt->fetch(PDO::FETCH_COLUMN);
+        $mod_stmt->execute([':modisme' => $s]);
+        $sm = $mod_stmt->fetchColumn();
         if ($sm === false) {
             $matched[$s] = true;
             echo "{$s} ({$count})\n";
@@ -54,9 +53,8 @@ function test_sinonims(): void
     arsort($sinonims_array_truncated);
     foreach ($sinonims_array_truncated as $s => $count) {
         // Try get a paremiotipus for that sinònim.
-        $parem_stmt->bindParam(':paremiotipus', $s, PDO::PARAM_STR);
-        $parem_stmt->execute();
-        $sp = $parem_stmt->fetch(PDO::FETCH_COLUMN);
+        $parem_stmt->execute([':paremiotipus' => $s]);
+        $sp = $parem_stmt->fetchColumn();
         // Skip results matched in the previous loop.
         if ($sp === false && !isset($matched[$s])) {
             echo "{$s} ({$count})\n";

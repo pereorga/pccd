@@ -37,7 +37,7 @@ build:
 .setup:
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get upgrade -y && xargs apt-get install --no-install-recommends -y < apt-packages.txt
+    - apt-get update && apt-get upgrade -y && xargs apt-get install --no-install-recommends -y < apt_packages.txt
     - npm ci --ignore-scripts
     - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
     - tools/composer.phar install
@@ -53,6 +53,7 @@ build:
     - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
     - php tools/composer.phar install
     - php tools/composer.phar run parallel-lint
+    - php tools/composer.phar run composer-normalize-lint
     - php tools/composer.phar run phpcs
     - |
       if [[ "${PHP_VERSION}" == "8.4-rc" ]]; then
@@ -65,6 +66,7 @@ build:
       if [[ "${PHP_VERSION}" != "8.4-rc" ]]; then
         php tools/composer.phar run psalm
       fi
+    - php tools/composer.phar run phpunit
   allow_failure: true
 
 php_lint:
@@ -87,6 +89,8 @@ php_lint:
   script:
     - npm ci --ignore-scripts
     - npm run lint:eslint
+    - npm run lint:ls
+    - npm run lint:markdown
     - npm run lint:stylelint
     - npm run lint:prettier
   allow_failure: true
@@ -114,7 +118,7 @@ npm_lint:
     - npm run check:size
     - npm run lint
     - npm run analysis
-    - npx editorconfig-checker
+    - npm run test:phpunit
   allow_failure: true
 
 check_code_ubuntu:

@@ -28,6 +28,30 @@ test.describe("Paremiotipus", () => {
         expect(nVariants).toBe(data.paremiotipusQuiNoVulguiPolsNumberOfVariants);
     });
 
+    test('"Qui no vulgui pols, que no vagi a l\'era" includes a twitter:image meta tag with a valid image URL', async ({
+        page,
+    }) => {
+        await page.goto("/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era");
+        const twitterImage = await page.locator('meta[name="twitter:image"]').getAttribute("content");
+        expect(twitterImage).toBeTruthy();
+
+        const response = await page.request.get(twitterImage);
+        expect(response.status()).toBe(200);
+        expect(response.headers()["content-type"]).toContain("image");
+    });
+
+    test('"Qui no vulgui pols, que no vagi a l\'era" includes an og:image meta tag with a valid image URL', async ({
+        page,
+    }) => {
+        await page.goto("/p/Qui_no_vulgui_pols%2C_que_no_vagi_a_l%27era");
+        const ogImage = await page.locator('meta[property="og:image"]').getAttribute("content");
+        expect(ogImage).toBeTruthy();
+
+        const response = await page.request.get(ogImage);
+        expect(response.status()).toBe(200);
+        expect(response.headers()["content-type"]).toContain("image");
+    });
+
     test('"Qui no vulgui pols, que no vagi a l\'era" includes a preloaded image with type and media attributes"', async ({
         page,
     }) => {

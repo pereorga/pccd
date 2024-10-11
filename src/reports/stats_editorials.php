@@ -103,7 +103,7 @@ function stats_editorials(): void
     ')->fetchAll(PDO::FETCH_KEY_PAIR);
     $data = [];
     foreach ($records as $editorial => $count) {
-        if ($count >= 3) {
+        if ($count >= 4) {
             $data[$editorial] = $count;
         }
     }

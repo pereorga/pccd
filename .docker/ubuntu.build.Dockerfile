@@ -21,7 +21,7 @@ COPY . .
 # Install apt-get packages
 RUN apt-get update \
     && apt-get upgrade -y \
-    && xargs apt-get install --no-install-recommends -y < apt-packages.txt \
+    && xargs apt-get install --no-install-recommends -y < apt_packages.txt \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

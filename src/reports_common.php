@@ -18,14 +18,13 @@
 function get_test_functions(): array
 {
     return [
-        'cerques' => ['stats_searches'],
-        'commonvoice_languagetool' => ['test_commonvoice_languagetool'],
         'compostos' => ['test_paremies_separar'],
         'dates' => [
             'test_fonts_any_erroni',
             'test_imatges_any_erroni',
             'test_paremies_any_erroni',
         ],
+        'dsff' => ['test_dsff'],
         'editorials' => [
             'test_editorials_no_existents',
             'test_editorials_no_referenciades',
@@ -40,6 +39,7 @@ function get_test_functions(): array
         ],
         'imatges' => [
             'test_imatges_buides',
+            'test_imatges_duplicades',
             'test_imatges_extensions',
             'test_imatges_minuscules',
             'test_imatges_no_existents',
@@ -51,6 +51,7 @@ function get_test_functions(): array
             'test_imatges_sense_paremiotipus',
             'test_imatges_format',
         ],
+        'languagetool' => ['test_languagetool'],
         'longitud' => [
             'test_buits',
             'test_paremiotipus_llargs',
@@ -73,6 +74,7 @@ function get_test_functions(): array
         ],
         'sinonims' => ['test_sinonims'],
         'stats_autors' => ['stats_autors'],
+        'stats_cerques' => ['stats_cerques'],
         'stats_editorials' => ['stats_editorials'],
         'stats_equivalents' => ['stats_equivalents'],
         'stats_llocs' => ['stats_llocs'],

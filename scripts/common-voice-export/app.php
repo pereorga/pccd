@@ -25,20 +25,8 @@ require __DIR__ . '/functions.php';
 
 $pdo = get_db();
 
-$cv_res = $pdo->query('SELECT DISTINCT `paremiotipus` FROM `commonvoice`')->fetchAll(PDO::FETCH_COLUMN);
-$cv = [];
-foreach ($cv_res as $p) {
-    $cv[mb_strtolower($p)] = true;
-}
-
 $paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
 foreach ($paremiotipus as $p) {
-    // Omit sentences that already exist in Common Voice.
-    $p_lowercase = mb_strtolower($p);
-    if (isset($cv[$p_lowercase])) {
-        continue;
-    }
-
     // Omit sentences that are either too short or too long.
     $number_of_words = mb_substr_count($p, ' ') + 1;
     if ($number_of_words < CV_MIN_WORDS || $number_of_words > CV_MAX_WORDS) {
@@ -52,6 +40,7 @@ foreach ($paremiotipus as $p) {
     }
 
     // Omit some sentences that contain inappropriate language.
+    $p_lowercase = mb_strtolower($p);
     if (
         preg_match('/\bcago\b/', $p_lowercase) === 1
         || preg_match('/\bcony\b/', $p_lowercase) === 1

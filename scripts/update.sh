@@ -132,12 +132,6 @@ check_version_docker_compose() {
 #   None
 ##############################################################################
 update_composer() {
-    # Make sure repositories are updated too. See https://getcomposer.org/doc/05-repositories.md#package-2
-    rm -f composer.lock
-    rm -rf vendor/
-    tools/composer.phar clear-cache
-    tools/composer.phar install
-
     # Update non-dev dependencies.
     tools/composer.phar show --no-dev --direct --name-only |
         xargs tools/composer.phar require --update-with-all-dependencies
@@ -147,13 +141,10 @@ update_composer() {
         <(tools/composer.phar show --direct --no-dev --name-only | sort) \
         <(tools/composer.phar show --direct --name-only | sort) |
         xargs tools/composer.phar require --dev --update-with-all-dependencies
-
-    # Mitigate https://github.com/composer/composer/issues/11698
-    tools/composer.phar install
 }
 
 ##############################################################################
-# Installs newest versions of PHIVE packages, and bumps versions.
+# Updates phive, installs newest versions of PHIVE packages, and bumps versions.
 # Arguments:
 #   None
 ##############################################################################
@@ -285,13 +276,11 @@ if [[ $1 == "opcache-gui" ]]; then
 fi
 
 if [[ $1 == "docker" ]]; then
-    check_version_docker_file .docker/debian.dev.Dockerfile php
     check_version_docker_file .docker/web-debian.prod.Dockerfile php
     check_version_docker_file .docker/alpine.dev.Dockerfile alpine
     check_version_docker_file .docker/web-alpine.prod.Dockerfile alpine
     check_version_docker_file .docker/sql.prod.Dockerfile mariadb
     check_version_docker_compose docker-compose.yml mariadb
-    check_version_docker_compose docker-compose-alpine.yml mariadb
     exit 0
 fi
 
