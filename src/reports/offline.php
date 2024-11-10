@@ -30,6 +30,7 @@ function background_test_llibres_urls(): string
 
             continue;
         }
+        assert(is_string($llibre['URL']));
 
         $url = $llibre['URL'];
         if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
@@ -230,22 +231,22 @@ function background_test_html_escape_and_link_urls(): string
 
     $records = get_db()->query('SELECT DISTINCT `Observacions` FROM `00_FONTS` WHERE `Observacions` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
-        html_escape_and_link_urls($r, '', true);
+        html_escape_and_link_urls(text: $r, debug: true);
     }
 
     $records = get_db()->query('SELECT DISTINCT `URL` FROM `00_FONTS` WHERE `URL` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
-        html_escape_and_link_urls($r, '', true);
+        html_escape_and_link_urls(text: $r, debug: true);
     }
 
     $records = get_db()->query('SELECT DISTINCT `URL_ENLLAÇ` FROM `00_IMATGES` WHERE `URL_ENLLAÇ` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
-        html_escape_and_link_urls($r, '', true);
+        html_escape_and_link_urls(text: $r, debug: true);
     }
 
     $records = get_db()->query('SELECT DISTINCT `ARTICLE` FROM `00_PAREMIOTIPUS` WHERE `ARTICLE` IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($records as $r) {
-        html_escape_and_link_urls($r, '', true);
+        html_escape_and_link_urls(text: $r, debug: true);
     }
 
     $string = file_get_contents(__DIR__ . '/../../tmp/test_tmp_debug_html_escape_and_link_urls.txt');

@@ -92,6 +92,8 @@ if (isset($_GET['logout'])) {
 session_write_close();
 
 if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
+    $start_time = microtime(true);
+
     require __DIR__ . '/../../src/reports_common.php';
 
     $test_file = $_GET['test'];
@@ -104,6 +106,11 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
     }
 
     echo "<p>[<a href='/admin/'>Torna endarrere</a>]</p>";
+
+    $end_time = microtime(true);
+    $total_time = (string) round($end_time - $start_time, 4);
+    echo '<footer><small>Pàgina generada en ' . str_replace('.', ',', $total_time) . ' segons.</small></footer>';
+
     echo '</body>';
     echo '</html>';
 
@@ -115,6 +122,8 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
 <h3>Informes</h3>
     <ul>
         <li><a href="?test=dates">Dates</a></li>
+        <!-- <li><a href="?test=dsff">DSFF</a></li> -->
+        <!-- <li><a href="?test=softcatala_sinonims">DSSC</a></li> -->
         <li><a href="?test=editorials">Editorials</a></li>
         <li><a href="?test=equivalents">Equivalents</a></li>
         <li><a href="?test=espais">Espais</a></li>
@@ -151,6 +160,7 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
         <?php echo function_exists('phpinfo') ? '<li><a href="?phpinfo">phpinfo</a></li>' : ''; ?>
         <?php echo function_exists('spx_profiler_start') ? '<li><a href="?spx">SPX</a></li>' : ''; ?>
         <?php echo function_exists('xhprof_enable') ? '<li><a href="?xhprof">XHProf</a></li>' : ''; ?>
+        <li><a href="?test=stats_mysql">MariaDB</a></li>
     </ul>
 </article>
 </main>

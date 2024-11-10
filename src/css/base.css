@@ -53,7 +53,6 @@ p {
 
 header nav {
     display: flex;
-    gap: 1em;
     font-size: 4vw;
 }
 
@@ -61,11 +60,6 @@ a {
     color: #551a8b;
     text-decoration: none;
     background-color: transparent;
-}
-
-header nav a {
-    margin: 0.5em 0;
-    color: #fff;
 }
 
 a:hover {
@@ -83,6 +77,17 @@ a.external {
 .bloc-credits a {
     font-size: 1.5rem;
 }
+
+/* stylelint-disable no-descending-specificity */
+header nav a {
+    margin: 0.5em 1em 0.5em 0;
+    color: #fff;
+}
+
+header nav a:last-child {
+    margin-right: 0;
+}
+/* stylelint-enable no-descending-specificity */
 
 .brand {
     display: block;
@@ -295,8 +300,15 @@ header {
 /* Small devices */
 @media (min-width: 400px) {
     header nav {
-        gap: 1.25rem;
         font-size: 1rem;
+    }
+
+    header nav a {
+        margin-right: 1.25rem;
+    }
+
+    header nav a:last-child {
+        margin-right: 0;
     }
 
     .brand {

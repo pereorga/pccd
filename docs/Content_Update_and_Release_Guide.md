@@ -80,15 +80,15 @@ Example on Windows:
 :: Disable .dockerignore to include everything in the build context
 ren .dockerignore .dockerignore.disabled
 :: Start the build-specific container
-docker-compose -f docker-compose-build.yml up
+docker compose -f docker-compose-build.yml up
 :: Run the processing commands within the build container
-docker-compose -f docker-compose-build.yml run build /bin/bash -c "npm run decompress:images && npm run optimize:images && npm run convert:db"
+docker compose -f docker-compose-build.yml run build /bin/bash -c "npm run decompress:images && npm run optimize:images && npm run convert:db"
 :: Restore .dockerignore
 ren .dockerignore.disabled .dockerignore
 :: Remove existing container, in case it was already created before
-docker-compose down --volumes
+docker compose down --volumes
 :: Start the HTTP and MariaDB servers
-docker-compose up --build
+docker compose up --build
 :: Execute the installation script inside the web container
 docker exec pccd-web scripts/install.sh
 :: Export the updated database

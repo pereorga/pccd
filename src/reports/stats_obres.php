@@ -42,6 +42,8 @@ function stats_obres(): void
     echo "<table style='width:1200px;'>";
     echo '<tr><th>Obra</th><th>Total</th><th>Recollides</th><th>Falten</th></tr>';
     foreach ($records as $r) {
+        assert(is_int($r['Registres']));
+        assert(is_int($r['NumberOfReferences']));
         echo '<tr>';
         echo '<td><a href="' . get_obra_url($r['Font']) . '">' . htmlspecialchars($r['Font']) . '</a></td>';
         echo '<td>' . format_nombre($r['Registres']) . '</td>';

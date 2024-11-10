@@ -10,7 +10,7 @@ and media files are not distributed with this repository.
 2. Build the container using the default Debian-based image:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 When the database has finished importing, the website should be available at <http://localhost:8092>, depending on your
@@ -27,9 +27,9 @@ For detailed instructions on updating the content and pushing a new release, ple
 
 ### Development requirements
 
-- PHP: 8.2 or later is required.
-- Node.js: 18.16 or later is required.
-- Docker
+- PHP: version 8.2 or later is required.
+- Node.js: version 20 or later is required.
+- Docker.
 
 ### Assets
 

@@ -20,4 +20,4 @@ parameters:
     - */vendor/*
     - src/xhprof.php
   ignoreErrors:
-    - '#Cannot call method (execute|fetch|fetchAll|fetchColumn)\(\) on PDOStatement\|false#'
+    - '#Cannot call method (execute|fetch|fetchAll|fetchColumn|fetchObject)\(\) on PDOStatement\|false#'

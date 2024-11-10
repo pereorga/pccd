@@ -46,6 +46,8 @@ function test_paremiotipus_modismes_diferents(): void
             `a`.`PAREMIOTIPUS` != `b`.`PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
     $paremiotipus_unics = [];
     foreach ($paremiotipus as $m) {
+        assert(is_string($m['PAREMIOTIPUS_A']));
+        assert(is_string($m['PAREMIOTIPUS_B']));
         if (!isset($paremiotipus_unics[$m['PAREMIOTIPUS_A']]) && !isset($paremiotipus_unics[$m['PAREMIOTIPUS_B']])) {
             if ($m['MODISME_A'] === $m['MODISME_B']) {
                 echo get_paremiotipus_display($m['PAREMIOTIPUS_A'], escape_html: false) . ' (modisme: ' . $m['MODISME_A'] . ")\n";
@@ -81,7 +83,13 @@ function test_paremiotipus_repetits(): void
         $string2 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($prev, SIMILAR_TEXT_MAX_LENGTH)));
 
         similar_text($string1, $string2, $percent);
-        if ($percent > SIMILAR_TEXT_THRESHOLD_1 || ($percent > SIMILAR_TEXT_THRESHOLD_2 && strlen($string1) > SIMILAR_TEXT_MIN_LENGTH)) {
+        if (
+            $percent > SIMILAR_TEXT_THRESHOLD_1
+            || (
+                $percent > SIMILAR_TEXT_THRESHOLD_2
+                && strlen($string1) > SIMILAR_TEXT_MIN_LENGTH
+            )
+        ) {
             echo get_paremiotipus_display($prev, escape_html: false) . "\n" . get_paremiotipus_display($m, escape_html: false) . "\n\n";
         }
         $prev = $m;
@@ -101,7 +109,14 @@ function test_paremiotipus_repetits(): void
         $prev = '';
         foreach ($lines as $line) {
             $line = trim($line);
-            if (strlen($prev) > 1 && strlen($line) > 1 && (str_starts_with($prev, '+') || str_starts_with($line, '+'))) {
+            if (
+                strlen($prev) > 1
+                && strlen($line) > 1
+                && (
+                    str_starts_with($prev, '+')
+                    || str_starts_with($line, '+')
+                )
+            ) {
                 echo ltrim($prev, '+') . "\n";
                 echo ltrim($line, '+') . "\n";
                 echo "\n";

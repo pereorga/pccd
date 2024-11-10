@@ -73,11 +73,13 @@ function get_test_functions(): array
             'test_paremiotipus_repetits',
         ],
         'sinonims' => ['test_sinonims'],
+        'softcatala_sinonims' => ['test_softcatala_sinonims'],
         'stats_autors' => ['stats_autors'],
         'stats_cerques' => ['stats_cerques'],
         'stats_editorials' => ['stats_editorials'],
         'stats_equivalents' => ['stats_equivalents'],
         'stats_llocs' => ['stats_llocs'],
+        'stats_mysql' => ['stats_mysql'],
         'stats_obres' => ['stats_obres'],
         'stats_paremiotipus' => ['stats_paremiotipus'],
         'urls' => ['test_urls'],
@@ -130,7 +132,7 @@ function get_chart(string $type, array $data, string $label = '', string $x_titl
 /**
  * Groups data for stats.
  *
- * @param array<string, array<string, int>> $data
+ * @param array<int|string, array<string, int>> $data
  *
  * @return array<int|string, int>
  */

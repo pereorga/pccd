@@ -11,10 +11,6 @@ h2 {
     font-size: 1.125rem;
 }
 
-h2:first-of-type {
-    margin-top: 1rem;
-}
-
 #share {
     min-width: 111px;
     padding: 4px;
@@ -101,6 +97,10 @@ h2:first-of-type {
 
 h1 + .shortcuts {
     margin-top: -0.75rem;
+}
+
+.shortcuts:has(#toggle-all) {
+    margin-bottom: 1rem;
 }
 
 .shortcuts button {

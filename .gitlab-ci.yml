@@ -99,7 +99,6 @@ npm_lint:
   extends: .npm_lint_template
   parallel:
     matrix:
-      - NODE_VERSION: 18
       - NODE_VERSION: 20
       - NODE_VERSION: 22
   image: node:${NODE_VERSION}
@@ -123,9 +122,11 @@ npm_lint:
 
 check_code_ubuntu:
   extends: .check_code_template
-  image: ubuntu:devel
+  image: ubuntu:rolling
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
 
 check_code_debian:
   extends: .check_code_template

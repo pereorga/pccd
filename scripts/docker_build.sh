@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Deletes previous volumes, runs `docker-compose build` with passed arguments and executes `docker-compose up`.
+# Deletes previous volumes, runs `docker compose build` with passed arguments and executes `docker compose up`.
 #
 # (c) Pere Orga Esteve <pere@orga.cat>
 #
@@ -18,7 +18,7 @@ usage() {
     echo "Usage: ./$(basename "$0") [OPTIONS]"
     echo ""
     echo "Optional arguments:"
-    echo "  OPTIONS               The options to pass to docker-compose build command"
+    echo "  OPTIONS               The options to pass to docker compose build command"
     echo "  --alpine              Use Alpine image"
     echo "  --alpine-edge         Use Alpine image (edge)"
 }
@@ -39,6 +39,6 @@ for arg in "$@"; do
 done
 
 (cd "$(dirname "$0")/.." &&
-    docker-compose down --volumes &&
-    docker-compose build --no-cache "$@" &&
-    docker-compose up)
+    docker compose down --volumes &&
+    docker compose build --no-cache "$@" &&
+    docker compose up)

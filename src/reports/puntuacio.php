@@ -42,7 +42,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb el caràcter espai seguit de signe de puntuació inusual</h3>';
     echo '<pre>';
-    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '% .%' AND `PAREMIOTIPUS` NOT LIKE '% ...%') OR `PAREMIOTIPUS` LIKE '% ,%' OR `PAREMIOTIPUS` LIKE '% ;%' OR `PAREMIOTIPUS` LIKE '% :%' OR `PAREMIOTIPUS` LIKE '% !%' OR `PAREMIOTIPUS` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` LIKE '% .%' AND `PAREMIOTIPUS` NOT LIKE '% …%') OR `PAREMIOTIPUS` LIKE '% ,%' OR `PAREMIOTIPUS` LIKE '% ;%' OR `PAREMIOTIPUS` LIKE '% :%' OR `PAREMIOTIPUS` LIKE '% !%' OR `PAREMIOTIPUS` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
         echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
@@ -50,7 +50,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb 2 punts seguits</h3>';
     echo '<pre>';
-    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%..%' AND `PAREMIOTIPUS` NOT LIKE '%...%'")->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%..%' OR `PAREMIOTIPUS` LIKE '%……%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
         echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
@@ -58,7 +58,7 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb 4 punts seguits</h3>';
     echo '<pre>';
-    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%....%'")->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%….%' OR `PAREMIOTIPUS` LIKE '%.…%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
         echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
@@ -82,7 +82,39 @@ function test_puntuacio(): void
 
     echo '<h3>Paremiotipus amb signe de puntuació seguit de lletres</h3>';
     echo '<pre>';
-    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` REGEXP BINARY ',[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[.][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[)][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[?][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ':[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ';[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
+    $paremiotipus = $pdo->query("SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE (`PAREMIOTIPUS` REGEXP BINARY ',[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[.][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[)][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '[?][a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ':[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY ';[a-zA-Z]+') OR (`PAREMIOTIPUS` REGEXP BINARY '…[a-zA-Z]+')")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
+    }
+    echo '</pre>';
+
+    echo '<h3>Paremiotipus amb una combinació de signes de puntuació inusual</h3>';
+    echo '<pre>';
+    $paremiotipus = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%?¿%'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
+    }
+    $paremiotipus = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%,?%'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
+    }
+    $paremiotipus = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%,!'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
+    }
+    $paremiotipus = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%!.'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
+    }
+    $paremiotipus = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%!…'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
+    }
+    $paremiotipus = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%?.'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($paremiotipus as $p) {
+        echo get_paremiotipus_display($p, escape_html: false) . "\n";
+    }
+    $paremiotipus = $pdo->query("SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` LIKE '%?…'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
         echo get_paremiotipus_display($p, escape_html: false) . "\n";
     }
@@ -114,7 +146,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb el caràcter espai seguit de signe de puntuació inusual</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE (`MODISME` LIKE '% .%' AND `MODISME` NOT LIKE '% ...%') OR `MODISME` LIKE '% ,%' OR `MODISME` LIKE '% ;%' OR `MODISME` LIKE '% :%' OR `MODISME` LIKE '% !%' OR `MODISME` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE (`MODISME` LIKE '% .%' AND `MODISME` NOT LIKE '% …%') OR `MODISME` LIKE '% ,%' OR `MODISME` LIKE '% ;%' OR `MODISME` LIKE '% :%' OR `MODISME` LIKE '% !%' OR `MODISME` LIKE '% ?%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -122,7 +154,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb 2 punts seguits</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%..%' AND `MODISME` NOT LIKE '%...%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%..%' OR `MODISME` LIKE '%……%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -130,7 +162,7 @@ function test_puntuacio(): void
 
     echo '<h3>Modismes amb 4 punts seguits</h3>';
     echo '<pre>';
-    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%....%'")->fetchAll(PDO::FETCH_COLUMN);
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%….%'")->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
@@ -166,6 +198,22 @@ function test_puntuacio(): void
     foreach ($modismes as $m) {
         echo $m . "\n";
     }
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%!.'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($modismes as $m) {
+        echo $m . "\n";
+    }
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%!…'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($modismes as $m) {
+        echo $m . "\n";
+    }
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%?.'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($modismes as $m) {
+        echo $m . "\n";
+    }
+    $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%?…'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($modismes as $m) {
+        echo $m . "\n";
+    }
     echo '</pre>';
 
     echo '<h3>Modismes amb cometa simple seguida del caràcter espai o signe de puntuació inusual</h3>';
@@ -194,7 +242,7 @@ function test_paremiotipus_caracters_inusuals(): void
     $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
         $t = str_replace(
-            ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç', '«', '»', '·', '–', '‑', '—', '―', '─'],
+            ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç', '«', '»', '·', '–', '‑', '—', '―', '─', '…'],
             '',
             mb_strtolower($p)
         );
@@ -291,7 +339,7 @@ function test_paremiotipus_final(): void
             && !str_ends_with($t, '?')
             && !str_ends_with($t, '»')
             && !str_ends_with($t, '"')
-            && !str_ends_with($t, '...')
+            && !str_ends_with($t, '…')
         ) {
             echo get_paremiotipus_display($p, escape_html: false) . "\n";
         }

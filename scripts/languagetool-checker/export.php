@@ -19,7 +19,15 @@ foreach ($paremiotipus as $p) {
     $p_display = get_paremiotipus_display($p, escape_html: false);
 
     // End the sentence with a dot.
-    if (preg_match('/[.!?,;:]$/', $p_display) === 0) {
+    if (
+        !str_ends_with($p_display, '.')
+        && !str_ends_with($p_display, '…')
+        && !str_ends_with($p_display, '!')
+        && !str_ends_with($p_display, '?')
+        && !str_ends_with($p_display, ',')
+        && !str_ends_with($p_display, ';')
+        && !str_ends_with($p_display, ':')
+    ) {
         $p_display .= '.';
     }
 

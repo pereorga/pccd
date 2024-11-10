@@ -109,10 +109,8 @@ echo "CREATE TABLE paremiotipus_display(Paremiotipus varchar (255) PRIMARY KEY, 
 
 # Normalize UTF-8 combined characters.
 uconv -x nfkc ../install/db/db.sql > ../tmp/db_temp1.sql
-
-# See https://github.com/mdbtools/mdbtools/issues/391. This may be required because of the previous command, as now
-# character `…` becomes 3 different characters `...`), which is not ideal.
-sed 's/varchar (255)/varchar (300)/g' ../tmp/db_temp1.sql > ../install/db/db.sql
+# Revert the unwanted normalization of `...` back to `…`.
+sed 's/\.\.\./…/g' ../tmp/db_temp1.sql > ../install/db/db.sql
 
 # Delete intermediate files.
 rm ../tmp/db_temp*.sql

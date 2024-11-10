@@ -13,7 +13,7 @@
 /**
  * Outputs cached searches.
  *
- * @psalm-suppress UndefinedClass, RawObjectIteration
+ * @psalm-suppress UndefinedClass
  */
 function stats_cerques(): void
 {

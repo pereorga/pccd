@@ -68,6 +68,7 @@ function test_paremiotipus_modismes_curts(): void
     echo '<details><pre>';
     $modismes = get_db()->query('SELECT DISTINCT `MODISME` as `MODISME` FROM `00_PAREMIOTIPUS` WHERE CHAR_LENGTH(`MODISME`) < 5 ORDER BY `MODISME`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
+        assert(is_string($modisme));
         if (!isset($existing[$modisme])) {
             echo $modisme . "\n";
         }

@@ -21,7 +21,7 @@ final class DocumentationTest extends TestCase
         $composerJsonContent = file_get_contents(__DIR__ . '/../../composer.json');
         $composerJson = json_decode($composerJsonContent, true);
         $composerPhpVersion = trim($composerJson['require']['php'], '>=^');
-        $minimumVersionInformation = "PHP: {$composerPhpVersion} or later is required.";
+        $minimumVersionInformation = "PHP: version {$composerPhpVersion} or later is required.";
         $installationDocPath = realpath(__DIR__ . '/../../README.md');
 
         self::assertStringContainsString(
@@ -36,7 +36,7 @@ final class DocumentationTest extends TestCase
         $composerJsonContent = file_get_contents(__DIR__ . '/../../package.json');
         $packageJson = json_decode($composerJsonContent, true);
         $minimumVersion = trim($packageJson['engines']['node'], '>=^');
-        $minimumVersionInformation = "Node.js: {$minimumVersion} or later is required.";
+        $minimumVersionInformation = "Node.js: version {$minimumVersion} or later is required.";
         $installationDocPath = realpath(__DIR__ . '/../../README.md');
 
         self::assertStringContainsString(

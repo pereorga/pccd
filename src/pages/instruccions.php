@@ -16,7 +16,7 @@ set_meta_description("Instruccions d'ús de la Paremiologia catalana comparada d
 
 <p>La cerca retorna l'enllaç a la fitxa dels resultats en pantalles configurables de 10, 15, 25 o 50 resultats. Al peu de la cerca apareixen el nombre total de pantalles que responen a la cerca feta.</p>
 
-<p>Si accedim a qualsevol fitxa, sota del paremiotipus seleccionat hi ha les dades estadístiques de nombre total de recurrències i nombre de variants. A continuació, numerades, mostra les diferents variants, amb indicació del nombre de fonts i de l'any de datació més antic, i les diverses fonts per a cada variant.</p>
+<p>Si accedim a qualsevol fitxa, sota del paremiotipus seleccionat hi ha les dades estadístiques de nombre total de recurrències i nombre de variants. A continuació, mostra les diferents variants, amb indicació del nombre de fonts i de l'any de datació més antic, i les diverses fonts per a cada variant.</p>
 
 <p>De cada font mostra aquells camps que són plens (sinònim, equivalent, lloc, explicació, exemples) i tots els camps que permeten identificar la font i on apareix la parèmia en qüestió (autor, any, editorial, títol obra, apartat, pàgina, etc.).</p>
 

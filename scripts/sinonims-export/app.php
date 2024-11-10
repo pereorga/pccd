@@ -22,7 +22,7 @@ $modisme_stmt = $pdo->prepare('SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHER
 
 $parem_sin_array = [];
 foreach ($parem as $p) {
-    $parem_sin_array[$p] = [];
+    assert(is_string($p));
     $parem_sin_array[$p][] = $p;
 
     $sin_stmt = $pdo->prepare('SELECT `SINONIM` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` = :paremiotipus AND `SINONIM` IS NOT NULL');

@@ -30,7 +30,13 @@ if (isset($_GET['cerca']) && is_string($_GET['cerca']) && $_GET['cerca'] !== '')
             if (str_starts_with($trimmed_search, '"') && str_ends_with($trimmed_search, '"')) {
                 // Simple custom search mode for whole sentence search.
                 $search_mode = 'whole_sentence';
-            } elseif (!str_contains($trimmed_search, ' ') && (str_contains($trimmed_search, '*') || str_contains($trimmed_search, '?'))) {
+            } elseif (
+                !str_contains($trimmed_search, ' ')
+                && (
+                    str_contains($trimmed_search, '*')
+                    || str_contains($trimmed_search, '?')
+                )
+            ) {
                 // Simple custom search mode for using wildcards in single-word searches.
                 $search_mode = 'wildcard';
             }

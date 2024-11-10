@@ -71,7 +71,7 @@ foreach ($lines as $i => $line) {
 $cp_commands = '';
 $sql = 'DROP TABLE IF EXISTS `commonvoice`;
         CREATE TABLE `commonvoice` (
-            `paremiotipus` varchar(300) NOT NULL,
+            `paremiotipus` varchar(255) NOT NULL,
             `file` varchar(200) NOT NULL,
             PRIMARY KEY (`paremiotipus`, `file`)
         );' . "\n";

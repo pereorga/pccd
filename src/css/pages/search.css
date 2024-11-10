@@ -15,17 +15,27 @@ main {
     margin-top: 20px;
 }
 
-select {
-    width: 100%;
+select,
+input[type="search"] {
     height: 2.5rem;
-    padding-right: 2rem;
-    padding-left: 0.75rem;
+    padding: 0 0.75rem;
     font-size: 1rem;
     color: #495057;
-    appearance: none;
-    background: #fff url("/img/chevron-down.svg") no-repeat right 0.75rem center / 0.75rem;
+    background-color: #fff;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
+}
+
+select {
+    width: 100%;
+    padding-right: 2rem;
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-appearance: none;
+    /* stylelint-enable property-no-vendor-prefix */
+    appearance: none;
+    background: #fff
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDk1MDU3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIgZD0ibTIgNSA2IDYgNi02Ii8+PC9zdmc+")
+        no-repeat right 0.75rem center / 0.75rem;
 }
 
 select:focus {
@@ -69,14 +79,11 @@ input[type="search"] {
     flex: 1 1 auto;
     width: 1%;
     min-width: 0;
-    height: 2.5rem;
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
-    font-size: 1rem;
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-appearance: textfield;
+    /* stylelint-enable property-no-vendor-prefix */
     appearance: textfield;
-    background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
     border-right: none;
     border-radius: 0.25rem 0 0 0.25rem;
 }
@@ -84,7 +91,6 @@ input[type="search"] {
 input[type="search"]:focus {
     padding-left: 13px;
     clip-path: inset(-3px 0 -3px -3px);
-    background-color: #fff;
     border: 0;
     outline: 3px solid #cbd5e7;
 }
@@ -142,7 +148,6 @@ input[type="search"]:focus {
     display: inline-block;
     padding: 0 0.75rem;
     font-size: 1rem;
-    line-height: 1.5;
     color: #fff;
     text-align: center;
     background-color: #2b5797;

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <psalm
   autoloader="src/psalm.bootstrap.php"
-  errorLevel="2"
+  errorLevel="4"
   findUnusedCode="true"
   findUnusedBaselineEntry="true"
   findUnusedPsalmSuppress="true"
@@ -20,7 +20,7 @@
       <file name="src/xhprof.php" />
     </ignoreFiles>
   </projectFiles>
-  <issueHandlers>
-    <UnresolvableInclude errorLevel="suppress" />
-  </issueHandlers>
+  <enableExtensions>
+    <extension name="pdo"/>
+  </enableExtensions>
 </psalm>

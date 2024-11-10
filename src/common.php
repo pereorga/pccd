@@ -37,6 +37,146 @@ if (!function_exists('mb_ucfirst')) {
     }
 }
 
+final class Variant
+{
+    public ?string $PAREMIOTIPUS = null;
+    public ?string $AUTOR = null;
+    public ?string $AUTORIA = null;
+    public ?string $DIARI = null;
+    public ?string $ARTICLE = null;
+    public ?string $EDITORIAL = null;
+    public ?float $ANY = null;
+    public ?string $PAGINA = null;
+    public ?string $LLOC = null;
+    public ?string $EXPLICACIO = null;
+    public ?string $EXPLICACIO2 = null;
+    public ?string $EXEMPLES = null;
+    public ?string $SINONIM = null;
+    public ?string $EQUIVALENT = null;
+    public ?string $IDIOMA = null;
+    public ?string $FONT = null;
+    public ?string $ACCEPCIO = null;
+    public ?string $ID_FONT = null;
+}
+
+final class Obra
+{
+    public ?string $Identificador = null;
+    public ?string $Títol = null;
+    public ?string $Imatge = null;
+    public ?float $Preu = null;
+    public ?int $Any_edició = null;
+    public ?int $Pàgines = null;
+    public ?int $Registres = null;
+    public ?string $Any = null;
+    public ?string $Autor = null;
+    public ?string $Collecció = null;
+    public ?string $Data_compra = null;
+    public ?string $Edició = null;
+    public ?string $Editorial = null;
+    public ?string $Idioma = null;
+    public ?string $ISBN = null;
+    public ?string $Lloc_compra = null;
+    public ?string $Municipi = null;
+    public ?string $Núm_collecció = null;
+    public ?string $Observacions = null;
+    public ?string $URL = null;
+    public ?string $Varietat_dialectal = null;
+    public int $WIDTH;
+    public int $HEIGHT;
+}
+
+final class Image
+{
+    public ?string $Identificador = null;
+    public ?string $URL_ENLLAÇ = null;
+    public ?string $AUTOR = null;
+    public ?float $ANY = null;
+    public ?string $DIARI = null;
+    public ?string $ARTICLE = null;
+    public int $WIDTH;
+    public int $HEIGHT;
+}
+
+final class Book
+{
+    private const URL_FIXES = [
+        'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/' => 'https://lafinestralectora.cat/els-100-refranys-mes-populars/',
+    ];
+    public ?string $Imatge = null;
+    public ?string $Títol = null;
+    public ?string $URL = null;
+    public int $WIDTH;
+    public int $HEIGHT;
+
+    /**
+     * @param array{
+     *     alt_text?: string,
+     *     file_name?: string,
+     *     height?: int,
+     *     lazy_loading?: bool,
+     *     path?: string,
+     *     width?: int,
+     *     preload?: bool,
+     *     preload_media?: string
+     * } $imageOptions
+     */
+    public function render(array $imageOptions = []): string
+    {
+        assert($this->Imatge !== null);
+
+        $url = self::URL_FIXES[$this->URL] ?? $this->URL;
+        $html = '';
+        if ($url !== null) {
+            $html .= '<a href="' . $url . '" title="' . htmlspecialchars($this->Títol ?? '') . '">';
+        }
+
+        // Default image options.
+        $defaultOptions = [
+            'alt_text' => $this->Títol ?? '',
+            'file_name' => $this->Imatge,
+            'height' => $this->HEIGHT,
+            'path' => '/img/obres/',
+            'width' => $this->WIDTH,
+        ];
+
+        // Generate image tags, merging provided options.
+        $html .= get_image_tags(...$imageOptions + $defaultOptions);
+
+        if ($url !== null) {
+            $html .= '</a>';
+        }
+
+        return $html;
+    }
+}
+
+/**
+ * Generic cache wrapper to get data from cache (APCu).
+ *
+ * @template T
+ *
+ * @param callable(): T $callback
+ *
+ * @return T
+ */
+function cache_get(string $key, callable $callback)
+{
+    if (!extension_loaded('apcu')) {
+        return $callback();
+    }
+
+    $cached = apcu_fetch($key);
+    if ($cached !== false) {
+        return $cached;
+    }
+
+    $value = $callback();
+    apcu_store($key, $value);
+
+    return $value;
+}
+
 /**
  * Transforms plain text into valid HTML turning URLs into links.
  *
@@ -185,8 +325,6 @@ function get_db(): PDO
 
     try {
         $pdo = new PDO("mysql:host={$host};dbname={$db_name};charset=utf8mb4", $user, $password, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_PERSISTENT => false,
             PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
         ]);
 
@@ -375,28 +513,10 @@ function get_side_blocks(string $page_name): string
 
         $side_blocks .= '<div class="bloc bloc-books">';
         $side_blocks .= '<p><a href="/llibres">Llibres de l\'autor</a></p>';
-        $random_book = get_random_book();
-        // TODO: FIXME in the DB.
-        if ($random_book['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
-            $random_book['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
-        }
-        if ($random_book['URL'] !== null) {
-            $side_blocks .= '<a href="' . $random_book['URL'] . '">';
-        }
-
-        $side_blocks .= get_image_tags(
-            file_name: $random_book['Imatge'],
-            path: '/img/obres/',
-            alt_text: $random_book['Títol'],
-            width: $random_book['WIDTH'],
-            height: $random_book['HEIGHT'],
-            preload: true,
-            preload_media: '(min-width: 768px)'
-        );
-
-        if ($random_book['URL'] !== null) {
-            $side_blocks .= '</a>';
-        }
+        $side_blocks .= get_random_book()->render([
+            'preload' => true,
+            'preload_media' => '(min-width: 768px)',
+        ]);
         $side_blocks .= '</div>';
     } elseif ($page_name === 'paremiotipus') {
         $side_blocks = get_paremiotipus_blocks();
@@ -624,36 +744,24 @@ function get_page_meta_tags(string $page_name): string
  */
 function get_paremiotipus_display(string $paremiotipus, bool $escape_html = true, bool $use_fallback_string = true): string
 {
-    $value = extension_loaded('apcu') ? apcu_fetch($paremiotipus) : false;
-    if ($value === false) {
+    return cache_get($paremiotipus, static function () use ($paremiotipus, $escape_html, $use_fallback_string): string {
         $stmt = get_db()->prepare('SELECT `Display` FROM `paremiotipus_display` WHERE `Paremiotipus` = :paremiotipus');
         $stmt->execute([':paremiotipus' => $paremiotipus]);
+
         $value = $stmt->fetchColumn();
+
         if ($value === false) {
             error_log("Error: '{$paremiotipus}' not found in paremiotipus_display table");
-
-            if ($use_fallback_string) {
-                if ($escape_html) {
-                    return htmlspecialchars($paremiotipus);
-                }
-
-                return $paremiotipus;
+            if (!$use_fallback_string) {
+                return '';
             }
-
-            return '';
+            $value = $paremiotipus;
         }
-        if (extension_loaded('apcu')) {
-            apcu_store($paremiotipus, $value);
-        }
-    }
 
-    assert(is_string($value));
+        assert(is_string($value));
 
-    if ($escape_html) {
-        return htmlspecialchars($value);
-    }
-
-    return $value;
+        return $escape_html ? htmlspecialchars($value) : $value;
+    });
 }
 
 /**
@@ -786,28 +894,9 @@ function get_paremiotipus_best_match(string $modisme): string
 }
 
 /**
- * Gets an array of unique variant arrays, keyed by MODISME.
+ * Gets an array of unique variants, keyed by MODISME.
  *
- * @return array<string, non-empty-list<array{
- *     PAREMIOTIPUS: string,
- *     AUTOR: ?string,
- *     AUTORIA: ?string,
- *     DIARI: ?string,
- *     ARTICLE: ?string,
- *     EDITORIAL: ?string,
- *     ANY: ?float,
- *     PAGINA: ?string,
- *     LLOC: ?string,
- *     EXPLICACIO: ?string,
- *     EXPLICACIO2: ?string,
- *     EXEMPLES: ?string,
- *     SINONIM: ?string,
- *     EQUIVALENT: ?string,
- *     IDIOMA: ?string,
- *     FONT: ?string,
- *     ACCEPCIO: ?string,
- *     ID_FONT: ?string,
- * }>>
+ * @return array<string, non-empty-list<Variant>>
  */
 function get_modismes_by_variant(string $paremiotipus): array
 {
@@ -842,54 +931,21 @@ function get_modismes_by_variant(string $paremiotipus): array
         `DIARI`,
         `ARTICLE`,
         `ANY`,
+        `ID_FONT`,
         `PAGINA`,
-        `EXPLICACIO`,
-        `EXEMPLES`,
         `SINONIM`,
-        `EQUIVALENT`,
         `IDIOMA`,
+        `EQUIVALENT`,
         `LLOC`');
     $stmt->execute([':paremiotipus' => $paremiotipus]);
 
-    /**
-     * @var array<string, non-empty-list<array{
-     *     PAREMIOTIPUS: string,
-     *     AUTOR: ?string,
-     *     AUTORIA: ?string,
-     *     DIARI: ?string,
-     *     ARTICLE: ?string,
-     *     EDITORIAL: ?string,
-     *     ANY: ?float,
-     *     PAGINA: ?string,
-     *     LLOC: ?string,
-     *     EXPLICACIO: ?string,
-     *     EXPLICACIO2: ?string,
-     *     EXEMPLES: ?string,
-     *     SINONIM: ?string,
-     *     EQUIVALENT: ?string,
-     *     IDIOMA: ?string,
-     *     FONT: ?string,
-     *     ACCEPCIO: ?string,
-     *     ID_FONT: ?string,
-     * }>>
-     */
-    return $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_CLASS, Variant::class);
 }
 
 /**
- * Gets a list of image arrays for a specific paremiotipus.
+ * Gets a list of Image objects for a specific paremiotipus.
  *
- * @return list<array{
- *     Identificador: string,
- *     URL_ENLLAÇ: ?string,
- *     AUTOR: ?string,
- *     ANY: ?float,
- *     DIARI: ?string,
- *     ARTICLE: ?string,
- *     EDITORIAL: ?string,
- *     WIDTH: int,
- *     HEIGHT: int,
- * }>
+ * @return list<Image>
  */
 function get_images(string $paremiotipus): array
 {
@@ -910,20 +966,8 @@ function get_images(string $paremiotipus): array
         `Comptador` DESC');
     $stmt->execute([':paremiotipus' => $paremiotipus]);
 
-    /**
-     * @var list<array{
-     *     Identificador: string,
-     *     URL_ENLLAÇ: ?string,
-     *     AUTOR: ?string,
-     *     ANY: ?float,
-     *     DIARI: ?string,
-     *     ARTICLE: ?string,
-     *     EDITORIAL: ?string,
-     *     WIDTH: int,
-     *     HEIGHT: int,
-     * }>
-     */
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    /** @var list<Image> */
+    return $stmt->fetchAll(PDO::FETCH_CLASS, Image::class);
 }
 
 /**
@@ -940,36 +984,7 @@ function get_cv_files(string $paremiotipus): array
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
-/**
- * Gets an obra array, or false.
- *
- * @return false|array{
- *     Any: ?string,
- *     Any_edició: ?int,
- *     Autor: ?string,
- *     Collecció: ?string,
- *     Data_compra: ?string,
- *     Edició: ?string,
- *     Editorial: ?string,
- *     HEIGHT: int,
- *     ISBN: ?string,
- *     Identificador: string,
- *     Idioma: ?string,
- *     Imatge: string,
- *     Lloc_compra: ?string,
- *     Municipi: ?string,
- *     Núm_collecció: ?string,
- *     Observacions: ?string,
- *     Preu: ?float,
- *     Pàgines: ?int,
- *     Registres: ?int,
- *     Títol: string,
- *     URL: ?string,
- *     Varietat_dialectal: ?string,
- *     WIDTH: int,
- * }
- */
-function get_obra(string $obra_title): array|false
+function get_obra(string $obra_title): false|Obra
 {
     $stmt = get_db()->prepare('SELECT
         `Any_edició`,
@@ -1001,34 +1016,7 @@ function get_obra(string $obra_title): array|false
         `Identificador` = :id');
     $stmt->execute([':id' => $obra_title]);
 
-    /**
-     * @var false|array{
-     *     Any: ?string,
-     *     Any_edició: ?int,
-     *     Autor: ?string,
-     *     Collecció: ?string,
-     *     Data_compra: ?string,
-     *     Edició: ?string,
-     *     Editorial: ?string,
-     *     HEIGHT: int,
-     *     ISBN: ?string,
-     *     Identificador: string,
-     *     Idioma: ?string,
-     *     Imatge: string,
-     *     Lloc_compra: ?string,
-     *     Municipi: ?string,
-     *     Núm_collecció: ?string,
-     *     Observacions: ?string,
-     *     Preu: ?float,
-     *     Pàgines: ?int,
-     *     Registres: ?int,
-     *     Títol: string,
-     *     URL: ?string,
-     *     Varietat_dialectal: ?string,
-     *     WIDTH: int,
-     * }
-     */
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $stmt->fetchObject(Obra::class);
 }
 
 /**
@@ -1289,21 +1277,15 @@ function format_nombre(float|int|string $num): string
  *
  * From the 00_EQUIVALENTS table, it returns `IDIOMA` values keyed by `CODI`.
  *
- * @return non-empty-array<string, string>
+ * @return array<string, string>
  */
 function get_idiomes(): array
 {
-    $idiomes = extension_loaded('apcu') ? apcu_fetch('equivalents') : false;
-    if ($idiomes === false) {
+    return cache_get('equivalents', static function (): array {
         $stmt = get_db()->query('SELECT `CODI`, `IDIOMA` FROM `00_EQUIVALENTS`');
-        $idiomes = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        if (extension_loaded('apcu')) {
-            apcu_store('equivalents', $idiomes);
-        }
-    }
 
-    /** @var non-empty-array<string, string> $idiomes */
-    return $idiomes;
+        return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    });
 }
 
 /**
@@ -1434,28 +1416,28 @@ function build_search_query(string $search, string $search_mode, string &$where_
  * Returns the number of search results.
  *
  * @param list<string> $arguments
+ *
+ * @throws Exception If the query fails
  */
 function get_n_results(string $where_clause, array $arguments): int
 {
-    // Cache the count query if APCu is available.
+    // Create a unique cache key based on the query and arguments
     $cache_key = $where_clause . ' ' . implode('|', $arguments);
-    $total = extension_loaded('apcu') ? apcu_fetch($cache_key) : false;
-    if ($total === false) {
+
+    return cache_get($cache_key, static function () use ($where_clause, $arguments): int {
         try {
             $stmt = get_db()->prepare("SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS` {$where_clause}");
             $stmt->execute($arguments);
             $total = $stmt->fetchColumn();
-            if (extension_loaded('apcu')) {
-                apcu_store($cache_key, $total);
-            }
-        } catch (Exception) {
-            $total = 0;
+            assert(is_int($total));
+
+            return $total;
+        } catch (Exception $exception) {
+            error_log('Error in get_n_results: ' . $exception->getMessage());
+
+            return 0;
         }
-    }
-
-    assert(is_int($total));
-
-    return $total;
+    });
 }
 
 /**
@@ -1561,43 +1543,29 @@ function normalize_search(?string $string, string $search_mode = ''): string
 /**
  * Returns array of 00_EDITORIA `NOM` values keyed by `CODI`.
  *
- * @return non-empty-array<string, string>
+ * @return array<string, string>
  */
 function get_editorials(): array
 {
-    $editorials = extension_loaded('apcu') ? apcu_fetch('editorials') : false;
-    if ($editorials === false) {
+    return cache_get('editorials', static function (): array {
         $stmt = get_db()->query('SELECT `CODI`, `NOM` FROM `00_EDITORIA`');
-        $editorials = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        if (extension_loaded('apcu')) {
-            apcu_store('editorials', $editorials);
-        }
-    }
 
-    /** @var non-empty-array<string, string> $editorials */
-    return $editorials;
+        return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    });
 }
 
 /**
  * Returns array of 00_FONTS `Títol` values keyed by `Identificador`.
  *
- * @return non-empty-array<string, string>
+ * @return array<string, string>
  */
 function get_fonts(): array
 {
-    $fonts = extension_loaded('apcu') ? apcu_fetch('fonts') : false;
-    if ($fonts === false) {
-        // We are only using the first column for now (not the title). We could extend this to include the full table
-        // and reuse it in the "obra" page, but that may not be worth it.
+    return cache_get('fonts', static function (): array {
         $stmt = get_db()->query('SELECT `Identificador`, `Títol` FROM `00_FONTS`');
-        $fonts = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        if (extension_loaded('apcu')) {
-            apcu_store('fonts', $fonts);
-        }
-    }
 
-    /** @var non-empty-array<string, string> $fonts */
-    return $fonts;
+        return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    });
 }
 
 /**
@@ -1605,7 +1573,8 @@ function get_fonts(): array
  *
  * @param string $file_name The file name of the image file.
  * @param string $path The path to the image file, starting with a slash.
- * @param string $alt_text (optional) The alt text for the image. Defaults to an empty string.
+ * @param string $alt_text (optional) The alternative text for the image. Defaults to an empty string.
+ * @param bool $escape_html (optional) Whether to escape the alternative text. Defaults to true.
  * @param int $width (optional) The width attribute for the <img> tag. Defaults to 0 (not set).
  * @param int $height (optional) The height attribute for the <img> tag. Defaults to 0 (not set).
  * @param bool $lazy_loading (optional) If true, adds 'loading="lazy"' to the <img> tag. Defaults to true.
@@ -1618,6 +1587,7 @@ function get_image_tags(
     string $file_name,
     string $path,
     string $alt_text = '',
+    bool $escape_html = true,
     int $width = 0,
     int $height = 0,
     bool $lazy_loading = true,
@@ -1663,7 +1633,7 @@ function get_image_tags(
         }
         $image_tags .= '>';
     }
-    $image_tags .= '<img alt="' . htmlspecialchars($alt_text) . '"';
+    $image_tags .= '<img alt="' . ($escape_html ? htmlspecialchars($alt_text) : $alt_text) . '"';
     if ($lazy_loading) {
         $image_tags .= ' loading="lazy"';
     }
@@ -1702,18 +1672,13 @@ function preload_image_header(string $url, string $media = '', string $type = ''
  */
 function get_n_modismes(): int
 {
-    $n_modismes = extension_loaded('apcu') ? apcu_fetch('n_modismes') : false;
-    if ($n_modismes === false) {
+    return cache_get('n_modismes', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS`');
-        $n_modismes = $stmt->fetchColumn();
-        if (extension_loaded('apcu')) {
-            apcu_store('n_modismes', $n_modismes);
-        }
-    }
+        $value = $stmt->fetchColumn();
+        assert(is_int($value));
 
-    assert(is_int($n_modismes));
-
-    return $n_modismes;
+        return $value;
+    });
 }
 
 /**
@@ -1721,18 +1686,13 @@ function get_n_modismes(): int
  */
 function get_n_paremiotipus(): int
 {
-    $n_paremiotipus = extension_loaded('apcu') ? apcu_fetch('n_paremiotipus') : false;
-    if ($n_paremiotipus === false) {
+    return cache_get('n_paremiotipus', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `paremiotipus_display`');
-        $n_paremiotipus = $stmt->fetchColumn();
-        if (extension_loaded('apcu')) {
-            apcu_store('n_paremiotipus', $n_paremiotipus);
-        }
-    }
+        $value = $stmt->fetchColumn();
+        assert(is_int($value));
 
-    assert(is_int($n_paremiotipus));
-
-    return $n_paremiotipus;
+        return $value;
+    });
 }
 
 /**
@@ -1740,18 +1700,13 @@ function get_n_paremiotipus(): int
  */
 function get_n_informants(): int
 {
-    $n_fonts = extension_loaded('apcu') ? apcu_fetch('n_informants') : false;
-    if ($n_fonts === false) {
+    return cache_get('n_informants', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(DISTINCT `AUTOR`) FROM `00_PAREMIOTIPUS`');
-        $n_fonts = $stmt->fetchColumn();
-        if (extension_loaded('apcu')) {
-            apcu_store('n_informants', $n_fonts);
-        }
-    }
+        $value = $stmt->fetchColumn();
+        assert(is_int($value));
 
-    assert(is_int($n_fonts));
-
-    return $n_fonts;
+        return $value;
+    });
 }
 
 /**
@@ -1759,18 +1714,13 @@ function get_n_informants(): int
  */
 function get_n_fonts(): int
 {
-    $n_fonts = extension_loaded('apcu') ? apcu_fetch('n_fonts') : false;
-    if ($n_fonts === false) {
+    return cache_get('n_fonts', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `00_FONTS`');
-        $n_fonts = $stmt->fetchColumn();
-        if (extension_loaded('apcu')) {
-            apcu_store('n_fonts', $n_fonts);
-        }
-    }
+        $value = $stmt->fetchColumn();
+        assert(is_int($value));
 
-    assert(is_int($n_fonts));
-
-    return $n_fonts;
+        return $value;
+    });
 }
 
 /**
@@ -1778,45 +1728,26 @@ function get_n_fonts(): int
  */
 function get_random_top_paremiotipus(int $max = 10000): string
 {
-    // Generate a random index.
     $random_index = mt_rand(0, $max - 1);
-    $cache_key = 'paremiotipus_' . $random_index;
 
-    // Check if the entry is in the cache.
-    $random_paremiotipus = extension_loaded('apcu') ? apcu_fetch($cache_key) : false;
-    if ($random_paremiotipus === false) {
-        // Fetch the entry from the database if not in cache.
+    return cache_get("paremiotipus_{$random_index}", static function () use ($random_index): string {
         $stmt = get_db()->query("SELECT `Paremiotipus` FROM `common_paremiotipus` LIMIT 1 OFFSET {$random_index}");
-        $random_paremiotipus = $stmt->fetchColumn();
+        $value = $stmt->fetchColumn();
 
-        // Cache the entry for future use.
-        if (extension_loaded('apcu')) {
-            apcu_store($cache_key, $random_paremiotipus);
-        }
-    }
-
-    return is_string($random_paremiotipus) ? $random_paremiotipus : '';
+        return is_string($value) ? $value : '';
+    });
 }
 
 /**
  * Returns a random book by Víctor Pàmies.
- *
- * @return array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}
  */
-function get_random_book(): array
+function get_random_book(): Book
 {
-    // As this query has a limited number of results but runs many times, cache it in memory.
-    /** @var false|list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
-    $books = extension_loaded('apcu') ? apcu_fetch('obresvpr') : false;
-    if ($books === false) {
+    $books = cache_get('obresvpr', static function (): array {
         $stmt = get_db()->query('SELECT `Imatge`, `Títol`, `URL`, `WIDTH`, `HEIGHT` FROM `00_OBRESVPR`');
 
-        /** @var list<array{Imatge: string, Títol: string, URL: ?string, WIDTH: int, HEIGHT: int}> $books */
-        $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (extension_loaded('apcu')) {
-            apcu_store('obresvpr', $books);
-        }
-    }
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
+    });
 
     return $books[array_rand($books)];
 }

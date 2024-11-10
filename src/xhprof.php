@@ -16,5 +16,5 @@ xhprof_enable(XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY);
 register_shutdown_function(
     static function (): void {
         file_put_contents('/tmp/' . uniqid() . '.PCCD.xhprof', serialize(xhprof_disable()));
-    },
+    }
 );

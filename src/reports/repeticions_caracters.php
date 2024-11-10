@@ -12,7 +12,7 @@
 
 function string_has_consecutive_repeated_chars(string $str): bool
 {
-    $common_repetitions = ['...', 'cc', 'ee', 'll', 'mm', 'nn', 'oo', 'rr', 'ss', 'uu'];
+    $common_repetitions = ['cc', 'ee', 'll', 'mm', 'nn', 'oo', 'rr', 'ss', 'uu'];
 
     $last_char_pos = mb_strlen($str) - 1;
     for ($i = 0; $i < $last_char_pos; $i++) {

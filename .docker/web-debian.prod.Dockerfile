@@ -1,4 +1,4 @@
-FROM php:8.3.12-apache-bookworm
+FROM php:8.3.13-apache-bookworm
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Debian-based image with Apache and mod_php. This was used in production prior to having Alpine."
 

@@ -58,11 +58,4 @@
             searchBox.select();
         }
     });
-
-    searchBox.addEventListener("touchend", () => {
-        // On touch devices, select the word on touch, unless it is already selected.
-        if (searchBox.value && searchBox.selectionStart === searchBox.selectionEnd) {
-            searchBox.select();
-        }
-    });
 })();

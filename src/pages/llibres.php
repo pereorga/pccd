@@ -13,28 +13,13 @@
 set_page_title('Llibres de Víctor Pàmies');
 set_meta_description("Llibres de l'autor de la Paremiologia catalana comparada digital (PCCD).");
 
-$stmt = get_db()->query('SELECT `Imatge`, `Títol`, `URL`, `WIDTH`, `HEIGHT` FROM `00_OBRESVPR`');
-$records = $stmt->fetchAll(PDO::FETCH_ASSOC);
-echo '<div class="books">';
-foreach ($records as $record) {
-    // TODO: FIXME in the DB.
-    if ($record['URL'] === 'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/') {
-        $record['URL'] = 'https://lafinestralectora.cat/els-100-refranys-mes-populars/';
-    }
+$books = cache_get('obresvpr', static function (): array {
+    $stmt = get_db()->query('SELECT `Imatge`, `Títol`, `URL`, `WIDTH`, `HEIGHT` FROM `00_OBRESVPR`');
 
-    if ($record['URL'] !== null) {
-        echo '<a href="' . $record['URL'] . '" title="' . htmlspecialchars($record['Títol']) . '">';
-    }
-    echo get_image_tags(
-        file_name: $record['Imatge'],
-        path: '/img/obres/',
-        alt_text: $record['Títol'],
-        width: $record['WIDTH'],
-        height: $record['HEIGHT'],
-        lazy_loading: false
-    );
-    if ($record['URL'] !== null) {
-        echo '</a>';
-    }
+    return $stmt->fetchAll(PDO::FETCH_CLASS, Book::class);
+});
+echo '<div class="books">';
+foreach ($books as $book) {
+    echo $book->render(['lazy_loading' => false]);
 }
 echo '</div>';

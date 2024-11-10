@@ -24,11 +24,7 @@ $header = <<<'EOF'
     EOF;
 
 $finder = Finder::create()
-    ->notPath('node_modules')
-    ->notPath('src/third_party')
-    ->notPath('tmp')
-    ->notPath('vendor')
-    ->name('*.php')
+    ->exclude(['node_modules', 'src/third_party', 'tmp'])
     ->ignoreDotFiles(false)
     ->in(__DIR__);
 
@@ -45,6 +41,7 @@ $config
         'declare_strict_types' => false,
         'header_comment' => ['header' => $header, 'comment_type' => 'PHPDoc', 'location' => 'after_open'],
         'increment_style' => ['style' => 'post'],
+        'modernize_strpos' => true,
         'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
         'phpdoc_align' => false,
         'phpdoc_annotation_without_dot' => false,
@@ -52,6 +49,7 @@ $config
         'phpdoc_to_comment' => false,
         'php_unit_internal_class' => false,
         'php_unit_test_class_requires_covers' => false,
+        'psr_autoloading' => false,
         'random_api_migration' => false,
         'yoda_style' => false,
     ])
