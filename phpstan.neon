@@ -15,9 +15,6 @@ parameters:
   excludePaths:
     - *.generated.php
     - */apc.conf.php
-    - */node_modules/*
     - */third_party/*
-    - */vendor/*
-    - src/xhprof.php
   ignoreErrors:
     - '#Cannot call method (execute|fetch|fetchAll|fetchColumn|fetchObject)\(\) on PDOStatement\|false#'

@@ -63,15 +63,29 @@ function test_imatges_no_reconegudes(): void
     $stmt = get_db()->query('SELECT `Imatge` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
-        if ($i !== null && !str_ends_with($i, '.jpg') && !str_ends_with($i, '.png') && !str_ends_with($i, '.gif')) {
-            echo 'cobertes/' . $i . "\n";
+        if ($i !== null) {
+            assert(is_string($i));
+            if (
+                !str_ends_with($i, '.jpg')
+                && !str_ends_with($i, '.png')
+                && !str_ends_with($i, '.gif')
+            ) {
+                echo 'cobertes/' . $i . "\n";
+            }
         }
     }
     $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
-        if ($i !== null && !str_ends_with($i, '.jpg') && !str_ends_with($i, '.png') && !str_ends_with($i, '.gif')) {
-            echo 'paremies/' . $i . "\n";
+        if ($i !== null) {
+            assert(is_string($i));
+            if (
+                !str_ends_with($i, '.jpg')
+                && !str_ends_with($i, '.png')
+                && !str_ends_with($i, '.gif')
+            ) {
+                echo 'paremies/' . $i . "\n";
+            }
         }
     }
     echo '</pre>';
@@ -104,6 +118,7 @@ function test_imatges_minuscules(): void
     $imatges = get_db()->query('SELECT `Imatge` FROM `00_FONTS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $filename) {
         if ($filename !== null) {
+            assert(is_string($filename));
             $name = pathinfo($filename, PATHINFO_FILENAME);
             if ($name !== mb_strtoupper($name)) {
                 echo $filename . "\n";

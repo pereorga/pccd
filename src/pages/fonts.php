@@ -21,11 +21,11 @@ echo '<thead><tr><th scope="col">Autor</th><th scope="col">Any</th><th scope="co
 echo '<tbody>';
 foreach ($records as $r) {
     echo '<tr>';
-    echo '<td>' . htmlspecialchars($r['Autor']) . '</td>';
+    echo '<td>' . htmlspecialchars($r['Autor'] ?? '') . '</td>';
     echo '<td>' . $r['Any'] . '</td>';
-    echo '<td><a href="' . get_obra_url($r['Identificador']) . '">' . htmlspecialchars($r['Títol']) . '</a></td>';
+    echo '<td><a href="' . get_obra_url($r['Identificador'] ?? '') . '">' . htmlspecialchars($r['Títol'] ?? '') . '</a></td>';
     echo '<td>' . $r['Registres'] . '</td>';
-    echo '<td>' . htmlspecialchars($r['Varietat_dialectal']) . '</td>';
+    echo '<td>' . htmlspecialchars($r['Varietat_dialectal'] ?? '') . '</td>';
     echo '</tr>';
 }
 echo '</tbody>';

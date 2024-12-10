@@ -1,6 +1,7 @@
 [mysqld]
 character-set-server = utf8mb4
 collation-server = utf8mb4_uca1400_ai_ci
+innodb_adaptive_hash_index = 1
 innodb_buffer_pool_size = 2048M
 innodb_doublewrite = 0
 innodb_flush_log_at_timeout = 1800
@@ -12,4 +13,5 @@ innodb_ft_min_token_size = 1
 max_allowed_packet = 1024M
 net_read_timeout = 120
 net_write_timeout = 120
+performance_schema = 0
 skip-log-bin

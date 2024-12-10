@@ -20,7 +20,7 @@
 
 /* Show only outline when needed for accessibilty */
 :focus:not(:focus-visible) {
-    outline: none;
+    outline: 0;
 }
 
 /* Remove annoying scrolling effect on iOS. See https://stackoverflow.com/a/47818418/1391963 and

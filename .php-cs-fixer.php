@@ -32,7 +32,7 @@ $config = new Config();
 $config
     ->setRiskyAllowed(true)
     ->setRules([
-        '@PHP80Migration:risky' => true,
+        '@PHP82Migration:risky' => true,
         '@PHP84Migration' => true,
         '@PhpCsFixer' => true,
         '@PhpCsFixer:risky' => true,

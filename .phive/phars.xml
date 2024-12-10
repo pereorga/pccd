@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="composer" version="^2.8.2" installed="2.8.2" location="./tools/composer.phar" copy="true"/>
-  <phar name="composer-normalize" version="^2.44.0" installed="2.44.0" location="./tools/composer-normalize.phar" copy="true"/>
-  <phar name="php-cs-fixer" version="^3.64.0" installed="3.64.0" location="./tools/php-cs-fixer.phar" copy="true"/>
+  <phar name="composer" version="^2.8.3" installed="2.8.3" location="./tools/composer.phar" copy="true"/>
+  <phar name="composer-normalize" version="^2.45.0" installed="2.45.0" location="./tools/composer-normalize.phar" copy="true"/>
+  <phar name="php-cs-fixer" version="^3.65.0" installed="3.65.0" location="./tools/php-cs-fixer.phar" copy="true"/>
   <phar name="php-parallel-lint/php-parallel-lint" version="^1.4.0" installed="1.4.0" location="./tools/parallel-lint.phar" copy="true"/>
-  <phar name="phpunit" version="^11.4.3" installed="11.4.3" location="./tools/phpunit.phar" copy="true"/>
+  <phar name="phpunit" version="^11.5.0" installed="11.5.0" location="./tools/phpunit.phar" copy="true"/>
   <phar name="psalm" version="^5.26.1" installed="5.26.1" location="./tools/psalm.phar" copy="true"/>
 </phive>

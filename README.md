@@ -1,7 +1,6 @@
-# Paremiologia catalana comparada digital (PCCD)
+# Paremiologia catalana comparada digital (PCCD) [![License: AGPL v3](docs/img/agpl-v3.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/) website. The PCCD database
-and media files are not distributed with this repository.
+This is the source code of [Paremiologia catalana comparada digital](https://pccd.dites.cat/) website.
 
 ## Installation
 
@@ -95,13 +94,18 @@ For details on contributing to this repository, see the contributing guidelines:
 - [English version](CONTRIBUTING.md)
 - [Versió en català](CONTRIBUTING_ca.md)
 
-## TODO
+## Technology stack
 
-- Compliance: consider start using GA conditionally when the cookie dialog has been accepted, or better, consider
-  removing Google Tag Manager or switching to a lighter Google Analytics alternative (see
-  <https://news.ycombinator.com/item?id=32068539>)
+<a href="https://www.php.net/"><img src="docs/img/php.svg" alt="PHP" width="50"></a>
+<a href="https://developer.mozilla.org/docs/Web/JavaScript"><img src="docs/img/javascript.svg" alt="JavaScript" width="50"></a>
+<a href="https://developer.mozilla.org/docs/Web/CSS"><img src="docs/img/css.svg" alt="CSS" width="50"></a>
+<a href="https://httpd.apache.org/"><img src="docs/img/apache.svg" alt="Apache HTTP server" width="50"></a>
+<a href="https://mariadb.org/"><img src="docs/img/mariadb.svg" alt="MariaDB" width="50"></a>
+<a href="https://github.com/mdbtools/mdbtools"><img src="docs/img/mdbtools.png" alt="MDB Tools" width="50"></a>
+<a href="https://alpinelinux.org/"><img src="docs/img/alpinelinux.svg" alt="Alpine Linux" width="50"></a>
+<a href="https://www.debian.org/"><img src="docs/img/debian.svg" alt="Debian" width="50"></a>
 
-## License
+## Copyright & License
 
 Copyright (c) Pere Orga Esteve <pere@orga.cat>, 2020.
 
@@ -114,7 +118,7 @@ File [scripts/common-voice-export/pccd.txt](scripts/common-voice-export/pccd.txt
 is Copyright (c) Víctor Pàmies i Riudor and is made available under the
 [Creative Commons Zero 1.0 Universal license](https://creativecommons.org/publicdomain/zero/1.0/) (CC0 1.0).
 
-For more details about PCCD, visit <https://pccd.dites.cat/>.
+Note that the database and media files are not distributed with this repository. For more details about PCCD, visit <https://pccd.dites.cat/>.
 
 This repository includes:
 

@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.21
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Alpine-based image with Apache and mod_php. Used in production."
 
@@ -20,13 +20,13 @@ WORKDIR /srv/app
 RUN apk --no-cache --update add \
     apache2 \
     apache2-brotli \
-    php83-apache2 \
-    php83-apcu \
-    php83-gd \
-    php83-mbstring \
-    php83-opcache \
-    php83-pdo_mysql \
-    php83-session
+    php84-apache2 \
+    php84-apcu \
+    php84-gd \
+    php84-mbstring \
+    php84-opcache \
+    php84-pdo_mysql \
+    php84-session
 
 # Remove Apache DocumentRoot default settings
 RUN sed -i '/^DocumentRoot/d' /etc/apache2/httpd.conf \
@@ -37,11 +37,11 @@ RUN sed -i '/^DocumentRoot/d' /etc/apache2/httpd.conf \
     && sed -i 's/#LoadModule\ headers_module/LoadModule\ headers_module/' /etc/apache2/httpd.conf \
     && sed -i 's/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/' /etc/apache2/httpd.conf \
     # Hide PHP
-    && echo 'expose_php = Off' > /etc/php83/conf.d/security.ini
+    && echo 'expose_php = Off' > /etc/php84/conf.d/security.ini
 
 # Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/conf.d/vhost.conf
-COPY .docker/php/performance.ini /etc/php83/conf.d/performance.ini
+COPY .docker/php/performance.ini /etc/php84/conf.d/performance.ini
 
 # Copy project files
 COPY docroot ./docroot

@@ -45,9 +45,9 @@ function stats_obres(): void
         assert(is_int($r['Registres']));
         assert(is_int($r['NumberOfReferences']));
         echo '<tr>';
-        echo '<td><a href="' . get_obra_url($r['Font']) . '">' . htmlspecialchars($r['Font']) . '</a></td>';
+        echo '<td><a href="' . get_obra_url($r['Font'] ?? '') . '">' . htmlspecialchars($r['Font'] ?? '') . '</a></td>';
         echo '<td>' . format_nombre($r['Registres']) . '</td>';
-        echo '<td><a title="Mostra els paremiotipus" href="/?font=' . name_to_path($r['Font']) . '">' . format_nombre($r['NumberOfReferences']) . '</a></td>';
+        echo '<td><a title="Mostra els paremiotipus" href="/?font=' . name_to_path($r['Font'] ?? '') . '">' . format_nombre($r['NumberOfReferences']) . '</a></td>';
         echo '<td>' . format_nombre($r['Registres'] - $r['NumberOfReferences']) . '</td>';
         echo '</tr>';
     }

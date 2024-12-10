@@ -79,20 +79,23 @@ function test_paremiotipus_repetits(): void
     $prev = '';
     $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        $string1 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($m, SIMILAR_TEXT_MAX_LENGTH)));
-        $string2 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($prev, SIMILAR_TEXT_MAX_LENGTH)));
+        if ($m !== null) {
+            assert(is_string($m));
+            $string1 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($m, SIMILAR_TEXT_MAX_LENGTH)));
+            $string2 = strtolower((string) preg_replace('#[[:punct:]]#', '', substr($prev, SIMILAR_TEXT_MAX_LENGTH)));
 
-        similar_text($string1, $string2, $percent);
-        if (
-            $percent > SIMILAR_TEXT_THRESHOLD_1
-            || (
-                $percent > SIMILAR_TEXT_THRESHOLD_2
-                && strlen($string1) > SIMILAR_TEXT_MIN_LENGTH
-            )
-        ) {
-            echo get_paremiotipus_display($prev, escape_html: false) . "\n" . get_paremiotipus_display($m, escape_html: false) . "\n\n";
+            similar_text($string1, $string2, $percent);
+            if (
+                $percent > SIMILAR_TEXT_THRESHOLD_1
+                || (
+                    $percent > SIMILAR_TEXT_THRESHOLD_2
+                    && strlen($string1) > SIMILAR_TEXT_MIN_LENGTH
+                )
+            ) {
+                echo get_paremiotipus_display($prev, escape_html: false) . "\n" . get_paremiotipus_display($m, escape_html: false) . "\n\n";
+            }
+            $prev = $m;
         }
-        $prev = $m;
     }
     echo '</pre>';
 

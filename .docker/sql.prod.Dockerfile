@@ -1,4 +1,4 @@
-FROM mariadb:10.11.9-jammy
+FROM mariadb:10.11.10-jammy
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="MariaDB image used in production."
 
@@ -15,6 +15,7 @@ ENV MYSQL_USER=${ARG_MYSQL_USER}
 COPY ./.docker/mysql /etc/mysql/conf.d
 
 # Set the DB to be read-only (production only)
-RUN echo "read_only = 1" >> /etc/mysql/conf.d/custom.cnf && chmod 0444 /etc/mysql/conf.d/*
+RUN echo "read_only = 1" >> /etc/mysql/conf.d/custom.cnf && \
+    chmod 0444 /etc/mysql/conf.d/*
 
 COPY ./install/db /docker-entrypoint-initdb.d

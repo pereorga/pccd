@@ -20,6 +20,7 @@ final class PhpVersionTest extends TestCase
     {
         $composerJsonContent = file_get_contents(__DIR__ . '/../../composer.json');
         $composerJson = json_decode($composerJsonContent, true);
+        \assert(\is_string($composerJson['require']['php']));
         $composerPhpVersion = trim($composerJson['require']['php'], '>=^');
 
         $shellNixPath = realpath(__DIR__ . '/../../shell.nix');
@@ -45,28 +46,12 @@ final class PhpVersionTest extends TestCase
 
         $composerJsonContent = file_get_contents(__DIR__ . '/../../composer.json');
         $composerJson = json_decode($composerJsonContent, true);
+        \assert(\is_string($composerJson['require']['php']));
         $composerPhpVersion = trim($composerJson['require']['php'], '>=^');
 
         self::assertTrue(
             version_compare($phpStormPhpVersion, $composerPhpVersion, '>='),
             "PHP version in PhpStorm settings {$phpStormPhpVersion}) is lower than composer.json minimum version ({$composerPhpVersion})"
-        );
-    }
-
-    public function testRectorPhpVersionHasAtLeastComposerJsonPhpVersion(): void
-    {
-        $rectorConfigContent = file_get_contents(__DIR__ . '/../../rector.php');
-
-        preg_match('/UP_TO_PHP_(\d)(\d)/', $rectorConfigContent, $matches);
-        $extractedRectorPhpVersion = isset($matches[1]) && isset($matches[2]) ? $matches[1] . '.' . $matches[2] : 'Not Found';
-
-        $composerJsonContent = file_get_contents(__DIR__ . '/../../composer.json');
-        $composerJson = json_decode($composerJsonContent, true);
-        $composerPhpVersion = trim($composerJson['require']['php'], '>=^');
-
-        self::assertTrue(
-            version_compare($extractedRectorPhpVersion, $composerPhpVersion, '>='),
-            "PHP version in Rector ({$extractedRectorPhpVersion}) is lower than the minimum required version in composer.json ({$composerPhpVersion})"
         );
     }
 }

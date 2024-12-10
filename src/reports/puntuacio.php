@@ -176,6 +176,14 @@ function test_puntuacio(): void
     }
     echo '</pre>';
 
+    echo '<h3>Modismes amb caràcters no reconeguts</h3>';
+    echo '<details><pre>';
+    $modismes = get_db()->query("SELECT DISTINCT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` REGEXP '[гпичäȧ́ä́ãõâêôûćčłø~ˆ¨ßşšžźŧ]'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($modismes as $m) {
+        echo $m . "\n";
+    }
+    echo '</pre></details>';
+
     echo '<h3>Modismes acabats amb signe de puntuació inusual</h3>';
     echo '<pre>';
     $modismes = $pdo->query("SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` LIKE '%,' OR `MODISME` LIKE '%;' OR `MODISME` LIKE '%:'")->fetchAll(PDO::FETCH_COLUMN);
@@ -244,7 +252,7 @@ function test_paremiotipus_caracters_inusuals(): void
         $t = str_replace(
             ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç', '«', '»', '·', '–', '‑', '—', '―', '─', '…'],
             '',
-            mb_strtolower($p)
+            mb_strtolower($p ?? '')
         );
         if (
             // If it contains any non-ASCII character
@@ -268,9 +276,12 @@ function test_paremiotipus_caracters_inusuals(): void
     ];
     $guions_keys = array_keys($guions);
     foreach ($paremiotipus as $p) {
-        foreach ($guions_keys as $guio) {
-            if (str_contains($p, $guio)) {
-                $guions[$guio][] = $p;
+        if ($p !== null) {
+            assert(is_string($p));
+            foreach ($guions_keys as $guio) {
+                if (str_contains($p, $guio)) {
+                    $guions[$guio][] = $p;
+                }
             }
         }
     }
@@ -300,9 +311,12 @@ function test_paremiotipus_caracters_inusuals(): void
     ];
     $guions_keys = array_keys($guions);
     foreach ($paremiotipus as $p) {
-        foreach ($guions_keys as $guio) {
-            if (str_contains($p, $guio)) {
-                $guions[$guio][] = $p;
+        if ($p !== null) {
+            assert(is_string($p));
+            foreach ($guions_keys as $guio) {
+                if (str_contains($p, $guio)) {
+                    $guions[$guio][] = $p;
+                }
             }
         }
     }
@@ -331,7 +345,7 @@ function test_paremiotipus_final(): void
         $t = str_replace(
             ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç'],
             ['a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u', 'c'],
-            mb_strtolower($p)
+            mb_strtolower($p ?? '')
         );
         if (
             preg_match('/[a-z]$/', $t) === 0

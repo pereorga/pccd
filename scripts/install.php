@@ -54,6 +54,7 @@ $paremies = $pdo->query('SELECT `Id`, `PAREMIOTIPUS`, `MODISME` FROM `00_PAREMIO
 foreach ($paremies as $p) {
     // Try to clean phrases ending with numbers and fill ACCEPCIO field instead.
     if ($p['MODISME'] !== null) {
+        assert(is_string($p['MODISME']));
         $modisme = trim($p['MODISME']);
         if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
             $last = end($matches[0]);

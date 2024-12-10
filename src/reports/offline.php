@@ -128,8 +128,10 @@ function background_test_imatges_links(int $start = 0, int $end = 0): string
     for ($i = $start; $i < $end; $i++) {
         $font = $fonts[$i];
         $url = $font['URL_ENLLAÇ'];
-
-        if (!is_string($url) || $url === '') {
+        if (!is_string($url)) {
+            continue;
+        }
+        if ($url === '') {
             continue;
         }
 
@@ -181,11 +183,11 @@ function background_test_paremiotipus_repetits(int $start = 0, int $end = 0): st
     $output = '';
     for ($i = $start; $i < $end; $i++) {
         $value1 = $modismes[$i];
-        $length1 = strlen($value1);
+        $length1 = strlen($value1 ?? '');
 
         for ($u = $i + 1; $u < $total; $u++) {
             $value2 = $modismes[$u];
-            $length2 = strlen($value2);
+            $length2 = strlen($value2 ?? '');
 
             if (abs($length1 - $length2) < LEVENSHTEIN_MAX_DISTANCE) {
                 $similarity = 1 - (levenshtein($value1, $value2) / max($length1, $length2));
@@ -289,7 +291,13 @@ function background_test_imatges_no_referenciades(): string
     $dir = new DirectoryIterator(__DIR__ . '/../../docroot/img/imatges/');
     foreach ($dir as $file_info) {
         $filename = $file_info->getFilename();
-        if ($filename === '.' || $filename === '..' || $filename === '.picasa.ini') {
+        if ($filename === '.') {
+            continue;
+        }
+        if ($filename === '..') {
+            continue;
+        }
+        if ($filename === '.picasa.ini') {
             continue;
         }
 
@@ -308,7 +316,13 @@ function background_test_imatges_no_referenciades(): string
     $dir = new DirectoryIterator(__DIR__ . '/../../docroot/img/obres/');
     foreach ($dir as $file_info) {
         $filename = $file_info->getFilename();
-        if ($filename === '.' || $filename === '..' || $filename === '.picasa.ini') {
+        if ($filename === '.') {
+            continue;
+        }
+        if ($filename === '..') {
+            continue;
+        }
+        if ($filename === '.picasa.ini') {
             continue;
         }
 

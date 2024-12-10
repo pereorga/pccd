@@ -60,6 +60,7 @@ function test_dsff(): void
     foreach ($data as $item) {
         assert(is_array($item));
         assert(is_string($item['title']));
+        assert(is_string($item['sources']));
         $title = trim($item['title']);
         $title_lc = mb_strtolower($title);
         $dsff_all_sentences[$title_lc] = true;
@@ -158,9 +159,12 @@ function test_dsff(): void
     $missing_modismes_table .= '<tr><th>Modisme</th><th>Font PCCD</th></tr>';
     $count = 0;
     foreach ($pccd_modismes as $modisme) {
-        if (!isset($dsff_all_sentences[mb_strtolower($modisme['MODISME'])])) {
-            $missing_modismes_table .= '<tr><td>' . htmlspecialchars($modisme['MODISME']) . '</td><td>' . htmlspecialchars($modisme['ID_FONT']) . '</td></tr>';
-            $count++;
+        if ($modisme['MODISME'] !== null) {
+            assert(is_string($modisme['MODISME']));
+            if (!isset($dsff_all_sentences[mb_strtolower($modisme['MODISME'])])) {
+                $missing_modismes_table .= '<tr><td>' . htmlspecialchars($modisme['MODISME']) . '</td><td>' . htmlspecialchars($modisme['ID_FONT'] ?? '') . '</td></tr>';
+                $count++;
+            }
         }
     }
     $missing_modismes_table .= '</table>';

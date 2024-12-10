@@ -23,7 +23,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $text = 'Check out https://www.example.com for more information.';
         $result = html_escape_and_link_urls($text);
 
-        $expected = 'Check out <a class="external" target="_blank" rel="noopener noreferrer" href="https://www.example.com">https://www.example.com</a> for more information.';
+        $expected = 'Check out <a class="external" target="_blank" rel="noopener" href="https://www.example.com">https://www.example.com</a> for more information.';
         self::assertSame($expected, $result);
     }
 
@@ -34,7 +34,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $text = '<b>This is bold text</b> and this is a URL: https://www.example.com';
         $result = html_escape_and_link_urls($text);
 
-        $expected = '&lt;b&gt;This is bold text&lt;/b&gt; and this is a URL: <a class="external" target="_blank" rel="noopener noreferrer" href="https://www.example.com">https://www.example.com</a>';
+        $expected = '&lt;b&gt;This is bold text&lt;/b&gt; and this is a URL: <a class="external" target="_blank" rel="noopener" href="https://www.example.com">https://www.example.com</a>';
         self::assertSame($expected, $result);
     }
 
@@ -67,7 +67,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $text = 'http://www.exemple.cat/';
         $result = html_escape_and_link_urls($text);
 
-        $expected = '<a class="external" target="_blank" rel="noopener noreferrer" href="http://www.exemple.cat/">http://www.exemple.cat/</a>';
+        $expected = '<a class="external" target="_blank" rel="noopener" href="http://www.exemple.cat/">http://www.exemple.cat/</a>';
         self::assertSame($expected, $result);
     }
 
@@ -78,7 +78,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $text = 'https://usuaris.tinet.cat/~netol/';
         $result = html_escape_and_link_urls($text);
 
-        $expected = '<a class="external" target="_blank" rel="noopener noreferrer" href="https://usuaris.tinet.cat/~netol/">https://usuaris.tinet.cat/~netol/</a>';
+        $expected = '<a class="external" target="_blank" rel="noopener" href="https://usuaris.tinet.cat/~netol/">https://usuaris.tinet.cat/~netol/</a>';
         self::assertSame($expected, $result);
     }
 }

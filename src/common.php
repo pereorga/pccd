@@ -205,7 +205,7 @@ function html_escape_and_link_urls(string $text, string $property = '', bool $de
                 );
             }
 
-            $linkHtml = '<a class="external" target="_blank" rel="noopener noreferrer"';
+            $linkHtml = '<a class="external" target="_blank" rel="noopener"';
             $linkHtml .= ' href="' . htmlspecialchars($url) . '"';
             if ($property !== '') {
                 $linkHtml .= ' property="' . $property . '"';
@@ -772,7 +772,7 @@ function name_to_path(string $name, bool $encode = true): string
     $path = str_replace([' ', '/'], ['_', '\\'], $name);
 
     if ($encode) {
-        $path = rawurlencode($path);
+        return rawurlencode($path);
     }
 
     return $path;
@@ -1060,9 +1060,7 @@ function get_obra_url(string $obra, bool $absolute = false): string
         $url = 'https://pccd.dites.cat';
     }
 
-    $url .= '/obra/' . name_to_path($obra);
-
-    return $url;
+    return $url . '/obra/' . name_to_path($obra);
 }
 
 /**
@@ -1149,11 +1147,7 @@ function get_pager_url(int $page_number): string
 function render_pager_element(int $page_number, int|string $name, int|string $title = '', bool $is_active = false): string
 {
     $rel = '';
-    if ($title === 'Primera pàgina') {
-        $rel = 'first';
-    } elseif ($title === 'Última pàgina') {
-        $rel = 'last';
-    } elseif ($title === 'Pàgina següent') {
+    if ($title === 'Pàgina següent') {
         $rel = 'next';
     } elseif ($title === 'Pàgina anterior') {
         $rel = 'prev';
@@ -1169,9 +1163,8 @@ function render_pager_element(int $page_number, int|string $name, int|string $ti
         }
         $pager_item .= '>' . $name . '</a>';
     }
-    $pager_item .= '</li>';
 
-    return $pager_item;
+    return $pager_item . '</li>';
 }
 
 /**
@@ -1665,6 +1658,22 @@ function preload_image_header(string $url, string $media = '', string $type = ''
         $header .= "; media=\"{$media}\"";
     }
     header($header);
+
+    // The goal here is to flush the headers early, allowing the browser to start
+    // preloading the specified image before the full HTML content is generated.
+    // However, the practical impact of this optimization has proven to be minimal
+    // for 2 reasons:
+    // 1. The page is already generated very quickly.
+    // 2. The header is added late in the script execution.
+    //
+    // Benchmarking with Chrome DevTools and curl showed marginal improvements of
+    // ~2-5ms in the time for headers to be received. Moving the preload logic
+    // earlier in the script (e.g., at the top of a long "paremiotipus" page)
+    // reduced this time further to ~12-17ms, still well below the threshold of
+    // human perception.
+    //
+    // ob_flush();
+    // flush();
 }
 
 /**

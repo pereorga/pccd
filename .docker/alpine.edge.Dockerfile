@@ -6,7 +6,7 @@ LABEL description="Alpine edge-based image, with PHP 8.4."
 WORKDIR /srv/app
 
 # Enable the testing repository
-# Install Apache, Apache modules, PHP, and PHP extensions
+# Install Apache, Apache modules, PHP and PHP extensions
 # hadolint ignore=DL3018
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk --no-cache --update add \

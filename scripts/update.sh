@@ -127,6 +127,56 @@ check_version_docker_compose() {
 }
 
 ##############################################################################
+# Updates the version of a Docker image specified with an ARG directive in a
+# Dockerfile if a newer version exists on Docker Hub.
+# Arguments:
+#   A Dockerfile path (e.g., "./Dockerfile")
+#   An image name (e.g., "php")
+#   The ARG name used to specify the image tag (e.g., "PHP_IMAGE_TAG")
+##############################################################################
+update_dockerfile_arg_image_version() {
+    local -r DOCKERFILE="$1"
+    local -r IMAGE_NAME="$2"
+    local -r ARG_NAME="$3"
+    local current_tag numeric_version suffix next_numeric_version next_tag updated_line
+
+    # Extract the current image tag from the ARG directive
+    current_tag=$(grep -E "^ARG ${ARG_NAME}=" "${DOCKERFILE}" | sed -E "s/^ARG ${ARG_NAME}=//")
+    if [[ -z "${current_tag}" ]]; then
+        echo "ERROR: ARG ${ARG_NAME} not found in ${DOCKERFILE}."
+        return 1
+    fi
+
+    # Split the tag into the numeric version and suffix
+    numeric_version=$(echo "${current_tag}" | grep -E -o '^[0-9]+\.[0-9]+\.[0-9]+')
+    suffix=$(echo "${current_tag}" | sed -E "s/${numeric_version}//")
+
+    if [[ -z "${numeric_version}" ]]; then
+        echo "ERROR: Failed to parse the numeric version from the tag '${current_tag}'."
+        return 1
+    fi
+
+    # Increment the numeric version
+    next_numeric_version=$(increment_version "${numeric_version}")
+
+    # Construct the next tag
+    next_tag="${next_numeric_version}${suffix}"
+
+    # Check if the incremented version exists on Docker Hub
+    if version_exists_dockerhub "${IMAGE_NAME}" "${next_tag}"; then
+        echo "${IMAGE_NAME} Docker image is out of date, updating ${ARG_NAME} to ${next_tag}..."
+
+        # Update the ARG directive in the Dockerfile
+        updated_line="ARG ${ARG_NAME}=${next_tag}"
+        sed -i'.original' -E "s/^ARG ${ARG_NAME}=.*/${updated_line}/" "${DOCKERFILE}"
+        rm "${DOCKERFILE}.original"
+    else
+        echo "OK: ${IMAGE_NAME} Docker image is up to date in ${DOCKERFILE}."
+    fi
+}
+export -f update_dockerfile_arg_image_version
+
+##############################################################################
 # Installs newest versions of Composer packages. See https://stackoverflow.com/a/74760024/1391963
 # Arguments:
 #   None
@@ -209,6 +259,9 @@ update_npm() {
             npm install "${package}@${latest}" --save
         fi
     done
+
+    # Avoid error "node_modules/.bin/lightningcss: line 1: This: command not found"
+    npm ci
 }
 
 ##############################################################################
@@ -276,7 +329,7 @@ if [[ $1 == "opcache-gui" ]]; then
 fi
 
 if [[ $1 == "docker" ]]; then
-    check_version_docker_file .docker/web-debian.prod.Dockerfile php
+    update_dockerfile_arg_image_version .docker/debian.dev.Dockerfile php PHP_IMAGE_TAG
     check_version_docker_file .docker/alpine.dev.Dockerfile alpine
     check_version_docker_file .docker/web-alpine.prod.Dockerfile alpine
     check_version_docker_file .docker/sql.prod.Dockerfile mariadb

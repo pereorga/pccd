@@ -3,13 +3,13 @@
 *.css diff=css
 *.php diff=php
 
-*.avif binary
-*.gif binary
-*.jpg binary
+*.avif binary diff
+*.gif binary diff
+*.jpg binary diff
 *.mp3 binary
-*.png binary
+*.png binary diff
 *.ttf binary
-*.webp binary
+*.webp binary diff
 
 *.generated.* linguist-generated -diff
 *.min.* linguist-generated -diff
@@ -33,4 +33,3 @@
 /src/third_party export-ignore
 /src/reports/*.txt export-ignore
 /tmp/test* export-ignore
-/vendor export-ignore

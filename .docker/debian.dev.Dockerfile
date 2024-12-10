@@ -1,4 +1,4 @@
-ARG PHP_IMAGE_TAG=8.3.13-apache-bookworm
+ARG PHP_IMAGE_TAG=8.4.1-apache-bookworm
 
 FROM php:${PHP_IMAGE_TAG}
 LABEL maintainer="Pere Orga pere@orga.cat"
@@ -29,7 +29,6 @@ RUN rm -f /etc/apache2/mods-enabled/deflate.conf /etc/apache2/mods-enabled/alias
 
 # Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
-#COPY .docker/php/performance.ini /etc/php83/conf.d/performance.ini
 
 # Copy project files
 COPY docroot ./docroot

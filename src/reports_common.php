@@ -178,8 +178,6 @@ function get_data_from_files(array $files, string $directoryPath, string $attrib
     $data = [];
     foreach ($files as $file) {
         if (preg_match('/data-(\d{6})\.json$/', $file, $matches) > 0) {
-            // TODO: remove when https://github.com/phpstan/phpstan/issues/11293 is fixed.
-            assert(isset($matches[1]));
             $year = substr($matches[1], 2, 2);
             $month = substr($matches[1], 4, 2);
             $formattedDate = $month . '-' . $year;

@@ -27,9 +27,17 @@ $pdo = get_db();
 
 $paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
 foreach ($paremiotipus as $p) {
+    if ($p === null) {
+        continue;
+    }
+    assert(is_string($p));
+
     // Omit sentences that are either too short or too long.
     $number_of_words = mb_substr_count($p, ' ') + 1;
-    if ($number_of_words < CV_MIN_WORDS || $number_of_words > CV_MAX_WORDS) {
+    if ($number_of_words < CV_MIN_WORDS) {
+        continue;
+    }
+    if ($number_of_words > CV_MAX_WORDS) {
         continue;
     }
 

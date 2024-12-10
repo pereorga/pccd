@@ -56,14 +56,14 @@ build:
     - php tools/composer.phar run composer-normalize-lint
     - php tools/composer.phar run phpcs
     - |
-      if [[ "${PHP_VERSION}" == "8.4-rc" ]]; then
+      if [[ "${PHP_VERSION}" == "8.4" ]]; then
         export PHP_CS_FIXER_IGNORE_ENV=1
       fi
     - php tools/composer.phar run php-cs-fixer-lint
     - php tools/composer.phar run phpstan
     - php tools/composer.phar run rector-lint
     - |
-      if [[ "${PHP_VERSION}" != "8.4-rc" ]]; then
+      if [[ "${PHP_VERSION}" != "8.4" ]]; then
         php tools/composer.phar run psalm
       fi
     - php tools/composer.phar run phpunit
@@ -75,7 +75,7 @@ php_lint:
     matrix:
       - PHP_VERSION: "8.2"
       - PHP_VERSION: "8.3"
-      - PHP_VERSION: "8.4-rc"
+      - PHP_VERSION: "8.4"
   image: php:${PHP_VERSION}
   before_script:
     - echo "Running in PHP version ${PHP_VERSION}"
@@ -117,6 +117,7 @@ npm_lint:
     - npm run check:size
     - npm run lint
     - npm run analysis
+    - npm run test:bash
     - npm run test:phpunit
   allow_failure: true
 

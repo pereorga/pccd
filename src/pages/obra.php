@@ -75,7 +75,7 @@ if ($obra->ISBN !== null) {
     $output .= '<dd>';
     if (isbn_is_valid($isbn)) {
         $isbn_url = 'https://ca.wikipedia.org/wiki/Especial:Fonts_bibliogr%C3%A0fiques?isbn=' . $isbn;
-        $output .= '<a property="isbn" title="Cerqueu l\'obra a llibreries i biblioteques" href="' . $isbn_url . '" class="external" target="_blank" rel="noopener noreferrer">';
+        $output .= '<a property="isbn" title="Cerqueu l\'obra a llibreries i biblioteques" href="' . $isbn_url . '" class="external" target="_blank" rel="noopener">';
         $output .= $isbn;
         $output .= '</a>';
     } else {

@@ -10,12 +10,14 @@ ls:
   .xml: kebab-case
   .yml: kebab-case
   tests:
+    .json: kebab-case
     .php: PascalCase
+    .txt: snake_case
 
 ignore:
-  - "*.Brewfile.lock.json"
   - "*.override.yml"
   - "*.sample.yml"
+  - "*Brewfile.lock.json"
   - .*
   - node_modules
   - src/db_settings.local.sample.php
