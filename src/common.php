@@ -13,17 +13,6 @@
 const PAGER_DEFAULT = 10;
 const TITLE_MAX_LENGTH = 70;
 
-const REX_SCHEME = 'https?://';
-const REX_DOMAIN = '(?:[-a-zA-Z0-9\x7f-\xff]{1,63}\.)+[a-zA-Z\x7f-\xff][-a-zA-Z0-9\x7f-\xff]{1,62}';
-const REX_PORT = '(:[0-9]{1,5})?';
-const REX_PATH = '(/[!$-/0-9:;=@_~\':;!a-zA-Z\x7f-\xff]*?)?';
-const REX_QUERY = '(\?[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
-const REX_FRAGMENT = '(#[!$-/0-9?:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
-const REX_USERNAME = '[^]\\\\\x00-\x20\"(),:-<>[\x7f-\xff]{1,64}';
-const REX_PASSWORD = '[^]\\\\\x00-\x20\"(),:-<>[\x7f-\xff]{1,64}';
-const REX_TRAIL_PUNCT = "[)'?.!,;:]";
-const REX_NON_URL = "[^-_#$+.!*%'(),;/?:@~=&a-zA-Z0-9\x7f-\xff]";
-
 // See https://wiki.php.net/rfc/mb_ucfirst.
 if (!function_exists('mb_ucfirst')) {
     /**
@@ -37,77 +26,77 @@ if (!function_exists('mb_ucfirst')) {
     }
 }
 
-final class Variant
+final readonly class Variant
 {
-    public ?string $PAREMIOTIPUS = null;
-    public ?string $AUTOR = null;
-    public ?string $AUTORIA = null;
-    public ?string $DIARI = null;
-    public ?string $ARTICLE = null;
-    public ?string $EDITORIAL = null;
-    public ?float $ANY = null;
-    public ?string $PAGINA = null;
-    public ?string $LLOC = null;
-    public ?string $EXPLICACIO = null;
-    public ?string $EXPLICACIO2 = null;
-    public ?string $EXEMPLES = null;
-    public ?string $SINONIM = null;
-    public ?string $EQUIVALENT = null;
-    public ?string $IDIOMA = null;
-    public ?string $FONT = null;
-    public ?string $ACCEPCIO = null;
-    public ?string $ID_FONT = null;
+    public string $PAREMIOTIPUS;
+    public string $AUTOR;
+    public string $AUTORIA;
+    public string $DIARI;
+    public string $ARTICLE;
+    public string $EDITORIAL;
+    public string $ANY;
+    public string $PAGINA;
+    public string $LLOC;
+    public string $EXPLICACIO;
+    public string $EXPLICACIO2;
+    public string $EXEMPLES;
+    public string $SINONIM;
+    public string $EQUIVALENT;
+    public string $IDIOMA;
+    public string $FONT;
+    public string $ACCEPCIO;
+    public string $ID_FONT;
 }
 
-final class Obra
+final readonly class Obra
 {
-    public ?string $Identificador = null;
-    public ?string $Títol = null;
-    public ?string $Imatge = null;
-    public ?float $Preu = null;
-    public ?int $Any_edició = null;
-    public ?int $Pàgines = null;
-    public ?int $Registres = null;
-    public ?string $Any = null;
-    public ?string $Autor = null;
-    public ?string $Collecció = null;
-    public ?string $Data_compra = null;
-    public ?string $Edició = null;
-    public ?string $Editorial = null;
-    public ?string $Idioma = null;
-    public ?string $ISBN = null;
-    public ?string $Lloc_compra = null;
-    public ?string $Municipi = null;
-    public ?string $Núm_collecció = null;
-    public ?string $Observacions = null;
-    public ?string $URL = null;
-    public ?string $Varietat_dialectal = null;
-    public int $WIDTH;
-    public int $HEIGHT;
+    public string $Identificador;
+    public string $Títol;
+    public string $Imatge;
+    public string $Preu;
+    public string $Any_edició;
+    public string $Pàgines;
+    public string $Registres;
+    public string $Any;
+    public string $Autor;
+    public string $Collecció;
+    public string $Data_compra;
+    public string $Edició;
+    public string $Editorial;
+    public string $Idioma;
+    public string $ISBN;
+    public string $Lloc_compra;
+    public string $Municipi;
+    public string $Núm_collecció;
+    public string $Observacions;
+    public string $URL;
+    public string $Varietat_dialectal;
+    public string $WIDTH;
+    public string $HEIGHT;
 }
 
-final class Image
+final readonly class Image
 {
-    public ?string $Identificador = null;
-    public ?string $URL_ENLLAÇ = null;
-    public ?string $AUTOR = null;
-    public ?float $ANY = null;
-    public ?string $DIARI = null;
-    public ?string $ARTICLE = null;
-    public int $WIDTH;
-    public int $HEIGHT;
+    public string $Identificador;
+    public string $URL_ENLLAÇ;
+    public string $AUTOR;
+    public string $ANY;
+    public string $DIARI;
+    public string $ARTICLE;
+    public string $WIDTH;
+    public string $HEIGHT;
 }
 
-final class Book
+final readonly class Book
 {
     private const URL_FIXES = [
         'https://lafinestralectora.cat/els-100-refranys-mes-populars-2/' => 'https://lafinestralectora.cat/els-100-refranys-mes-populars/',
     ];
-    public ?string $Imatge = null;
-    public ?string $Títol = null;
-    public ?string $URL = null;
-    public int $WIDTH;
-    public int $HEIGHT;
+    private string $Imatge;
+    private string $Títol;
+    private string $URL;
+    private string $WIDTH;
+    private string $HEIGHT;
 
     /**
      * @param array{
@@ -123,32 +112,49 @@ final class Book
      */
     public function render(array $imageOptions = []): string
     {
-        assert($this->Imatge !== null);
-
         $url = self::URL_FIXES[$this->URL] ?? $this->URL;
         $html = '';
-        if ($url !== null) {
-            $html .= '<a href="' . $url . '" title="' . htmlspecialchars($this->Títol ?? '') . '">';
+        if ($url !== '') {
+            $html .= '<a href="' . $url . '" title="' . htmlspecialchars($this->Títol) . '">';
         }
 
         // Default image options.
         $defaultOptions = [
-            'alt_text' => $this->Títol ?? '',
+            'alt_text' => $this->Títol,
             'file_name' => $this->Imatge,
-            'height' => $this->HEIGHT,
+            'height' => (int) $this->HEIGHT,
             'path' => '/img/obres/',
-            'width' => $this->WIDTH,
+            'width' => (int) $this->WIDTH,
         ];
 
         // Generate image tags, merging provided options.
         $html .= get_image_tags(...$imageOptions + $defaultOptions);
 
-        if ($url !== null) {
+        if ($url !== '') {
             $html .= '</a>';
         }
 
         return $html;
     }
+}
+
+/**
+ * Render the page.
+ */
+function render_page(): void
+{
+    // Redirect to the homepage if 'index.php' is in the URL.
+    if (str_contains(get_request_uri(), 'index.php')) {
+        header('Location: /');
+
+        exit;
+    }
+
+    // Cache pages for 15 minutes in the browser.
+    header('Cache-Control: public, max-age=900');
+
+    // Include the page template.
+    require __DIR__ . '/template.php';
 }
 
 /**
@@ -179,52 +185,33 @@ function cache_get(string $key, callable $callback)
 
 /**
  * Transforms plain text into valid HTML turning URLs into links.
- *
- * Originally based on urlLinker by Søren Løvborg.
- * TODO: make it work with multibyte strings
  */
 function html_escape_and_link_urls(string $text, string $property = '', bool $debug = false): string
 {
-    $rexUrl = '(' . REX_SCHEME . ')?(?:(' . REX_USERNAME . ')(:' . REX_PASSWORD . ')?@)?(' . REX_DOMAIN . ')(' . REX_PORT . REX_PATH . REX_QUERY . REX_FRAGMENT . ')';
-    $rexUrlLinker = "{\\b{$rexUrl}(?=" . REX_TRAIL_PUNCT . '*(' . REX_NON_URL . '|$))}';
+    $escaped = htmlspecialchars($text, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5);
+    $pattern = '/(https?:\/\/[^\s]+?)(?=[.,;:!?)"\']*(?:\s|&gt;|$))/';
 
-    $html = '';
-    $position = 0;
-    while (preg_match($rexUrlLinker, $text, $match, PREG_OFFSET_CAPTURE, $position)) {
-        [$url, $urlPosition] = $match[0];
-
-        // Add the text leading up to the URL.
-        $html .= htmlspecialchars(substr($text, $position, $urlPosition - $position));
-        $scheme = $match[1][0];
-        if ($scheme === 'http://' || $scheme === 'https://') {
-            if ($debug) {
-                file_put_contents(
-                    __DIR__ . '/../tmp/test_tmp_debug_html_escape_and_link_urls.txt',
-                    $url . "\n",
-                    FILE_APPEND
-                );
-            }
-
-            $linkHtml = '<a class="external" target="_blank" rel="noopener"';
-            $linkHtml .= ' href="' . htmlspecialchars($url) . '"';
-            if ($property !== '') {
-                $linkHtml .= ' property="' . $property . '"';
-            }
-            $linkHtml .= '>' . htmlspecialchars($url) . '</a>';
-
-            // Add the hyperlink.
-            $html .= $linkHtml;
-        } else {
-            // This is not a valid URL.
-            $html .= htmlspecialchars($url);
+    $output = preg_replace_callback($pattern, static function (array $matches) use ($debug, $property): string {
+        $url = $matches[1];
+        if ($debug) {
+            file_put_contents(
+                __DIR__ . '/../tmp/test_tmp_debug_html_escape_and_link_urls.txt',
+                $url . "\n",
+                FILE_APPEND
+            );
         }
 
-        // Continue text parsing from after the URL.
-        $position = $urlPosition + strlen($url);
-    }
+        $link = '<a class="external" target="_blank" rel="noopener" href="' . $url . '"';
+        if ($property !== '') {
+            $link .= ' property="' . $property . '"';
+        }
 
-    // Add the remainder of the text.
-    return $html . htmlspecialchars(substr($text, $position));
+        return $link . ">{$url}</a>";
+    }, $escaped);
+
+    assert(is_string($output));
+
+    return $output;
 }
 
 /**
@@ -325,6 +312,10 @@ function get_db(): PDO
 
     try {
         $pdo = new PDO("mysql:host={$host};dbname={$db_name};charset=utf8mb4", $user, $password, [
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_ORACLE_NULLS => PDO::NULL_TO_STRING,
+            PDO::ATTR_STRINGIFY_FETCHES => true,
             PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
         ]);
 
@@ -496,7 +487,7 @@ function set_paremiotipus_blocks(string $blocks): void
 /**
  * Returns the side blocks HTML.
  */
-function get_side_blocks(string $page_name): string
+function render_side_blocks(string $page_name): string
 {
     $side_blocks = '';
     if ($page_name === 'search') {
@@ -681,7 +672,7 @@ function set_og_type(string $type): void
 /**
  * Returns page-specific meta tags.
  */
-function get_page_meta_tags(string $page_name): string
+function render_page_meta_tags(string $page_name): string
 {
     $meta_tags = '';
     if ($page_name === 'search') {
@@ -744,24 +735,30 @@ function get_page_meta_tags(string $page_name): string
  */
 function get_paremiotipus_display(string $paremiotipus, bool $escape_html = true, bool $use_fallback_string = true): string
 {
-    return cache_get($paremiotipus, static function () use ($paremiotipus, $escape_html, $use_fallback_string): string {
+    static $stmt = null;
+    if ($stmt === null) {
         $stmt = get_db()->prepare('SELECT `Display` FROM `paremiotipus_display` WHERE `Paremiotipus` = :paremiotipus');
+    }
+
+    $display = cache_get($paremiotipus, static function () use ($paremiotipus, $stmt): string {
         $stmt->execute([':paremiotipus' => $paremiotipus]);
-
         $value = $stmt->fetchColumn();
-
         if ($value === false) {
             error_log("Error: '{$paremiotipus}' not found in paremiotipus_display table");
-            if (!$use_fallback_string) {
-                return '';
-            }
-            $value = $paremiotipus;
+
+            return '';
         }
 
         assert(is_string($value));
 
-        return $escape_html ? htmlspecialchars($value) : $value;
+        return $value;
     });
+
+    if ($display === '' && $use_fallback_string) {
+        $display = $paremiotipus;
+    }
+
+    return $escape_html ? htmlspecialchars($display) : $display;
 }
 
 /**
@@ -1027,10 +1024,7 @@ function get_paremiotipus_count_by_font(string $font_id): int
     $stmt = get_db()->prepare('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `ID_FONT` = :id');
     $stmt->execute([':id' => $font_id]);
 
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
-
-    return $total;
+    return (int) $stmt->fetchColumn();
 }
 
 /**
@@ -1066,7 +1060,7 @@ function get_obra_url(string $obra, bool $absolute = false): string
 /**
  * Renders and returns the current page content.
  */
-function build_main_content(string $page_name): string
+function render_main_content(string $page_name): string
 {
     ob_start();
 
@@ -1079,21 +1073,23 @@ function build_main_content(string $page_name): string
 /**
  * Returns a URL with some escaped characters if $url is a valid HTTP/HTTPS url, or an empty string otherwise.
  */
-function get_clean_url(?string $url): string
+function get_clean_url(string $url): string
 {
-    $clean_url = '';
-    if ($url !== null) {
-        $url = trim($url);
-
-        if (
-            (str_starts_with($url, 'http://') || str_starts_with($url, 'https://'))
+    $url = trim($url);
+    if (
+        $url !== ''
+        && (
+            (
+                str_starts_with($url, 'http://')
+                || str_starts_with($url, 'https://')
+            )
             && filter_var($url, \FILTER_SANITIZE_URL) === $url
-        ) {
-            $clean_url = str_replace(['&', '[', ']'], ['&amp;', '%5B', '%5D'], $url);
-        }
+        )
+    ) {
+        return str_replace(['&', '[', ']'], ['&amp;', '%5B', '%5D'], $url);
     }
 
-    return $clean_url;
+    return '';
 }
 
 /**
@@ -1238,7 +1234,7 @@ function number_needs_apostrophe(int $num): bool
 /**
  * Returns the search summary.
  */
-function build_search_summary(int $offset, int $results_per_page, int $total, string $search_string): string
+function render_search_summary(int $offset, int $results_per_page, int $total, string $search_string): string
 {
     if ($total === 1) {
         return 'S\'ha trobat 1 paremiotipus per a la cerca <span class="text-monospace">' . $search_string . '</span>.';
@@ -1260,9 +1256,24 @@ function build_search_summary(int $offset, int $results_per_page, int $total, st
 /**
  * Formats an integer in Catalan.
  */
-function format_nombre(float|int|string $num): string
+function format_nombre(int|string $num): string
 {
     return number_format(num: (float) $num, thousands_separator: '.');
+}
+
+/**
+ * Formats a price in Catalan.
+ */
+function format_preu(float $num): string
+{
+    $decimals = $num === floor($num) ? 0 : 2;
+
+    return number_format(
+        $num,
+        decimals: $decimals,
+        decimal_separator: ',',
+        thousands_separator: '.'
+    );
 }
 
 /**
@@ -1421,10 +1432,8 @@ function get_n_results(string $where_clause, array $arguments): int
         try {
             $stmt = get_db()->prepare("SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS` {$where_clause}");
             $stmt->execute($arguments);
-            $total = $stmt->fetchColumn();
-            assert(is_int($total));
 
-            return $total;
+            return (int) $stmt->fetchColumn();
         } catch (Exception $exception) {
             error_log('Error in get_n_results: ' . $exception->getMessage());
 
@@ -1462,9 +1471,9 @@ function get_paremiotipus_search_results(string $where_clause, array $arguments,
  *
  * @param string $search_mode The search mode to normalize for. If provided, the string is processed for search.
  */
-function normalize_search(?string $string, string $search_mode = ''): string
+function normalize_search(string $string, string $search_mode = ''): string
 {
-    if ($string !== null && $string !== '') {
+    if ($string !== '') {
         // Remove useless characters in search that may affect syntax, or that are not useful.
         $string = str_replace(
             ['"', '+', '.', '%', '--', '_', '(', ')', '[', ']', '{', '}', '^', '>', '<', '~', '@', '$', '|', '/', '\\'],
@@ -1683,10 +1692,8 @@ function get_n_modismes(): int
 {
     return cache_get('n_modismes', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS`');
-        $value = $stmt->fetchColumn();
-        assert(is_int($value));
 
-        return $value;
+        return (int) $stmt->fetchColumn();
     });
 }
 
@@ -1697,10 +1704,8 @@ function get_n_paremiotipus(): int
 {
     return cache_get('n_paremiotipus', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `paremiotipus_display`');
-        $value = $stmt->fetchColumn();
-        assert(is_int($value));
 
-        return $value;
+        return (int) $stmt->fetchColumn();
     });
 }
 
@@ -1711,10 +1716,8 @@ function get_n_informants(): int
 {
     return cache_get('n_informants', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(DISTINCT `AUTOR`) FROM `00_PAREMIOTIPUS`');
-        $value = $stmt->fetchColumn();
-        assert(is_int($value));
 
-        return $value;
+        return (int) $stmt->fetchColumn();
     });
 }
 
@@ -1725,10 +1728,8 @@ function get_n_fonts(): int
 {
     return cache_get('n_fonts', static function (): int {
         $stmt = get_db()->query('SELECT COUNT(1) FROM `00_FONTS`');
-        $value = $stmt->fetchColumn();
-        assert(is_int($value));
 
-        return $value;
+        return (int) $stmt->fetchColumn();
     });
 }
 
@@ -1741,9 +1742,11 @@ function get_random_top_paremiotipus(int $max = 10000): string
 
     return cache_get("paremiotipus_{$random_index}", static function () use ($random_index): string {
         $stmt = get_db()->query("SELECT `Paremiotipus` FROM `common_paremiotipus` LIMIT 1 OFFSET {$random_index}");
-        $value = $stmt->fetchColumn();
 
-        return is_string($value) ? $value : '';
+        $random = $stmt->fetchColumn();
+        assert(is_string($random));
+
+        return $random;
     });
 }
 

@@ -106,7 +106,7 @@ if ($total > 0) {
             set_page_title('Cerca «' . $raw_search_clean . "», pàgina {$current_page}");
         }
         $output .= '<p class="text-break">';
-        $output .= build_search_summary(
+        $output .= render_search_summary(
             offset: $offset,
             results_per_page: $results_per_page,
             total: $total,

@@ -30,10 +30,7 @@ final class PhpVersionTest extends TestCase
         preg_match('/php(\d+)\.withExtensions/', $shellNixContent, $matches);
         $nixPhpVersion = $matches[1][0] . '.' . $matches[1][1];
 
-        self::assertTrue(
-            version_compare($nixPhpVersion, $composerPhpVersion, '>='),
-            "PHP version in shell.nix ({$nixPhpVersion}) is lower than composer.json minimum version ({$composerPhpVersion})"
-        );
+        $this->assertTrue(version_compare($nixPhpVersion, $composerPhpVersion, '>='), "PHP version in shell.nix ({$nixPhpVersion}) is lower than composer.json minimum version ({$composerPhpVersion})");
     }
 
     public function testPhpStormSettingsHasAtLeastComposerJsonPhpVersion(): void
@@ -49,9 +46,6 @@ final class PhpVersionTest extends TestCase
         \assert(\is_string($composerJson['require']['php']));
         $composerPhpVersion = trim($composerJson['require']['php'], '>=^');
 
-        self::assertTrue(
-            version_compare($phpStormPhpVersion, $composerPhpVersion, '>='),
-            "PHP version in PhpStorm settings {$phpStormPhpVersion}) is lower than composer.json minimum version ({$composerPhpVersion})"
-        );
+        $this->assertTrue(version_compare($phpStormPhpVersion, $composerPhpVersion, '>='), "PHP version in PhpStorm settings {$phpStormPhpVersion}) is lower than composer.json minimum version ({$composerPhpVersion})");
     }
 }

@@ -24,7 +24,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $result = html_escape_and_link_urls($text);
 
         $expected = 'Check out <a class="external" target="_blank" rel="noopener" href="https://www.example.com">https://www.example.com</a> for more information.';
-        self::assertSame($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function testEscapesHtmlEntities(): void
@@ -35,7 +35,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $result = html_escape_and_link_urls($text);
 
         $expected = '&lt;b&gt;This is bold text&lt;/b&gt; and this is a URL: <a class="external" target="_blank" rel="noopener" href="https://www.example.com">https://www.example.com</a>';
-        self::assertSame($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function testNonUrlsAreNotConverted(): void
@@ -46,7 +46,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $result = html_escape_and_link_urls($text);
 
         $expected = 'This is just plain text without any links.';
-        self::assertSame($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function testUrlWithoutScheme(): void
@@ -57,7 +57,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $result = html_escape_and_link_urls($text);
 
         $expected = 'Visit www.example.com for more details.';
-        self::assertSame($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function testSingleHttpUrl(): void
@@ -68,7 +68,7 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $result = html_escape_and_link_urls($text);
 
         $expected = '<a class="external" target="_blank" rel="noopener" href="http://www.exemple.cat/">http://www.exemple.cat/</a>';
-        self::assertSame($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function testTildeInUrl(): void
@@ -79,6 +79,28 @@ final class HtmlEscapeAndLinkUrlsTest extends TestCase
         $result = html_escape_and_link_urls($text);
 
         $expected = '<a class="external" target="_blank" rel="noopener" href="https://usuaris.tinet.cat/~netol/">https://usuaris.tinet.cat/~netol/</a>';
-        self::assertSame($expected, $result);
+        $this->assertSame($expected, $result);
+    }
+
+    public function testEndingExclamationMark(): void
+    {
+        require_once __DIR__ . '/../../src/common.php';
+
+        $text = 'Check https://example.com! Now';
+        $result = html_escape_and_link_urls($text);
+
+        $expected = 'Check <a class="external" target="_blank" rel="noopener" href="https://example.com">https://example.com</a>! Now';
+        $this->assertSame($expected, $result);
+    }
+
+    public function testEndingDot(): void
+    {
+        require_once __DIR__ . '/../../src/common.php';
+
+        $text = 'Check https://example.com. Ok';
+        $result = html_escape_and_link_urls($text);
+
+        $expected = 'Check <a class="external" target="_blank" rel="noopener" href="https://example.com">https://example.com</a>. Ok';
+        $this->assertSame($expected, $result);
     }
 }

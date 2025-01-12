@@ -41,7 +41,8 @@ function test_repeticio_caracters(): void
     echo '<details><pre>';
     $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (is_string($m) && string_has_consecutive_repeated_chars($m)) {
+        assert(is_string($m));
+        if (string_has_consecutive_repeated_chars($m)) {
             echo get_paremiotipus_display($m, escape_html: false) . "\n";
         }
     }
@@ -50,9 +51,10 @@ function test_repeticio_caracters(): void
     echo '<h3>Modismes amb una repetició de caràcters inusual</h3>';
     echo '<details><pre>';
     $modismes = get_db()->query('SELECT DISTINCT `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($modismes as $modisme) {
-        if (is_string($modisme) && string_has_consecutive_repeated_chars($modisme)) {
-            echo $modisme . "\n";
+    foreach ($modismes as $m) {
+        assert(is_string($m));
+        if (string_has_consecutive_repeated_chars($m)) {
+            echo $m . "\n";
         }
     }
     echo '</pre></details>';

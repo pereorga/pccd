@@ -17,9 +17,7 @@ function standardize_spaces(string $string): string
 {
     $string = str_replace(["\n", "\r", "\t"], ' ', $string);
     $string = preg_replace('/\s+/', ' ', $string);
-    if (!is_string($string)) {
-        return '';
-    }
+    assert(is_string($string));
 
     return trim($string);
 }

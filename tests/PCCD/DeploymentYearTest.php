@@ -19,9 +19,22 @@ final class DeploymentYearTest extends TestCase
     public function testPageHasCorrectDeploymentDateYear(): void
     {
         $date = file_get_contents(__DIR__ . '/../../tmp/db_date.txt');
-        $year = date('Y');
+        $currentYear = date('Y');
+        $previousYear = (string) ((int) $currentYear - 1);
         preg_match('/^.*(\d{4}).*$/', $date, $matches);
+        $fileYear = $matches[1] ?? null;
 
-        self::assertSame($year, $matches[1], "File tmp/db_date.txt should contain the current year {$year}");
+        $acceptableYears = [$currentYear];
+        if (date('n') === '1') {
+            // January is month 1.
+            $acceptableYears[] = $previousYear;
+        }
+
+        $this->assertContains(
+            $fileYear,
+            $acceptableYears,
+            "File tmp/db_date.txt should contain the current year {$currentYear}" .
+            (date('n') === '1' ? " or the previous year {$previousYear} in January" : '')
+        );
     }
 }

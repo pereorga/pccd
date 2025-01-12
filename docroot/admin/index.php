@@ -122,8 +122,9 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
 <h3>Informes</h3>
     <ul>
         <li><a href="?test=dates">Dates</a></li>
-        <!-- <li><a href="?test=dsff">DSFF</a></li> -->
-        <!-- <li><a href="?test=softcatala_sinonims">DSSC</a></li> -->
+        <li><a href="?test=deiec">DEIEC</a></li>
+        <li><a href="?test=dsff">DSFF</a></li>
+        <li><a href="?test=softcatala_sinonims">DSSC</a></li>
         <li><a href="?test=editorials">Editorials</a></li>
         <li><a href="?test=equivalents">Equivalents</a></li>
         <li><a href="?test=espais">Espais</a></li>
@@ -170,7 +171,7 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
 <?php
 if (function_exists('apcu_cache_info')) {
     $cache = apcu_cache_info(true);
-    assert(is_int($cache['start_time']));
+    assert($cache !== false && is_int($cache['start_time']));
     echo '<br>Última arrencada: ' . date('Y/m/d H:i:s', $cache['start_time']);
 } elseif (function_exists('opcache_get_status')) {
     $status = opcache_get_status(false);

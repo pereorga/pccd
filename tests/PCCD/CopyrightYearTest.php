@@ -22,15 +22,15 @@ final class CopyrightYearTest extends TestCase
         $phpFile = file_get_contents(__DIR__ . '/../../src/pages/credits.php');
         $yearMentions = substr_count($phpFile, "© Víctor Pàmies i Riudor, 2020-{$year}.");
 
-        self::assertSame(2, $yearMentions, "File src/pages/credits.php should contain the current year {$year} twice");
+        $this->assertSame(2, $yearMentions, "File src/pages/credits.php should contain the current year {$year} twice");
     }
 
-    public function testIndexPageHasCorrectCopyrightYear(): void
+    public function testTemplatePageHasCorrectCopyrightYear(): void
     {
         $year = date('Y');
-        $phpFile = file_get_contents(__DIR__ . '/../../docroot/index.php');
+        $phpFile = file_get_contents(__DIR__ . '/../../src/template.php');
         $yearMentions = substr_count($phpFile, "© Víctor Pàmies i Riudor, 2020-{$year}.");
 
-        self::assertSame(1, $yearMentions, "File docroot/index.php should contain the current year {$year}");
+        $this->assertSame(1, $yearMentions, "File src/template.php should contain the current year {$year}");
     }
 }

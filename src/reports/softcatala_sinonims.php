@@ -49,7 +49,7 @@ function test_softcatala_sinonims(): void
             $count++;
         }
     }
-    echo '<h4>Totes les entrades amb espai, per grups de sinònims</h4>';
+    echo '<h4>Totes les frases del diccionari, per grups de sinònims</h4>';
     echo 'Total: ' . format_nombre($count);
     echo '<details><pre>';
     echo $all_sentences;

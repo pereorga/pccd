@@ -12,8 +12,6 @@
 
 /**
  * Outputs cached searches.
- *
- * @psalm-suppress UndefinedClass
  */
 function stats_cerques(): void
 {
@@ -23,12 +21,8 @@ function stats_cerques(): void
         $records = [];
         $records_assoc = [];
         $word_count_stats = [];
-        foreach (new APCUIterator() as $entry) {
-            if (
-                is_array($entry)
-                && is_string($entry['key'])
-                && str_starts_with($entry['key'], ' WHERE')
-            ) {
+        foreach (new APCUIterator('/^ WHERE/') as $entry) {
+            if (is_array($entry) && is_string($entry['key'])) {
                 $key = $entry['key'];
                 $last_par = mb_strrpos($key, '|');
                 if ($last_par === false) {

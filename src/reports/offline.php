@@ -25,7 +25,7 @@ function background_test_llibres_urls(): string
     $urls = [];
     $llibres = get_db()->query('SELECT * FROM `00_OBRESVPR`')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($llibres as $llibre) {
-        if ($llibre['URL'] === null) {
+        if ($llibre['URL'] === '') {
             $output .= 'URL buida (Identificador ' . $llibre['Títol'] . ")\n";
 
             continue;
@@ -61,7 +61,8 @@ function background_test_fonts_urls(): string
     $urls = [];
     $fonts = get_db()->query('SELECT * FROM `00_FONTS`')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($fonts as $font) {
-        $url = is_string($font['URL']) ? trim($font['URL']) : '';
+        assert(is_string($font['URL']));
+        $url = trim($font['URL']);
         if ($url !== '') {
             if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
                 $output .= 'URL no vàlida (Identificador ' . $font['Identificador'] . '): ' . $url . "\n";
@@ -94,7 +95,8 @@ function background_test_imatges_urls(int $start = 0, int $end = 0): string
 
     for ($i = $start; $i < $end; $i++) {
         $font = $fonts[$i];
-        $url = is_string($font['URL_IMATGE']) ? trim($font['URL_IMATGE']) : '';
+        assert(is_string($font['URL_IMATGE']));
+        $url = trim($font['URL_IMATGE']);
         if ($url !== '') {
             if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
                 $output .= 'URL no vàlida (Identificador ' . $font['Identificador'] . '): ' . $url . "\n";
@@ -128,9 +130,7 @@ function background_test_imatges_links(int $start = 0, int $end = 0): string
     for ($i = $start; $i < $end; $i++) {
         $font = $fonts[$i];
         $url = $font['URL_ENLLAÇ'];
-        if (!is_string($url)) {
-            continue;
-        }
+        assert(is_string($url));
         if ($url === '') {
             continue;
         }
@@ -183,11 +183,13 @@ function background_test_paremiotipus_repetits(int $start = 0, int $end = 0): st
     $output = '';
     for ($i = $start; $i < $end; $i++) {
         $value1 = $modismes[$i];
-        $length1 = strlen($value1 ?? '');
+        assert(is_string($value1));
+        $length1 = strlen($value1);
 
         for ($u = $i + 1; $u < $total; $u++) {
             $value2 = $modismes[$u];
-            $length2 = strlen($value2 ?? '');
+            assert(is_string($value2));
+            $length2 = strlen($value2);
 
             if (abs($length1 - $length2) < LEVENSHTEIN_MAX_DISTANCE) {
                 $similarity = 1 - (levenshtein($value1, $value2) / max($length1, $length2));
@@ -266,7 +268,7 @@ function background_test_imatges_no_existents(): string
     $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $imatge) {
-        if ($imatge !== null && !is_file(__DIR__ . '/../../docroot/img/imatges/' . $imatge)) {
+        if ($imatge !== '' && !is_file(__DIR__ . '/../../docroot/img/imatges/' . $imatge)) {
             $output .= 'paremies/' . $imatge . "\n";
         }
     }
@@ -274,7 +276,7 @@ function background_test_imatges_no_existents(): string
     $stmt = get_db()->query('SELECT `Imatge` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
-        if ($i !== null && !is_file(__DIR__ . '/../../docroot/img/obres/' . $i)) {
+        if ($i !== '' && !is_file(__DIR__ . '/../../docroot/img/obres/' . $i)) {
             $output .= 'cobertes/' . $i . "\n";
         }
     }
@@ -348,7 +350,8 @@ function background_test_intl_paremiotipus_sospitosos(): string
     $output = '';
     $modismes = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (is_string($m) && $checker->isSuspicious($m)) {
+        assert(is_string($m));
+        if ($checker->isSuspicious($m)) {
             $output .= get_paremiotipus_display($m, escape_html: false) . "\n";
         }
     }
@@ -365,7 +368,8 @@ function background_test_intl_modismes_sospitosos(): string
     $output = '';
     $modismes = get_db()->query('SELECT `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $modisme) {
-        if (is_string($modisme) && $checker->isSuspicious($modisme)) {
+        assert(is_string($modisme));
+        if ($checker->isSuspicious($modisme)) {
             $output .= $modisme . "\n";
         }
     }

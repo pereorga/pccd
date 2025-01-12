@@ -17,4 +17,6 @@ parameters:
     - */apc.conf.php
     - */third_party/*
   ignoreErrors:
-    - '#Cannot call method (execute|fetch|fetchAll|fetchColumn|fetchObject)\(\) on PDOStatement\|false#'
+    - identifier: property.onlyRead
+    - identifier: property.uninitializedReadonly
+    - message: '#Cannot call method (execute|fetch|fetchAll|fetchColumn|fetchObject)\(\) on PDOStatement\|false#'

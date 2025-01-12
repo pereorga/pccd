@@ -40,7 +40,6 @@ $rendered_variants = [];
 foreach ($variants as $modisme => $variant) {
     if ($canonical_url === '') {
         // Set the canonical URL and page title.
-        assert($variant[0]->PAREMIOTIPUS !== null);
         $paremiotipus_db = $variant[0]->PAREMIOTIPUS;
         $canonical_url = get_paremiotipus_url(paremiotipus: $paremiotipus_db, absolute: true);
         $share_url = get_paremiotipus_url(paremiotipus: $paremiotipus_db, absolute: true, encode_full_url: true);
@@ -65,10 +64,10 @@ foreach ($variants as $modisme => $variant) {
     $total_recurrences += count($variant);
     foreach ($variant as $v) {
         $work = '';
-        if ($v->AUTOR !== null) {
+        if ($v->AUTOR !== '') {
             $work = htmlspecialchars($v->AUTOR);
         }
-        if ($v->ANY > 0) {
+        if ($v->ANY !== '' && $v->ANY !== '0') {
             if ($work !== '') {
                 $work .= ' ';
             }
@@ -77,32 +76,32 @@ foreach ($variants as $modisme => $variant) {
                 $min_year = (int) $v->ANY;
             }
         }
-        if ($work !== '' && ($v->DIARI !== null || $v->ARTICLE !== null)) {
+        if ($work !== '' && ($v->DIARI !== '' || $v->ARTICLE !== '')) {
             $work .= ':';
         }
         $editorial = '';
-        if ($v->EDITORIAL !== null) {
+        if ($v->EDITORIAL !== '') {
             $editorial = $v->EDITORIAL;
             $editorial = $editorials[$editorial] ?? $editorial;
         }
         // Print DIARI if it is different from EDITORIAL.
-        if ($v->DIARI !== null && $v->DIARI !== $editorial) {
+        if ($v->DIARI !== '' && $v->DIARI !== $editorial) {
             if ($work !== '') {
                 $work .= ' ';
             }
             $diari = '<i>' . htmlspecialchars($v->DIARI) . '</i>';
-            if ($v->ID_FONT !== null && isset($fonts[$v->ID_FONT])) {
+            if ($v->ID_FONT !== '' && isset($fonts[$v->ID_FONT])) {
                 $diari = '<a href="' . get_obra_url($v->ID_FONT) . '">' . $diari . '</a>';
             }
             $work .= $diari;
         }
-        if ($v->ARTICLE !== null) {
+        if ($v->ARTICLE !== '') {
             if ($work !== '') {
                 $work .= ' ';
             }
             $work .= '«' . html_escape_and_link_urls($v->ARTICLE) . '»';
         }
-        if ($v->PAGINA !== null) {
+        if ($v->PAGINA !== '') {
             $work .= ', p. ' . htmlspecialchars($v->PAGINA);
         }
         if ($editorial !== '') {
@@ -115,7 +114,7 @@ foreach ($variants as $modisme => $variant) {
             $work .= htmlspecialchars($editorial);
         }
         if ($work !== '') {
-            if ($v->ACCEPCIO !== null) {
+            if ($v->ACCEPCIO !== '') {
                 $work .= ', accepció ' . htmlspecialchars($v->ACCEPCIO);
             }
             if (!str_ends_with($work, '.')) {
@@ -123,12 +122,12 @@ foreach ($variants as $modisme => $variant) {
             }
 
             $explanation = '';
-            if ($v->EXPLICACIO !== null && $v->EXPLICACIO2 !== null) {
+            if ($v->EXPLICACIO !== '' && $v->EXPLICACIO2 !== '') {
                 $explanation = mb_ucfirst(ct($v->EXPLICACIO . $v->EXPLICACIO2));
-            } elseif ($v->EXPLICACIO !== null && strlen($v->EXPLICACIO) > 3) {
+            } elseif (strlen($v->EXPLICACIO) > 3) {
                 $explanation = mb_ucfirst(ct($v->EXPLICACIO));
             }
-            if ($v->AUTORIA !== null) {
+            if ($v->AUTORIA !== '') {
                 if ($explanation !== '') {
                     $explanation .= ' ';
                 }
@@ -140,22 +139,20 @@ foreach ($variants as $modisme => $variant) {
                 set_meta_description_once("Explicació: {$explanation}");
                 $body .= "<div>{$explanation}</div>";
             }
-            if ($v->EXEMPLES !== null) {
+            if ($v->EXEMPLES !== '') {
                 $exemples = mb_ucfirst(ct($v->EXEMPLES));
                 set_meta_description_once("Exemple: {$exemples}");
                 $body .= "<div><i>{$exemples}</i></div>";
             }
-            if ($v->SINONIM !== null) {
+            if ($v->SINONIM !== '') {
                 $sinonim = ct($v->SINONIM);
                 set_meta_description_once("Sinònim: {$sinonim}");
                 $body .= "<div>Sinònim: {$sinonim}</div>";
             }
-            if ($v->EQUIVALENT !== null) {
+            if ($v->EQUIVALENT !== '') {
                 $equivalent = ct($v->EQUIVALENT);
-                $idioma = $v->IDIOMA !== null ? get_idioma($v->IDIOMA) : '';
+                $idioma = get_idioma($v->IDIOMA);
                 if ($idioma !== '') {
-                    // TODO: https://github.com/phpstan/phpstan/issues/11870
-                    assert($v->IDIOMA !== null);
                     $iso_code = get_idioma_iso_code($v->IDIOMA);
                     if ($iso_code !== '') {
                         $equivalent = "<span lang=\"{$iso_code}\">{$equivalent}</span>";
@@ -165,10 +162,10 @@ foreach ($variants as $modisme => $variant) {
                     $body .= "<div>Equivalent: {$equivalent}</div>";
                 }
             }
-            if ($v->LLOC !== null) {
+            if ($v->LLOC !== '') {
                 $body .= '<div>Lloc: ' . ct($v->LLOC) . '</div>';
             }
-            if ($v->FONT !== null && strlen($v->FONT) > 1) {
+            if (strlen($v->FONT) > 1) {
                 $body .= '<div>Font: ' . ct($v->FONT) . '</div>';
             }
 
@@ -189,12 +186,12 @@ foreach ($variants as $modisme => $variant) {
             }
 
             // As results are sorted by these fields, use them for counting the number of sources.
-            $current_source = $v->ID_FONT ?? $v->AUTOR . $v->DIARI . $v->ARTICLE;
+            $current_source = $v->ID_FONT !== '' ? $v->ID_FONT : $v->AUTOR . $v->DIARI . $v->ARTICLE;
             if ($prev_source === '' || $current_source !== $prev_source) {
                 $variant_sources++;
             }
             $prev_source = $current_source;
-        } elseif ($v->LLOC !== null) {
+        } elseif ($v->LLOC !== '') {
             $paremia .= '<div class="entry">';
             $paremia .= '<div>Lloc: ' . ct($v->LLOC) . '</div>';
             $paremia .= '</div>';
@@ -264,7 +261,6 @@ $images = get_images($paremiotipus_db);
 $images_output = '';
 foreach ($images as $image) {
     if (is_file(__DIR__ . '/../../docroot/img/imatges/' . $image->Identificador)) {
-        assert($image->Identificador !== null);
         $is_first_image = $images_output === '';
         if ($is_first_image) {
             // Use it for the meta image.
@@ -276,8 +272,8 @@ foreach ($images as $image) {
             path: '/img/imatges/',
             alt_text: $paremiotipus_display,
             escape_html: false,
-            width: $image->WIDTH,
-            height: $image->HEIGHT,
+            width: (int) $image->WIDTH,
+            height: (int) $image->HEIGHT,
             preload: $is_first_image,
             preload_media: '(min-width: 768px)'
         );
@@ -291,28 +287,28 @@ foreach ($images as $image) {
         $images_output .= $image_tag;
 
         $image_caption = '';
-        if ($image->AUTOR !== null) {
+        if ($image->AUTOR !== '') {
             $image_caption = htmlspecialchars($image->AUTOR);
         }
-        if ($image->ANY > 0) {
+        if ($image->ANY !== '' && $image->ANY !== '0') {
             if ($image_caption !== '') {
                 $image_caption .= ' ';
             }
             $image_caption .= '(' . $image->ANY . ')';
         }
-        if ($image->DIARI !== null && $image->DIARI !== $image->AUTOR) {
+        if ($image->DIARI !== '' && $image->DIARI !== $image->AUTOR) {
             if ($image_caption !== '') {
                 $image_caption .= ': ';
             }
 
             // If there is no ARTICLE, link DIARI to the content.
             $diari = htmlspecialchars($image->DIARI);
-            if ($image_link !== '' && $image->ARTICLE === null) {
+            if ($image_link !== '' && $image->ARTICLE === '') {
                 $diari = '<a href="' . $image_link . '" class="external" target="_blank" rel="noopener">' . $diari . '</a>';
             }
             $image_caption .= "<em>{$diari}</em>";
         }
-        if ($image->ARTICLE !== null) {
+        if ($image->ARTICLE !== '') {
             if ($image_caption !== '') {
                 $image_caption .= ' ';
             }

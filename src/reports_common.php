@@ -24,6 +24,7 @@ function get_test_functions(): array
             'test_imatges_any_erroni',
             'test_paremies_any_erroni',
         ],
+        'deiec' => ['test_deiec'],
         'dsff' => ['test_dsff'],
         'editorials' => [
             'test_editorials_no_existents',

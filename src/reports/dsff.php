@@ -131,7 +131,7 @@ function test_dsff(): void
     echo '<details>' . $occurrences_table . '</details>';
 
     echo '<h3>Frases del DSFF v3 beta que existeixen com a modisme a la PCCD, però no amb la font comuna corresponent</h3>';
-    echo '<i>Això pot ser degut a que el DSFF o la PCCD no hagin copiat el modisme literalment. En el cas de la font DSFF, probablement és degut a les noves incorporacions.</i>';
+    echo '<i>Això pot ser degut a que el DSFF o la PCCD no hagin copiat el modisme literalment. En el cas de la font DSFF, probablement la majoria de vegades és degut a les noves incorporacions.</i>';
     $wrong_source_table = '<table border="1">';
     $wrong_source_table .= '<tr><th>Frase</th><th>Font</th></tr>';
     $count = 0;
@@ -148,7 +148,7 @@ function test_dsff(): void
     echo '<details>' . $wrong_source_table . '</details>';
 
     echo '<h3>Modismes de la PCCD provinents del DSFF o de fonts comunes amb el DSFF però que no es troben com a frase al DSFF v3 beta</h3>';
-    echo '<i>A més dels motius anteriors, pot ser degut a que el DSFF adapta i normalitza la frase (p. ex. afegint el verb ésser, o amb les expressions indefinides usades entre parèntesis), o que el buidatge a la PCCD també va incloure les variants formals i dialectals com a modisme.</i>';
+    echo '<i>A més dels motius anteriors, pot ser degut a que el DSFF adapta i normalitza la frase (p. ex. usant sempre el verb ésser, o amb les expressions indefinides usades entre parèntesis), o que el buidatge a la PCCD també va incloure les variants formals i dialectals com a modisme.</i>';
     $fonts_ids = array_values($pccd_dsff_map);
     $placeholders = str_repeat('?,', count($fonts_ids) - 1) . '?';
     $pccd_modismes_stmt = get_db()->prepare("SELECT DISTINCT `MODISME`, `ID_FONT` FROM `00_PAREMIOTIPUS` WHERE `ID_FONT` IN ({$placeholders})");
@@ -159,10 +159,11 @@ function test_dsff(): void
     $missing_modismes_table .= '<tr><th>Modisme</th><th>Font PCCD</th></tr>';
     $count = 0;
     foreach ($pccd_modismes as $modisme) {
-        if ($modisme['MODISME'] !== null) {
+        if ($modisme['MODISME'] !== '') {
             assert(is_string($modisme['MODISME']));
+            assert(is_string($modisme['ID_FONT']));
             if (!isset($dsff_all_sentences[mb_strtolower($modisme['MODISME'])])) {
-                $missing_modismes_table .= '<tr><td>' . htmlspecialchars($modisme['MODISME']) . '</td><td>' . htmlspecialchars($modisme['ID_FONT'] ?? '') . '</td></tr>';
+                $missing_modismes_table .= '<tr><td>' . htmlspecialchars($modisme['MODISME']) . '</td><td>' . htmlspecialchars($modisme['ID_FONT']) . '</td></tr>';
                 $count++;
             }
         }

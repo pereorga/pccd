@@ -37,7 +37,8 @@ function test_editorials_no_existents(): void
     echo '<h3>Editorials que estan referenciades per parèmies, però que no existeixen a la taula 00_EDITORIA</h3>';
     echo '<pre>';
     foreach ($editorials_paremiotipus as $ed_p) {
-        if (is_string($ed_p['EDITORIAL']) && !isset($editorials[$ed_p['EDITORIAL']])) {
+        assert(is_string($ed_p['EDITORIAL']));
+        if ($ed_p['EDITORIAL'] !== '' && !isset($editorials[$ed_p['EDITORIAL']])) {
             echo $ed_p['EDITORIAL'] . ' (' . $ed_p['MODISME'] . ")\n";
         }
     }

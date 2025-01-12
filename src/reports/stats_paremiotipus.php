@@ -35,8 +35,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Paremiotipus amb equivalents</h3>';
     $stmt = get_db()->query('SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb equivalents' => $total,
         'Sense equivalents' => $n_paremiotipus - $total,
@@ -47,8 +46,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Paremiotipus amb sinònims</h3>';
     $stmt = get_db()->query('SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_PAREMIOTIPUS` WHERE `SINONIM` IS NOT NULL');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb sinònims' => $total,
         'Sense sinònims' => $n_paremiotipus - $total,
@@ -59,8 +57,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Paremiotipus amb imatges</h3>';
     $stmt = get_db()->query('SELECT COUNT(DISTINCT `PAREMIOTIPUS`) FROM `00_IMATGES`');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb imatges' => $total,
         'Sense imatges' => $n_paremiotipus - $total,
@@ -71,8 +68,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Paremiotipus / Common Voice</h3>';
     $stmt = get_db()->query('SELECT COUNT(DISTINCT `paremiotipus`) FROM `commonvoice`');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb veus' => $total,
         'Sense veus' => $n_paremiotipus - $total,
@@ -98,8 +94,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Fitxes amb equivalents</h3>';
     $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb equivalents' => $total,
         'Sense equivalents' => $n_modismes - $total,
@@ -110,8 +105,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Fitxes amb sinònims</h3>';
     $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `SINONIM` IS NOT NULL');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb sinònims' => $total,
         'Sense sinònims' => $n_modismes - $total,
@@ -122,8 +116,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Fitxes amb explicacions</h3>';
     $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `EXPLICACIO` IS NOT NULL');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb explicacions' => $total,
         'Sense explicacions' => $n_modismes - $total,
@@ -134,8 +127,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Fitxes amb exemples</h3>';
     $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `EXEMPLES` IS NOT NULL');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb exemples' => $total,
         'Sense exemples' => $n_modismes - $total,
@@ -146,8 +138,7 @@ function stats_paremiotipus(): void
     echo '<article>';
     echo '<h3>Fitxes amb llocs</h3>';
     $stmt = get_db()->query('SELECT COUNT(1) FROM `00_PAREMIOTIPUS` WHERE `LLOC` IS NOT NULL');
-    $total = $stmt->fetchColumn();
-    assert(is_int($total));
+    $total = (int) $stmt->fetchColumn();
     $data = [
         'Amb llocs' => $total,
         'Sense llocs' => $n_modismes - $total,
@@ -212,6 +203,6 @@ function stats_paremiotipus(): void
     assert(is_array($files));
     $paremiotipusNumberData = get_data_from_files($files, $directoryPath, 'paremiotipusNumber');
     $fitxesNumberData = get_data_from_files($files, $directoryPath, 'fitxesNumber');
-    echo get_chart('line', $paremiotipusNumberData, 'paremiotipus', 'Mesos (2023-2024)', 'Nombre de registres', style: 'width:800px;');
-    echo get_chart('line', $fitxesNumberData, 'fitxes', 'Mesos (2023-2024)', 'Nombre de registres', style: 'width:800px;');
+    echo get_chart('line', $paremiotipusNumberData, 'paremiotipus', 'Mesos (2023-)', 'Nombre de registres', style: 'width:800px;');
+    echo get_chart('line', $fitxesNumberData, 'fitxes', 'Mesos (2023-)', 'Nombre de registres', style: 'width:800px;');
 }

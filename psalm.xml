@@ -21,6 +21,7 @@
     </ignoreFiles>
   </projectFiles>
   <enableExtensions>
-    <extension name="pdo"/>
+    <extension name="apcu" />
+    <extension name="pdo" />
   </enableExtensions>
 </psalm>

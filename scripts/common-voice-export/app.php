@@ -27,9 +27,6 @@ $pdo = get_db();
 
 $paremiotipus = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
 foreach ($paremiotipus as $p) {
-    if ($p === null) {
-        continue;
-    }
     assert(is_string($p));
 
     // Omit sentences that are either too short or too long.

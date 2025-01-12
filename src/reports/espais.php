@@ -60,7 +60,8 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (is_string($m) && (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1)) {
+        assert(is_string($m));
+        if (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1) {
             echo get_paremiotipus_display($m, escape_html: false) . "\n";
         }
     }
@@ -115,7 +116,8 @@ function test_espais(): void
     echo '<pre>';
     $modismes = $pdo->query('SELECT `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($modismes as $m) {
-        if (is_string($m) && (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1)) {
+        assert(is_string($m));
+        if (preg_match("/\u{200E}/", $m) === 1 || preg_match("/\u{00AD}/", $m) === 1) {
             echo $m . "\n";
         }
     }

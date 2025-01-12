@@ -128,8 +128,7 @@ h1 + .shortcuts {
 .entry {
     margin-bottom: 1rem;
     font-size: 0.875rem;
-    word-break: break-word;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     border: 1px solid #dee2e6;
 }
 

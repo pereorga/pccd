@@ -63,29 +63,17 @@ function test_imatges_no_reconegudes(): void
     $stmt = get_db()->query('SELECT `Imatge` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
-        if ($i !== null) {
-            assert(is_string($i));
-            if (
-                !str_ends_with($i, '.jpg')
-                && !str_ends_with($i, '.png')
-                && !str_ends_with($i, '.gif')
-            ) {
-                echo 'cobertes/' . $i . "\n";
-            }
+        assert(is_string($i));
+        if ($i !== '' && (!str_ends_with($i, '.jpg') && !str_ends_with($i, '.png') && !str_ends_with($i, '.gif'))) {
+            echo 'cobertes/' . $i . "\n";
         }
     }
     $stmt = get_db()->query('SELECT `Identificador` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $i) {
-        if ($i !== null) {
-            assert(is_string($i));
-            if (
-                !str_ends_with($i, '.jpg')
-                && !str_ends_with($i, '.png')
-                && !str_ends_with($i, '.gif')
-            ) {
-                echo 'paremies/' . $i . "\n";
-            }
+        assert(is_string($i));
+        if ($i !== '' && (!str_ends_with($i, '.jpg') && !str_ends_with($i, '.png') && !str_ends_with($i, '.gif'))) {
+            echo 'paremies/' . $i . "\n";
         }
     }
     echo '</pre>';
@@ -95,14 +83,14 @@ function test_imatges_no_reconegudes(): void
     $stmt = get_db()->query('SELECT `Imatge`, `WIDTH`, `HEIGHT` FROM `00_FONTS`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $i) {
-        if ($i['Imatge'] !== null && ($i['WIDTH'] === 0 || $i['HEIGHT'] === 0)) {
+        if ($i['Imatge'] !== '' && ($i['WIDTH'] === '0' || $i['HEIGHT'] === '0')) {
             echo 'cobertes/' . $i['Imatge'] . "\n";
         }
     }
     $stmt = get_db()->query('SELECT `Identificador`, `WIDTH`, `HEIGHT` FROM `00_IMATGES`');
     $imatges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($imatges as $imatge) {
-        if ($imatge['Identificador'] !== null && ($imatge['WIDTH'] === 0 || $imatge['HEIGHT'] === 0)) {
+        if ($imatge['Identificador'] !== '' && ($imatge['WIDTH'] === '0' || $imatge['HEIGHT'] === '0')) {
             echo 'paremies/' . $imatge['Identificador'] . "\n";
         }
     }
@@ -117,8 +105,8 @@ function test_imatges_minuscules(): void
     echo '<pre>';
     $imatges = get_db()->query('SELECT `Imatge` FROM `00_FONTS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($imatges as $filename) {
-        if ($filename !== null) {
-            assert(is_string($filename));
+        assert(is_string($filename));
+        if ($filename !== '') {
             $name = pathinfo($filename, PATHINFO_FILENAME);
             if ($name !== mb_strtoupper($name)) {
                 echo $filename . "\n";
@@ -137,7 +125,8 @@ function test_imatges_sense_paremiotipus(): void
     $stmt = get_db()->query('SELECT `Identificador`, `PAREMIOTIPUS` FROM `00_IMATGES`');
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($results as $result) {
-        if (!is_string($result['PAREMIOTIPUS']) || strlen($result['PAREMIOTIPUS']) < 2) {
+        assert(is_string($result['PAREMIOTIPUS']));
+        if (strlen($result['PAREMIOTIPUS']) < 2) {
             echo $result['Identificador'] . "\n";
         }
     }
@@ -154,7 +143,8 @@ function test_imatges_buides(): void
     $n = 0;
     $output = '';
     foreach ($results as $r) {
-        if (!is_string($r['Imatge']) || strlen($r['Imatge']) < 5) {
+        assert(is_string($r['Imatge']));
+        if (strlen($r['Imatge']) < 5) {
             $output .= $r['Identificador'] . "\n";
             $n++;
         }
@@ -170,7 +160,7 @@ function test_imatges_buides(): void
     $results = $stmt->fetchAll(PDO::FETCH_COLUMN);
     $n = 0;
     foreach ($results as $result) {
-        if ($result === null) {
+        if ($result === '') {
             $n++;
         }
     }

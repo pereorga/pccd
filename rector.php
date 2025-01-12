@@ -14,6 +14,7 @@ use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -29,6 +30,10 @@ return RectorConfig::configure()
         EncapsedStringsToSprintfRector::class,
         NewlineAfterStatementRector::class,
         RenameForeachValueVariableToMatchExprVariableRector::class,
+    ])
+    ->withSets([
+        PHPUnitSetList::PHPUNIT_110,
+        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
     ])
     ->withPreparedSets(
         codeQuality: true,

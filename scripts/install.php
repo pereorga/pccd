@@ -53,16 +53,14 @@ $improve_sorting_stmt = $pdo->prepare('UPDATE `00_PAREMIOTIPUS` SET `PAREMIOTIPU
 $paremies = $pdo->query('SELECT `Id`, `PAREMIOTIPUS`, `MODISME` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($paremies as $p) {
     // Try to clean phrases ending with numbers and fill ACCEPCIO field instead.
-    if ($p['MODISME'] !== null) {
-        assert(is_string($p['MODISME']));
-        $modisme = trim($p['MODISME']);
-        if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
-            $last = end($matches[0]);
-            if (is_string($last)) {
-                $last_number = trim($last);
-                $modisme = rtrim($modisme, "{$last_number} \n\r\t\v\x00");
-                $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
-            }
+    assert(is_string($p['MODISME']));
+    $modisme = trim($p['MODISME']);
+    if (preg_match_all('/ ([1-4])$/', $modisme, $matches) > 0) {
+        $last = end($matches[0]);
+        if (is_string($last)) {
+            $last_number = trim($last);
+            $modisme = rtrim($modisme, "{$last_number} \n\r\t\v\x00");
+            $add_accepcio_stmt->execute([$modisme, $last_number, $p['Id']]);
         }
     }
 
@@ -74,7 +72,7 @@ echo date('[H:i:s]') . ' normalizing paremiotipus in images table...' . "\n";
 $normalize_paremiotipus_images_stmt = $pdo->prepare('UPDATE `00_IMATGES` SET `PAREMIOTIPUS` = ? WHERE `Comptador` = ?');
 $images = $pdo->query('SELECT `Comptador`, `PAREMIOTIPUS` FROM `00_IMATGES`')->fetchAll(PDO::FETCH_ASSOC);
 foreach ($images as $image) {
-    $normalize_paremiotipus_images_stmt->execute([clean_paremiotipus_for_sorting($image['PAREMIOTIPUS'] ?? ''), $image['Comptador']]);
+    $normalize_paremiotipus_images_stmt->execute([clean_paremiotipus_for_sorting($image['PAREMIOTIPUS']), $image['Comptador']]);
 }
 
 echo date('[H:i:s]') . ' importing top 10000 paremiotipus...' . "\n";

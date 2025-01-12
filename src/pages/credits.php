@@ -10,9 +10,9 @@
  * source code in the file LICENSE.
  */
 set_page_title('Crèdits');
-set_meta_description('© Víctor Pàmies i Riudor, 2020-2024. Desenvolupat per Pere Orga.');
+set_meta_description('© Víctor Pàmies i Riudor, 2020-2025. Desenvolupat per Pere Orga.');
 ?>
-<p>© Víctor Pàmies i Riudor, 2020-2024.</p>
+<p>© Víctor Pàmies i Riudor, 2020-2025.</p>
 
 <p>Aquesta obra està sotmesa a les condicions de la llicència <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" class="external" target="_blank" rel="noopener">Creative Commons Atribució-NoComercial-CompartirIgual 4.0 Internacional</a>.</p>
 

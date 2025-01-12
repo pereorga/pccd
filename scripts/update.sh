@@ -223,7 +223,7 @@ update_phive() {
 }
 
 ##############################################################################
-# Updates all npm dependencies to latest release.
+# Updates all npm dependencies to latest stable release.
 # Arguments:
 #   None
 ##############################################################################
@@ -259,6 +259,9 @@ update_npm() {
             npm install "${package}@${latest}" --save
         fi
     done
+
+    # TODO: remove when ls-lint@2.3.0 is released
+    npm install "@ls-lint/ls-lint@^2.3.0-beta.3" --save-dev
 
     # Avoid error "node_modules/.bin/lightningcss: line 1: This: command not found"
     npm ci

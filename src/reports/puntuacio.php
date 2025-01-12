@@ -249,10 +249,11 @@ function test_paremiotipus_caracters_inusuals(): void
     echo '<pre>';
     $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
+        assert(is_string($p));
         $t = str_replace(
             ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç', '«', '»', '·', '–', '‑', '—', '―', '─', '…'],
             '',
-            mb_strtolower($p ?? '')
+            mb_strtolower($p)
         );
         if (
             // If it contains any non-ASCII character
@@ -276,12 +277,10 @@ function test_paremiotipus_caracters_inusuals(): void
     ];
     $guions_keys = array_keys($guions);
     foreach ($paremiotipus as $p) {
-        if ($p !== null) {
-            assert(is_string($p));
-            foreach ($guions_keys as $guio) {
-                if (str_contains($p, $guio)) {
-                    $guions[$guio][] = $p;
-                }
+        assert(is_string($p));
+        foreach ($guions_keys as $guio) {
+            if (str_contains($p, $guio)) {
+                $guions[$guio][] = $p;
             }
         }
     }
@@ -311,12 +310,10 @@ function test_paremiotipus_caracters_inusuals(): void
     ];
     $guions_keys = array_keys($guions);
     foreach ($paremiotipus as $p) {
-        if ($p !== null) {
-            assert(is_string($p));
-            foreach ($guions_keys as $guio) {
-                if (str_contains($p, $guio)) {
-                    $guions[$guio][] = $p;
-                }
+        assert(is_string($p));
+        foreach ($guions_keys as $guio) {
+            if (str_contains($p, $guio)) {
+                $guions[$guio][] = $p;
             }
         }
     }
@@ -342,10 +339,11 @@ function test_paremiotipus_final(): void
     echo '<pre>';
     $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
     foreach ($paremiotipus as $p) {
+        assert(is_string($p));
         $t = str_replace(
             ['à', 'è', 'é', 'í', 'ï', 'ò', 'ó', 'ú', 'ü', 'ç'],
             ['a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u', 'c'],
-            mb_strtolower($p ?? '')
+            mb_strtolower($p)
         );
         if (
             preg_match('/[a-z]$/', $t) === 0

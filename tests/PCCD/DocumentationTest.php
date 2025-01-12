@@ -25,11 +25,7 @@ final class DocumentationTest extends TestCase
         $minimumVersionInformation = "PHP: version {$composerPhpVersion} or later is required.";
         $installationDocPath = realpath(__DIR__ . '/../../README.md');
 
-        self::assertStringContainsString(
-            $composerPhpVersion,
-            file_get_contents($installationDocPath),
-            "File {$installationDocPath} needs to contain information '{$minimumVersionInformation}'"
-        );
+        $this->assertStringContainsString($composerPhpVersion, file_get_contents($installationDocPath), "File {$installationDocPath} needs to contain information '{$minimumVersionInformation}'");
     }
 
     public function testReadmeHasCorrectNodeJsMinimumVersion(): void
@@ -41,10 +37,6 @@ final class DocumentationTest extends TestCase
         $minimumVersionInformation = "Node.js: version {$minimumVersion} or later is required.";
         $installationDocPath = realpath(__DIR__ . '/../../README.md');
 
-        self::assertStringContainsString(
-            $minimumVersionInformation,
-            file_get_contents($installationDocPath),
-            "File {$installationDocPath} needs to contain information '{$minimumVersionInformation}'"
-        );
+        $this->assertStringContainsString($minimumVersionInformation, file_get_contents($installationDocPath), "File {$installationDocPath} needs to contain information '{$minimumVersionInformation}'");
     }
 }

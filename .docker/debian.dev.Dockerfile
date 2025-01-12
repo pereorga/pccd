@@ -1,4 +1,4 @@
-ARG PHP_IMAGE_TAG=8.4.1-apache-bookworm
+ARG PHP_IMAGE_TAG=8.4.2-apache-bookworm
 
 FROM php:${PHP_IMAGE_TAG}
 LABEL maintainer="Pere Orga pere@orga.cat"
@@ -26,6 +26,7 @@ RUN rm -f /etc/apache2/mods-enabled/deflate.conf /etc/apache2/mods-enabled/alias
     cat /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
     chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions gd intl pdo_mysql
+#RUN install-php-extensions apcu opcache
 
 # Copy configuration files
 COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
@@ -58,6 +59,7 @@ RUN if [ "$profiler" = "xhprof" ]; then \
         echo "    AllowOverride FileInfo"; \
         echo "    Require all granted"; \
         echo "    php_value auto_prepend_file none"; \
+        echo "    php_value memory_limit 512M"; \
         echo "</Directory>"; \
         } >> /etc/apache2/sites-available/000-default.conf; \
         echo '</VirtualHost>' >> /etc/apache2/sites-available/000-default.conf && \

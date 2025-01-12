@@ -34,10 +34,10 @@ final class TitleLengthTest extends TestCase
 
         foreach ($sentences as $sentence) {
             $title = format_html_title($sentence);
-            self::assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
+            $this->assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
 
             $title = format_html_title($sentence, 'PCCD');
-            self::assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
+            $this->assertLessThanOrEqual(TITLE_MAX_LENGTH, mb_strlen($title));
         }
     }
 
@@ -47,25 +47,25 @@ final class TitleLengthTest extends TestCase
 
         // Test title shorter than TITLE_MAX_LENGTH.
         $title = 'Short title';
-        self::assertSame('Short title', format_html_title($title));
+        $this->assertSame('Short title', format_html_title($title));
 
         // Test title equal to TITLE_MAX_LENGTH.
         $title = str_repeat('a', TITLE_MAX_LENGTH);
-        self::assertSame($title, format_html_title($title));
+        $this->assertSame($title, format_html_title($title));
 
         // Test long title with spaces.
         $title = str_repeat('a ', (TITLE_MAX_LENGTH + 10) / 2);
         $expected = 'a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a…';
-        self::assertSame($expected, format_html_title($title));
+        $this->assertSame($expected, format_html_title($title));
 
         // Test suffix addition when possible.
         $title = 'Short title';
         $suffix = 'suffix';
-        self::assertSame('Short title - suffix', format_html_title($title, $suffix));
+        $this->assertSame('Short title - suffix', format_html_title($title, $suffix));
 
         // Test suffix skipped when title length exceeds TITLE_MAX_LENGTH.
         $title = str_repeat('a', TITLE_MAX_LENGTH);
         $suffix = 'suffix';
-        self::assertSame($title, format_html_title($title, $suffix));
+        $this->assertSame($title, format_html_title($title, $suffix));
     }
 }

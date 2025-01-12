@@ -24,7 +24,7 @@ final class DockerVersionTest extends TestCase
         $dockerVersionDev = $this->getDockerComposeMysqlVersion($dockerComposeFile);
         $dockerVersionProd = $this->getDockerMysqlVersion($dockerFile);
 
-        self::assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MariaDB version');
+        $this->assertSame($dockerVersionDev, $dockerVersionProd, 'docker-compose.yml and sql.prod.Dockerfile should use the same MariaDB version');
     }
 
     private function getDockerMysqlVersion(string $dockerFile): string

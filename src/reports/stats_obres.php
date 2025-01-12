@@ -22,7 +22,7 @@ function stats_obres(): void
     $files = scandir($directoryPath);
     assert(is_array($files));
     $fontsNumberData = get_data_from_files($files, $directoryPath, 'fontsNumber');
-    echo get_chart('line', $fontsNumberData, 'fonts', 'Mesos (2023-2024)', 'Nombre de fonts', style: 'width:800px;');
+    echo get_chart('line', $fontsNumberData, 'fonts', 'Mesos (2023-)', 'Nombre de fonts', style: 'width:800px;');
 
     echo "<h3>Obres ordenades pel nombre d'entrades a la base de dades</h3>";
     $records = get_db()->query('SELECT
@@ -42,13 +42,14 @@ function stats_obres(): void
     echo "<table style='width:1200px;'>";
     echo '<tr><th>Obra</th><th>Total</th><th>Recollides</th><th>Falten</th></tr>';
     foreach ($records as $r) {
-        assert(is_int($r['Registres']));
-        assert(is_int($r['NumberOfReferences']));
+        assert(is_string($r['Registres']));
+        assert(is_string($r['NumberOfReferences']));
+        assert(is_string($r['Font']));
         echo '<tr>';
-        echo '<td><a href="' . get_obra_url($r['Font'] ?? '') . '">' . htmlspecialchars($r['Font'] ?? '') . '</a></td>';
+        echo '<td><a href="' . get_obra_url($r['Font']) . '">' . htmlspecialchars($r['Font']) . '</a></td>';
         echo '<td>' . format_nombre($r['Registres']) . '</td>';
-        echo '<td><a title="Mostra els paremiotipus" href="/?font=' . name_to_path($r['Font'] ?? '') . '">' . format_nombre($r['NumberOfReferences']) . '</a></td>';
-        echo '<td>' . format_nombre($r['Registres'] - $r['NumberOfReferences']) . '</td>';
+        echo '<td><a title="Mostra els paremiotipus" href="/?font=' . name_to_path($r['Font']) . '">' . format_nombre($r['NumberOfReferences']) . '</a></td>';
+        echo '<td>' . format_nombre(((int) $r['Registres']) - ((int) $r['NumberOfReferences'])) . '</td>';
         echo '</tr>';
     }
     echo '</table>';

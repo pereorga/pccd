@@ -35,16 +35,16 @@ function stats_equivalents(): void
     ];
     $data_table = [];
     foreach ($modismes as $modisme) {
-        assert(is_int($modisme['EQUIVALENTS']));
+        assert(is_string($modisme['EQUIVALENTS']));
         $language = $modisme['IDIOMA'] === '(buit)' ? '(buit)' : get_idioma($modisme['IDIOMA']);
         if ($language === '') {
-            $data_table['(desconegut)'] = $modisme['EQUIVALENTS'];
+            $data_table['(desconegut)'] = (int) $modisme['EQUIVALENTS'];
         } elseif ($modisme['EQUIVALENTS'] < MIN_RECORDS) {
-            $data['(resta)'] += $modisme['EQUIVALENTS'];
-            $data_table[$language] = $modisme['EQUIVALENTS'];
+            $data['(resta)'] += (int) $modisme['EQUIVALENTS'];
+            $data_table[$language] = (int) $modisme['EQUIVALENTS'];
         } else {
-            $data[$language] = $modisme['EQUIVALENTS'];
-            $data_table[$language] = $modisme['EQUIVALENTS'];
+            $data[$language] = (int) $modisme['EQUIVALENTS'];
+            $data_table[$language] = (int) $modisme['EQUIVALENTS'];
         }
     }
     echo get_chart('bar', $data, 'equivalents', style: 'width:600px;');

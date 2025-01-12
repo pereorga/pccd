@@ -75,7 +75,8 @@ function test_paremies_sense_font_existent(): void
     echo '<pre>';
     $prev = '';
     foreach ($paremies as $paremia) {
-        if (is_string($paremia['ID_FONT']) && !isset($fonts[$paremia['ID_FONT']])) {
+        assert(is_string($paremia['ID_FONT']));
+        if ($paremia['ID_FONT'] !== '' && !isset($fonts[$paremia['ID_FONT']])) {
             if ($prev !== $paremia['ID_FONT']) {
                 if ($prev !== '') {
                     echo "\n\n";

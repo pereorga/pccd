@@ -20,12 +20,16 @@ echo '<table id="fonts">';
 echo '<thead><tr><th scope="col">Autor</th><th scope="col">Any</th><th scope="col">Títol</th><th scope="col" class="registres">Registres</th><th scope="col" class="varietat">Varietat dialectal</th></tr></thead>';
 echo '<tbody>';
 foreach ($records as $r) {
+    assert(is_string($r['Autor']));
+    assert(is_string($r['Identificador']));
+    assert(is_string($r['Títol']));
+    assert(is_string($r['Varietat_dialectal']));
     echo '<tr>';
-    echo '<td>' . htmlspecialchars($r['Autor'] ?? '') . '</td>';
+    echo '<td>' . htmlspecialchars($r['Autor']) . '</td>';
     echo '<td>' . $r['Any'] . '</td>';
-    echo '<td><a href="' . get_obra_url($r['Identificador'] ?? '') . '">' . htmlspecialchars($r['Títol'] ?? '') . '</a></td>';
+    echo '<td><a href="' . get_obra_url($r['Identificador']) . '">' . htmlspecialchars($r['Títol']) . '</a></td>';
     echo '<td>' . $r['Registres'] . '</td>';
-    echo '<td>' . htmlspecialchars($r['Varietat_dialectal'] ?? '') . '</td>';
+    echo '<td>' . htmlspecialchars($r['Varietat_dialectal']) . '</td>';
     echo '</tr>';
 }
 echo '</tbody>';

@@ -113,12 +113,7 @@ npm_lint:
   extends: .setup
   stage: build
   script:
-    - tools/composer.phar run parallel-lint
-    - npm run check:size
-    - npm run lint
-    - npm run analysis
-    - npm run test:bash
-    - npm run test:phpunit
+    - npm run check:code
   allow_failure: true
 
 check_code_ubuntu:

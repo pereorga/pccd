@@ -19,7 +19,6 @@ if ($obra === false) {
     return_404_and_exit();
 }
 
-assert($obra->Identificador !== null);
 $canonical_url = get_obra_url($obra->Identificador, true);
 
 // Redirect old URLs to the new ones.
@@ -30,9 +29,9 @@ if (!str_starts_with($request_uri, '/obra/')) {
 }
 
 set_canonical_url($canonical_url);
-set_page_title(htmlspecialchars($obra->Títol ?? ''));
+set_page_title(htmlspecialchars($obra->Títol));
 
-$is_book = $obra->ISBN !== null;
+$is_book = $obra->ISBN !== '';
 if ($is_book) {
     set_og_type('book');
     $output = '<div class="row" vocab="http://schema.org/" typeof="Book">';
@@ -41,16 +40,15 @@ if ($is_book) {
 }
 
 if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra->Imatge)) {
-    assert($obra->Imatge !== null);
     set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra->Imatge));
 
     $output .= '<figure class="col-image">';
     $output .= get_image_tags(
         file_name: $obra->Imatge,
         path: '/img/obres/',
-        alt_text: $is_book ? 'Coberta' : $obra->Títol ?? '',
-        width: $obra->WIDTH,
-        height: $obra->HEIGHT,
+        alt_text: $is_book ? 'Coberta' : $obra->Títol,
+        width: (int) $obra->WIDTH,
+        height: (int) $obra->HEIGHT,
         preload: true,
         preload_media: '(min-width: 576px)'
     );
@@ -59,17 +57,17 @@ if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra->Imatge)) {
 
 $output .= '<div class="col-work text-break">';
 $output .= '<dl>';
-if ($obra->Autor !== null) {
+if ($obra->Autor !== '') {
     $output .= '<dt>Autor:</dt>';
     $output .= '<dd property="author" typeof="Person">';
     $output .= '<span property="name">' . htmlspecialchars($obra->Autor) . '</span>';
     $output .= '</dd>';
 }
-if ($obra->Any !== null) {
+if ($obra->Any !== '') {
     $output .= '<dt>Any de publicació:</dt>';
     $output .= '<dd property="datePublished">' . htmlspecialchars($obra->Any) . '</dd>';
 }
-if ($obra->ISBN !== null) {
+if ($obra->ISBN !== '') {
     $isbn = htmlspecialchars($obra->ISBN);
     $output .= '<dt>ISBN:</dt>';
     $output .= '<dd>';
@@ -83,66 +81,66 @@ if ($obra->ISBN !== null) {
     }
     $output .= '</dd>';
 }
-if ($obra->Editorial !== null && $obra->Editorial !== 'Web') {
+if ($obra->Editorial !== '' && $obra->Editorial !== 'Web') {
     $output .= '<dt>Editorial:</dt>';
     $output .= '<dd property="publisher" typeof="Organization">';
     $output .= '<span property="name">' . htmlspecialchars($obra->Editorial) . '</span>';
     $output .= '</dd>';
 }
-if ($obra->Edició !== null) {
+if ($obra->Edició !== '') {
     $output .= '<dt>Edició:</dt>';
     $output .= '<dd property="bookEdition">' . htmlspecialchars($obra->Edició) . '</dd>';
 }
-if ($obra->Any_edició > 0) {
+if ($obra->Any_edició !== '' && $obra->Any_edició !== '0') {
     $output .= "<dt>Any de l'edició:</dt>";
     $output .= '<dd property="copyrightYear">' . $obra->Any_edició . '</dd>';
 }
-if ($obra->Municipi !== null) {
+if ($obra->Municipi !== '') {
     $output .= '<dt>Municipi:</dt>';
     $output .= '<dd property="locationCreated" typeof="Place">';
     $output .= '<span property="name">' . htmlspecialchars($obra->Municipi) . '</span>';
     $output .= '</dd>';
 }
-if ($obra->Collecció !== null) {
+if ($obra->Collecció !== '') {
     $output .= '<dt>Col·lecció:</dt>';
     $output .= '<dd>' . htmlspecialchars($obra->Collecció) . '</dd>';
 }
-if ($obra->Núm_collecció !== null) {
+if ($obra->Núm_collecció !== '') {
     $output .= '<dt>Núm. de la col·lecció:</dt>';
     $output .= '<dd>' . htmlspecialchars($obra->Núm_collecció) . '</dd>';
 }
-if ($obra->Idioma !== null) {
+if ($obra->Idioma !== '') {
     $output .= '<dt>Idioma:</dt>';
     $output .= '<dd property="inLanguage">' . htmlspecialchars($obra->Idioma) . '</dd>';
 }
-if ($obra->Varietat_dialectal !== null) {
+if ($obra->Varietat_dialectal !== '') {
     $output .= '<dt>Varietat dialectal:</dt>';
     $output .= '<dd>' . htmlspecialchars($obra->Varietat_dialectal) . '</dd>';
 }
-if ($obra->Pàgines > 0) {
+if ($obra->Pàgines !== '' && $obra->Pàgines !== '0') {
     $output .= '<dt>Núm. de pàgines:</dt>';
     $output .= '<dd property="numberOfPages">' . format_nombre($obra->Pàgines) . '</dd>';
 }
-if ($obra->Data_compra !== null) {
+if ($obra->Data_compra !== '') {
     $date = DateTime::createFromFormat('Y-m-d', $obra->Data_compra);
     $output .= '<dt>Data de compra:</dt>';
     $output .= '<dd>';
     $output .= $date !== false ? $date->format('d/m/Y') : htmlspecialchars($obra->Data_compra);
     $output .= '</dd>';
 }
-if ($obra->Lloc_compra !== null) {
+if ($obra->Lloc_compra !== '') {
     $output .= '<dt>Lloc de compra:</dt>';
     $output .= '<dd>' . htmlspecialchars($obra->Lloc_compra) . '</dd>';
 }
-if ($obra->Preu > 0) {
+if ($obra->Preu !== '' && $obra->Preu !== '0') {
     $output .= '<dt>Preu de compra:</dt>';
-    $output .= '<dd>' . round($obra->Preu) . '&nbsp;€</dd>';
+    $output .= '<dd>' . format_preu((float) $obra->Preu) . '&nbsp;€</dd>';
 }
-if ($obra->URL !== null) {
+if ($obra->URL !== '') {
     $output .= '<dt hidden>Enllaç:</dt>';
     $output .= '<dd>' . html_escape_and_link_urls(text: $obra->URL, property: 'url') . '</dd>';
 }
-if ($obra->Observacions !== null) {
+if ($obra->Observacions !== '') {
     $output .= '<dt>Observacions:</dt>';
     $output .= '<dd property="description">' . html_escape_and_link_urls(ct($obra->Observacions, escape_html: false)) . '</dd>';
     set_meta_description_once(ct($obra->Observacions));
@@ -152,16 +150,16 @@ $output .= '</dl>';
 // Print the record count, but only when there are records.
 $n_recollides = get_paremiotipus_count_by_font($obra->Identificador);
 $registres = '';
-if ($obra->Registres === 0 && $n_recollides > 0) {
+if ($obra->Registres === '0' && $n_recollides > 0) {
     if ($n_recollides === 1) {
         $registres = 'Aquesta obra té 1 fitxa recollida en aquest web.';
     } else {
         $registres = 'Aquesta obra té ' . format_nombre($n_recollides) . ' fitxes recollides en aquest web.';
     }
 } elseif ($obra->Registres > 0 && $n_recollides === 0) {
-    $registres = 'Aquesta obra té ' . ($obra->Registres === 1 ? '1 fitxa' : format_nombre($obra->Registres) . ' fitxes') . ' a la base de dades.';
+    $registres = 'Aquesta obra té ' . ($obra->Registres === '1' ? '1 fitxa' : format_nombre($obra->Registres) . ' fitxes') . ' a la base de dades.';
 } elseif ($obra->Registres > 0 && $n_recollides > 0) {
-    $registres = 'Aquesta obra té ' . ($obra->Registres === 1 ? '1 fitxa' : format_nombre($obra->Registres) . ' fitxes') .
+    $registres = 'Aquesta obra té ' . ($obra->Registres === '1' ? '1 fitxa' : format_nombre($obra->Registres) . ' fitxes') .
                  ' a la base de dades, de les quals ' . ($n_recollides === 1 ? '1 està recollida' : format_nombre($n_recollides) . ' estan recollides') . ' en aquest web.';
 }
 if ($registres !== '') {

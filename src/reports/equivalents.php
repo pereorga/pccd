@@ -18,7 +18,7 @@ function test_equivalents(): void
     echo '<pre>';
     $modismes = get_db()->query('SELECT `MODISME`, `EQUIVALENT`, `IDIOMA` FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($modismes as $m) {
-        if ($m['IDIOMA'] !== null && get_idioma($m['IDIOMA']) === '') {
+        if ($m['IDIOMA'] !== '' && get_idioma($m['IDIOMA']) === '') {
             echo $m['MODISME'] . ' (codi idioma: ' . $m['IDIOMA'] . ', equivalent: ' . $m['EQUIVALENT'] . ")\n";
         }
     }
@@ -28,7 +28,7 @@ function test_equivalents(): void
     echo '<details><pre>';
     $modismes = get_db()->query('SELECT `MODISME`, `EQUIVALENT`, `IDIOMA` FROM `00_PAREMIOTIPUS` WHERE `EQUIVALENT` IS NOT NULL')->fetchAll(PDO::FETCH_ASSOC);
     foreach ($modismes as $modisme) {
-        if ($modisme['IDIOMA'] === null && $modisme['MODISME'] !== null && $modisme['EQUIVALENT'] !== null) {
+        if ($modisme['IDIOMA'] === '' && $modisme['MODISME'] !== '' && $modisme['EQUIVALENT'] !== '') {
             echo $modisme['MODISME'] . ' (equivalent ' . $modisme['EQUIVALENT'] . ")\n";
         }
     }
