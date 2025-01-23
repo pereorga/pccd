@@ -371,6 +371,11 @@ function isbn_is_valid(string $isbn): bool
  */
 function get_page_limit(): int
 {
+    if (isset($_GET['font'])) {
+        // If a specific font is requested, return all entries.
+        return 999999;
+    }
+
     if (isset($_GET['mostra'])) {
         $mostra = $_GET['mostra'];
         if ($mostra === '15' || $mostra === '25' || $mostra === '50') {
@@ -379,10 +384,6 @@ function get_page_limit(): int
         if ($mostra === 'infinit') {
             return 999999;
         }
-    }
-
-    if (isset($_GET['font'])) {
-        return 999999;
     }
 
     return PAGER_DEFAULT;
@@ -595,18 +596,6 @@ function set_meta_description(string $description): void
     global $meta_description;
 
     $meta_description = $description;
-}
-
-/**
- * Sets the meta description, but only once.
- */
-function set_meta_description_once(string $description): void
-{
-    global $meta_description;
-
-    if ($meta_description === null || $meta_description === '') {
-        $meta_description = $description;
-    }
 }
 
 /**

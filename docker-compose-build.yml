@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: .docker/ubuntu.build.Dockerfile
-    image: ubuntu-build
     container_name: pccd-build
     volumes:
       - "./:/srv/app"

@@ -21,11 +21,25 @@ use GuzzleHttp\Client;
  */
 function getSentenceTags(string $sentence): array
 {
+    // TODO: - Implement request rate limiting (e.g., X max requests per minute).
+    //       - Ensure the function is idempotent (it can resume safely after an interruption).
+    //       - Use OpenAI's batch API for efficiency and cost optimization, if applicable.
+    //       - Validate the structure and format of the API response more robustly.
+    //       - Add logging for API errors and unexpected responses.
+    //       - Consider using retry logic for transient API failures (e.g., network issues).
     $client = new Client();
     $data = [
         'messages' => [
             [
-                'content' => 'Your task is to generate tags for Catalan idioms and proverbs in JSON. Tags should be in Catalan, lowercase, and include nouns, places, names, topics, and words related to the meaning of the sentence.',
+                'content' => "Your task is to generate consistent tags for Catalan proverbs. Tags must always:\n"
+                    . "- Be in Catalan.\n"
+                    . "- Include nouns, places, names, topics, and related words to its meaning.\n"
+                    . "- Be lowercase, singular, and relevant to the sentence.\n"
+                    . "- Provide 2–10 tags as a JavaScript array.\n"
+                    . "- Never include generic tags such as \"humor\", \"lloc\", \"poble\", \"tradició\", \"cultura\" or \"costum\".\n"
+                    . "Example:\n"
+                    . "Sentence: \"A Abrera, donen garses per perdius.\"\n"
+                    . '["abrera", "perdiu", "garsa", "engany", "valor"]',
                 'role' => 'system',
             ],
             [
@@ -33,8 +47,8 @@ function getSentenceTags(string $sentence): array
                 'role' => 'user',
             ],
         ],
-        'model' => 'gpt-3.5-turbo-1106',
-        'temperature' => 0.3,
+        'model' => 'gpt-4o-mini',
+        'temperature' => 0.1,
     ];
 
     $api_key = getenv('OPENAI_KEY');
@@ -52,11 +66,11 @@ function getSentenceTags(string $sentence): array
 
     /** @var array{choices: array{0: array{message: array{content: string}}}} $body */
     $tagsContent = $body['choices'][0]['message']['content'];
-
     $tagsJson = json_decode($tagsContent, true, 512, JSON_THROW_ON_ERROR);
 
-    /** @var array{tags: list<string>}|false $tagsJson */
-    return $tagsJson['tags'] ?? [];
+    assert(is_array($tagsJson) && array_is_list($tagsJson));
+
+    return $tagsJson;
 }
 
 /**

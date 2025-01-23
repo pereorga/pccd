@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: ${DOCKERFILE_PATH:-.docker/debian.dev.Dockerfile}
-    image: apache2-php
     container_name: pccd-web
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-pccd}
@@ -18,7 +17,7 @@ services:
     depends_on:
       - mysql
   mysql:
-    image: mariadb:10.11.10-jammy
+    image: mariadb:11.4.4-noble
     container_name: pccd-mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}

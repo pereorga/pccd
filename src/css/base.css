@@ -207,7 +207,7 @@ header {
 }
 
 .text-break {
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
 }
 
 .text-monospace {

@@ -29,9 +29,6 @@ if ($text === '') {
     return_404_and_exit();
 }
 
-header('Content-Type: image/png');
-header('Cache-Control: public, max-age=31536000, immutable');
-
 $text_length = mb_strlen($text);
 
 $image = imagecreatetruecolor(IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -114,5 +111,6 @@ imagettftext(
     text: $wrapped_text
 );
 
+header('Content-Type: image/png');
+header('Cache-Control: public, max-age=31536000, immutable');
 imagepng($image);
-imagedestroy($image);

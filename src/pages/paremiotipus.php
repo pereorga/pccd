@@ -63,6 +63,9 @@ foreach ($variants as $modisme => $variant) {
     $paremia = '';
     $total_recurrences += count($variant);
     foreach ($variant as $v) {
+        // TODO: rector is less clever.
+        // @phpstan-ignore identical.alwaysTrue, function.alreadyNarrowedType
+        assert($v::class === Variant::class);
         $work = '';
         if ($v->AUTOR !== '') {
             $work = htmlspecialchars($v->AUTOR);
@@ -108,7 +111,7 @@ foreach ($variants as $modisme => $variant) {
             if ($work !== '') {
                 $work .= '. ';
             }
-            // rector is less clever.
+            // TODO: rector is less clever.
             // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType
             assert(is_string($editorial));
             $work .= htmlspecialchars($editorial);
@@ -136,18 +139,13 @@ foreach ($variants as $modisme => $variant) {
 
             $body = '';
             if ($explanation !== '') {
-                set_meta_description_once("Explicació: {$explanation}");
                 $body .= "<div>{$explanation}</div>";
             }
             if ($v->EXEMPLES !== '') {
-                $exemples = mb_ucfirst(ct($v->EXEMPLES));
-                set_meta_description_once("Exemple: {$exemples}");
-                $body .= "<div><i>{$exemples}</i></div>";
+                $body .= '<div><i>' . mb_ucfirst(ct($v->EXEMPLES)) . '</i></div>';
             }
             if ($v->SINONIM !== '') {
-                $sinonim = ct($v->SINONIM);
-                set_meta_description_once("Sinònim: {$sinonim}");
-                $body .= "<div>Sinònim: {$sinonim}</div>";
+                $body .= '<div>Sinònim: ' . ct($v->SINONIM) . '</div>';
             }
             if ($v->EQUIVALENT !== '') {
                 $equivalent = ct($v->EQUIVALENT);

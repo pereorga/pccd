@@ -20,6 +20,8 @@ $filePath = __DIR__ . '/../../tmp/tags_output.json';
 
 $paremiotipus = get_db()->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
 foreach ($paremiotipus as $sentence) {
-    $sentence_display = get_paremiotipus_display($sentence, escape_html: false);
-    appendToJsonFile(['sentence' => $sentence, 'tags' => getSentenceTags($sentence_display)], $filePath);
+    $display = get_paremiotipus_display($sentence, escape_html: false);
+    if (str_contains($display, ' ') && mb_strlen($display) > 10) {
+        appendToJsonFile(['sentence' => $sentence, 'tags' => getSentenceTags($display)], $filePath);
+    }
 }

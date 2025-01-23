@@ -143,7 +143,7 @@ if ($obra->URL !== '') {
 if ($obra->Observacions !== '') {
     $output .= '<dt>Observacions:</dt>';
     $output .= '<dd property="description">' . html_escape_and_link_urls(ct($obra->Observacions, escape_html: false)) . '</dd>';
-    set_meta_description_once(ct($obra->Observacions));
+    set_meta_description(ct($obra->Observacions));
 }
 $output .= '</dl>';
 
@@ -164,7 +164,6 @@ if ($obra->Registres === '0' && $n_recollides > 0) {
 }
 if ($registres !== '') {
     $output .= '<div class="footer">' . $registres . '</div>';
-    set_meta_description_once($registres);
 }
 
 $output .= '</div></div>';

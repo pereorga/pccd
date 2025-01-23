@@ -1,4 +1,4 @@
-FROM mariadb:10.11.10-jammy
+FROM mariadb:11.4.4-noble
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="MariaDB image used in production."
 
