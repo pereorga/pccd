@@ -14,6 +14,8 @@ function test_sinonims(): void
 {
     require_once __DIR__ . '/../common.php';
 
+    require_once __DIR__ . '/../reports_common.php';
+
     $pdo = get_db();
     $parem_stmt = $pdo->prepare('SELECT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` WHERE `PAREMIOTIPUS` = :paremiotipus');
     $mod_stmt = $pdo->prepare('SELECT `MODISME` FROM `00_PAREMIOTIPUS` WHERE `MODISME` = :modisme');

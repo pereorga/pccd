@@ -14,6 +14,8 @@ ini_set('memory_limit', '2048M');
 
 require __DIR__ . '/../../src/common.php';
 
+require __DIR__ . '/../../src/reports_common.php';
+
 $pdo = get_db();
 $parem = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_COLUMN);
 

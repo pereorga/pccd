@@ -10,18 +10,17 @@
   xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
   <projectFiles>
-    <directory name="docroot" />
-    <directory name="scripts" />
-    <directory name="src" />
+    <directory name="docroot"/>
+    <directory name="scripts"/>
+    <directory name="src"/>
     <ignoreFiles>
-      <directory name="src/third_party" />
-      <directory name="vendor" />
-      <file name="*/*/apc.conf.php" />
-      <file name="src/xhprof.php" />
+      <directory name="src/third_party"/>
+      <file name="*/*/apc.conf.php"/>
+      <file name="src/xhprof.php"/>
     </ignoreFiles>
   </projectFiles>
   <enableExtensions>
-    <extension name="apcu" />
-    <extension name="pdo" />
+    <extension name="apcu"/>
+    <extension name="pdo"/>
   </enableExtensions>
 </psalm>

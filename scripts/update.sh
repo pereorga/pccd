@@ -25,15 +25,13 @@ usage() {
     echo "    apc-gui"
     echo "      Updates apc.php file to latest revision"
     echo "    composer"
-    echo "      Updates all Composer dependencies to latest release, including non-direct dependencies and repositories"
+    echo "      Updates all Composer dependencies to latest release, including non-direct dependencies, repositories and Composer itself"
     echo "    docker"
     echo "      Updates Docker images in Docker files and docker-compose.yml to next release"
     echo "    oxipng"
     echo "      Updates oxipng cargo package in Docker files"
     echo "    opcache-gui"
     echo "      Updates OPcache GUI to latest revision"
-    echo "    phive"
-    echo "      Updates all PHIVE (phar) packages and phive itself to latest releases"
     echo "    npm"
     echo "      Updates all npm dev packages to latest release"
 }
@@ -182,44 +180,18 @@ export -f update_dockerfile_arg_image_version
 #   None
 ##############################################################################
 update_composer() {
+    # Update composer itself.
+    ./composer.phar self-update
+
     # Update non-dev dependencies.
-    tools/composer.phar show --no-dev --direct --name-only |
-        xargs tools/composer.phar require --update-with-all-dependencies
+    ./composer.phar show --no-dev --direct --name-only |
+        xargs ./composer.phar require --update-with-all-dependencies
 
     # Update dev dependencies.
     grep -F -v -f \
-        <(tools/composer.phar show --direct --no-dev --name-only | sort) \
-        <(tools/composer.phar show --direct --name-only | sort) |
-        xargs tools/composer.phar require --dev --update-with-all-dependencies
-}
-
-##############################################################################
-# Updates phive, installs newest versions of PHIVE packages, and bumps versions.
-# Arguments:
-#   None
-##############################################################################
-update_phive() {
-    yes | php -d memory_limit=256M tools/phive selfupdate
-    yes | php -d memory_limit=256M tools/phive update --force-accept-unsigned
-
-    # Bump versions
-    local -r xml_file=".phive/phars.xml"
-    while read -r line; do
-        if [[ "${line}" =~ ^[[:space:]]*\<phar ]]; then
-            local name version installed updated_line
-            name=$(echo "${line}" | sed -E 's/.*name="([^"]+)".*/\1/')
-            version=$(echo "${line}" | sed -E 's/.*version="([^"]+)".*/\1/')
-            installed=$(echo "${line}" | sed -E 's/.*installed="([^"]+)".*/\1/')
-
-            updated_line=$(echo "${line}" | sed "s/version=\"${version}\"/version=\"^${installed}\"/")
-
-            if [[ "${line}" != "${updated_line}" ]]; then
-                sed -i'.original' -e "s|${line}|${updated_line}|" "${xml_file}"
-                rm "${xml_file}.original"
-                echo "Updated ${name}: ${version} -> ${installed}"
-            fi
-        fi
-    done < "${xml_file}"
+        <(./composer.phar show --direct --no-dev --name-only | sort) \
+        <(./composer.phar show --direct --name-only | sort) |
+        xargs ./composer.phar require --dev --update-with-all-dependencies
 }
 
 ##############################################################################
@@ -313,11 +285,6 @@ fi
 
 if [[ $1 == "composer" ]]; then
     update_composer
-    exit 0
-fi
-
-if [[ $1 == "phive" ]]; then
-    update_phive
     exit 0
 fi
 

@@ -10,26 +10,22 @@
  * source code in the file LICENSE.
  */
 
-set_page_title('Fonts bibliogràfiques');
-set_meta_description('Llista de les fonts bibliogràfiques disponibles a la Paremiologia catalana comparada digital.');
+require __DIR__ . '/fonts_functions.php';
 
-$stmt = get_db()->query('SELECT `Autor`, `Any`, `Títol`, `Registres`, `Varietat_dialectal`, `Identificador` FROM `00_FONTS`');
-$records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+PageRenderer::setTitle('Fonts bibliogràfiques');
+PageRenderer::setMetaDescription('Llista de les fonts bibliogràfiques disponibles a la Paremiologia catalana comparada digital.');
 
 echo '<table id="fonts">';
 echo '<thead><tr><th scope="col">Autor</th><th scope="col">Any</th><th scope="col">Títol</th><th scope="col" class="registres">Registres</th><th scope="col" class="varietat">Varietat dialectal</th></tr></thead>';
 echo '<tbody>';
-foreach ($records as $r) {
-    assert(is_string($r['Autor']));
-    assert(is_string($r['Identificador']));
-    assert(is_string($r['Títol']));
-    assert(is_string($r['Varietat_dialectal']));
+$obres = get_fonts();
+foreach ($obres as $obra) {
     echo '<tr>';
-    echo '<td>' . htmlspecialchars($r['Autor']) . '</td>';
-    echo '<td>' . $r['Any'] . '</td>';
-    echo '<td><a href="' . get_obra_url($r['Identificador']) . '">' . htmlspecialchars($r['Títol']) . '</a></td>';
-    echo '<td>' . $r['Registres'] . '</td>';
-    echo '<td>' . htmlspecialchars($r['Varietat_dialectal']) . '</td>';
+    echo '<td>' . htmlspecialchars($obra->Autor) . '</td>';
+    echo '<td>' . $obra->Any . '</td>';
+    echo '<td><a href="' . get_obra_url($obra->Identificador) . '">' . htmlspecialchars($obra->Títol) . '</a></td>';
+    echo '<td>' . $obra->Registres . '</td>';
+    echo '<td>' . htmlspecialchars($obra->Varietat_dialectal) . '</td>';
     echo '</tr>';
 }
 echo '</tbody>';

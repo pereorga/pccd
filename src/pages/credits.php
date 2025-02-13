@@ -9,8 +9,8 @@
  * This source file is subject to the AGPL license that is bundled with this
  * source code in the file LICENSE.
  */
-set_page_title('Crèdits');
-set_meta_description('© Víctor Pàmies i Riudor, 2020-2025. Desenvolupat per Pere Orga.');
+PageRenderer::setTitle('Crèdits');
+PageRenderer::setMetaDescription('© Víctor Pàmies i Riudor, 2020-2025. Desenvolupat per Pere Orga.');
 ?>
 <p>© Víctor Pàmies i Riudor, 2020-2025.</p>
 

@@ -37,43 +37,34 @@ build:
 .setup:
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
+    - export PHP_CS_FIXER_IGNORE_ENV=1
     - apt-get update && apt-get upgrade -y && xargs apt-get install --no-install-recommends -y < apt_packages.txt
     - npm ci --ignore-scripts
-    - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
-    - tools/composer.phar install
+    - ./composer.phar install
 
 .php_lint_template:
   stage: build
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y git unzip gpg wget
+    - apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y git unzip wget
     - curl -L https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions > /usr/local/bin/install-php-extensions
     - chmod +x /usr/local/bin/install-php-extensions
     - install-php-extensions gd intl pdo_mysql
-    - php -d memory_limit=256M tools/phive install --force-accept-unsigned --trust-gpg-keys 12CE0F1D262429A5,CBB3D576F2A0946F,C00543248C87FB13,E82B2FB314E9906E,A978220305CD5C32,4AA394086372C20A || echo "Failed to import keys"
-    - php tools/composer.phar install
-    - php tools/composer.phar run parallel-lint
-    - php tools/composer.phar run composer-normalize-lint
-    - php tools/composer.phar run phpcs
-    - |
-      if [[ "${PHP_VERSION}" == "8.4" ]]; then
-        export PHP_CS_FIXER_IGNORE_ENV=1
-      fi
-    - php tools/composer.phar run php-cs-fixer-lint
-    - php tools/composer.phar run phpstan
-    - php tools/composer.phar run rector-lint
-    - |
-      if [[ "${PHP_VERSION}" != "8.4" ]]; then
-        php tools/composer.phar run psalm
-      fi
-    - php tools/composer.phar run phpunit
+    - php ./composer.phar install
+    - php ./composer.phar run php-l
+    - php ./composer.phar run composer-normalize-lint
+    - php ./composer.phar run phpcs
+    - PHP_CS_FIXER_IGNORE_ENV=1 php ./composer.phar run php-cs-fixer-lint
+    - php ./composer.phar run phpstan
+    - php ./composer.phar run rector-lint
+    - php ./composer.phar run psalm
+    - php ./composer.phar run phpunit
   allow_failure: true
 
 php_lint:
   extends: .php_lint_template
   parallel:
     matrix:
-      - PHP_VERSION: "8.2"
       - PHP_VERSION: "8.3"
       - PHP_VERSION: "8.4"
   image: php:${PHP_VERSION}

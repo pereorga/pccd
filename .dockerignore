@@ -2,8 +2,6 @@
 .git
 .github
 .husky
-.phive
-tools
 
 # The database files, provided zip files and original images
 *.accdb
@@ -11,6 +9,7 @@ tools
 src/images
 
 # Local dependencies and scripts
+*.phar
 node_modules
 scripts/SentenceSimilarityGroup
 vendor

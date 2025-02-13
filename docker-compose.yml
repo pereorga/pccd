@@ -17,7 +17,7 @@ services:
     depends_on:
       - mysql
   mysql:
-    image: mariadb:11.4.4-noble
+    image: mariadb:11.4.5-noble
     container_name: pccd-mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}

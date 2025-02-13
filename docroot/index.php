@@ -12,4 +12,4 @@
 
 require __DIR__ . '/../src/common.php';
 
-render_page();
+PageRenderer::render();

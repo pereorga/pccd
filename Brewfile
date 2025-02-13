@@ -3,7 +3,6 @@ brew "bash"
 brew "coreutils"
 brew "file"
 brew "gifsicle"
-brew "gpg"
 brew "hadolint"
 brew "icu4c", link: true
 brew "jpeginfo"

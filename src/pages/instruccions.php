@@ -9,8 +9,8 @@
  * This source file is subject to the AGPL license that is bundled with this
  * source code in the file LICENSE.
  */
-set_page_title("Instruccions d'ús");
-set_meta_description("Instruccions d'ús de la Paremiologia catalana comparada digital.");
+PageRenderer::setTitle("Instruccions d'ús");
+PageRenderer::setMetaDescription("Instruccions d'ús de la Paremiologia catalana comparada digital.");
 ?>
 <p>El cos principal de cerca fa una cerca simple en el camp de paremiotipus. Un paremiotipus és una unitat fraseològica (o parèmia) que hem pres com a principal de tot un seguit de variants formals, cronològiques o dialectals.</p>
 

@@ -10,6 +10,8 @@
  * source code in the file LICENSE.
  */
 
+require __DIR__ . '/paremiotipus_functions.php';
+
 const YEAR_MAX = PHP_INT_MAX;
 
 $request_uri = get_request_uri();
@@ -23,11 +25,11 @@ if ($total_variants === 0) {
 
     // If no match could be found, return an HTTP 404 page.
     error_log("Error: entry not found for URL: {$request_uri}");
-    return_404_and_exit(get_paremiotipus_best_match($paremiotipus));
+    return_404_and_exit(paremiotipus: get_paremiotipus_best_match($paremiotipus));
 }
 
 $editorials = get_editorials();
-$fonts = get_fonts();
+$fonts = get_fonts_paremiotipus();
 
 // Loop through the variants.
 $paremiotipus_db = '';
@@ -51,9 +53,9 @@ foreach ($variants as $modisme => $variant) {
             exit;
         }
 
-        set_canonical_url($canonical_url);
+        PageRenderer::setCanonicalUrl($canonical_url);
         $paremiotipus_display = get_paremiotipus_display($paremiotipus_db);
-        set_page_title($paremiotipus_display);
+        PageRenderer::setTitle($paremiotipus_display);
     }
 
     // Loop through the variant's recurrences.
@@ -242,7 +244,7 @@ foreach ($mp3_files as $mp3_file) {
     if (is_file(__DIR__ . "/../../docroot/mp3/{$mp3_file}")) {
         $is_first_audio = $cv_output === '';
         if ($is_first_audio) {
-            set_og_audio_url("https://pccd.dites.cat/mp3/{$mp3_file}");
+            PageRenderer::setOgAudioUrl("https://pccd.dites.cat/mp3/{$mp3_file}");
         }
 
         $cv_output .= '<a class="audio" href="/mp3/' . $mp3_file . '" role="button">';
@@ -262,7 +264,7 @@ foreach ($images as $image) {
         $is_first_image = $images_output === '';
         if ($is_first_image) {
             // Use it for the meta image.
-            set_meta_image('https://pccd.dites.cat/img/imatges/' . rawurlencode($image->Identificador));
+            PageRenderer::setMetaImage('https://pccd.dites.cat/img/imatges/' . rawurlencode($image->Identificador));
         }
 
         $image_tag = get_image_tags(
@@ -335,7 +337,7 @@ foreach ($images as $image) {
 
 if ($images_output === '') {
     // If there are no images, generate an OG image with text.
-    set_meta_image('https://pccd.dites.cat/og/' . name_to_path($paremiotipus_db) . '.png');
+    PageRenderer::setMetaImage('https://pccd.dites.cat/og/' . name_to_path($paremiotipus_db) . '.png');
 }
 
 $blocks = '';
@@ -351,7 +353,7 @@ if ($images_output !== '') {
     $blocks .= $images_output;
     $blocks .= '</div>';
 }
-set_paremiotipus_blocks($blocks);
+PageRenderer::setParemiotipusBlocks($blocks);
 
 // Main page output.
 $output = '';

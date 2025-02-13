@@ -10,8 +10,8 @@
  * source code in the file LICENSE.
  */
 
-set_page_title('Llibres de Víctor Pàmies');
-set_meta_description("Llibres de l'autor de la Paremiologia catalana comparada digital (PCCD).");
+PageRenderer::setTitle('Llibres de Víctor Pàmies');
+PageRenderer::setMetaDescription("Llibres publicats per l'autor de la Paremiologia catalana comparada digital.");
 
 $books = cache_get('obresvpr', static function (): array {
     $stmt = get_db()->query('SELECT `Imatge`, `Títol`, `URL`, `WIDTH`, `HEIGHT` FROM `00_OBRESVPR`');

@@ -26,7 +26,7 @@ For detailed instructions on updating the content and pushing a new release, ple
 
 ### Development requirements
 
-- PHP: version 8.2 or later is required.
+- PHP: version 8.3 or later is required.
 - Node.js: version 20 or later is required.
 - Docker.
 
@@ -102,8 +102,6 @@ For details on contributing to this repository, see the contributing guidelines:
 <a href="https://httpd.apache.org/"><img src="docs/img/apache.svg" alt="Apache HTTP server" width="50"></a>
 <a href="https://mariadb.org/"><img src="docs/img/mariadb.svg" alt="MariaDB" width="50"></a>
 <a href="https://github.com/mdbtools/mdbtools"><img src="docs/img/mdbtools.png" alt="MDB Tools" width="50"></a>
-<a href="https://alpinelinux.org/"><img src="docs/img/alpinelinux.svg" alt="Alpine Linux" width="50"></a>
-<a href="https://www.debian.org/"><img src="docs/img/debian.svg" alt="Debian" width="50"></a>
 
 ## Copyright & License
 
@@ -111,7 +109,7 @@ Copyright (c) Pere Orga Esteve <pere@orga.cat>, 2020.
 
 Copyright (c) Víctor Pàmies i Riudor <vpamies@gmail.com>, 2020.
 
-This source code is licensed under the GNU Affero General Public License, version 3 or later (AGPL-3.0-or-later), as
+This source code is licensed under the GNU Affero General Public License, version 3 or later, as
 detailed in the [LICENSE](LICENSE) file or available at <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 File [scripts/common-voice-export/pccd.txt](scripts/common-voice-export/pccd.txt)
@@ -122,7 +120,6 @@ Note that the database and media files are not distributed with this repository.
 
 This repository includes:
 
-- [phive](https://phar.io/), a [BSD-licensed](tools/LICENSE.txt) tool for managing phar files.
 - [simple-datatables](https://github.com/fiduswriter/simple-datatables), an
   [LGPL-licensed](https://github.com/fiduswriter/simple-datatables/blob/main/LICENSE) JavaScript library to enhance HTML tables.
 - The [Roboto font](https://github.com/googlefonts/roboto), licensed under [Apache License Version 2.0](src/fonts/LICENSE).

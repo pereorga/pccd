@@ -28,9 +28,9 @@ final class CopyrightYearTest extends TestCase
     public function testTemplatePageHasCorrectCopyrightYear(): void
     {
         $year = date('Y');
-        $phpFile = file_get_contents(__DIR__ . '/../../src/template.php');
+        $phpFile = file_get_contents(__DIR__ . '/../../src/templates/main.php');
         $yearMentions = substr_count($phpFile, "© Víctor Pàmies i Riudor, 2020-{$year}.");
 
-        $this->assertSame(1, $yearMentions, "File src/template.php should contain the current year {$year}");
+        $this->assertSame(1, $yearMentions, "File src/templates/main.php should contain the current year {$year}");
     }
 }

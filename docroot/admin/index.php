@@ -102,6 +102,10 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
         require __DIR__ . '/../../src/reports/' . $test_file . '.php';
         foreach ($test_functions[$test_file] as $function_name) {
             $function_name();
+
+            // Delivering partial output to the browser may not provide a better UX.
+            // ob_flush();
+            // flush();
         }
     }
 
@@ -109,8 +113,8 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
 
     $end_time = microtime(true);
     $total_time = (string) round($end_time - $start_time, 4);
+    echo '<hr>';
     echo '<footer><small>Pàgina generada en ' . str_replace('.', ',', $total_time) . ' segons.</small></footer>';
-
     echo '</body>';
     echo '</html>';
 
@@ -166,6 +170,8 @@ if (isset($_GET['test']) && is_string($_GET['test']) && $_GET['test'] !== '') {
 </article>
 </main>
 <p>[<a href='?logout'>Tanca la sessió</a>]</p>
+<hr>
+<footer>
 <small>
     Última base de dades: <?php require __DIR__ . '/../../tmp/db_date.txt'; ?>
 <?php
@@ -187,5 +193,6 @@ assert(is_string($mysql_info));
     <br><?php echo 'PHP ' . PHP_VERSION . ', ' . apache_get_version() . ' (' . PHP_OS . '), ' . $mysql_version; ?>
     <br><?php echo 'MariaDB ' . $mysql_info; ?>
 </small>
+</footer>
 </body>
 </html>

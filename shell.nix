@@ -7,7 +7,7 @@ let
   pinnedPkgs = import (fetchTarball nixpkgsVersion) { };
   in pinnedPkgs.mkShell {
     buildInputs = with pinnedPkgs; [
-      (php82.withExtensions ({ all, ... }:
+      (php83.withExtensions ({ all, ... }:
         with all; [
           curl
           dom
@@ -28,7 +28,6 @@ let
       curl
       file
       gifsicle
-      gnupg
       hadolint
       icu
       jpeginfo

@@ -10,6 +10,8 @@
  * source code in the file LICENSE.
  */
 
+require __DIR__ . '/obra_functions.php';
+
 $request_uri = get_request_uri();
 $obra_title = is_string($_GET['obra']) ? path_to_name($_GET['obra']) : '';
 $obra = get_obra($obra_title);
@@ -28,19 +30,19 @@ if (!str_starts_with($request_uri, '/obra/')) {
     exit;
 }
 
-set_canonical_url($canonical_url);
-set_page_title(htmlspecialchars($obra->Títol));
+PageRenderer::setCanonicalUrl($canonical_url);
+PageRenderer::setTitle(htmlspecialchars($obra->Títol));
 
 $is_book = $obra->ISBN !== '';
 if ($is_book) {
-    set_og_type('book');
+    PageRenderer::setOgType('book');
     $output = '<div class="row" vocab="http://schema.org/" typeof="Book">';
 } else {
     $output = '<div class="row" vocab="http://schema.org/" typeof="Thing">';
 }
 
 if (is_file(__DIR__ . '/../../docroot/img/obres/' . $obra->Imatge)) {
-    set_meta_image('https://pccd.dites.cat/img/obres/' . rawurlencode($obra->Imatge));
+    PageRenderer::setMetaImage('https://pccd.dites.cat/img/obres/' . rawurlencode($obra->Imatge));
 
     $output .= '<figure class="col-image">';
     $output .= get_image_tags(
@@ -143,7 +145,7 @@ if ($obra->URL !== '') {
 if ($obra->Observacions !== '') {
     $output .= '<dt>Observacions:</dt>';
     $output .= '<dd property="description">' . html_escape_and_link_urls(ct($obra->Observacions, escape_html: false)) . '</dd>';
-    set_meta_description(ct($obra->Observacions));
+    PageRenderer::setMetaDescription(ct($obra->Observacions));
 }
 $output .= '</dl>';
 

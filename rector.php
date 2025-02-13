@@ -10,6 +10,7 @@
  * source code in the file LICENSE.
  */
 
+use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
 use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
@@ -43,4 +44,7 @@ return RectorConfig::configure()
         naming: true,
         typeDeclarations: true
     )
+    ->withConfiguredRule(SimplifyUselessVariableRector::class, [
+        SimplifyUselessVariableRector::ONLY_DIRECT_ASSIGN => true,
+    ])
     ->withPhpSets();

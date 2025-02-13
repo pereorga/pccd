@@ -224,3 +224,74 @@ function curl_get_response_code(string $url, bool $nobody = true): int
 
     return curl_getinfo($ch, \CURLINFO_HTTP_CODE);
 }
+
+/**
+ * Gets a clean sinonim, removing unnecessary characters or notes.
+ */
+function get_sinonim_clean(string $sinonim): string
+{
+    // Try to remove annotations.
+    $pos = mb_strpos($sinonim, '[');
+    if ($pos !== false) {
+        $sinonim = mb_substr($sinonim, 0, $pos);
+    }
+
+    // Remove unnecessary characters or words.
+    $sinonim = trim($sinonim, ". \n\r\t\v\x00");
+    $sinonim = str_replace(
+        [
+            '*',
+            ' / ',
+            'v.',
+            'V.',
+            'Veg.',
+            'tb.',
+            'Connex:',
+            'Connexos:',
+            'Similar, l\'expressió:',
+            'Similars, les expressions:',
+            'Similar:',
+            'Similars:',
+            'Contrari:',
+            'Contraris:',
+            '(incorrecte)',
+            '(cast.)',
+        ],
+        ' ',
+        $sinonim
+    );
+    $sinonim = preg_replace('/\s\s+/', ' ', $sinonim);
+    assert(is_string($sinonim));
+
+    // Remove last character if it is a number.
+    if (preg_match('/\d$/', $sinonim) === 1) {
+        $sinonim = substr($sinonim, 0, -1);
+    }
+
+    return trim($sinonim);
+}
+
+/**
+ * Gets multiple sinonims from a SINONIM field.
+ *
+ * @return list<string>
+ */
+function get_sinonims(string $sinonim_field): array
+{
+    $sinonims = explode('|', $sinonim_field);
+
+    $sinonims_array = [];
+    foreach ($sinonims as $sinonim) {
+        // Try to remove unnecessary characters or words.
+        $sinonim = get_sinonim_clean($sinonim);
+
+        // Discard empty or short records.
+        if (mb_strlen($sinonim) < 3) {
+            continue;
+        }
+
+        $sinonims_array[] = $sinonim;
+    }
+
+    return $sinonims_array;
+}

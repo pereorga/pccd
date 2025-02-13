@@ -51,7 +51,7 @@ function test_fonts_sense_paremia(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    $fonts = get_fonts();
+    $fonts = get_fonts_paremiotipus();
     $fonts_modismes = get_db()->query('SELECT DISTINCT `ID_FONT`, 1 FROM `00_PAREMIOTIPUS`')->fetchAll(PDO::FETCH_KEY_PAIR);
 
     echo '<h3>Obres de la taula 00_FONTS que no estan referenciades per cap parèmia</h3>';
@@ -68,7 +68,7 @@ function test_paremies_sense_font_existent(): void
 {
     require_once __DIR__ . '/../common.php';
 
-    $fonts = get_fonts();
+    $fonts = get_fonts_paremiotipus();
     $paremies = get_db()->query('SELECT `MODISME`, `ID_FONT` FROM `00_PAREMIOTIPUS` ORDER BY `ID_FONT`')->fetchAll(PDO::FETCH_ASSOC);
 
     echo '<h3>Parèmies que tenen obra, però que aquesta no es troba a la taula 00_FONTS</h3>';

@@ -1,9 +1,9 @@
 /*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19  Distrib 10.11.10-MariaDB, for debian-linux-gnu (aarch64)
+-- MariaDB dump 10.19-11.4.5-MariaDB, for debian-linux-gnu (aarch64)
 --
 -- Host: localhost    Database: pccd
 -- ------------------------------------------------------
--- Server version	10.11.10-MariaDB-ubu2204
+-- Server version	11.4.5-MariaDB-ubu2404
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,7 +14,7 @@
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
 
 --
 -- Table structure for table `00_EDITORIA`
@@ -22,7 +22,7 @@
 
 DROP TABLE IF EXISTS `00_EDITORIA`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `00_EDITORIA` (
   `CODI` varchar(3) DEFAULT NULL,
   `NOM` varchar(255) DEFAULT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `00_EDITORIA` (
 
 DROP TABLE IF EXISTS `00_EQUIVALENTS`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `00_EQUIVALENTS` (
   `CODI` varchar(255) NOT NULL,
   `IDIOMA` varchar(255) DEFAULT NULL
@@ -60,7 +60,7 @@ CREATE TABLE `00_EQUIVALENTS` (
 
 DROP TABLE IF EXISTS `00_FONTS`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `00_FONTS` (
   `Comptador` int(11) NOT NULL AUTO_INCREMENT,
   `Identificador` varchar(255) DEFAULT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE `00_FONTS` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `Identificador` (`Identificador`)
-) ENGINE=InnoDB AUTO_INCREMENT=758 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=766 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `00_FONTS` (
 
 DROP TABLE IF EXISTS `00_IMATGES`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `00_IMATGES` (
   `Comptador` int(11) NOT NULL AUTO_INCREMENT,
   `Identificador` varchar(255) DEFAULT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE `00_IMATGES` (
   `HEIGHT` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `Comptador` (`Comptador`),
   KEY `PAREMIOTIPUS` (`PAREMIOTIPUS`)
-) ENGINE=InnoDB AUTO_INCREMENT=5511 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5903 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +134,7 @@ CREATE TABLE `00_IMATGES` (
 
 DROP TABLE IF EXISTS `00_OBRESVPR`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `00_OBRESVPR` (
   `Comptador` int(11) NOT NULL,
   `Identificador` varchar(255) DEFAULT NULL,
@@ -165,7 +165,7 @@ CREATE TABLE `00_OBRESVPR` (
 
 DROP TABLE IF EXISTS `00_PAREMIOTIPUS`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `00_PAREMIOTIPUS` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `TIPUS` varchar(1) DEFAULT NULL,
@@ -204,7 +204,7 @@ CREATE TABLE `00_PAREMIOTIPUS` (
   FULLTEXT KEY `PAREMIOTIPUS_7` (`PAREMIOTIPUS`,`MODISME`,`EQUIVALENT`),
   FULLTEXT KEY `PAREMIOTIPUS_8` (`PAREMIOTIPUS`,`SINONIM`,`EQUIVALENT`),
   FULLTEXT KEY `PAREMIOTIPUS_9` (`PAREMIOTIPUS`,`MODISME`,`SINONIM`,`EQUIVALENT`)
-) ENGINE=InnoDB AUTO_INCREMENT=990791 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=993798 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `00_PAREMIOTIPUS` (
 
 DROP TABLE IF EXISTS `common_paremiotipus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `common_paremiotipus` (
   `Paremiotipus` varchar(255) DEFAULT NULL,
   `Compt` int(11) DEFAULT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE `common_paremiotipus` (
 
 DROP TABLE IF EXISTS `commonvoice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `commonvoice` (
   `paremiotipus` varchar(300) NOT NULL,
   `file` varchar(200) NOT NULL,
@@ -241,7 +241,7 @@ CREATE TABLE `commonvoice` (
 
 DROP TABLE IF EXISTS `paremiotipus_display`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `paremiotipus_display` (
   `Paremiotipus` varchar(255) NOT NULL,
   `Display` varchar(255) DEFAULT NULL,
@@ -255,7 +255,7 @@ CREATE TABLE `paremiotipus_display` (
 
 DROP TABLE IF EXISTS `pccd_is_installed`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pccd_is_installed` (
   `id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
@@ -268,6 +268,6 @@ CREATE TABLE `pccd_is_installed` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
 -- Dump completed

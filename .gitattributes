@@ -1,21 +1,24 @@
 * text=auto eol=lf
 
 *.css diff=css
+*.html diff=html
 *.php diff=php
+*.sql diff=sql
 
-*.avif binary diff
-*.gif binary diff
-*.jpg binary diff
-*.mp3 binary
-*.png binary diff
-*.ttf binary
-*.webp binary diff
+*.avif -text diff
+*.gif -text diff
+*.ico -text diff
+*.jpg -text diff
+*.mp3 -text
+*.png -text diff
+*.ttf -text
+*.webp -text diff
 
 *.generated.* linguist-generated -diff
 *.min.* linguist-generated -diff
 
+*.phar linguist-vendored -diff
 /src/third_party/* linguist-vendored
-/tools/* linguist-vendored -diff
 
 .mailmap export-ignore
 /.idea export-ignore

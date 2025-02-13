@@ -10,8 +10,8 @@
  * source code in the file LICENSE.
  */
 
-set_page_title('Les 100 parèmies més citades');
-set_meta_description('Llista de les frases més citades de la Paremiologia catalana comparada digital.');
+PageRenderer::setTitle('Les 100 parèmies més citades');
+PageRenderer::setMetaDescription('Llista de les frases més citades de la Paremiologia catalana comparada digital.');
 
 $stmt = get_db()->query('SELECT `Paremiotipus` FROM `common_paremiotipus` ORDER BY `Compt` DESC LIMIT 100');
 $records = $stmt->fetchAll(PDO::FETCH_COLUMN);

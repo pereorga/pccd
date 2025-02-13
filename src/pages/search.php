@@ -10,11 +10,13 @@
  * source code in the file LICENSE.
  */
 
-// Search page, including the homepage.
-set_meta_description("La PCCD dona accés a la consulta d'un gran ventall de fonts fraseològiques sobre parèmies en general (locucions, frases fetes, refranys, proverbis, citacions, etc.)");
+require __DIR__ . '/search_functions.php';
 
-$results_per_page = get_page_limit();
-$current_page = get_page_number();
+PageRenderer::setMetaDescription("La PCCD dona accés a la consulta d'un gran ventall de fonts fraseològiques sobre parèmies en general (locucions, frases fetes, refranys, proverbis, citacions, etc.)");
+PageRenderer::setMetaImage('https://pccd.dites.cat/img/screenshot.png');
+
+$results_per_page = get_search_page_limit();
+$current_page = get_search_page_number();
 $offset = ($current_page - 1) * $results_per_page;
 $search_mode = isset($_GET['mode']) && is_string($_GET['mode']) && $_GET['mode'] !== '' ? $_GET['mode'] : 'conté';
 
@@ -89,10 +91,13 @@ $where_clause = '';
 $arguments = [];
 if ($search === '' && !isset($_GET['font'])) {
     // If the search is empty, we are in the main page.
-    set_page_title('Paremiologia catalana comparada digital');
+    PageRenderer::setTitle('Paremiologia catalana comparada digital');
+    PageRenderer::setCanonicalUrl('https://pccd.dites.cat');
+    PageRenderer::setOgType('website');
     $total = get_n_paremiotipus();
 } else {
-    set_page_title('Cerca «' . $raw_search_clean . '»');
+    PageRenderer::setTitle('Cerca «' . $raw_search_clean . '»');
+    PageRenderer::setOgType('');
     $arguments = build_search_query($search, $search_mode, $where_clause);
     $total = get_n_results($where_clause, $arguments);
 }
@@ -103,7 +108,7 @@ if ($total > 0) {
     $number_of_pages = (int) ceil($total / $results_per_page);
     if ($search !== '') {
         if ($number_of_pages > 1) {
-            set_page_title('Cerca «' . $raw_search_clean . "», pàgina {$current_page}");
+            PageRenderer::setTitle('Cerca «' . $raw_search_clean . "», pàgina {$current_page}");
         }
         $output .= '<p class="text-break">';
         $output .= render_search_summary(
@@ -148,7 +153,7 @@ if ($total > 0) {
 $output .= '<div class="pager">';
 // Only show pagination links if there is more than one page.
 if ($number_of_pages > 1) {
-    $output .= render_pager($current_page, $number_of_pages);
+    $output .= render_search_pager($current_page, $number_of_pages);
 }
 $output .= '<select name="mostra" aria-label="Nombre de resultats per pàgina">';
 $output .= '<option value="10">10</option>';

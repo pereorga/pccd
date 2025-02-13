@@ -25,20 +25,21 @@ $site = 'https://pccd.dites.cat';
 $urls = $site . "\n";
 $urls .= $site . '/projecte' . "\n";
 $urls .= $site . '/instruccions' . "\n";
+$urls .= $site . '/fonts' . "\n";
 $urls .= $site . '/credits' . "\n";
 $urls .= $site . '/top100' . "\n";
 $urls .= $site . '/llibres' . "\n";
 
 $stmt = $pdo->query('SELECT DISTINCT `PAREMIOTIPUS` FROM `00_PAREMIOTIPUS` ORDER BY `PAREMIOTIPUS`');
-$records = $stmt->fetchAll(PDO::FETCH_COLUMN);
-foreach ($records as $r) {
-    $urls .= get_paremiotipus_url($r, true) . "\n";
+$paremiotipus = $stmt->fetchAll(PDO::FETCH_COLUMN);
+foreach ($paremiotipus as $p) {
+    $urls .= get_paremiotipus_url($p, absolute: true) . "\n";
 }
 
 $stmt = $pdo->query('SELECT DISTINCT `Identificador` FROM `00_FONTS`');
-$records = $stmt->fetchAll(PDO::FETCH_COLUMN);
-foreach ($records as $record) {
-    $urls .= get_obra_url($record, true) . "\n";
+$obres = $stmt->fetchAll(PDO::FETCH_COLUMN);
+foreach ($obres as $o) {
+    $urls .= get_obra_url($o, absolute: true) . "\n";
 }
 
 echo $urls;

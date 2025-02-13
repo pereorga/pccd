@@ -31,7 +31,9 @@ dependencies:
 brew bundle install && npm ci
 ```
 
-### Prerequisites: Linux (Nix) / macOS (Nix) untested
+### Prerequisites: Linux (Nix) / macOS (Nix)
+
+Note: this is not regularly tested.
 
 ```bash
 nix-shell

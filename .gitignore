@@ -20,7 +20,6 @@ db_settings.local.php
 
 # Local dependencies
 *Brewfile.lock.json
-/tools/*.phar
 node_modules/
 vendor/
 

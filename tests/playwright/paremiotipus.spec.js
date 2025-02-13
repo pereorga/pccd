@@ -72,6 +72,6 @@ test.describe("Paremiotipus", () => {
     test(`"—Què hem de fer? —Vendre la casa i anar de lloguer" page has correct title`, async ({ page }) => {
         await page.goto("/p/Qu%C3%A8_hem_de_fer%3F_%E2%80%94Vendre_la_casa_i_anar_de_lloguer");
         const pageTitle = await page.title();
-        expect(pageTitle).toBe("—Què hem de fer? —Vendre la casa i anar de lloguer - PCCD");
+        expect(pageTitle).toBe("—Què hem de fer? —Vendre la casa i anar de lloguer | PCCD");
     });
 });
