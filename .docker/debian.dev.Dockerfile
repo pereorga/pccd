@@ -1,4 +1,4 @@
-ARG PHP_IMAGE_TAG=8.4.3-apache-bookworm
+ARG PHP_IMAGE_TAG=8.4.3-apache-bookworm@sha256:2e991f7a700e87d88a3dfac072994d25e00358e6fc989165fa5a8756ce9bf588
 
 FROM php:${PHP_IMAGE_TAG}
 LABEL maintainer="Pere Orga pere@orga.cat"

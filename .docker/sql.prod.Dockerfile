@@ -1,4 +1,4 @@
-FROM mariadb:11.4.5-noble
+FROM mariadb:11.4.5-noble@sha256:5dfb3093333fa0ea53194ddef0a2bfa21d3b1e1353bd228b22610cd6fc0c04da
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="MariaDB image used in production."
 

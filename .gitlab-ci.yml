@@ -11,9 +11,9 @@ stages:
   - update
 
 build:
-  image: docker:latest
+  image: docker:latest@sha256:de91b21638c6898b6ff2b52ce5f31031c08234dc6f718b8e16cdc045bfdc0d7f
   services:
-    - docker:dind
+    - docker:dind@sha256:de91b21638c6898b6ff2b52ce5f31031c08234dc6f718b8e16cdc045bfdc0d7f
   before_script:
     - export DATETAG=$(date +%Y%m%d-%H%M%S)
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
@@ -109,7 +109,7 @@ npm_lint:
 
 check_code_ubuntu:
   extends: .check_code_template
-  image: ubuntu:rolling
+  image: ubuntu:rolling@sha256:102bc1874fdb136fc2d218473f03cf84135cb7496fefdb9c026c0f553cfe1b6d
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -117,7 +117,7 @@ check_code_ubuntu:
 
 check_code_debian:
   extends: .check_code_template
-  image: debian:testing
+  image: debian:testing@sha256:091c08172e89a13193e236bc458278d0e731b8f94c9cbb23997f6ca8532cff45
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -125,7 +125,7 @@ check_code_debian:
 
 nightly_update:
   extends: .setup
-  image: debian:testing
+  image: debian:testing@sha256:091c08172e89a13193e236bc458278d0e731b8f94c9cbb23997f6ca8532cff45
   stage: update
   script:
     - npm run update

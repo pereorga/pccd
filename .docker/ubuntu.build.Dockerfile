@@ -1,12 +1,12 @@
 # Use the official Rust image to compile oxipng.
 # hadolint ignore=DL3007
-FROM rust:latest as oxipng-builder
+FROM rust:latest@sha256:738ae99a3d75623f41e6882566b4ef37e38a9840244a47efd4a0ca22e9628b88 as oxipng-builder
 
 # Install oxipng
 RUN cargo install oxipng --version 9.1.3
 
 # hadolint ignore=DL3007
-FROM ubuntu:latest
+FROM ubuntu:latest@sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782
 
 LABEL maintainer="Pere Orga pere@orga.cat"
 LABEL description="Ubuntu-based image for building a new release."
