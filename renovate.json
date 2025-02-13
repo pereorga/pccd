@@ -1,5 +1,5 @@
 {
-  "extends": ["config:best-practices"],
+  "extends": ["config:best-practices", ":preserveSemverRanges"],
   "dependencyDashboardApproval": true,
   "rangeStrategy": "bump"
 }
